@@ -8,7 +8,7 @@
  	<definition name="default_set" template="/WEB-INF/views/inc/layout.jsp">
  		<put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
 		<put-attribute name="base_css" value="/resources/css/inc/inc.css" />
-	    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
 	</definition>
 	
 	<definition name="*.*" extends="default_set">
