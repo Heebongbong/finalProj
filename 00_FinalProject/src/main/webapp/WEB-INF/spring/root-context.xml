@@ -9,10 +9,10 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="web" />
-		<property name="password" value="1234" />
+		<property name="driverClassName" value="${jdbc.driverName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.userName}" />
+		<property name="password" value="${jdbc.pwd}" />
 	</bean>
 	
 	<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

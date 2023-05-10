@@ -13,7 +13,6 @@
 	
 	<definition name="*.*" extends="default_set">
 		<put-attribute name="title" value="Camping HomePage" />
-		<put-attribute name="css" value="/resources/css/{1}/{2}.css" />
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
 </tiles-definitions>
