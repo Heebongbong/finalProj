@@ -8,9 +8,52 @@ div{
 }
 #header{
 	width: 100%;
-	height: 50px;
 }
+#header ul{
+	display: flex;
+	justify-content: space-around;
+}
+#header ul li{
+	list-style: none;
+}
+#header a{
+	color: blue;
+}
+#header a:hover{
+	color: lightblue;
+}
+
+#content{
+	width: 100%;
+	margin: 50px auto;
+}
+
 #footer{
 	width: 100%;
-	height: 50px;
+}
+
+/* campingList css Àû¿ë */
+#test_wrap{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+#test{
+	display: flex;
+	justify-content: flex-start;
+	width: 400px;
+	margin-top: 50px;
+}
+#test_image{
+	width: 100px;
+	height: 100px;
+}
+#test_image img{
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	vertical-align: middle;
+}
+#test_info{
+	width: 300px;
 }

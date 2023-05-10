@@ -1,10 +1,10 @@
 package com.spring.finproj.model.camping;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import lombok.Data;
-
-@Data
 @Repository
 public class CampingDAOImpl implements CampingDAO{
+	private SqlSessionTemplate sqlSession;
+	
 }
