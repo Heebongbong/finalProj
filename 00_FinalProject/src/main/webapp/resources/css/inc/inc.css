@@ -12,6 +12,7 @@ div{
 #header ul{
 	display: flex;
 	justify-content: space-around;
+	padding: 0;
 }
 #header ul li{
 	list-style: none;
@@ -56,4 +57,28 @@ div{
 }
 #test_info{
 	width: 300px;
+}
+
+/* weather side css */
+#weather_side{
+	margin-right: 100px;
+	width: 150px;
+}
+#weather_side ul{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	padding: 0;
+}
+#weather_side ul li{
+	list-style: none;
+	text-align: center;
+}
+#satellite_wrap{
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+#satellite_wrap img{
+	width: 400px;
 }
