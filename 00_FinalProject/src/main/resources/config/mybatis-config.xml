@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
@@ -6,13 +5,4 @@
  <configuration>
 	 <typeAliases>
 	</typeAliases>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-config.dtd">
- <configuration>
-	 <typeAliases>
-	</typeAliases>
->>>>>>> 83911c3fb572c0a32896eb0fd95c3bab02a93a1f
  </configuration>
