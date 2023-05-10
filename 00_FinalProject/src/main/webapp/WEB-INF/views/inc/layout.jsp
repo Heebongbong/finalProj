@@ -9,7 +9,6 @@
 <meta charset="EUC-KR">
 <title><tiles:getAsString name="title"/></title>
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="base_css" />">
-<link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="css" />">
 </head>
 <body>
 	<div id="container">
