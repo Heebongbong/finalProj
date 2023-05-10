@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE tiles-definitions PUBLIC
@@ -17,24 +16,4 @@
 		<put-attribute name="css" value="/resources/css/{1}/{2}.css" />
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
-
-<tiles-definitions>
- 	<definition name="default_set" template="/WEB-INF/views/inc/layout.jsp">
- 		<put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
-		<put-attribute name="base_css" value="/resources/css/inc/inc.css" />
-    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
-	</definition>
-	
-	<definition name="*.*" extends="default_set">
-		<put-attribute name="title" value="Camping HomePage" />
-		<put-attribute name="css" value="/resources/css/{1}/{2}.css" />
-		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
-	</definition>
->>>>>>> 83911c3fb572c0a32896eb0fd95c3bab02a93a1f
 </tiles-definitions>
