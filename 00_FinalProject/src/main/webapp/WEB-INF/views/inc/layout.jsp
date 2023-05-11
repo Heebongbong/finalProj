@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="${ctxPath }/resources/images/logo.png" rel="shortcut icon" type="image/x-icon">
 <title><tiles:getAsString name="title"/></title>
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="base_css" />">
 </head>

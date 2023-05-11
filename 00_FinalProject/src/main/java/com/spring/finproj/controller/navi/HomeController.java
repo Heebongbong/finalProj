@@ -35,4 +35,9 @@ public class HomeController {
 	public String marketNavi() {
 		return "market.market";
 	}
+	
+	@RequestMapping(value = "/loginNavi")
+	public String loginNavi() {
+		return "login.login";
+	}
 }
