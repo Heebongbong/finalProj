@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService{
 	public void loginGoogle(String token, String credential, HttpSession session) throws Exception {
 		HttpTransport transport =  new NetHttpTransport();;
 		JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
-		 
+		
 		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
 				.setAudience(Collections.singletonList("763924312013-ppith6f1s7furfp1jvagis96rboh584f.apps.googleusercontent.com"))
 				.build();
@@ -156,18 +156,17 @@ public class LoginServiceImpl implements LoginService{
 	public void logoutUser(HttpSession session) throws Exception {
 		UserDTO dto = (UserDTO) session.getAttribute("loginUser");
 		
-		switch (dto.getUser_type()) {
-		case "K":
+		switch (dto.getUser_type().charAt(0)) {
+		case 'K':
 			logoutKakao(dto);
 			break;
-		case "G":
+		case 'G':
 			break;
-		case "N":
+		case 'N':
 			
 			break;
 		}
 		session.invalidate();
-		//http://localhost:8787/finproj/login/logout
 	}
 
 	private void logoutKakao(UserDTO dto) throws Exception {

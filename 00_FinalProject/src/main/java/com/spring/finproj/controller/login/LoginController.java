@@ -18,18 +18,18 @@ public class LoginController {
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) throws Exception {
 		loginService.logoutUser(session);
-		return "navi.index";
+		return "redirect:/index";
 	}
 	
 	@RequestMapping("/kakao")
 	public String loginKakao(@RequestParam(value = "code") String code, HttpSession session) throws Exception {
 		loginService.loginKakao(code, session);
-		return "navi.index";
+		return "redirect:/index";
 	}
 	
 	@RequestMapping("/google")
 	public String loginGoogle(String credential, String g_csrf_token, HttpSession session) throws Exception {
 		loginService.loginGoogle(g_csrf_token, credential, session);
-		return "navi.index";
+		return "redirect:/index";
 	}
 }

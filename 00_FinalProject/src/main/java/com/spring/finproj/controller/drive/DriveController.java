@@ -16,7 +16,7 @@ public class DriveController {
 	
 	@ResponseBody
 	@RequestMapping("/content")
-	public String driveCotent(@RequestParam double xDri,@RequestParam double yDri) throws Exception {
+	public String driveContent(@RequestParam double xDri,@RequestParam double yDri) throws Exception {
 
 		return driveService.getPathSerch(xDri, yDri);
 	}
