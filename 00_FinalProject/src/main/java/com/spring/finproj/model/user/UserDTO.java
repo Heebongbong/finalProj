@@ -11,5 +11,4 @@ public class UserDTO {
 	private String user_phone;
 	private String user_profile;
 	private String user_type;
-	private String user_token;
 }

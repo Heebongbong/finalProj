@@ -1,5 +1,7 @@
 package com.spring.finproj.controller.navi;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -8,7 +10,7 @@ public class HomeController {
 
 	@RequestMapping(value = {"/", "/index", "/indexNavi"})
 	public String homeNavi() {
-		return "navi.index";
+		return "index.index";
 	}
 
 	@RequestMapping(value = "/campingNavi")
@@ -37,7 +39,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/loginNavi")
-	public String loginNavi() {
+	public String loginNavi(HttpServletRequest rq) {
 		return "login.login";
 	}
 }
