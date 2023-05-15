@@ -4,10 +4,10 @@ import org.springframework.ui.Model;
 
 public interface WeatherService {
 
-	void getSatellite(Model model);
+	void getSatellite(Model model) throws Exception;
 
-	void getNowWeather(Model model);
+	void getNowWeather(Model model) throws Exception;
 
-	void getWeatherDetail(Model model, String num);
+	void getWeatherDetail(Model model, String num) throws Exception;
 
 }

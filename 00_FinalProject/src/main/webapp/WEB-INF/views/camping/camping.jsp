@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<div id="content">
+<div id="camping_wrap">
 	<input type="text" placeholder="페이지 수" id="nums">
 	<input type="button" value="검색" onclick="locSearch()">
 </div>
