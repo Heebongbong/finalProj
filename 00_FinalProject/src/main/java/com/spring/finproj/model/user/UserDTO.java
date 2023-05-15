@@ -5,10 +5,13 @@ import lombok.Data;
 @Data
 public class UserDTO {
 	private int user_no;
-	private String user_email;
-	private String user_pwd;
-	private String user_nickname;
-	private String user_phone;
-	private String user_profile;
-	private String user_type;
+	private String email;
+	private String pwd;
+	private String nickname;
+	private String phone;
+	private String profile;
+	private String type;
+	private String date;
+	private int point;
+	private boolean authen;
 }

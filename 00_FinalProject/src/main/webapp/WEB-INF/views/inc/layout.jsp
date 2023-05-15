@@ -10,6 +10,8 @@
 <link href="${ctxPath }/resources/images/logo.png" rel="shortcut icon" type="image/x-icon">
 <title><tiles:getAsString name="title"/></title>
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="base_css" />">
+<link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="css" />">
+<script type="text/javascript" src="${ctxPath }<tiles:getAsString name="js" />"></script>
 </head>
 <body>
 	<div id="container">

@@ -57,11 +57,11 @@ public class LoginServiceImpl implements LoginService{
 			//String familyName = (String) payload.get("family_name");
 			//String givenName = (String) payload.get("given_name");
 			UserDTO user = new UserDTO();
-			user.setUser_email(email);
-			user.setUser_pwd(userId);
-			user.setUser_nickname(name);
-			user.setUser_profile(pictureUrl);
-			user.setUser_type("G");
+			user.setEmail(email);
+			user.setPwd(userId);
+			user.setNickname(name);
+			user.setProfile(pictureUrl);
+			user.setType("G");
 			
 			Cookie a_t = new Cookie("AccessToken", a_token);
 			a_t.setMaxAge(60*60*24*7);
@@ -151,11 +151,11 @@ public class LoginServiceImpl implements LoginService{
         JSONObject jo = new JSONObject(sb.toString());
         JSONObject jo2 = jo.getJSONObject("response");
         
-        dto.setUser_email(jo2.getString("email"));
-        dto.setUser_pwd(jo2.getString("id"));
-		dto.setUser_nickname(jo2.getString("nickname"));
-		dto.setUser_profile(jo2.getString("profile_image"));
-        dto.setUser_type("N");
+        dto.setEmail(jo2.getString("email"));
+        dto.setPwd(jo2.getString("id"));
+		dto.setNickname(jo2.getString("nickname"));
+		dto.setProfile(jo2.getString("profile_image"));
+        dto.setType("N");
         
 		return dto;
 	}
@@ -241,11 +241,11 @@ public class LoginServiceImpl implements LoginService{
         JSONObject joP = joA.getJSONObject("profile");
         Integer id = jo.getInt("id");
 		UserDTO dto = new UserDTO();
-		dto.setUser_email(joA.getString("email"));
-		dto.setUser_pwd(id.toString());
-		dto.setUser_nickname(joP.getString("nickname"));
-		dto.setUser_profile(joP.getString("thumbnail_image_url"));
-		dto.setUser_type("K");
+		dto.setEmail(joA.getString("email"));
+		dto.setPwd(id.toString());
+		dto.setNickname(joP.getString("nickname"));
+		dto.setProfile(joP.getString("thumbnail_image_url"));
+		dto.setType("K");
 		
 		return dto;
 	}
@@ -254,7 +254,7 @@ public class LoginServiceImpl implements LoginService{
 	public void logoutUser(HttpSession session, HttpServletResponse response, String sessionID) throws Exception {
 		
 		UserDTO dto = (UserDTO)session.getAttribute("LoginUser");
-		switch (dto.getUser_type().charAt(0)) {
+		switch (dto.getType().charAt(0)) {
 		case 'K':
 			logoutKakao(sessionID);
 			break;

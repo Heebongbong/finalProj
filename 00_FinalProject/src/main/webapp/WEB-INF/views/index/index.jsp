@@ -14,4 +14,13 @@
 	<c:if test="${empty loginUser }">
 		<p>로그인이 필요합니다.</p>
 	</c:if>
+	<div>
+	<c:set value="${List }" var="list"/>
+	<c:if test="${!empty list}">
+		<c:forEach items="${list }" var="dto">
+			<p>${dto }</p>
+		</c:forEach>
+	</c:if>
+	1${Cont }1
+	</div>
 </div>

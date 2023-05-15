@@ -2,11 +2,18 @@ package com.spring.finproj.controller.navi;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.spring.finproj.model.user.UserDAO;
+import com.spring.finproj.model.user.UserDTO;
 
 @Controller
 public class HomeController {
+	@Autowired
+	private UserDAO userDAO;
 
 	@RequestMapping(value = {"/", "/index", "/indexNavi"})
 	public String homeNavi() {
@@ -39,7 +46,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/loginNavi")
-	public String loginNavi(HttpServletRequest rq) {
+	public String loginNavi(HttpServletRequest rq, Model model) {
+		//List<UserDTO> list = new UserDAOImpl().getUserList();
+		UserDTO cont = userDAO.getUserContent(1);
+		//model.addAttribute("List", list);
+		model.addAttribute("Cont", cont);
 		return "login.login";
 	}
 }
