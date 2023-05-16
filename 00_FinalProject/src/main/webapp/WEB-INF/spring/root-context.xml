@@ -2,10 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 	
 	<context:property-placeholder location="classpath:properties/variable.properties"/>
+	
+	<context:component-scan base-package="com.spring.finproj.model.*" />
+	<context:component-scan base-package="com.spring.finproj.service.*" />
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -18,10 +23,24 @@
 	<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations" value="classpath:/mapper/*.xml" />
-		<property name="configLocation" value="classpath:config/mybatis-config.xml"/>
+		<property name="configLocation" value="classpath:/config/mybatis-config.xml"/>
 	</bean>
 	
 	<bean name="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
+	
+	<bean id="loginAspect" class="com.spring.finproj.aop.LoginAspect" />
+	
+	<aop:config>
+		<aop:aspect ref="loginAspect">
+			<aop:pointcut expression="execution(* com.spring.finproj.service.login.*Impl.login*(..))" id="myPointcut"/>
+			
+			<aop:before method="before" pointcut-ref="myPointcut"/>
+			<aop:after method="after" pointcut-ref="myPointcut"/>
+			<aop:after-returning method="after_returning" pointcut-ref="myPointcut"/>
+			<aop:after-throwing method="after_throwing" pointcut-ref="myPointcut"/>
+		</aop:aspect>
+	</aop:config>
+	
 </beans>

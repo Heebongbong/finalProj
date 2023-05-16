@@ -10,7 +10,7 @@ ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("campin
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4sqz6l4y8y&submodules=geocoder"></script>
-<div id="content">
+<div id="map_wrap">
 	<div id="map" style="height: 1000px;"></div>
 	<div id="test_wrap">
 		<c:forEach items="${campingList }" var="dto">

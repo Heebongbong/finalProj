@@ -1,5 +1,7 @@
 package com.spring.finproj.controller.weather;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +16,8 @@ public class WeatherController {
 	@Autowired
 	private WeatherService weatherService;
 	
-	@RequestMapping("/weather")
-	public String weatherSearch() {
-		return "weather.weather";
-	}
-	
 	@RequestMapping("/content")
-	public String weatherContent(Model model, @RequestParam String loc) throws Exception {
+	public String weatherContent(Model model) throws Exception {
 		
 		String num = "108";
 		
@@ -29,25 +26,22 @@ public class WeatherController {
 		return "weather.content";
 	}
 	
-	@RequestMapping("/nowWeather")
+	@RequestMapping("/now")
 	public String nowWeather(Model model) throws Exception {
 		
 		weatherService.getNowWeather(model);
 		
-		return "weather.nowWeather";
+		return "weather.now";
 	}
 	
-	@RequestMapping("/nowContent")
-	public String nowContent(Model model) throws Exception {
-		
-		return "weather.nowContent";
-	}
-	
-	@RequestMapping("/satellite")
-	public String satellite(Model model) throws Exception {
-
+	@RequestMapping("/star")
+	public String stella(Model model) throws Exception {
 		weatherService.getSatellite(model);
-		
-		return "weather.satellite";
+		return "weather.star";
+	}
+	
+	@RequestMapping("/stella")
+	public String star(Model model) throws Exception {
+		return "weather.stella";
 	}
 }
