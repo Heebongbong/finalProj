@@ -4,5 +4,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <div id="footer">
-	<p>Footer</p>
+	<ul id="move_navi">
+		<li id="navi_camping"><a href="${ctxPath }/campingNavi"><img alt="" src="${ctxPath }/resources/images/tent.png"></a></li>
+		<li><a href="${ctxPath }/weatherNavi">날씨</a></li>
+		<li><a href="${ctxPath }/driveNavi">드라이브</a></li>
+		<li><a href="${ctxPath }/boardNavi">커뮤니티</a></li>
+		<li><a href="${ctxPath }/marketNavi">중고거래</a></li>
+	</ul>
 </div>

@@ -21,6 +21,5 @@
 			<p>${dto }</p>
 		</c:forEach>
 	</c:if>
-	1${Cont }1
 	</div>
 </div>
