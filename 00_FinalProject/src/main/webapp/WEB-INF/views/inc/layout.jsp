@@ -9,9 +9,11 @@
 <meta charset="UTF-8">
 <link href="${ctxPath }/resources/images/logo.png" rel="shortcut icon" type="image/x-icon">
 <title><tiles:getAsString name="title"/></title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/e6bfca85af.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="base_css" />">
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="css" />">
+<script type="text/javascript" src="${ctxPath }<tiles:getAsString name="base_js" />"></script>
 <script type="text/javascript" src="${ctxPath }<tiles:getAsString name="js" />"></script>
 </head>
 <body>

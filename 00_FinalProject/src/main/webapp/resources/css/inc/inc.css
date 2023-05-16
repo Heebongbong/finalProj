@@ -47,6 +47,7 @@ a:hover{
 	width: 100px;
 }
 #header #user_menu_wrap{
+	display: none;
 	width: 30%;
 	margin: 0 0 0 auto;
 	background-color: #fff

@@ -3,7 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <div id="login_wrap">
 	<div>
 		<input name="id" placeholder="id"><br>
