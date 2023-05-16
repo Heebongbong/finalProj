@@ -1,0 +1,6 @@
+${ctxPath } = request.getContextPath()
+
+
+세션
+	로그인된 유저 정보 = LoginUser
+

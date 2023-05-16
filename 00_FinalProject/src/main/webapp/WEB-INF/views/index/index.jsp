@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
@@ -7,11 +7,19 @@
 <div id="index_wrap">
 	<c:if test="${!empty loginUser }">
 		<p>Email : ${loginUser.getUser_email() }</p>
-		<p>´Ğ³×ÀÓ : ${loginUser.getUser_nickname() }</p>
-		<p>¿¬¶ôÃ³ : ${loginUser.getUser_phone() }</p>
+		<p>ë‹‰ë„¤ì„ : ${loginUser.getUser_nickname() }</p>
+		<p>ì—°ë½ì²˜ : ${loginUser.getUser_phone() }</p>
 		<p><img alt="" src="${loginUser.getUser_profile() }"></p>
 	</c:if>
 	<c:if test="${empty loginUser }">
-		<p>·Î±×ÀÎÀÌ ÇÊ¿äÇÕ´Ï´Ù.</p>
+		<p>ë¡œê·¸ì¸ì´ í•„ìš”í•©ë‹ˆë‹¤.</p>
 	</c:if>
+	<div>
+	<c:set value="${List }" var="list"/>
+	<c:if test="${!empty list}">
+		<c:forEach items="${list }" var="dto">
+			<p>${dto }</p>
+		</c:forEach>
+	</c:if>
+	</div>
 </div>

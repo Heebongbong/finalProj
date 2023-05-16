@@ -2,37 +2,60 @@
 #container{
 	width: 1000px;
 	margin: 50px auto;
+	height: 1000px;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body{
+	overflow-x: hidden;
 }
 div{
 	border: 1px solid gray;
 }
-#header{
-	width: 100%;
-}
-#header #move_navi{
-	display: flex;
-	justify-content: space-around;
-	padding: 0;
-}
-#header #move_navi li{
-	list-style: none;
-}
-#header a{
+a{
 	color: blue;
 }
-#header a:hover{
+a:hover{
 	color: lightblue;
 }
 
+#header{
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: #fff;
+	z-index: 1;
+	height: 100px;
+}
 #header #login_navi{
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
 	padding: 0;
-	margin-right: 50px;
+	margin: auto;
+	background-color: #c0c0c0;
+	width: 1000px;
+	height: 100%;
 }
 #header #login_navi li{
 	list-style: none;
 }
+#header #login_navi img{
+	width: 100px;
+}
+#header #user_menu_wrap{
+	display: none;
+	width: 30%;
+	margin: 0 0 0 auto;
+	background-color: #fff
+}
+#header #user_menu_body{
+	height: 500px;
+}
+
 #content{
 	width: 100%;
 	margin: 50px auto;
@@ -40,6 +63,33 @@ div{
 
 #footer{
 	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: #fff;
+	z-index: 1;
+	height: 100px;
+}
+#footer #move_navi{
+	display: flex;
+	justify-content: space-around;
+	padding: 0;
+	margin: auto;
+	background-color: #c0c0c0;
+	width: 1000px;
+	height: 100%;
+}
+#footer #move_navi li{
+	list-style: none;
+}
+
+#footer #navi_camping{
+	position: absolute;
+	z-index: 2;
+	bottom: 70px;
+}
+#footer #navi_camping img{
+	width: 60px;
 }
 
 /* campingList css Àû¿ë */
