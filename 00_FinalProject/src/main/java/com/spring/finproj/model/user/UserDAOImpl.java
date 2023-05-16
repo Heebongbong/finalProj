@@ -9,46 +9,44 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDAOImpl implements UserDAO{
 	@Autowired
-	private SqlSessionTemplate template;
+	private SqlSessionTemplate sqlSession;
 
+	//CRUD
 	@Override
 	public List<UserDTO> getUserList() {
 		// TODO Auto-generated method stub
-		return template.selectList("user_list");
+		return sqlSession.selectList("user_list");
 	}
 
 	@Override
 	public UserDTO getUserContent(int user_no) {
 		// TODO Auto-generated method stub
-		System.out.println(1);
-		System.out.println(template);
-		
-		UserDTO d = template.selectOne("user_cont", user_no);
-		System.out.println(d);
-		return d;
+		return sqlSession.selectOne("user_cont", user_no);
 	}
 
 	@Override
 	public int insertUserContent(UserDTO dto) {
 		// TODO Auto-generated method stub
-		return template.insert("user_insert", dto);
+		return sqlSession.insert("user_insert", dto);
 	}
 
 	@Override
-	public int updateUserContent(int user_no) {
+	public int updateUserContent(UserDTO dto) {
 		// TODO Auto-generated method stub
-		return template.update("user_update", user_no);
+		return sqlSession.update("user_update", dto);
 	}
 
 	@Override
 	public int deleteUserContent(int user_no) {
 		// TODO Auto-generated method stub
-		return template.delete("user_delete", user_no);
+		return sqlSession.delete("user_delete", user_no);
 	}
 	
+	
+	//부가기능
 	@Override
-	public int updateUserContent(UserDTO dto) {
-		return template.update("user_update_pwd", dto);
+	public int updateUserPwd(UserDTO dto) {
+		return sqlSession.update("user_update_pwd", dto);
 	}
-
+	
 }

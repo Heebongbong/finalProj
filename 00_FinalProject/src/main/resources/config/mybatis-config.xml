@@ -6,9 +6,15 @@
 	 <typeAliases>
 	 	<typeAlias type="com.spring.finproj.model.user.UserDAO" alias="userDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.user.UserDTO" alias="userDTO"/>
-	 	<typeAlias type="com.spring.finproj.model.camping.CampingDAO" alias="CampingDAO"/>
-	 	<typeAlias type="com.spring.finproj.model.camping.CampingDTO" alias="CampingDTO"/>
-	 	<typeAlias type="com.spring.finproj.model.board.BoardDAO" alias="BoardDAO"/>
-	 	<typeAlias type="com.spring.finproj.model.board.BoardDTO" alias="BoardDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.camping.CampingDAO" alias="campingDAO"/>
+	 	<typeAlias type="com.spring.finproj.model.camping.CampingDTO" alias="campingDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.board.BoardDAO" alias="boardDAO"/>
+	 	<typeAlias type="com.spring.finproj.model.board.BoardDTO" alias="boardDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.drive.DriveDAO" alias="driveDAO"/>
+	 	<typeAlias type="com.spring.finproj.model.drive.DriveDTO" alias="driveDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.weather.WeatherDAO" alias="weatherDAO"/>
+	 	<typeAlias type="com.spring.finproj.model.weather.WeatherDTO" alias="weatherDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.market.MarketDTO" alias="marketDAO"/>
+	 	<typeAlias type="com.spring.finproj.model.market.MarketDTO" alias="marketDTO"/>
 	</typeAliases>
  </configuration>

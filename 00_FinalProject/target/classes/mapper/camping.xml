@@ -4,5 +4,38 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <!-- namespace 명은 패키지를 포함한 DAO 인터페이스, mapper를 구분하는 식별자로 사용 -->
-<mapper namespace="com.spring.finproj.model.camping.CampingDAO">
+<mapper namespace="campingDAO">
+	<insert id="camping_insert_list" parameterType="list">
+		insert into camping values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.contentId},
+			#{item.facltNm},
+			#{item.lineIntro},
+			#{item.intro},
+			#{item.allar},
+			#{item.featureNm},
+			#{item.induty},
+			#{item.lctCl},
+			#{item.addr1},
+			#{item.addr2},
+			#{item.mapX},
+			#{item.mapY},
+			#{item.tooltip},
+			#{item.tel},
+			#{item.homepage},
+			#{item.operPdCl},
+			#{item.operDeCl},
+			#{item.posblFcltyCl},
+			#{item.exprnProgrm},
+			#{item.themaEnvrnCl},
+			#{item.animalCmgCl},
+			#{item.firstImageUrl})
+		</foreach>
+	</insert>
+	<select id="camping_list" resultType="campingDTO">
+		select * from camping
+	</select>
+	<select id="camping_list_random" resultType="campingDTO">
+		select * from camping where not firstImageUrl = '' and not lineIntro = '' Order by rand() Limit 10
+	</select>
 </mapper>

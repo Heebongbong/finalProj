@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 
 public interface CampingService {
 
-	void getCampingDetail(Model model, int num) throws IOException;
-
+	public void getCampingList(Model model) throws IOException;
+	public void insertCampingListSetDB() throws IOException;
+	public void getCampingRandomList(Model model);
 }

@@ -16,16 +16,6 @@ public class WeatherController {
 	@Autowired
 	private WeatherService weatherService;
 	
-	@RequestMapping("/content")
-	public String weatherContent(Model model) throws Exception {
-		
-		String num = "108";
-		
-		weatherService.getWeatherDetail(model, num);
-		
-		return "weather.content";
-	}
-	
 	@RequestMapping("/now")
 	public String nowWeather(Model model, String locX, String locY) throws Exception {
 		

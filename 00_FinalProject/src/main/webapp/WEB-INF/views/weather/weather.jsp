@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
 
 <div id="weather_wrap">
 	<div>
@@ -16,7 +14,7 @@
 
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=240232676b5466ea05842dea75a09f75&libraries=services"></script>
-	<script>
+<script>
 	
 	 //<!--
     //
@@ -123,7 +121,4 @@
 		});  
 	}
     
-	</script>
-
-
-	
+</script>

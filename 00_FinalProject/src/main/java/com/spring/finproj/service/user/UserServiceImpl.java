@@ -25,9 +25,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void updateUserContent(UserDTO dto, String pwd_update, HttpServletResponse response) {
 		
-		
-		
-		int check = dao.updateUserContent(dto);
+		int check = dao.updateUserPwd(dto);
 		
 	}
 }

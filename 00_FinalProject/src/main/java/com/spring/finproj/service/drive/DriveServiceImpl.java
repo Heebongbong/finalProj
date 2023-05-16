@@ -4,13 +4,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.spring.finproj.model.drive.DriveDAO;
+import com.spring.finproj.service.handler.Signature;
 
 @Service
 public class DriveServiceImpl implements DriveService{
@@ -54,5 +58,45 @@ public class DriveServiceImpl implements DriveService{
         JSONArray jo4 = jo3.getJSONArray("path");
         
 		return jo4.toString();
+	}
+
+	@Override
+	public void getGeoLocation(Model model) throws Exception {
+		
+		Long nt = System.currentTimeMillis();
+		String signUrl = "/geolocation/v2/geoLocation?ip=112.221.156.36&ext=t&responseFormatType=json";
+		String curl = "https://geolocation.apigw.ntruss.com"+signUrl;
+		// 1. 장치에 요청할 URI를 입력한다.
+        URL url = new URL(curl);
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+
+        con.setRequestProperty("Content-Type", "application/json");
+
+        // 2. Method 타입을 정의하고 API를 전송한다.
+        con.setRequestMethod("GET");
+        con.setRequestProperty("x-ncp-apigw-timestamp", nt.toString());
+        con.setRequestProperty("x-ncp-iam-access-key", "So6WkkHqyaafmNSxc05s");
+        con.setRequestProperty("x-ncp-apigw-signature-v2", new Signature().makeSignature(signUrl, nt.toString()));
+        System.out.println(con.getResponseCode());
+        BufferedReader in;
+        if(con.getResponseCode() >= 200 && con.getResponseCode() <= 300) {
+        	in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        } else {
+        	in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+        }
+
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        
+        JSONObject jo = new JSONObject(response.toString());
+
+        List<String> list = new ArrayList<String>();
+        list.add(jo.toString());
+        model.addAttribute("GpsDTO", list);
 	}
 }

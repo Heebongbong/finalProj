@@ -8,9 +8,9 @@ public interface UserDAO {
 	public List<UserDTO> getUserList();
 	public UserDTO getUserContent(int user_no);
 	public int insertUserContent(UserDTO dto);
-	public int updateUserContent(int user_no);
+	public int updateUserContent(UserDTO dto);
 	public int deleteUserContent(int user_no);
 	
-	// 비밀번호 바꾸기
-	public int updateUserContent(UserDTO dto);
+	//부가기능
+	public int updateUserPwd(UserDTO dto);
 }
