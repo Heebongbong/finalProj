@@ -1,5 +1,6 @@
 package com.spring.finproj.controller.navi;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,8 @@ public class HomeController {
 		campingService.getCampingRandomList(model);
 		int ran_num=(int)((Math.random()*7)+1);
 		model.addAttribute("banner_num", ran_num);
+		
+		System.out.println(File.separator);
 		return "index.index";
 	}
 
@@ -58,5 +61,10 @@ public class HomeController {
 	@RequestMapping(value = "/loginNavi")
 	public String loginNavi(HttpServletRequest rq, Model model) {
 		return "login.login";
+	}
+	
+	@RequestMapping(value = "/userNavi")
+	public String userNavi(HttpServletRequest rq, Model model) {
+		return "user.user";
 	}
 }

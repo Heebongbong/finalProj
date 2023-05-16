@@ -15,6 +15,7 @@
 	<definition name="weather_set" template="/WEB-INF/views/weather/inc/layout.jsp">
  		<put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
 		<put-attribute name="base_css" value="/resources/css/inc/inc.css" />
+		<put-attribute name="base_js" value="/resources/js/inc/inc.js" />
     	<put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
 	</definition>
 	

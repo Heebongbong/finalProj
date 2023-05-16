@@ -5,9 +5,6 @@
 <div id="weather_side">
 	<ul>
 		<li>
-			<a href="${ctxPath }/weather/content">디테일</a>
-		</li>
-		<li>
 			<a href="${ctxPath }/weather/now">실시간</a>
 		</li>
 		<li>

@@ -4,5 +4,33 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <!-- namespace 명은 패키지를 포함한 DAO 인터페이스, mapper를 구분하는 식별자로 사용 -->
-<mapper namespace="com.spring.finproj.model.board.BoardDAO">
+<mapper namespace="boardDAO">
+	<select id="board_list" resultType="boardDTO">
+		select * from community
+	</select>
+	
+	<!-- <insert id="writeArticle" parameterType="GuestBookDto">
+        insert into guestbook (userid, subject, content, regtime)
+        values (#{userid}, #{subject}, #{content}, now())
+        <selectKey resultType="int" keyProperty="articleno" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <insert id="fileRegister" parameterType="GuestBookDto">
+        insert into file_info (articleno, savefolder, originfile, savefile)
+        values
+        <foreach collection="fileInfos" item="fileinfo" separator=" , ">
+        (#{articleno}, #{fileinfo.saveFolder}, #{fileinfo.originFile}, #{fileinfo.saveFile})
+        </foreach>
+    </insert>
+    
+    <resultMap type="GuestBookDto" id="guestBookList">
+        <result property="articleno" column="articleno"/>
+        <result property="userid" column="userid"/>
+        <result property="subject" column="subject"/>
+        <result property="content" column="content"/>
+        <result property="regtime" column="regtime"/>
+        <collection property="fileInfos" column="articleno" javaType="list" ofType="FileInfoDto" select="fileInfoList"/>
+	</resultMap> -->
 </mapper>

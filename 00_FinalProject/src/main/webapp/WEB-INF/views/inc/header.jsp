@@ -17,7 +17,6 @@
 			<a href="javascript:open_user_menu()"><i class="fa fa-bars" aria-hidden="true"></i></a>
 		</li>
 	</ul>
-	
 	<div class="user_menu_wrap">
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
 		<div class="user_menu_head">
@@ -62,10 +61,13 @@
 		
 		<c:if test="${!empty loginUser }">
 		<div class="user_menu_head"> <!-- 로그인시 -->
-			<p>${loginUser.getNickname() }님 환영합니다.</p><a href="javascript:close_user_menu()">X</a>
+			<a href="javascript:close_user_menu()">X</a>
+			<p><img alt="" src="${loginUser.getProfile() }"></p>
+			<p>${loginUser.getNickname() }</p>
+			<button onclick="location.href='${ctxPath }/user/content?user_no=3'">마이페이지</button>
 		</div>
 		<div class="user_menu_body">
-			<a href="${ctxPath }/login/logout">로그아웃</a>
+			<div></div>
 		</div>
 		</c:if>
 		

@@ -1,7 +1,5 @@
 package com.spring.finproj.service.drive;
 
-import java.io.IOException;
-
 import org.springframework.ui.Model;
 
 public interface DriveService {

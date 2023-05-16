@@ -1,20 +1,18 @@
 package com.spring.finproj.model.board;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
+
 @Data
 public class BoardDTO {
+	private int cm_no;
+	private int user_no;
+	private String content;
+	private String date;
+	private String update;
+	private String hashtag;
+	private int photo_length;
 	private String photo_folder;
-	private ArrayList<String> realFiles;
-
-	public void setPhoto_folder(String photo_folder) {
-		this.photo_folder = photo_folder;
-		File[] fl = new File(photo_folder).listFiles();
-		this.realFiles = new ArrayList<String>();
-		for(File f : fl) {
-			this.realFiles.add(f.getName());
-		}
-	}
+	private List<FileInfoDTO> realFiles;
 }
