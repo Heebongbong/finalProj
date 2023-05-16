@@ -27,9 +27,9 @@ public class WeatherController {
 	}
 	
 	@RequestMapping("/now")
-	public String nowWeather(Model model) throws Exception {
+	public String nowWeather(Model model, String locX, String locY) throws Exception {
 		
-		weatherService.getNowWeather(model);
+		weatherService.getNowWeather(model, locX, locY);
 		
 		return "weather.now";
 	}
