@@ -22,6 +22,7 @@ public class UserDAOImpl implements UserDAO{
 		// TODO Auto-generated method stub
 		System.out.println(1);
 		System.out.println(template);
+		
 		UserDTO d = template.selectOne("user_cont", user_no);
 		System.out.println(d);
 		return d;
@@ -43,6 +44,11 @@ public class UserDAOImpl implements UserDAO{
 	public int deleteUserContent(int user_no) {
 		// TODO Auto-generated method stub
 		return template.delete("user_delete", user_no);
+	}
+	
+	@Override
+	public int updateUserContent(UserDTO dto) {
+		return template.update("user_update_pwd", dto);
 	}
 
 }
