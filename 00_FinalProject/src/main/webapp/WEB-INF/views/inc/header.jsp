@@ -17,7 +17,9 @@
 			&nbsp;&nbsp;<a href="javascript:open_user_menu()"><i class="fa fa-bars" aria-hidden="true"></i></a>
 		</li>
 	</ul>
+	
 	<div id="user_menu_wrap">
+		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
 		<div id="user_menu_head">
 			로그인 헤더1111<a href="javascript:close_user_menu()">X</a>
 		</div>
@@ -34,6 +36,15 @@
 				</div>
 			</div>
 		</div>
+		</c:if>
+		<c:if test="${!empty loginUser }">
+		<div id="user_menu_head"> <!-- 로그인시 -->
+			<p>${loginUser.getNickname() }</p><a href="javascript:close_user_menu()">X</a>
+		</div>
+		<div id="user_menu_body">
+			<p>로그인 되어있습니다.</p>
+		</div>
+		</c:if>
 		<div id="user_menu_foot">
 			회사 정보 카피라이트<br>약관 동의 뭐시기 뭐시기<br>
 		</div>

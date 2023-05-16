@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -161,12 +162,15 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public void loginKakao(String code, HttpSession session, HttpServletResponse response) throws Exception {
+	public void loginKakao(String code, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+		
+		StringBuffer ctxUrl = request.getRequestURL();
+		String reUrl = ctxUrl.substring(0, ctxUrl.indexOf("finproj"));
 		
 		StringBuilder urlBuilder = new StringBuilder("https://kauth.kakao.com/oauth/token");
         urlBuilder.append("?" + URLEncoder.encode("grant_type","UTF-8") + "=" + URLEncoder.encode("authorization_code", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("client_id","UTF-8") + "=" + URLEncoder.encode("98777fbdb2c9b1364e02210caf720b42", "UTF-8")); 
-        urlBuilder.append("&" + URLEncoder.encode("redirect_uri","UTF-8") + "=" + URLEncoder.encode("http://localhost:8787/finproj/login/kakao", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("redirect_uri","UTF-8") + "=" + URLEncoder.encode(reUrl+"finproj/login/kakao", "UTF-8")); 
         urlBuilder.append("&" + URLEncoder.encode("code","UTF-8") + "=" + URLEncoder.encode(code, "UTF-8")); 
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

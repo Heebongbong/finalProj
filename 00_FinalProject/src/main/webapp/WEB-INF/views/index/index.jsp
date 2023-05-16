@@ -6,20 +6,12 @@
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <div id="index_wrap">
 	<c:if test="${!empty loginUser }">
-		<p>Email : ${loginUser.getUser_email() }</p>
-		<p>닉네임 : ${loginUser.getUser_nickname() }</p>
-		<p>연락처 : ${loginUser.getUser_phone() }</p>
-		<p><img alt="" src="${loginUser.getUser_profile() }"></p>
+		<p>Email : ${loginUser.getEmail() }</p>
+		<p>닉네임 : ${loginUser.getNickname() }</p>
+		<p>연락처 : ${loginUser.getPhone() }</p>
+		<p><img alt="" src="${loginUser.getProfile() }"></p>
 	</c:if>
 	<c:if test="${empty loginUser }">
 		<p>로그인이 필요합니다.</p>
 	</c:if>
-	<div>
-	<c:set value="${List }" var="list"/>
-	<c:if test="${!empty list}">
-		<c:forEach items="${list }" var="dto">
-			<p>${dto }</p>
-		</c:forEach>
-	</c:if>
-	</div>
 </div>
