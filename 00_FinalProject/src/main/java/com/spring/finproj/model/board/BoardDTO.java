@@ -1,5 +1,12 @@
 package com.spring.finproj.model.board;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Data;
+
+@Data
 public class BoardDTO {
 
 	private int cm_no;
@@ -8,6 +15,9 @@ public class BoardDTO {
 	private String date;
 	private String update;
 	private String hashtag;
-	private String photo_folder;
 	private int photo_length;
+	
+	private String photo_folder;
+	private List<FileInfoDTO> realFiles;
+
 }

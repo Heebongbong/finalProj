@@ -8,5 +8,7 @@
 	 	<typeAlias type="com.spring.finproj.model.user.UserDTO" alias="userDTO"/>
 	 	<typeAlias type="com.spring.finproj.model.camping.CampingDAO" alias="CampingDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.camping.CampingDTO" alias="CampingDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.board.BoardDAO" alias="BoardDAO"/>
+	 	<typeAlias type="com.spring.finproj.model.board.BoardDTO" alias="BoardDTO"/>
 	</typeAliases>
  </configuration>
