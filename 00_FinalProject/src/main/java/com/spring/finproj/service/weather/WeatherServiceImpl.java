@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -77,9 +79,14 @@ public class WeatherServiceImpl implements WeatherService{
 	public void getNowWeather(Model model) throws Exception {
 		
 		LocalDate now = LocalDate.now();
+		LocalTime time = LocalTime.now();
+		String strTime = time.toString();
+		
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         
         String nowDate = now.format(formatter);
+        String nowTime = strTime.replace(":","").substring(0, 2);
+        System.out.println(nowTime);
 		
 		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + URLEncoder.encode("phamApqtKDIobE2PYsYGQbaOjZ1ubeYuzGHHRypOTUlsk/vIKv7BlDfoboSoBl+SgdrQXDuV13Xr3a4InxJjdA==", "UTF-8")); /*Service Key*/
@@ -87,8 +94,8 @@ public class WeatherServiceImpl implements WeatherService{
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("5", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
         urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(nowDate, "UTF-8")); /*‘21년 6월 28일 발표*/
-        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode("2230", "UTF-8")); /*06시 발표(정시단위) */
-        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("55", "UTF-8")); /*예보지점의 X 좌표값*/
+        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(nowTime+"00", "UTF-8")); /*06시 발표(정시단위) */
+        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("60", "UTF-8")); /*예보지점의 X 좌표값*/
         urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode("127", "UTF-8")); /*예보지점의 Y 좌표값*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -108,12 +115,19 @@ public class WeatherServiceImpl implements WeatherService{
         }
         rd.close();
         conn.disconnect();
+        System.out.println(sb.toString());
         
         model.addAttribute("str", sb.toString());
 	}
-
+	
+	
+	
+	
+	
+	
 	@Override
 	public void getWeatherDetail(Model model, String num) throws Exception {
+		
 		LocalDate now = LocalDate.now();
 		LocalDate start = now.plusDays(-2);
 		LocalDate end = now.plusDays(-1);
@@ -127,7 +141,7 @@ public class WeatherServiceImpl implements WeatherService{
 		StringBuilder urlBuilder = new StringBuilder(curl); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+ URLEncoder.encode("phamApqtKDIobE2PYsYGQbaOjZ1ubeYuzGHHRypOTUlsk/vIKv7BlDfoboSoBl+SgdrQXDuV13Xr3a4InxJjdA==", "UTF-8")); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호 Default : 10*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("5", "UTF-8")); /*한 페이지 결과 수 Default : 1*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("25", "UTF-8")); /*한 페이지 결과 수 Default : 1*/
         urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default : XML*/
         urlBuilder.append("&" + URLEncoder.encode("dataCd","UTF-8") + "=" + URLEncoder.encode("ASOS", "UTF-8")); /*자료 분류 코드(ASOS)*/
         urlBuilder.append("&" + URLEncoder.encode("dateCd","UTF-8") + "=" + URLEncoder.encode("HR", "UTF-8")); /*날짜 분류 코드(HR)*/
@@ -161,6 +175,9 @@ public class WeatherServiceImpl implements WeatherService{
         in.close();
         
         JSONObject jo = new JSONObject(response.toString());
+        System.out.println("디테일 리스트 : "+response.toString());
+        
+        
         JSONArray jo2 = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
         
         ArrayList<WeatherDTO> list = new ArrayList<WeatherDTO>();
@@ -169,13 +186,13 @@ public class WeatherServiceImpl implements WeatherService{
         	WeatherDTO dto = new WeatherDTO();
         	JSONObject cont = jo2.getJSONObject(i);
         	
-        	dto.setTm(cont.getString("tm"));
-        	dto.setClfmAbbrCd(cont.getString("clfmAbbrCd"));
-        	dto.setDc10Tca(cont.getString("dc10Tca"));
-        	dto.setHm(cont.getString("hm"));
-        	dto.setWd(cont.getString("wd"));
-        	dto.setWs(cont.getString("ws"));
-        	dto.setTa(cont.getString("ta"));
+        	dto.setTm(cont.getString("tm")); 					//시간
+        	dto.setClfmAbbrCd(cont.getString("clfmAbbrCd"));  	//운형
+        	dto.setDc10Tca(cont.getString("dc10Tca"));			//운량
+        	dto.setHm(cont.getString("hm"));					//습도
+        	dto.setWd(cont.getString("wd"));					//풍향
+        	dto.setWs(cont.getString("ws"));					//풍속
+        	dto.setTa(cont.getString("ta"));					//기온
         	
         	list.add(dto);
         }

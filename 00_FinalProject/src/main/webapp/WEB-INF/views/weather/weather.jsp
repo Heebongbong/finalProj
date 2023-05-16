@@ -8,6 +8,10 @@
 	<input type="text" placeholder="지역 입력" id="loc">
 	<input type="button" value="날씨 보기" onclick="moveWeather()">
 </div>
+
+<div>
+	
+</div>
 	
 <script type="text/javascript">
 	function moveWeather() {
