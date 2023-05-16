@@ -19,7 +19,7 @@
 	</ul>
 	<div id="user_menu_wrap">
 		<div id="user_menu_head">
-			로그인 헤더<a href="javascript:close_user_menu()">X</a>
+			로그인 헤더1111<a href="javascript:close_user_menu()">X</a>
 		</div>
 		<div id="user_menu_body">
 			<div id="user_menu_body_inp">
