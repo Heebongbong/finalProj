@@ -47,10 +47,6 @@ public class HomeController {
 	
 	@RequestMapping(value = "/loginNavi")
 	public String loginNavi(HttpServletRequest rq, Model model) {
-		//List<UserDTO> list = new UserDAOImpl().getUserList();
-		UserDTO cont = userDAO.getUserContent(1);
-		//model.addAttribute("List", list);
-		model.addAttribute("Cont", cont);
 		return "login.login";
 	}
 }
