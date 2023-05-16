@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,49 +23,89 @@ public class CampingServiceImpl implements CampingService{
 	private CampingDAO campingDAO;
 
 	@Override
-	public void getCampingDetail(Model model, int num) throws IOException {
-		
-		String curl = "https://apis.data.go.kr/B551011/GoCamping/basedList?numOfRows=10&pageNo="+num+"&MobileOS=WIN&MobileApp=Camping&serviceKey=phamApqtKDIobE2PYsYGQbaOjZ1ubeYuzGHHRypOTUlsk%2FvIKv7BlDfoboSoBl%2BSgdrQXDuV13Xr3a4InxJjdA%3D%3D&_type=json";
-		
-		// 1. 장치에 요청할 URI를 입력한다.
-        URL url = new URL(curl);
-        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	public void insertCampingListSetDB() throws IOException {
+		for(int j=1;j<=350;j++) {
+			String curl = "https://apis.data.go.kr/B551011/GoCamping/basedList?numOfRows=10&pageNo="+j+"&MobileOS=WIN&MobileApp=Camping&serviceKey=phamApqtKDIobE2PYsYGQbaOjZ1ubeYuzGHHRypOTUlsk%2FvIKv7BlDfoboSoBl%2BSgdrQXDuV13Xr3a4InxJjdA%3D%3D&_type=json";
+			
+			// 1. 장치에 요청할 URI를 입력한다.
+	        URL url = new URL(curl);
+	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	
+			con.setRequestProperty("Content-Type", "application/json");
+	        
+	        // 2. Method 타입을 정의하고 API를 전송한다.
+	        con.setRequestMethod("GET");
+	        
+	        con.getResponseCode();
+	
+	        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	
+	        String inputLine;
+	        StringBuffer response = new StringBuffer();
+	
+	        while ((inputLine = in.readLine()) != null) {
+	            response.append(inputLine);
+	        }
+	        in.close();
+	        
+	        ArrayList<CampingDTO> list = new ArrayList<CampingDTO>();
+	        
+	        JSONObject jo = new JSONObject(response.toString());
+	        JSONArray jo2 = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
+	        
+	        for(int i=0;i<jo2.length();i++) {
+	        	CampingDTO dto = new CampingDTO();
+	        	JSONObject cont = jo2.getJSONObject(i);
+	        	
+	        	dto.setContentId(cont.getInt("contentId"));
+	        	dto.setFacltNm(cont.getString("facltNm"));
+	        	dto.setLineIntro(cont.getString("lineIntro"));
+	        	dto.setIntro(cont.getString("intro"));
+	        	dto.setAllar(cont.getInt("allar"));
+	        	dto.setFeatureNm(cont.getString("featureNm"));
+	        	dto.setInduty(cont.getString("induty"));
+	        	dto.setLctCl(cont.getString("lctCl"));
+	        	dto.setAddr1(cont.getString("addr1"));
+	        	dto.setAddr2(cont.getString("addr2"));
+	        	dto.setMapX(cont.getString("mapX"));
+	        	dto.setMapY(cont.getString("mapY"));
+	        	dto.setTooltip(cont.getString("tooltip"));
+	        	dto.setTel(cont.getString("tel"));
+	        	dto.setHomepage(cont.getString("homepage"));
+	        	dto.setOperPdCl(cont.getString("operPdCl"));
+	        	dto.setOperDeCl(cont.getString("operDeCl"));
+	        	dto.setPosblFcltyCl(cont.getString("posblFcltyCl"));
+	        	dto.setExprnProgrm(cont.getString("exprnProgrm"));
+	        	dto.setThemaEnvrnCl(cont.getString("themaEnvrnCl"));
+	        	if(cont.getString("animalCmgCl").equals("불가능")) {
+	        		dto.setAnimalCmgCl(0);
+	        	}else {
+	        		dto.setAnimalCmgCl(1);
+	        	}
+	        	dto.setFirstImageUrl(cont.getString("firstImageUrl"));
+	        	
+	        	list.add(dto);
+	        }
+	        System.out.println(list);
+	        
+	        int re = campingDAO.insertCampingList(list);
+	        
+	        System.out.println(j+" 번째 리스트 작업 ["+re+"] 행 추가");
+	        
+		}
+	}
 
-		con.setRequestProperty("Content-Type", "application/json");
-        
-        // 2. Method 타입을 정의하고 API를 전송한다.
-        con.setRequestMethod("GET");
-        
-        con.getResponseCode();
+	@Override
+	public void getCampingList(Model model) throws IOException {
+		// TODO Auto-generated method stub
+		List<CampingDTO> list = campingDAO.getCampingList();
+		model.addAttribute("CampingList", list);
+	}
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-        
-        ArrayList<CampingDTO> list = new ArrayList<CampingDTO>();
-        
-        JSONObject jo = new JSONObject(response.toString());
-        JSONArray jo2 = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
-        
-        for(int i=0;i<jo2.length();i++) {
-        	CampingDTO dto = new CampingDTO();
-        	JSONObject cont = jo2.getJSONObject(i);
-        	dto.setName(cont.getString("facltNm"));
-        	dto.setImg(cont.getString("firstImageUrl"));
-        	dto.setX(cont.getDouble("mapX")); //경도
-        	dto.setY(cont.getDouble("mapY")); //위도
-        	dto.setIntro(cont.getString("lineIntro")); // intro로 변경가능
-        	dto.setHomePage(cont.getString("homepage"));
-        	list.add(dto);
-        }
-        model.addAttribute("campings", response.toString());
-        model.addAttribute("campingList", list);
-		
+	@Override
+	public void getCampingRandomList(Model model) {
+		// TODO Auto-generated method stub
+		List<CampingDTO> list = campingDAO.getCampingRandomList();
+		model.addAttribute("CampingList", list);
 	}
 }

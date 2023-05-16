@@ -53,7 +53,7 @@ public class LoginController {
 			@RequestParam(required = false) String error) throws Exception {
 		System.out.println(error);
 		if(error!=null) {
-			return "redirect:/loginNavi";
+			return "redirect:/index";
 		}else {
 			loginService.loginNaver(code, state, session, response);
 			return "redirect:/index";

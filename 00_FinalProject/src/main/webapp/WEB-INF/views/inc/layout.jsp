@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="${ctxPath }/resources/images/logo.png" rel="shortcut icon" type="image/x-icon">
+<link href="${ctxPath }/resources/images/logo/logo.png" rel="shortcut icon" type="image/x-icon">
 <title><tiles:getAsString name="title"/></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/e6bfca85af.js" crossorigin="anonymous"></script>

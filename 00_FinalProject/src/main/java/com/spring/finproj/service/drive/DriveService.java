@@ -1,7 +1,12 @@
 package com.spring.finproj.service.drive;
 
+import java.io.IOException;
+
+import org.springframework.ui.Model;
+
 public interface DriveService {
 
-	String getPathSerch(double xDri, double yDri) throws Exception;
+	public String getPathSerch(double xDri, double yDri) throws Exception;
+	public void getGeoLocation(Model model) throws Exception;
 
 }

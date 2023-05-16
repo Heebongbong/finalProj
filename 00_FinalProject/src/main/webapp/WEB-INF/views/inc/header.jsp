@@ -5,47 +5,71 @@
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <div id="header">
-	<ul id="login_navi">
-		<li><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo.png"></a></li>
+	<ul class="login_navi">
+		<li><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
 		<li>
-		<c:if test="${empty loginUser }">
-			<a href="${ctxPath }/loginNavi">로그인</a>
-		</c:if>
-		<c:if test="${!empty loginUser }">
-			<a href="${ctxPath }/login/logout">로그아웃</a>
-		</c:if>
-			&nbsp;&nbsp;<a href="javascript:open_user_menu()"><i class="fa fa-bars" aria-hidden="true"></i></a>
+			<div>
+				<input type="text" placeholder="검색창">
+				<input type="button" value="검색">
+			</div>
+		</li>
+		<li>
+			<a href="javascript:open_user_menu()"><i class="fa fa-bars" aria-hidden="true"></i></a>
 		</li>
 	</ul>
 	
-	<div id="user_menu_wrap">
+	<div class="user_menu_wrap">
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
-		<div id="user_menu_head">
-			로그인 헤더1111<a href="javascript:close_user_menu()">X</a>
+		<div class="user_menu_head">
+			로그인 헤더<a href="javascript:close_user_menu()">X</a>
 		</div>
-		<div id="user_menu_body">
-			<div id="user_menu_body_inp">
+		<div class="user_menu_body">
+			<div class="user_menu_body_inp">
 				<input name="email" placeholder="Email을 입력하세요">
 				<input name="pwd" placeholder="비밀번호를 입력하세요." type="password">
 			</div>
-			<div id="user_menu_body_btn">
+			<div class="user_menu_body_btn">
 				<input type="submit" value="로그인">
 				<input type="button" value="회원가입">
 				<div>
 					<a href="javascript:">이메일/비밀번호 찾기</a>
 				</div>
 			</div>
+			<div class="user_menu_body_sns">
+				<%
+					StringBuffer ctxUrl = request.getRequestURL();
+					String reUrl = ctxUrl.substring(0, ctxUrl.indexOf("finproj"));
+				%>
+				<script type="text/javascript"> const reUrl = '<%=reUrl %>';</script>
+				<a class="naver_login_btn" href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=2fzdhIRlmXgPi9uo_5Xi&redirect_uri=http%3A%2F%2Flocalhost%3A8787%2Ffinproj%2Flogin%2Fnaver&state=a83abeaf-9d9d-4bdb-a4f1-d3af1fe30cf1">
+					<img style="width: 50px; height: 50px;" alt="" src="${ctxPath }/resources/images/logo/naver_logo.jpg">
+				</a>
+				<a class="kakao_login_btn" href="javascript:loginWithKakao()">
+					<img style="width: 50px; height: 50px;" alt="" src="${ctxPath }/resources/images/logo/kakao_logo.png">
+				</a>
+				<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+				<script>Kakao.init('78f087e4814e7f60f4ee016cae934876');</script>
+				<script src="https://accounts.google.com/gsi/client" async defer></script>
+				<div id="g_id_onload" data-client_id="763924312013-ppith6f1s7furfp1jvagis96rboh584f.apps.googleusercontent.com"
+					data-login_uri="<%=reUrl %>finproj/login/google" data-auto_prompt="false">
+				</div>
+				<div class="g_id_signin" data-type="icon" data-size="large"
+					data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+				</div>
+			</div>
 		</div>
 		</c:if>
+		
 		<c:if test="${!empty loginUser }">
-		<div id="user_menu_head"> <!-- 로그인시 -->
-			<p>${loginUser.getNickname() }</p><a href="javascript:close_user_menu()">X</a>
+		<div class="user_menu_head"> <!-- 로그인시 -->
+			<p>${loginUser.getNickname() }님 환영합니다.</p><a href="javascript:close_user_menu()">X</a>
 		</div>
-		<div id="user_menu_body">
-			<p>로그인 되어있습니다.</p>
+		<div class="user_menu_body">
+			<a href="${ctxPath }/login/logout">로그아웃</a>
 		</div>
 		</c:if>
-		<div id="user_menu_foot">
+		
+		<div class="user_menu_foot">
 			회사 정보 카피라이트<br>약관 동의 뭐시기 뭐시기<br>
 		</div>
 	</div>

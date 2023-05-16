@@ -1,6 +1,21 @@
 @charset "EUC-KR";
 #content{
-	margin: 50px auto;
-	width: 100%;
 	height: 500px;
+}
+
+.index_camping_list{
+	height: 500px;
+}
+.index_camping_content{
+	text-align: center;
+}
+.camping_img img{
+	margin: auto;
+}
+.camping_name,
+.camping_info{
+	text-align: center;
+}
+.banner img{
+	width: 100%;
 }

@@ -12,4 +12,8 @@
 	<div id="view">
 		
 	</div>
+	
+	<div>
+		${GpsDTO }
+	</div>
 </div>
