@@ -1,5 +1,6 @@
 package com.spring.finproj.controller.login;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -33,20 +34,22 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/kakao")
-	public String loginKakao(String code, HttpSession session, HttpServletResponse response) throws Exception {
-		loginService.loginKakao(code, session, response);
+	public String loginKakao(String code, HttpSession session, 
+			HttpServletResponse response, HttpServletRequest request) throws Exception {
+		loginService.loginKakao(code, session, response, request);
 		return "redirect:/index";
 	}
 	
 	@RequestMapping("/google")
-	public String loginGoogle(String credential, String g_csrf_token, HttpSession session, HttpServletResponse response) throws Exception {
+	public String loginGoogle(String credential, String g_csrf_token, HttpSession session, 
+			HttpServletResponse response, HttpServletRequest request) throws Exception {
 		loginService.loginGoogle(g_csrf_token, credential, session, response);
 		return "redirect:/index";
 	}
 	
 	@RequestMapping("/naver")
 	public String loginNaver(@RequestParam(required = false) String code, String state,
-			HttpSession session, HttpServletResponse response,
+			HttpSession session, HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(required = false) String error) throws Exception {
 		System.out.println(error);
 		if(error!=null) {
