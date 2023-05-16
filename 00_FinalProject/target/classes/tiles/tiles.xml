@@ -8,6 +8,7 @@
  	<definition name="default_set" template="/WEB-INF/views/inc/layout.jsp">
  		<put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
 		<put-attribute name="base_css" value="/resources/css/inc/inc.css" />
+		<put-attribute name="base_js" value="/resources/js/inc/inc.js" />
     	<put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
 	</definition>
 	
@@ -20,6 +21,8 @@
 	<definition name="weather.*" extends="weather_set">
 		<put-attribute name="side" value="/WEB-INF/views/weather/inc/side.jsp" />
 		<put-attribute name="title" value="Camping HomePage" />
+		<put-attribute name="css" value="/resources/css/weather/{1}.css" />
+		<put-attribute name="js" value="/resources/js/weather/{1}.js" />
 		<put-attribute name="body" value="/WEB-INF/views/weather/{1}.jsp" />
 	</definition>
 	
