@@ -10,4 +10,7 @@ public interface UserDAO {
 	public int insertUserContent(UserDTO dto);
 	public int updateUserContent(int user_no);
 	public int deleteUserContent(int user_no);
+	
+	// 비밀번호 바꾸기
+	public int updateUserContent(UserDTO dto);
 }

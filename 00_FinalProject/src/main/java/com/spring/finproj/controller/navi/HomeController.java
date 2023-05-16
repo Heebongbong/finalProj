@@ -49,4 +49,9 @@ public class HomeController {
 	public String loginNavi(HttpServletRequest rq, Model model) {
 		return "login.login";
 	}
+	
+	@RequestMapping(value = "/userNavi")
+	public String userNavi(HttpServletRequest rq, Model model) {
+		return "user.user";
+	}
 }

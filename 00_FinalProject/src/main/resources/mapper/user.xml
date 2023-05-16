@@ -9,6 +9,7 @@
 		SELECT * FROM user;
 	</select>
 	<select id="user_cont" resultType="userDTO" parameterType="int">
-		select * from user where user_no = #{user_no}
+		select * from user u join user_profile p on u.user_no = p.user_no
+			where u.user_no = #{user_no}
 	</select>
 </mapper>

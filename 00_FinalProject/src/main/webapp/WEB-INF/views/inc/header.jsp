@@ -19,6 +19,7 @@
 	</ul>
 	
 	<div id="user_menu_wrap">
+	
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
 		<div id="user_menu_head">
 			로그인 헤더1111<a href="javascript:close_user_menu()">X</a>
@@ -39,10 +40,13 @@
 		</c:if>
 		<c:if test="${!empty loginUser }">
 		<div id="user_menu_head"> <!-- 로그인시 -->
-			<p>${loginUser.getNickname() }</p><a href="javascript:close_user_menu()">X</a>
+			<a href="javascript:close_user_menu()">X</a>
+			<p><img alt="" src="${loginUser.getProfile() }"></p>
+			<p>${loginUser.getNickname() }</p>
+			<button onclick="location.href='${ctxPath }/user/content?user_no=3'">마이페이지</button>
 		</div>
 		<div id="user_menu_body">
-			<p>로그인 되어있습니다.</p>
+			<div></div>
 		</div>
 		</c:if>
 		<div id="user_menu_foot">
