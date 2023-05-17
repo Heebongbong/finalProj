@@ -6,6 +6,7 @@
 	 <typeAliases>
 	 	<typeAlias type="com.spring.finproj.model.user.UserDAO" alias="userDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.user.UserDTO" alias="userDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.user.UserSessionDTO" alias="userSessionDTO"/>
 	 	<typeAlias type="com.spring.finproj.model.camping.CampingDAO" alias="campingDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.camping.CampingDTO" alias="campingDTO"/>
 	 	<typeAlias type="com.spring.finproj.model.board.BoardDAO" alias="boardDAO"/>

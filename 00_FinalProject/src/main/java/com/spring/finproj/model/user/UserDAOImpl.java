@@ -57,9 +57,9 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public int insertUserSession(Map<String, Object> list) {
+	public int insertUserSession(UserSessionDTO dto) {
 		// TODO Auto-generated method stub
-		return sqlSession.insert("user_insert_session", list);
+		return sqlSession.insert("user_insert_session", dto);
 	}
 
 	@Override
@@ -83,6 +83,12 @@ public class UserDAOImpl implements UserDAO{
 	public String getNickCheck(String nickName) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("user_nick_check", nickName);
+	}
+
+	@Override
+	public UserSessionDTO getUserSession(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user_get_session", user_no);
 	}
 	
 }
