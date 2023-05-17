@@ -29,7 +29,6 @@ public class BoardController {
     @RequestMapping(value = "/board_list", method = RequestMethod.POST)
     public String write(BoardDTO BoardDTO, @RequestParam("upfile") MultipartFile[] files, 
     		Model model, HttpSession session, HttpServletRequest request) throws Exception {
-       
     	return boardService.writeBoard(BoardDTO, files, model, session, request);
     }
 }

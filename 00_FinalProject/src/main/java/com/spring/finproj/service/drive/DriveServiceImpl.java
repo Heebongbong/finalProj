@@ -63,7 +63,7 @@ public class DriveServiceImpl implements DriveService{
 	@Override
 	public void getGeoLocation(Model model) throws Exception {
 		
-		Long nt = System.currentTimeMillis();
+		Signature sign = new Signature();
 		String signUrl = "/geolocation/v2/geoLocation?ip=112.221.156.36&ext=t&responseFormatType=json";
 		String curl = "https://geolocation.apigw.ntruss.com"+signUrl;
 		// 1. 장치에 요청할 URI를 입력한다.
@@ -74,9 +74,9 @@ public class DriveServiceImpl implements DriveService{
 
         // 2. Method 타입을 정의하고 API를 전송한다.
         con.setRequestMethod("GET");
-        con.setRequestProperty("x-ncp-apigw-timestamp", nt.toString());
+        con.setRequestProperty("x-ncp-apigw-timestamp", sign.getNowTime());
         con.setRequestProperty("x-ncp-iam-access-key", "So6WkkHqyaafmNSxc05s");
-        con.setRequestProperty("x-ncp-apigw-signature-v2", new Signature().makeSignature(signUrl, nt.toString()));
+        con.setRequestProperty("x-ncp-apigw-signature-v2", sign.makeGetSignature(signUrl));
         System.out.println(con.getResponseCode());
         BufferedReader in;
         if(con.getResponseCode() >= 200 && con.getResponseCode() <= 300) {
