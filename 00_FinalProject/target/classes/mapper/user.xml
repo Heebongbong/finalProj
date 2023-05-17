@@ -15,7 +15,7 @@
 	<select id="user_cont_id" resultType="userDTO" parameterType="map">
 		select * from user u join user_profile p on u.user_no = p.user_no where u.email = #{email} and u.type = #{type}
 	</select>
-	<insert id="user_insert_session" parameterType="map">
+	<insert id="user_insert_session" parameterType="userSessionDTO">
 		insert into user_session values(#{user_no}, #{sessionID}, #{refreshToken}, #{expiresTime})
 	</insert>
 	<insert id="user_insert_sns" parameterType="userDTO">
@@ -36,7 +36,7 @@
 	<select id="user_nick_check" parameterType="String" resultType="String">
 		select nickname from user_profile where nickname = #{nickName}
 	</select>
-	<!-- <update id="user_update_pwd" parameterType="userDTO">
-		update user set 
-	</update> -->
+	<select id="user_get_session" parameterType="int" resultType="userSessionDTO">
+		select * from user_session where user_no = #{user_no}
+	</select>
 </mapper>

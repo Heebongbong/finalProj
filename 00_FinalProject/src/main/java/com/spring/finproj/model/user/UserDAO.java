@@ -15,9 +15,10 @@ public interface UserDAO {
 	//부가기능
 	public int updateUserPwd(UserDTO dto);
 	public UserDTO getUserContentId(Map<String, Object> idlist);
-	public int insertUserSession(Map<String, Object> list);
+	public int insertUserSession(UserSessionDTO dto);
 	public int insertUserSNSContent(UserDTO user);
 	public int insertUserSNSProfileContent(UserDTO user);
 	public int deleteUserSessionContent(int user_no);
-	public String getNickCheck(String nickName) ;
+	public String getNickCheck(String nickName);
+	public UserSessionDTO getUserSession(int user_no);
 }
