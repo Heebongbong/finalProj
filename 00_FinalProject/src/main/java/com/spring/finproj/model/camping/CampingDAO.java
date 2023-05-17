@@ -13,4 +13,5 @@ public interface CampingDAO {
 	
 	//부가기능
 	public List<CampingDTO> getCampingRandomList();
+	public List<CampingDTO> getCampingLocList(String loc);
 }

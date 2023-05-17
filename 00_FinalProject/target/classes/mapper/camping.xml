@@ -32,10 +32,15 @@
 			#{item.firstImageUrl})
 		</foreach>
 	</insert>
-	<select id="camping_list" resultType="campingDTO">
-		select * from camping
+	<select id="camping_list_loc" resultType="campingDTO" parameterType="String">
+		select * from camping where addr1 like concat('%',#{loc},'%') Limit 10
 	</select>
+
+	<select id="camping_cont" resultType="campingDTO" parameterType="int">
+		select * from camping where content_id = #{content_id}
+	</select>
+	
 	<select id="camping_list_random" resultType="campingDTO">
-		select * from camping where not firstImageUrl = '' and not lineIntro = '' Order by rand() Limit 10
+		select * from camping where not firstImageUrl = '' and not lineIntro = '' Order by rand() Limit 10 
 	</select>
 </mapper>
