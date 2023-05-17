@@ -56,4 +56,10 @@ public class CampingDAOImpl implements CampingDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("camping_list_random");
 	}
+
+	@Override
+	public List<CampingDTO> getCampingLocList(String loc) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("camping_list_loc", loc);
+	}
 }

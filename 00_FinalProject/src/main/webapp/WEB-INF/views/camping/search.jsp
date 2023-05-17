@@ -5,35 +5,48 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 @SuppressWarnings("all")
-ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("campingList");
+ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("CampingList");
 %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4sqz6l4y8y&submodules=geocoder"></script>
 <div id="map_wrap">
+	<div id="category">
+		<a href='${ctxPath}/camping/content?loc=서울'>서울</a>
+		<a href='${ctxPath}/camping/content?loc=경기'>경기</a>
+		<a href='${ctxPath}/camping/content?loc=인천'>인천</a>
+	</div>
 	<div id="map" style="height: 1000px;"></div>
-	<div id="test_wrap">
-		<c:forEach items="${campingList }" var="dto">
-		<div id="test">
-			<div id="test_image">
-				<img alt="" src="${dto.getImg() }">
+	<div id="camping_search_wrap">
+		<c:forEach items="${CampingList }" var="dto">
+		<div id="camping">
+			<div id="camping_image">
+				<img alt="" src="${dto.getFirstImageUrl() }" class="url">
 			</div>
-			<div id="test_info">
-				<p>이름: ${dto.getName() }</p>
-				<p>소개: ${dto.getIntro() }</p>
-				<p>홈페이지: ${dto.getHomePage() }</p>
-				<p>위도: ${dto.getY() }</p>
-				<p>경도: ${dto.getX() }</p>
+			<div id="camping_info">
+				<p>이름: ${dto.getFacltNm() }</p>
+				<p>소개: ${dto.getLineIntro() }</p>
+				<p>홈페이지: ${dto.getHomepage() }</p>
+				<p>위도: ${dto.getMapY() }</p>
+				<p>경도: ${dto.getMapX() }</p>
+				<p>ID: ${dto.getContentId() }</p>
 			</div>
 		</div>
 		</c:forEach>
 	</div>
 	
-	<div>
-		${campings }
-	</div>
 </div>
 
 <script type="text/javascript">
+
+
+const popup = document.querySelector('.url');
+const contentId = "${dto.getContentId()}";
+
+popup.addEventListener("click", function() {
+	window.open("${ctxPath }/camping/details?contentId="+contentId, "팝업1", "width=400, height=560, top = 100, left = 200, location = yes, scrollbars=yes");
+});
+
+
 		$(document).ready(function(){
 			let mapOptions = {
 			    center: new naver.maps.LatLng(37.567944413725904,126.9831230334937),
@@ -85,4 +98,5 @@ ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("campin
 			}
 			
 		});
+		
 </script>
