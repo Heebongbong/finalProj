@@ -30,6 +30,13 @@ public class UserController {
 		return "user.mypage";
 	}
 	
+	
+	@RequestMapping("/join")
+	public String userJoin() throws Exception {
+		
+		return "user.join";
+	}
+	
 	@RequestMapping("/insert")
 	public String userMypageOk(@RequestParam("pwd_update") String pwd_update, UserDTO dto, Model model, HttpServletRequest request) throws Exception {
 		
