@@ -12,6 +12,30 @@
 		select * from user u join user_profile p on u.user_no = p.user_no
 			where u.user_no = #{user_no}
 	</select>
+	<select id="user_cont_id" resultType="userDTO" parameterType="map">
+		select * from user u join user_profile p on u.user_no = p.user_no where u.email = #{email} and u.type = #{type}
+	</select>
+	<insert id="user_insert_session" parameterType="map">
+		insert into user_session values(#{user_no}, #{sessionID}, #{refreshToken}, #{expiresTime})
+	</insert>
+	<insert id="user_insert_sns" parameterType="userDTO">
+		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
+			select max(user_no) from user
+		</selectKey>
+		insert into user values(#{user_no}+1, #{email}, #{type})
+	</insert>
+	<insert id="user_insert_sns_profile" parameterType="userDTO">
+		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
+			select user_no from user where email = #{email} and type = #{type}
+		</selectKey>
+		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, 0)
+	</insert>
+	<delete id="user_delete_session" parameterType="int">
+		delete from user_session where user_no = #{user_no}
+	</delete>
+	<select id="user_nick_check" parameterType="String" resultType="String">
+		select nickname from user_profile where nickname = #{nickName}
+	</select>
 	<!-- <update id="user_update_pwd" parameterType="userDTO">
 		update user set 
 	</update> -->

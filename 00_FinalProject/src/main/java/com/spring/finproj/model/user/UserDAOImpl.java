@@ -1,6 +1,7 @@
 package com.spring.finproj.model.user;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,41 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public int updateUserPwd(UserDTO dto) {
 		return sqlSession.update("user_update_pwd", dto);
+	}
+
+	@Override
+	public UserDTO getUserContentId(Map<String, Object> idlist) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user_cont_id", idlist);
+	}
+
+	@Override
+	public int insertUserSession(Map<String, Object> list) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("user_insert_session", list);
+	}
+
+	@Override
+	public int insertUserSNSContent(UserDTO user) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("user_insert_sns", user);
+	}
+
+	@Override
+	public int insertUserSNSProfileContent(UserDTO user) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("user_insert_sns_profile", user);
+	}
+
+	@Override
+	public int deleteUserSessionContent(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("user_delete_session", user_no);
+	}
+
+	public String getNickCheck(String nickName) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user_nick_check", nickName);
 	}
 	
 }

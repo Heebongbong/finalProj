@@ -5,10 +5,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -25,15 +25,51 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
+import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
+import com.spring.finproj.service.handler.MakeNickName;
 
 @Service
 public class LoginServiceImpl implements LoginService{
+	@Autowired
+	private UserDAO userDAO;
 
 	@Override
-	public void loginSite(String id, String pwd, HttpSession session, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
+	public void loginSite(String email, String pwd, HttpSession session, HttpServletResponse response, String jSessionId) throws Exception {
+		Map<String, Object> idlist = new HashMap<String, Object>();
+		idlist.put("email", email);
+		idlist.put("type", "S");
+		UserDTO dto = userDAO.getUserContentId(idlist);
+		if(dto!=null) { //정보 확인
+			if(dto.getPwd().equals("pwd")) {//비번일치
+				//세션 DB 저장
+				long ext = System.currentTimeMillis()+(60*60*6);
+				Map<String, Object> list = new HashMap<String, Object>();
+				
+				list.put("user_no", dto.getUser_no());
+				list.put("sessionID", jSessionId);
+				list.put("refreshToken", jSessionId);
+				list.put("expiresTime", ext);
+				
+				userDAO.insertUserSession(list);
+				
+				//세션 등록 (쿠키는 기존 id사용)
+				session.setAttribute("LoginUser", dto);
+				session.setMaxInactiveInterval(60*60*6);
+				
+				response.sendRedirect("/index");
+			}else {//불일치
+				response.getWriter().println("<script>"
+						+ "alert('비밀번호가 다릅니다.');"
+						+ "history.back();"
+						+ "</script>");
+			}
+		}else { //email 없음
+			response.getWriter().println("<script>"
+					+ "alert('회원정보가 없습니다.');"
+					+ "history.back();"
+					+ "</script>");
+		}
 	}
 	
 	@Override
@@ -51,19 +87,48 @@ public class LoginServiceImpl implements LoginService{
 			String userId = payload.getSubject();
 			
 			String email = payload.getEmail();
-			//boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-			String name = (String) payload.get("name");
 			String pictureUrl = (String) payload.get("picture");
+			//boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+			//String name = (String) payload.get("name");
 			//String locale = (String) payload.get("locale");
 			//String familyName = (String) payload.get("family_name");
 			//String givenName = (String) payload.get("given_name");
+			
 			UserDTO user = new UserDTO();
 			user.setEmail(email);
 			user.setPwd(userId);
-			user.setNickname(name);
+			user.setNickname(makeNickName());
 			user.setProfile(pictureUrl);
 			user.setType("G");
 			
+			//email, type을 통한 email DB 확인
+			Map<String, Object> idlist = new HashMap<String, Object>();
+			idlist.put("email", email);
+			idlist.put("type", "G");
+			
+			UserDTO dto = userDAO.getUserContentId(idlist);
+			
+			if(dto==null) { //비회원
+				int re1 = userDAO.insertUserSNSContent(user);
+				if(re1>0) {
+					userDAO.insertUserSNSProfileContent(user);
+				}
+			}else { // 기존 회원
+				user = dto;
+			}
+			
+			//세션 DB 저장
+			long ext = System.currentTimeMillis()+(60*60*6);
+			Map<String, Object> list = new HashMap<String, Object>();
+			
+			list.put("user_no", user.getUser_no());
+			list.put("sessionID", a_token);
+			list.put("refreshToken", a_token);
+			list.put("expiresTime", ext);
+			
+			userDAO.insertUserSession(list);
+			
+			//세션 및 쿠키 등록
 			Cookie a_t = new Cookie("AccessToken", a_token);
 			a_t.setMaxAge(60*60*24*7);
 			a_t.setPath("/");
@@ -71,7 +136,6 @@ public class LoginServiceImpl implements LoginService{
 			
 			session.setAttribute("LoginUser", user);
 			session.setMaxInactiveInterval(60*60*6);
-		
 		} else {
 			System.out.println("Invalid ID token.");
 		}
@@ -115,18 +179,46 @@ public class LoginServiceImpl implements LoginService{
 		System.out.println("a-"+a_token);
 		System.out.println("r-"+r_token);
 
-		UserDTO dto = getNaverInfo(a_token);
+		UserDTO user = getNaverInfo(a_token, response);
 		
+		//email, type을 통한 email DB 확인
+		Map<String, Object> idlist = new HashMap<String, Object>();
+		idlist.put("email", user.getEmail());
+		idlist.put("type", "G");
+		
+		UserDTO dto = userDAO.getUserContentId(idlist);
+		
+		if(dto==null) { //비회원
+			int re1 = userDAO.insertUserSNSContent(user);
+			if(re1>0) {
+				userDAO.insertUserSNSProfileContent(user);
+			}
+		}else { // 기존 회원
+			user = dto;
+		}
+		
+		//세션 DB 저장
+		long ext = System.currentTimeMillis()+(60*60*6);
+		Map<String, Object> list = new HashMap<String, Object>();
+		
+		list.put("user_no", user.getUser_no());
+		list.put("sessionID", a_token);
+		list.put("refreshToken", r_token);
+		list.put("expiresTime", ext);
+		
+		userDAO.insertUserSession(list);
+		
+		//쿠키 세션 등록
 		Cookie a_t = new Cookie("AccessToken", a_token);
 		a_t.setMaxAge(60*60*24*7);
 		a_t.setPath("/");
 		response.addCookie(a_t);
 		
-		session.setAttribute("LoginUser", dto);
+		session.setAttribute("LoginUser", user);
 		session.setMaxInactiveInterval(60*60*6);
 	}
 
-	private UserDTO getNaverInfo(String a_token) throws Exception {
+	private UserDTO getNaverInfo(String a_token, HttpServletResponse response ) throws Exception {
 		UserDTO dto = new UserDTO();
 		
 		String curl = "https://openapi.naver.com/v1/nid/me";
@@ -149,13 +241,28 @@ public class LoginServiceImpl implements LoginService{
         }
         rd.close();
         conn.disconnect();
+        
         JSONObject jo = new JSONObject(sb.toString());
         JSONObject jo2 = jo.getJSONObject("response");
+
+        if(jo2.has("email")) {
+        	dto.setEmail(jo2.getString("email"));
+        }else {
+        	response.getWriter().println("<script>"
+					+ "alert('이메일 제공 약관에 동의해야합니다.');"
+					+ "history.back();"
+					+ "</script>");
+        }
         
-        dto.setEmail(jo2.getString("email"));
         dto.setPwd(jo2.getString("id"));
-		dto.setNickname(jo2.getString("nickname"));
-		dto.setProfile(jo2.getString("profile_image"));
+		dto.setNickname(makeNickName());
+		
+		if(jo2.has("profile_image")) {
+			dto.setProfile("sns");
+		}else {
+			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
+		}
+		
         dto.setType("N");
         
 		return dto;
@@ -195,30 +302,50 @@ public class LoginServiceImpl implements LoginService{
         JSONObject jo = new JSONObject(sb.toString());
         String a_token = jo.getString("access_token");
         String r_token = jo.getString("refresh_token");
-        StringTokenizer st = new StringTokenizer(jo.getString("scope"));
         
-        List<String> scope = new ArrayList<String>();
-        while(st.hasMoreTokens()) {
-        	scope.add(st.nextToken());
-        }
-		        
         System.out.println("c-"+code);
         System.out.println("a-"+a_token);
         System.out.println("r-"+r_token);
-
-        UserDTO dto = getKakaoInfo(a_token, scope);
+        
+        UserDTO user = getKakaoInfo(a_token, response);
+        
+        //email, type을 통한 email DB 확인
+  		Map<String, Object> idlist = new HashMap<String, Object>();
+  		idlist.put("email", user.getEmail());
+  		idlist.put("type", "K");
+  		
+  		UserDTO dto = userDAO.getUserContentId(idlist);
+  		
+  		if(dto==null) { //비회원
+  			int re1 = userDAO.insertUserSNSContent(user);
+  			if(re1>0) {
+  				userDAO.insertUserSNSProfileContent(user);
+  			}
+  		}else { // 기존 회원
+  			user = dto;
+  		}
+  		
+  		//세션 DB 저장
+  		long ext = System.currentTimeMillis()+(60*60*6);
+  		Map<String, Object> list = new HashMap<String, Object>();
+		
+		list.put("user_no", user.getUser_no());
+		list.put("sessionID", a_token);
+		list.put("refreshToken", r_token);
+		list.put("expiresTime", ext);
+  		
+  		userDAO.insertUserSession(list);
         
         Cookie a_t = new Cookie("AccessToken", a_token);
         a_t.setMaxAge(60*60*24*7);
         a_t.setPath("/");
         response.addCookie(a_t);
         
-        session.setAttribute("LoginUser", dto);
+        session.setAttribute("LoginUser", user);
 		session.setMaxInactiveInterval(60*60*6);
-        
 	}
 	
-	private UserDTO getKakaoInfo(String a_token, List<String> scope) throws Exception {
+	private UserDTO getKakaoInfo(String a_token, HttpServletResponse response) throws Exception {
 		
 		String curl = "https://kapi.kakao.com/v2/user/me";
         URL url = new URL(curl);
@@ -240,15 +367,36 @@ public class LoginServiceImpl implements LoginService{
         }
         rd.close();
         conn.disconnect();
+        
         JSONObject jo = new JSONObject(sb.toString());
         JSONObject joA = jo.getJSONObject("kakao_account");
-        JSONObject joP = joA.getJSONObject("profile");
+        
         Integer id = jo.getInt("id");
 		UserDTO dto = new UserDTO();
-		dto.setEmail(joA.getString("email"));
+		
+		if(joA.has("email")) {
+			dto.setEmail(joA.getString("email"));
+		}else { //email 미제공 - 페이지로 가야함
+			response.getWriter().println("<script>"
+					+ "alert('이메일 제공 약관에 동의해야합니다.');"
+					+ "history.back();"
+					+ "</script>");
+		}
+		
 		dto.setPwd(id.toString());
-		dto.setNickname(joP.getString("nickname"));
-		dto.setProfile(joP.getString("thumbnail_image_url"));
+		dto.setNickname(makeNickName());
+		
+		if(joA.has("profile")) {
+        	JSONObject joP = joA.getJSONObject("profile");
+        	if(joP.has("thumbnail_image_url")) {
+    			dto.setProfile("sns");
+    		}else {
+    			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
+    		}
+        }else {
+			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
+		}
+		
 		dto.setType("K");
 		
 		return dto;
@@ -258,49 +406,31 @@ public class LoginServiceImpl implements LoginService{
 	public void logoutUser(HttpSession session, HttpServletResponse response, String sessionID) throws Exception {
 		
 		UserDTO dto = (UserDTO)session.getAttribute("LoginUser");
-		switch (dto.getType().charAt(0)) {
-		case 'K':
-			logoutKakao(sessionID);
-			break;
-		case 'G':
-			break;
-		case 'N':
-			break;
-		}
-		
-		Cookie a_t = new Cookie("AccessToken", null);
-        a_t.setMaxAge(0);
-        a_t.setPath("/");
-        response.addCookie(a_t);
-        Cookie j_t = new Cookie("JSESSIONID", null);
-        a_t.setMaxAge(0);
-        a_t.setPath("/");
-        response.addCookie(j_t);
-        
-        //세션데이터테이블 정보 삭제 필요
-        
-		session.invalidate();
-	}
 
-	private void logoutKakao(String sessionID) throws Exception {
-		String curl = "https://kapi.kakao.com/v1/user/logout";
-        URL url = new URL(curl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-        conn.setRequestProperty("Authorization", "Bearer "+sessionID);
-        BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
+        //세션데이터테이블 정보 삭제 필요
+		int re = userDAO.deleteUserSessionContent(dto.getUser_no());
+		
+		if(re>0) { //삭제 성공
+			Cookie a_t = new Cookie("AccessToken", null);
+	        a_t.setMaxAge(0);
+	        a_t.setPath("/");
+	        response.addCookie(a_t);
+	        Cookie j_t = new Cookie("JSESSIONID", null);
+	        a_t.setMaxAge(0);
+	        a_t.setPath("/");
+	        response.addCookie(j_t);
+	        
+			session.invalidate();
+		}else {
+			System.out.println("세션테이블 삭제 처리 오류");
+		}
+	}
+	
+	private String makeNickName() {
+		String nickName = new MakeNickName().makeValue();
+		if(userDAO.getNickCheck(nickName)!=null) {
+			makeNickName();
+		}
+		return nickName;
 	}
 }

@@ -26,7 +26,7 @@ public class WeatherServiceImpl implements WeatherService{
 	private WeatherDAO weatherDAO;
 
 	@Override
-	public void getSatellite(Model model) throws Exception {
+	public void getSatellite_aop(Model model) throws Exception {
 		
 		LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
