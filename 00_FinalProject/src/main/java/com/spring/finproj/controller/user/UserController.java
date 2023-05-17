@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.finproj.model.user.UserDTO;
+import com.spring.finproj.service.handler.SendSMSAPI;
 import com.spring.finproj.service.user.UserService;
 
 
@@ -30,6 +32,23 @@ public class UserController {
 		return "user.mypage";
 	}
 	
+	
+	@RequestMapping("/join")
+	public String userJoin() throws Exception {
+		
+		return "user.join";
+	}
+	
+	@RequestMapping("/checkNickname")
+	@ResponseBody
+	public String userCheckNickname(@RequestParam("nickname") String nickname) throws Exception {
+		
+		System.out.println("닉네임 체크 === "+nickname);
+		//userService.checkNickname(nickname);
+		
+		return null;
+	}
+	
 	@RequestMapping("/insert")
 	public String userMypageOk(@RequestParam("pwd_update") String pwd_update, UserDTO dto, Model model, HttpServletRequest request) throws Exception {
 		
@@ -45,6 +64,14 @@ public class UserController {
 		return "user.mypageOk";
 	}
 	
-	
+	@RequestMapping("/send/sms")
+	public String sendSMS(String phone) throws Exception {
+
+		SendSMSAPI s = new SendSMSAPI();
+		int re = s.sendSMS("01071307454");
+		System.out.println(re);
+		
+		return "index.index";
+	}
 	
 }

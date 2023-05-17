@@ -35,8 +35,6 @@
 		<beans:property name="order" value="2" />
 	</beans:bean>
 	
-	 
-	
 	<aop:aspectj-autoproxy />
 	
 </beans:beans>

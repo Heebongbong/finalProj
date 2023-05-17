@@ -25,7 +25,6 @@ public class BoardController {
     	System.out.println(2);
         return "board.write";
     }
- 
     @RequestMapping("/writeform")
     public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
     		Model model, String[] category, String hashtags,

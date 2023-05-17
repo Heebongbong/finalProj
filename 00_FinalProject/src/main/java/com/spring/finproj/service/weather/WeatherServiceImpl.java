@@ -26,7 +26,7 @@ public class WeatherServiceImpl implements WeatherService{
 	private WeatherDAO weatherDAO;
 
 	@Override
-	public void getSatellite(Model model) throws Exception {
+	public void getSatellite_aop(Model model) throws Exception {
 		
 		LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -82,40 +82,16 @@ public class WeatherServiceImpl implements WeatherService{
 	@Override
 	public void getNowWeather(Model model, String locX, String locY) throws Exception {
 		
-		System.out.println("x좌표 :"+locX);
-		System.out.println("x좌표 :"+locY);
-		
-		LocalDate now = LocalDate.now();
-		LocalTime time = LocalTime.now();
-		String strTime = time.toString();
-		
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        
-        String nowDate = now.format(formatter);
-        String nowTime = strTime.replace(":","").substring(0, 2);
-        String calTime = strTime.replace(":","").substring(2, 4);
-        
-        int calTimeValue = Integer.parseInt(calTime);
-
-        if (calTimeValue >= 0 && calTimeValue <= 46) {
-            int nowTimeValue = Integer.parseInt(nowTime);
-            if(nowTimeValue == 00) {
-            	nowTime = String.valueOf(nowTimeValue + 23);
-            }else {
-            	nowTime = String.valueOf(nowTimeValue - 1);
-            }
-        }
         WeatherAPI wapi = new WeatherAPI();
         
-        String sb1 = wapi.nowWeatherAPI("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst", locX, locY,
-        		nowDate, nowTime+"00");
-        String sb2 = wapi.nowWeatherAPI("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst", locX, locY,
-        		nowDate, nowTime+"30");
+        String sb1 = wapi.nowWeatherAPI("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst",
+        		locX, locY, "00");
+        String sb2 = wapi.nowWeatherAPI("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst",
+        		locX, locY, "30");
+        System.out.println("현재실황: "+sb1);
+        System.out.println("날씨예보: "+sb2);
         
-        System.out.println("현재실황: "+sb1.toString());
-        System.out.println("날씨예보: "+sb2.toString());
-        
-        model.addAttribute("str", sb1.toString());
-        model.addAttribute("str2", sb2.toString());
+        model.addAttribute("str", sb1);
+        model.addAttribute("str2", sb2);
 	}
 }

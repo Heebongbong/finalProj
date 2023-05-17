@@ -29,21 +29,21 @@
 	<bean name="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
-	
-	<!-- fileUpload --> 
+
+	 <!-- fileUpload --> 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="maxUploadSize" value="52428800"/> <!-- 50MB -->
         <property name="maxInMemorySize" value="1048576"/> <!-- 1MB -->
     </bean>
 	
-	<bean id="loginAspect" class="com.spring.finproj.aop.LoginAspect" />
-	
+	<bean id="userRefreshAspect" class="com.spring.finproj.aop.UserRefreshAspect" />
+
 	<aop:config>
-		<aop:aspect ref="loginAspect">
-			<aop:pointcut expression="execution(* com.spring.finproj.service.login.*Impl.login*(..))" id="myPointcut"/>
+		<aop:aspect ref="userRefreshAspect">
+			<aop:pointcut expression="execution(* com.spring.finproj.service.*.*Impl.*_aop(..))" id="myPointcut"/>
 			
-			<aop:before method="before" pointcut-ref="myPointcut"/>
+			<aop:before method="before" pointcut-ref="myPointcut" arg-names="joinPoint" />
 			<aop:after method="after" pointcut-ref="myPointcut"/>
 			<aop:after-returning method="after_returning" pointcut-ref="myPointcut"/>
 			<aop:after-throwing method="after_throwing" pointcut-ref="myPointcut"/>

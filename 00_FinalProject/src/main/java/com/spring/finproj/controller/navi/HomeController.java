@@ -1,8 +1,5 @@
 package com.spring.finproj.controller.navi;
 
-import java.io.File;
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring.finproj.service.camping.CampingService;
 import com.spring.finproj.service.drive.DriveService;
+import com.spring.finproj.service.handler.MakeCode;
 
 @Controller
 public class HomeController {
@@ -23,7 +21,7 @@ public class HomeController {
 
 	@RequestMapping(value = {"/", "/index", "/indexNavi"})
 	public String homeNavi(Model model,
-			HttpServletRequest rq, HttpServletResponse res) throws IOException {
+			HttpServletRequest rq, HttpServletResponse res) throws Exception {
 		campingService.getCampingRandomList(model);
 		int ran_num=(int)((Math.random()*7)+1);
 		model.addAttribute("banner_num", ran_num);

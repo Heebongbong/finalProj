@@ -1,12 +1,9 @@
 package com.spring.finproj.controller.weather;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.finproj.service.weather.WeatherService;
 
@@ -26,7 +23,7 @@ public class WeatherController {
 	
 	@RequestMapping("/star")
 	public String stella(Model model) throws Exception {
-		weatherService.getSatellite(model);
+		weatherService.getSatellite_aop(model);
 		return "weather.star";
 	}
 	

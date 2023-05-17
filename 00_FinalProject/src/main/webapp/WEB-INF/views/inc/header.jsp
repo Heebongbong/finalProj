@@ -29,7 +29,7 @@
 			</div>
 			<div class="user_menu_body_btn">
 				<input type="submit" value="로그인">
-				<input type="button" value="회원가입">
+				<input type="button" onclick="location.href='${ctxPath}/user/join'" value="회원가입">
 				<div>
 					<a href="javascript:">이메일/비밀번호 찾기</a>
 				</div>
@@ -64,6 +64,7 @@
 			<a href="javascript:close_user_menu()">X</a>
 			<p><img alt="" src="${loginUser.getProfile() }"></p>
 			<p>${loginUser.getNickname() }</p>
+			<input type="button" value="로그아웃" onclick="location.href='${ctxPath }/login/logout'">
 			<button onclick="location.href='${ctxPath }/user/content?user_no=3'">마이페이지</button>
 		</div>
 		<div class="user_menu_body">

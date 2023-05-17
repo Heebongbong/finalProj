@@ -70,7 +70,7 @@ public class BoardServiceImpl implements BoardService{
 		boardDTO.setUser_no(user.getUser_no());
         
 		Properties prop = new Properties();
-		FileInputStream fis = new FileInputStream(request.getRealPath("\\src\\main\\resources\\properties\\filepath.properties"));
+		FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 		prop.load(new InputStreamReader(fis));
 		fis.close();
 		
