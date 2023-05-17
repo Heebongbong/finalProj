@@ -14,5 +14,6 @@ public class BoardDTO {
 	private String hashtag;
 	private int photo_length;
 	private String photo_folder;
+	
 	private List<FileInfoDTO> realFiles;
 }
