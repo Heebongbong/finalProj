@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.finproj.model.user.UserDTO;
+import com.spring.finproj.service.handler.SendSMSAPI;
 import com.spring.finproj.service.user.UserService;
 
 
@@ -45,6 +46,14 @@ public class UserController {
 		return "user.mypageOk";
 	}
 	
-	
+	@RequestMapping("/send/sms")
+	public String sendSMS(String phone) throws Exception {
+
+		SendSMSAPI s = new SendSMSAPI();
+		int re = s.sendSMS("01071307454");
+		System.out.println(re);
+		
+		return "index.index";
+	}
 	
 }
