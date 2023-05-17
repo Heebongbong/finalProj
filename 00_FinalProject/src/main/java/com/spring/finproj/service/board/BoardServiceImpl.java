@@ -3,11 +3,11 @@ package com.spring.finproj.service.board;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +15,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDAO;
 import com.spring.finproj.model.board.BoardDTO;
-import com.spring.finproj.model.board.FileInfoDTO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Service
@@ -30,11 +28,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO boardDAO;
 
 	@Override
-    @Transactional	// @Transactional은 클래스나 메서드에 붙여줄 경우, 해당 범위 내 메서드가 트랜잭션이 되도록 보장해준다.
     public void writeArticle(BoardDTO board) {
-        if(board.getContent() != null) {
-
-        }
+		
     }
 
 	@Override
@@ -42,53 +37,75 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String getBoardList(HttpServletRequest request, Model model) throws Exception{
+		
+		List<BoardDTO> list = boardDAO.getBoardList();
+		
+		for(BoardDTO d : list) {
+			d.setPhoto_files(request);
+		}
+		
+		model.addAttribute("BoardList", list);
+		
+		return "board.board";
+		
+	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public String writeBoard(BoardDTO boardDTO, MultipartFile[] files, Model model, HttpSession session, HttpServletRequest request) throws Exception {
-		UserDTO user_no = (UserDTO) session.getAttribute("userinfo");
+	public String writeBoard(BoardDTO boardDTO, MultipartFile[] files, 
+			Model model, String[] category, String hashtags, 
+			HttpSession session, HttpServletRequest request) throws Exception {
+		
+		UserDTO user = (UserDTO)session.getAttribute("LoginUser");
+		
+		String hashtag = "#"+String.join("#", category);
+		StringTokenizer st = new StringTokenizer(hashtags, "#");
+		while(st.hasMoreTokens()) {
+			hashtag += "#"+st.nextToken().trim();
+		}
+		
+		boardDTO.setHashtag(hashtag);
+		boardDTO.setUser_no(user.getUser_no());
         
-        if (user_no != null) {
-        	Properties prop = new Properties();
-            FileInputStream fis = new FileInputStream(request.getRealPath("\\src\\main\\resources\\properties\\filepath.properties"));
-            prop.load(new InputStreamReader(fis));
-            fis.close();
-            
-            String realPath = prop.getProperty(System.getenv("USERPROFILE").substring(3))+"\\board";
-        	
-            String today = new SimpleDateFormat("yyMMdd").format(new Date());
-            String saveFolder = File.separator + today; // + realPath
-            System.out.println(saveFolder);
-            File folder = new File(saveFolder);
-            if(!folder.exists())
-                folder.mkdirs();
-            List<FileInfoDTO> fileInfos = new ArrayList<FileInfoDTO>();
-            for (MultipartFile mfile : files) {
-                FileInfoDTO fileInfoDto = new FileInfoDTO();
-                String originalFileName = mfile.getOriginalFilename();
-                if (!originalFileName.isEmpty()) {
-                    String saveFileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf('.'));
-                    fileInfoDto.setSaveFolder(today);
-                    fileInfoDto.setOriginFile(originalFileName);
-                    fileInfoDto.setSaveFile(saveFileName);
-                    System.out.println(mfile.getOriginalFilename() + "   " + saveFileName);
-                    mfile.transferTo(new File(folder, saveFileName));
-                }
-                fileInfos.add(fileInfoDto);
-            }
-            // BoardDTO.setFileInfos(fileInfos);
-            // BoardDTO.setUserid(memberDto.getUserid());
-            try {
-                //writeArticle(BoardDTO);
-                return "guestbook/writesuccess";
-            } catch (Exception e) {
-                e.printStackTrace();
-                model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
-                return "error/error";
-            }
-        } else {
-            model.addAttribute("msg", "로그인 후 사용 가능한 페이지입니다.");
-            return "error/error";
-        }
+		Properties prop = new Properties();
+		FileInputStream fis = new FileInputStream(request.getRealPath("\\src\\main\\resources\\properties\\filepath.properties"));
+		prop.load(new InputStreamReader(fis));
+		fis.close();
+		
+		LocalDateTime nowDate = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
+        String today = nowDate.format(formatter);
+        
+        String boardFolder = user.getUser_no()+"\\"+today;
+		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3))+"\\board\\"+boardFolder;
+		
+		File folder = new File(saveFolder);
+		if(!folder.exists()) {
+		    folder.mkdirs();
+		}
+		
+		for (MultipartFile mfile : files) {
+		  
+			String originalFileName = mfile.getOriginalFilename();
+		    
+		    // UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
+		    if (!originalFileName.isEmpty()) {
+			    String saveFileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf('.'));
+			    mfile.transferTo(new File(folder, saveFileName));
+		    }
+		}
+		boardDTO.setPhoto_folder(boardFolder);
+		
+		int re = boardDAO.insertBoardContent(boardDTO);
+		
+		try {
+		    return "board.board";
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
+		    return "error/error";
+		}
 	}
 }

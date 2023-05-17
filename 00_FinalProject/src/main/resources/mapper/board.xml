@@ -9,23 +9,21 @@
 		select * from community
 	</select>
 	
-	<!-- <insert id="writeArticle" parameterType="GuestBookDto">
-        insert into guestbook (userid, subject, content, regtime)
-        values (#{userid}, #{subject}, #{content}, now())
-        <selectKey resultType="int" keyProperty="articleno" order="AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
+	<insert id="board_insert" parameterType="boardDTO">
+        insert into community (user_no, hashtag, content, date)
+        values (#{user_no}, #{hashtag}, #{content}, now())
     </insert>
     
-    <insert id="fileRegister" parameterType="GuestBookDto">
+    <!-- <insert id="fileRegister" parameterType="GuestBookDto">
         insert into file_info (articleno, savefolder, originfile, savefile)
         values
         <foreach collection="fileInfos" item="fileinfo" separator=" , ">
         (#{articleno}, #{fileinfo.saveFolder}, #{fileinfo.originFile}, #{fileinfo.saveFile})
         </foreach>
-    </insert>
+    </insert> -->
     
-    <resultMap type="GuestBookDto" id="guestBookList">
+    <!-- 
+    <resultMap type="boardDTO" id="guestBookList">
         <result property="articleno" column="articleno"/>
         <result property="userid" column="userid"/>
         <result property="subject" column="subject"/>

@@ -1,6 +1,13 @@
 package com.spring.finproj.model.board;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
 
 import lombok.Data;
 
@@ -12,7 +19,27 @@ public class BoardDTO {
 	private String date;
 	private String update;
 	private String hashtag;
-	private int photo_length;
 	private String photo_folder;
-	private List<FileInfoDTO> realFiles;
+	private List<String> photo_files;
+	
+	public void setPhoto_files(HttpServletRequest request) throws Exception {
+		this.photo_files = new ArrayList<String>();
+		
+		Properties prop = new Properties();
+		@SuppressWarnings("deprecation")
+		FileInputStream fis = new FileInputStream(request.getRealPath("\\src\\main\\resources\\properties\\filepath.properties"));
+		prop.load(new InputStreamReader(fis));
+		fis.close();
+		
+		if(this.photo_folder!=null) {
+			
+			String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3))+"\\board\\"+this.photo_folder;
+			
+			File file = new File(saveFolder);
+			File[] files = file.listFiles();
+			for(File f : files) {
+				this.photo_files.add(f.getName());
+			}
+		}
+	}
 }

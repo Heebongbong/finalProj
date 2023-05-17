@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,15 +20,18 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
  
-    @RequestMapping(value = "/board_list", method = RequestMethod.GET)
-    public String write() {
-        return "guestbook/write";
+    @RequestMapping("/write")
+    public String boardWrite() {
+    	System.out.println(2);
+        return "board.write";
     }
  
-    @RequestMapping(value = "/board_list", method = RequestMethod.POST)
-    public String write(BoardDTO BoardDTO, @RequestParam("upfile") MultipartFile[] files, 
-    		Model model, HttpSession session, HttpServletRequest request) throws Exception {
-       
-    	return boardService.writeBoard(BoardDTO, files, model, session, request);
+    @RequestMapping("/writeform")
+    public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
+    		Model model, String[] category, String hashtags,
+    		HttpSession session, HttpServletRequest request) throws Exception {
+    	System.out.println(1);
+    	return boardService.writeBoard(dto, files, model, category, hashtags, session, request);
     }
+    
 }
