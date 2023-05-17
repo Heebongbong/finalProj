@@ -37,6 +37,7 @@ public class LoginController {
 	public String loginKakao(String code, HttpSession session, 
 			HttpServletResponse response, HttpServletRequest request) throws Exception {
 		loginService.loginKakao(code, session, response, request);
+		response.setContentType("text/html; charset=UTF-8");
 		return "redirect:/index";
 	}
 	
@@ -44,6 +45,7 @@ public class LoginController {
 	public String loginGoogle(String credential, String g_csrf_token, HttpSession session, 
 			HttpServletResponse response, HttpServletRequest request) throws Exception {
 		loginService.loginGoogle(g_csrf_token, credential, session, response);
+		response.setContentType("text/html; charset=UTF-8");
 		return "redirect:/index";
 	}
 	
@@ -52,6 +54,7 @@ public class LoginController {
 			HttpSession session, HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(required = false) String error) throws Exception {
 		System.out.println(error);
+		response.setContentType("text/html; charset=UTF-8");
 		if(error!=null) {
 			return "redirect:/index";
 		}else {
@@ -61,8 +64,10 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/site")
-	public String loginSite() {
-		
-		return null;
+	public void loginSite(HttpSession session, 
+			HttpServletResponse response, @CookieValue("JSESSIONID") String jSessionId,
+			String email, String pwd) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		loginService.loginSite(email, pwd, session, response, jSessionId);
 	}
 }

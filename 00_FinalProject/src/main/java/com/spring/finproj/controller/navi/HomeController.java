@@ -26,10 +26,6 @@ public class HomeController {
 		int ran_num=(int)((Math.random()*7)+1);
 		model.addAttribute("banner_num", ran_num);
 		
-		String code = new MakeCode().makeSMSCode();
-		
-		System.out.println(code);
-		
 		return "index.index";
 	}
 
