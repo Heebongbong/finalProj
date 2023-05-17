@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.finproj.model.user.UserDTO;
 import com.spring.finproj.service.handler.SendSMSAPI;
@@ -29,6 +30,23 @@ public class UserController {
 		userService.getUserContent(model, user_no);
 		
 		return "user.mypage";
+	}
+	
+	
+	@RequestMapping("/join")
+	public String userJoin() throws Exception {
+		
+		return "user.join";
+	}
+	
+	@RequestMapping("/checkNickname")
+	@ResponseBody
+	public String userCheckNickname(@RequestParam("nickname") String nickname) throws Exception {
+		
+		System.out.println("닉네임 체크 === "+nickname);
+		//userService.checkNickname(nickname);
+		
+		return null;
 	}
 	
 	@RequestMapping("/insert")

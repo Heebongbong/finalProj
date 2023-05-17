@@ -2,8 +2,6 @@ package com.spring.finproj.service.handler;
 
 import java.util.Random;
 
-import com.spring.finproj.model.user.UserDAOImpl;
-
 public class MakeNickName {
 	public String makeValue() {
 		final char[] possibleCharacters =

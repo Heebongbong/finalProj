@@ -29,7 +29,7 @@
 			</div>
 			<div class="user_menu_body_btn">
 				<input type="submit" value="로그인">
-				<input type="button" value="회원가입">
+				<input type="button" onclick="location.href='${ctxPath}/user/join'" value="회원가입">
 				<div>
 					<a href="javascript:">이메일/비밀번호 찾기</a>
 				</div>

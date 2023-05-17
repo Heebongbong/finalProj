@@ -62,7 +62,7 @@
 		
 			<div class="profile"><img id="previewImg" src="../resources/images/logo.png"/></div>
 			<div><input type="file" name="profile" id="profileInput" onchange="previewProfileImage(event)"></div>
-			<div><button>??소셜 프로필로 업데이트</button></div>
+			<div><button>소셜 프로필 사용</button></div>
 			
 		</div>
 		
@@ -74,7 +74,7 @@
 					<div class="content"><input name="phone" value="${dto.phone }" /></div>
 				</div>
 				<div class="part_2">
-					<button onclick="location.href='${ctxPath }/user/?'">변경-> 휴대폰 인증 매핑!</button>
+					<button onclick="location.href='${ctxPath }/user/?'">인증 하기</button>
 				</div>
 			</div>
 			<div class="nickname">
