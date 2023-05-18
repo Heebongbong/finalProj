@@ -13,4 +13,8 @@ public interface UserService {
 	
 	void updateUserContent(UserDTO dto, String pwd_update, HttpServletResponse response);
 	
+	Boolean getNickCheck(String nickname);
+	
+	String makeNickName();
+	
 }

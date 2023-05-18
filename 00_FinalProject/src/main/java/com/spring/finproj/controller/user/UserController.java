@@ -41,12 +41,13 @@ public class UserController {
 	
 	@RequestMapping("/checkNickname")
 	@ResponseBody
-	public String userCheckNickname(@RequestParam("nickname") String nickname) throws Exception {
+	public Boolean userCheckNickname(@RequestParam("nickname") String nickname) throws Exception {
 		
 		System.out.println("닉네임 체크 === "+nickname);
-		//userService.checkNickname(nickname);
+		Boolean isUnique = userService.getNickCheck(nickname);
+		System.out.println("이즈유니크 ====="+isUnique);
 		
-		return null;
+		return isUnique;
 	}
 	
 	@RequestMapping("/insert")
