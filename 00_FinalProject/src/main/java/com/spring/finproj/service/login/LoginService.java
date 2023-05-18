@@ -10,4 +10,5 @@ public interface LoginService {
 	public void loginKakao(String code, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception;
 	public void loginSite(String email, String pwd, HttpSession session, HttpServletResponse response, String jSessionId) throws Exception;
 	public void logoutUser(HttpSession session, HttpServletResponse response, String sessionID) throws Exception;
+	
 }

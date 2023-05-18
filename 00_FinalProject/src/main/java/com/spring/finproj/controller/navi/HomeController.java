@@ -22,6 +22,7 @@ public class HomeController {
 	@RequestMapping(value = {"/", "/index", "/indexNavi"})
 	public String homeNavi(Model model,
 			HttpServletRequest rq, HttpServletResponse res) throws Exception {
+		
 		campingService.getCampingRandomList(model);
 		int ran_num=(int)((Math.random()*7)+1);
 		model.addAttribute("banner_num", ran_num);
@@ -45,19 +46,9 @@ public class HomeController {
 		return "drive.drive";
 	}
 
-	@RequestMapping(value = "/boardNavi")
-	public String boardNavi() {
-		return "board.board";
-	}
-
 	@RequestMapping(value = "/marketNavi")
 	public String marketNavi() {
 		return "market.market";
-	}
-	
-	@RequestMapping(value = "/loginNavi")
-	public String loginNavi(HttpServletRequest rq, Model model) {
-		return "login.login";
 	}
 	
 	@RequestMapping(value = "/userNavi")

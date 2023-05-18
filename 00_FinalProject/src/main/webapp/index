@@ -4,3 +4,7 @@ ${ctxPath } = request.getContextPath()
 세션
 	로그인된 유저 정보 = LoginUser
 
+토큰 만료
+카카오 / 사이트 - 6시간
+
+구글 / 네이버 - 1시간

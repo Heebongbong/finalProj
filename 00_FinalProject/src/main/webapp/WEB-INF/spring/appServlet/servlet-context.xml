@@ -35,6 +35,14 @@
 		<beans:property name="order" value="2" />
 	</beans:bean>
 	
+	<!-- Intercepter -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean id="intercepter" class="com.spring.finproj.interceptor.Interceptor" />
+		</interceptor>
+	</interceptors>
+	
 	<aop:aspectj-autoproxy />
 	
 </beans:beans>
