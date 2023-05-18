@@ -28,4 +28,19 @@ public class UserServiceImpl implements UserService{
 		int check = dao.updateUserPwd(dto);
 		
 	}
+	
+	@Override
+	public Boolean getNickCheck(String nickName) {
+		
+		Boolean isUnique = (dao.getNickCheck(nickName) != null);
+		
+		return isUnique;
+		
+	}
+	
+	@Override
+	public String makeNickName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
