@@ -21,6 +21,7 @@ public interface UserDAO {
 	public int deleteUserSessionContent(int user_no);
 	public String getNickCheck(String nickName);
 	public UserSessionDTO getUserSession(int user_no);
+	public Object getPhoneCheck(String phone);
 	public UserSessionDTO getUserSession(String sessionID);
 	public void updateUserSession(UserSessionDTO se_dto);
 }
