@@ -28,16 +28,6 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO boardDAO;
 
 	@Override
-    public void writeArticle(BoardDTO board) {
-		
-    }
-
-	@Override
-	public void getCommunity(MultipartFile file) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public String getBoardList(HttpServletRequest request, Model model) throws Exception{
 		
 		List<BoardDTO> list = boardDAO.getBoardList();
@@ -45,10 +35,9 @@ public class BoardServiceImpl implements BoardService{
 		for(BoardDTO d : list) {
 			d.setPhoto_files(request);
 		}
-		
 		model.addAttribute("BoardList", list);
 		
-		return "board.board";
+		return "board.list";
 		
 	}
 
@@ -78,7 +67,7 @@ public class BoardServiceImpl implements BoardService{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
         String today = nowDate.format(formatter);
         
-        String boardFolder = user.getUser_no()+"\\"+today;
+        String boardFolder = user.getNickname()+"\\"+today;
 		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3))+"\\board\\"+boardFolder;
 		
 		File folder = new File(saveFolder);
@@ -101,7 +90,7 @@ public class BoardServiceImpl implements BoardService{
 		int re = boardDAO.insertBoardContent(boardDTO);
 		
 		try {
-		    return "board.board";
+		    return "board.list";
 		} catch (Exception e) {
 		    e.printStackTrace();
 		    model.addAttribute("msg", "글작성중 문제가 발생했습니다.");

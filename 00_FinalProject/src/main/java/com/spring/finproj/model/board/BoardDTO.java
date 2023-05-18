@@ -23,7 +23,7 @@ public class BoardDTO {
 
 	private List<String> photo_files;
 	
-	public void setPhoto_files(HttpServletRequest request) throws Exception {
+	public List<String> setPhoto_files(HttpServletRequest request) throws Exception {
 		this.photo_files = new ArrayList<String>();
 		
 		Properties prop = new Properties();
@@ -42,5 +42,6 @@ public class BoardDTO {
 				this.photo_files.add(f.getName());
 			}
 		}
+		return this.photo_files;
 	}
 }
