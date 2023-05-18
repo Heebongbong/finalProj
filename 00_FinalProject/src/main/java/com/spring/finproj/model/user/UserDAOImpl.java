@@ -88,7 +88,19 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public UserSessionDTO getUserSession(int user_no) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("user_get_session", user_no);
+		return sqlSession.selectOne("user_get_session_no", user_no);
+	}
+
+	@Override
+	public UserSessionDTO getUserSession(String sessionID) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user_get_session_id", sessionID);
+	}
+
+	@Override
+	public void updateUserSession(UserSessionDTO se_dto) {
+		// TODO Auto-generated method stub
+		sqlSession.update("user_update_session", se_dto);
 	}
 	
 }

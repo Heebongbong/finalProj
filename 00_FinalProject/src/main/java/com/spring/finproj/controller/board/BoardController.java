@@ -19,6 +19,14 @@ import com.spring.finproj.service.board.BoardService;
 public class BoardController {
     @Autowired
     private BoardService boardService;
+    
+    @RequestMapping("/list")
+    public String boardList(@RequestParam(required = false) String keyword, Model model) {
+    	
+    	
+    	
+    	return "board.list";
+    }
  
     @RequestMapping("/write")
     public String boardWrite() {
