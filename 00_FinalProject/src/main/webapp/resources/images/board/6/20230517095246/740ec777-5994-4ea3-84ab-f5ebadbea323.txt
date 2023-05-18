@@ -1,0 +1,166 @@
+<<<<<<< HEAD
+			return result;
+		}
+	
+	   
+	   // 특정 유저의 판매 상품 index list를 가져오는 메서드
+	   public List<SaleDTO> getUserindexList(int user_no) {
+			
+			List<SaleDTO> list = new ArrayList<SaleDTO>();
+			
+			try {
+				openConn();
+				
+				sql = "select * from product where user_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, user_no);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					SaleDTO dto = new SaleDTO();
+					
+					dto.setSale_no(rs.getInt("sale_no"));
+					dto.setUser_no(rs.getInt("user_no"));
+					dto.setSale_title(rs.getString("sale_title"));
+					dto.setSale_content(rs.getString("sale_content"));
+					dto.setSale_price(rs.getInt("sale_price"));
+					dto.setSale_file1(rs.getString("sale_file1"));
+					dto.setSale_date(rs.getString("sale_date"));
+					// 댓글 기능때문에 group으로 묶어서 하려면 컬럼 하나 더 추가해야할지도 
+					dto.setSale_hit(rs.getInt("sale_hit"));
+					
+					list.add(dto);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			
+			return list;
+		}	// getindexList() 메서드 end
+
+	
+	// 특정 유저의 판매 상품 index list 개수를 가져오는 메서드
+	   public int getUserindexCount(int user_no) {
+			
+			int count = 0;
+			
+			try {
+				openConn();
+				
+				sql = "select count(*) from product where user_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, user_no);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					count = rs.getInt(1);
+				}
+=======
+
+<<<<<<< HEAD
+			
+			return count;
+		}	// getindexList() 메서드 end
+	   
+	   
+	   // 특정 유저의 구매 상품 index list를 가져오는 메서드
+	   public List<SaleDTO> getUserBuyList(int user_no) {
+			
+			List<SaleDTO> list = new ArrayList<SaleDTO>();
+			int sale_no = 0;
+			
+			try {
+				openConn();
+				
+				sql = "select sale_no from upper where user_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, user_no);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					sale_no = rs.getInt(1);
+				}
+				
+				sql = "select * from product where sale_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, sale_no);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					SaleDTO dto = new SaleDTO();
+					
+					dto.setSale_no(rs.getInt("sale_no"));
+					dto.setUser_no(rs.getInt("user_no"));
+					dto.setSale_title(rs.getString("sale_title"));
+					dto.setSale_content(rs.getString("sale_content"));
+					dto.setSale_price(rs.getInt("sale_price"));
+					dto.setSale_file1(rs.getString("sale_file1"));
+					dto.setSale_date(rs.getString("sale_date"));
+					// 댓글 기능때문에 group으로 묶어서 하려면 컬럼 하나 더 추가해야할지도 
+					dto.setSale_hit(rs.getInt("sale_hit"));
+					
+					list.add(dto);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			
+			return list;
+		}	// getindexList() 메서드 end
+
+	
+	   // 특정 유저의 구매 상품 index list 개수를 가져오는 메서드
+	   public int getUserBuyCount(int user_no) {
+			
+			int count = 0;
+			int sale_no = 0;
+			
+			try {
+				openConn();
+				
+				sql = "select sale_no from upper where user_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, user_no);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					sale_no = rs.getInt(1);
+				}
+				
+				sql = "select * from product where sale_no = ?";
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, sale_no);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					count = rs.getInt(1);
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			
+			return count;
+		}	// getindexList() 메서드 end
+=======

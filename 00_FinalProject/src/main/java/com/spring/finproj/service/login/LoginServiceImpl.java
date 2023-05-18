@@ -27,11 +27,11 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
+import com.spring.finproj.model.user.UserSessionDTO;
 import com.spring.finproj.service.handler.MakeNickName;
 
 @Service
 public class LoginServiceImpl implements LoginService{
-	
 	@Autowired
 	private UserDAO userDAO;
 
@@ -44,15 +44,14 @@ public class LoginServiceImpl implements LoginService{
 		if(dto!=null) { //정보 확인
 			if(dto.getPwd().equals("pwd")) {//비번일치
 				//세션 DB 저장
-				long ext = System.currentTimeMillis()+(60*60*6);
-				Map<String, Object> list = new HashMap<String, Object>();
+				Long ext = System.currentTimeMillis()+(60*60*6);
+				UserSessionDTO sessionDto = new UserSessionDTO();
+				sessionDto.setUser_no(dto.getUser_no());
+				sessionDto.setSessionID(jSessionId);
+				sessionDto.setRefreshToken(jSessionId);
+				sessionDto.setExpiresTime(ext.toString());
 				
-				list.put("user_no", dto.getUser_no());
-				list.put("sessionID", jSessionId);
-				list.put("refreshToken", jSessionId);
-				list.put("expiresTime", ext);
-				
-				userDAO.insertUserSession(list);
+				userDAO.insertUserSession(sessionDto);
 				
 				//세션 등록 (쿠키는 기존 id사용)
 				session.setAttribute("LoginUser", dto);
@@ -119,15 +118,14 @@ public class LoginServiceImpl implements LoginService{
 			}
 			
 			//세션 DB 저장
-			long ext = System.currentTimeMillis()+(60*60*6);
-			Map<String, Object> list = new HashMap<String, Object>();
+			Long ext = System.currentTimeMillis()+(60*60*6);
+			UserSessionDTO sessionDto = new UserSessionDTO();
+			sessionDto.setUser_no(dto.getUser_no());
+			sessionDto.setSessionID(a_token);
+			sessionDto.setRefreshToken(a_token);
+			sessionDto.setExpiresTime(ext.toString());
 			
-			list.put("user_no", user.getUser_no());
-			list.put("sessionID", a_token);
-			list.put("refreshToken", a_token);
-			list.put("expiresTime", ext);
-			
-			userDAO.insertUserSession(list);
+			userDAO.insertUserSession(sessionDto);
 			
 			//세션 및 쿠키 등록
 			Cookie a_t = new Cookie("AccessToken", a_token);
@@ -199,15 +197,14 @@ public class LoginServiceImpl implements LoginService{
 		}
 		
 		//세션 DB 저장
-		long ext = System.currentTimeMillis()+(60*60*6);
-		Map<String, Object> list = new HashMap<String, Object>();
+		Long ext = System.currentTimeMillis()+(60*60*6);
+		UserSessionDTO sessionDto = new UserSessionDTO();
+		sessionDto.setUser_no(dto.getUser_no());
+		sessionDto.setSessionID(a_token);
+		sessionDto.setRefreshToken(r_token);
+		sessionDto.setExpiresTime(ext.toString());
 		
-		list.put("user_no", user.getUser_no());
-		list.put("sessionID", a_token);
-		list.put("refreshToken", r_token);
-		list.put("expiresTime", ext);
-		
-		userDAO.insertUserSession(list);
+		userDAO.insertUserSession(sessionDto);
 		
 		//쿠키 세션 등록
 		Cookie a_t = new Cookie("AccessToken", a_token);
@@ -327,16 +324,16 @@ public class LoginServiceImpl implements LoginService{
   		}
   		
   		//세션 DB 저장
-  		long ext = System.currentTimeMillis()+(60*60*6);
-  		Map<String, Object> list = new HashMap<String, Object>();
+		Long ext = System.currentTimeMillis()+(60*60*6);
+		UserSessionDTO sessionDto = new UserSessionDTO();
+		sessionDto.setUser_no(dto.getUser_no());
+		sessionDto.setSessionID(a_token);
+		sessionDto.setRefreshToken(r_token);
+		sessionDto.setExpiresTime(ext.toString());
 		
-		list.put("user_no", user.getUser_no());
-		list.put("sessionID", a_token);
-		list.put("refreshToken", r_token);
-		list.put("expiresTime", ext);
-  		
-  		userDAO.insertUserSession(list);
+		userDAO.insertUserSession(sessionDto);
         
+		//쿠키, 세션 등록
         Cookie a_t = new Cookie("AccessToken", a_token);
         a_t.setMaxAge(60*60*24*7);
         a_t.setPath("/");

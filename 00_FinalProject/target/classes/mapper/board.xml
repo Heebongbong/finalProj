@@ -9,28 +9,12 @@
 		select * from community
 	</select>
 	
-	<!-- <insert id="writeArticle" parameterType="GuestBookDto">
-        insert into guestbook (userid, subject, content, regtime)
-        values (#{userid}, #{subject}, #{content}, now())
-        <selectKey resultType="int" keyProperty="articleno" order="AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
+	<insert id="board_insert" parameterType="boardDTO">
+	<selectKey keyProperty="cm_no" resultType="int" order="BEFORE">
+		select max(cm_no) from community
+	</selectKey>
+        insert into community (cm_no, user_no, hashtag, content, date, photo_folder)
+        values (#{cm_no} +1, #{user_no}, #{hashtag}, #{content}, now(), #{photo_folder})
     </insert>
     
-    <insert id="fileRegister" parameterType="GuestBookDto">
-        insert into file_info (articleno, savefolder, originfile, savefile)
-        values
-        <foreach collection="fileInfos" item="fileinfo" separator=" , ">
-        (#{articleno}, #{fileinfo.saveFolder}, #{fileinfo.originFile}, #{fileinfo.saveFile})
-        </foreach>
-    </insert>
-    
-    <resultMap type="GuestBookDto" id="guestBookList">
-        <result property="articleno" column="articleno"/>
-        <result property="userid" column="userid"/>
-        <result property="subject" column="subject"/>
-        <result property="content" column="content"/>
-        <result property="regtime" column="regtime"/>
-        <collection property="fileInfos" column="articleno" javaType="list" ofType="FileInfoDto" select="fileInfoList"/>
-	</resultMap> -->
 </mapper>

@@ -86,7 +86,6 @@ public class CampingServiceImpl implements CampingService{
 	        	
 	        	list.add(dto);
 	        }
-	        System.out.println(list);
 	        
 	        int re = campingDAO.insertCampingList(list);
 	        
@@ -96,10 +95,11 @@ public class CampingServiceImpl implements CampingService{
 	}
 
 	@Override
-	public void getCampingList(Model model) throws IOException {
+	public void getCampingList(Model model, String loc) throws IOException {
 		// TODO Auto-generated method stub
-		List<CampingDTO> list = campingDAO.getCampingList();
+		List<CampingDTO> list = campingDAO.getCampingLocList(loc);
 		model.addAttribute("CampingList", list);
+		System.out.println(list);
 	}
 
 	@Override
@@ -107,5 +107,12 @@ public class CampingServiceImpl implements CampingService{
 		// TODO Auto-generated method stub
 		List<CampingDTO> list = campingDAO.getCampingRandomList();
 		model.addAttribute("CampingList", list);
+	}
+
+	@Override
+	public void getCampingContent(Model model, int content_id) throws IOException {
+		CampingDTO dto = campingDAO.getCampingContent(content_id);
+		model.addAttribute("Content", dto);
+		
 	}
 }
