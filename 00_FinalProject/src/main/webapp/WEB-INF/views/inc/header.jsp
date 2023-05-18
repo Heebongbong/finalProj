@@ -8,10 +8,10 @@
 	<ul class="login_navi">
 		<li><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
 		<li>
-			<div>
-				<input type="text" placeholder="검색창">
-				<input type="button" value="검색">
-			</div>
+			<form action="${ctxPath }/board/list" method="post">
+				<input type="text" placeholder="검색창" name="keyword">
+				<input type="submit" value="검색">
+			</form>
 		</li>
 		<li>
 			<a href="javascript:open_user_menu()"><i class="fa fa-bars" aria-hidden="true"></i></a>

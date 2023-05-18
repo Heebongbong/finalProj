@@ -44,7 +44,7 @@ public class LoginServiceImpl implements LoginService{
 		if(dto!=null) { //정보 확인
 			if(dto.getPwd().equals("pwd")) {//비번일치
 				//세션 DB 저장
-				Long ext = System.currentTimeMillis()+(60*60*6);
+				Long ext = (System.currentTimeMillis()/1000)+(60*60*6);
 				UserSessionDTO sessionDto = new UserSessionDTO();
 				sessionDto.setUser_no(dto.getUser_no());
 				sessionDto.setSessionID(jSessionId);
@@ -74,6 +74,7 @@ public class LoginServiceImpl implements LoginService{
 	
 	@Override
 	public void loginGoogle(String a_token, String credential, HttpSession session, HttpServletResponse response) throws Exception {
+		
 		HttpTransport transport =  new NetHttpTransport();;
 		JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 		
@@ -88,6 +89,7 @@ public class LoginServiceImpl implements LoginService{
 			
 			String email = payload.getEmail();
 			String pictureUrl = (String) payload.get("picture");
+			
 			//boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
 			//String name = (String) payload.get("name");
 			//String locale = (String) payload.get("locale");
@@ -112,15 +114,16 @@ public class LoginServiceImpl implements LoginService{
 				int re1 = userDAO.insertUserSNSContent(user);
 				if(re1>0) {
 					userDAO.insertUserSNSProfileContent(user);
+					user = userDAO.getUserContentId(idlist);
 				}
 			}else { // 기존 회원
 				user = dto;
 			}
 			
 			//세션 DB 저장
-			Long ext = System.currentTimeMillis()+(60*60*6);
+			Long ext = (Long) payload.get("exp");
 			UserSessionDTO sessionDto = new UserSessionDTO();
-			sessionDto.setUser_no(dto.getUser_no());
+			sessionDto.setUser_no(user.getUser_no());
 			sessionDto.setSessionID(a_token);
 			sessionDto.setRefreshToken(a_token);
 			sessionDto.setExpiresTime(ext.toString());
@@ -134,7 +137,7 @@ public class LoginServiceImpl implements LoginService{
 			response.addCookie(a_t);
 			
 			session.setAttribute("LoginUser", user);
-			session.setMaxInactiveInterval(60*60*6);
+			session.setMaxInactiveInterval(60*60);
 		} else {
 			System.out.println("Invalid ID token.");
 		}
@@ -174,16 +177,12 @@ public class LoginServiceImpl implements LoginService{
 		String a_token = jo.getString("access_token");
 		String r_token = jo.getString("refresh_token");
 		
-		System.out.println("c-"+code);
-		System.out.println("a-"+a_token);
-		System.out.println("r-"+r_token);
-
 		UserDTO user = getNaverInfo(a_token, response);
 		
 		//email, type을 통한 email DB 확인
 		Map<String, Object> idlist = new HashMap<String, Object>();
 		idlist.put("email", user.getEmail());
-		idlist.put("type", "G");
+		idlist.put("type", "N");
 		
 		UserDTO dto = userDAO.getUserContentId(idlist);
 		
@@ -191,15 +190,16 @@ public class LoginServiceImpl implements LoginService{
 			int re1 = userDAO.insertUserSNSContent(user);
 			if(re1>0) {
 				userDAO.insertUserSNSProfileContent(user);
+				user = userDAO.getUserContentId(idlist);
 			}
 		}else { // 기존 회원
 			user = dto;
 		}
 		
 		//세션 DB 저장
-		Long ext = System.currentTimeMillis()+(60*60*6);
+		Long ext = (System.currentTimeMillis()/1000)+(60*60);
 		UserSessionDTO sessionDto = new UserSessionDTO();
-		sessionDto.setUser_no(dto.getUser_no());
+		sessionDto.setUser_no(user.getUser_no());
 		sessionDto.setSessionID(a_token);
 		sessionDto.setRefreshToken(r_token);
 		sessionDto.setExpiresTime(ext.toString());
@@ -213,7 +213,7 @@ public class LoginServiceImpl implements LoginService{
 		response.addCookie(a_t);
 		
 		session.setAttribute("LoginUser", user);
-		session.setMaxInactiveInterval(60*60*6);
+		session.setMaxInactiveInterval(60*60);
 	}
 
 	private UserDTO getNaverInfo(String a_token, HttpServletResponse response ) throws Exception {
@@ -256,7 +256,7 @@ public class LoginServiceImpl implements LoginService{
 		dto.setNickname(makeNickName());
 		
 		if(jo2.has("profile_image")) {
-			dto.setProfile("sns");
+			dto.setProfile(jo2.getString("profile_image"));
 		}else {
 			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
 		}
@@ -301,10 +301,6 @@ public class LoginServiceImpl implements LoginService{
         String a_token = jo.getString("access_token");
         String r_token = jo.getString("refresh_token");
         
-        System.out.println("c-"+code);
-        System.out.println("a-"+a_token);
-        System.out.println("r-"+r_token);
-        
         UserDTO user = getKakaoInfo(a_token, response);
         
         //email, type을 통한 email DB 확인
@@ -318,15 +314,17 @@ public class LoginServiceImpl implements LoginService{
   			int re1 = userDAO.insertUserSNSContent(user);
   			if(re1>0) {
   				userDAO.insertUserSNSProfileContent(user);
+  				user = userDAO.getUserContentId(idlist);
   			}
   		}else { // 기존 회원
   			user = dto;
   		}
+  		System.out.println(user);
   		
   		//세션 DB 저장
-		Long ext = System.currentTimeMillis()+(60*60*6);
+		Long ext = (System.currentTimeMillis()/1000)+(60*60*6);
 		UserSessionDTO sessionDto = new UserSessionDTO();
-		sessionDto.setUser_no(dto.getUser_no());
+		sessionDto.setUser_no(user.getUser_no());
 		sessionDto.setSessionID(a_token);
 		sessionDto.setRefreshToken(r_token);
 		sessionDto.setExpiresTime(ext.toString());
@@ -387,7 +385,7 @@ public class LoginServiceImpl implements LoginService{
 		if(joA.has("profile")) {
         	JSONObject joP = joA.getJSONObject("profile");
         	if(joP.has("thumbnail_image_url")) {
-    			dto.setProfile("sns");
+    			dto.setProfile(joP.getString("thumbnail_image_url"));
     		}else {
     			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
     		}
@@ -404,8 +402,12 @@ public class LoginServiceImpl implements LoginService{
 	public void logoutUser(HttpSession session, HttpServletResponse response, String sessionID) throws Exception {
 		
 		UserDTO dto = (UserDTO)session.getAttribute("LoginUser");
-
-        //세션데이터테이블 정보 삭제 필요
+		
+		if(dto.getType().equals("K")) {
+			kakaoLogout(sessionID, dto.getPwd());
+		}
+		
+        //세션데이터테이블 정보 삭제
 		int re = userDAO.deleteUserSessionContent(dto.getUser_no());
 		
 		if(re>0) { //삭제 성공
@@ -431,4 +433,62 @@ public class LoginServiceImpl implements LoginService{
 		}
 		return nickName;
 	}
+	
+	private void kakaoLogout(String sessionID, String target_id) throws Exception {
+		
+		StringBuilder urlBuilder = new StringBuilder("https://kapi.kakao.com/v1/user/logout");
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("Authorization", "Bearer "+sessionID);
+        conn.setRequestProperty("target_id_type", "user_id");
+        conn.setRequestProperty("target_id", target_id);
+        System.out.println("delete code: " + conn.getResponseCode());
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+	}
+
+//	//네이버 회원 연결 끊기 진행됨. 회원 탈퇴에서 사용 예정
+//	private void naverLogout(String sessionID) throws Exception {
+//		
+//		StringBuilder urlBuilder = new StringBuilder("https://nid.naver.com/oauth2.0/token");
+//        urlBuilder.append("?" + URLEncoder.encode("grant_type","UTF-8") + "=" + URLEncoder.encode("delete", "UTF-8")); 
+//        urlBuilder.append("&" + URLEncoder.encode("client_id","UTF-8") + "=" + URLEncoder.encode("2fzdhIRlmXgPi9uo_5Xi", "UTF-8")); 
+//        urlBuilder.append("&" + URLEncoder.encode("client_secret","UTF-8") + "=" + URLEncoder.encode("nPmw0vdmyR", "UTF-8")); 
+//        urlBuilder.append("&" + URLEncoder.encode("access_token","UTF-8") + "=" + URLEncoder.encode(sessionID, "UTF-8")); 
+//        urlBuilder.append("&" + URLEncoder.encode("service_provider","UTF-8") + "=" + URLEncoder.encode("NAVER", "UTF-8")); 
+//        URL url = new URL(urlBuilder.toString());
+//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//        conn.setRequestMethod("POST");
+//        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+//        System.out.println("delete code: " + conn.getResponseCode());
+//        BufferedReader rd;
+//        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+//            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//        } else {
+//            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+//        }
+//        
+//        StringBuilder sb = new StringBuilder();
+//        String line;
+//        while ((line = rd.readLine()) != null) {
+//            sb.append(line);
+//        }
+//        rd.close();
+//        conn.disconnect();
+//	}
+
 }
