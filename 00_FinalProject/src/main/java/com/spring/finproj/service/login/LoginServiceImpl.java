@@ -31,6 +31,7 @@ import com.spring.finproj.service.handler.MakeNickName;
 
 @Service
 public class LoginServiceImpl implements LoginService{
+	
 	@Autowired
 	private UserDAO userDAO;
 

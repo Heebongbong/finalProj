@@ -126,11 +126,11 @@
 		        // AJAX 요청
 		        return $.ajax({
 		            url: "${ctxPath}/user/checkNickname",
-		            type: "POST",
-		            data: { nickname: value },
-		            dataType: "json"
+		            type: "get",
+		            data: { nickname: value }
 		        }).then(function(response) {
 		            // 서버로부터의 응답을 처리합니다.
+		            alert(respose);
 		            return response; // 중복된 닉네임이 아닌 경우 true 반환
 		        });
 		 })

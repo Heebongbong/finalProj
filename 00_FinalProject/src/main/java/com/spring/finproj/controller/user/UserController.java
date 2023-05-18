@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,12 +42,13 @@ public class UserController {
 	
 	@RequestMapping("/checkNickname")
 	@ResponseBody
-	public String userCheckNickname(@RequestParam("nickname") String nickname) throws Exception {
+	public Boolean userCheckNickname(@RequestParam("nickname") String nickname) throws Exception {
 		
 		System.out.println("닉네임 체크 === "+nickname);
-		//userService.checkNickname(nickname);
+		Boolean isUnique = userService.getNickCheck(nickname);
+		System.out.println("이즈유니크 ====="+isUnique);
 		
-		return null;
+		return isUnique;
 	}
 	
 	@RequestMapping("/insert")
