@@ -21,11 +21,8 @@ public class BoardController {
     private BoardService boardService;
     
     @RequestMapping("/list")
-    public String boardList(@RequestParam(required = false) String keyword, Model model) {
-    	
-    	
-    	
-    	return "board.list";
+    public String boardList(@RequestParam(required = false) String keyword, HttpServletRequest request, Model model) throws Exception {
+    	return boardService.getBoardList(request, model);
     }
  
     @RequestMapping("/write")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.finproj.service.board.BoardService;
 import com.spring.finproj.service.camping.CampingService;
 import com.spring.finproj.service.drive.DriveService;
 import com.spring.finproj.service.handler.MakeCode;
