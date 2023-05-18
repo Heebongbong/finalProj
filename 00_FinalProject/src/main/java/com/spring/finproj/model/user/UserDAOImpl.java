@@ -84,6 +84,12 @@ public class UserDAOImpl implements UserDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("user_nick_check", nickName);
 	}
+	
+	@Override
+	public Object getPhoneCheck(String phone) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user_phone_check", phone);
+	}
 
 	@Override
 	public UserSessionDTO getUserSession(int user_no) {
