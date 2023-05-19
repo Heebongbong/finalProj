@@ -12,6 +12,11 @@
 			close_user_menu();
 		}
 	});
+	
+	
+	
+	
+	
  });
  
  
@@ -46,3 +51,5 @@ function open_footer(event){
 function loginWithKakao() {
 	Kakao.Auth.authorize({redirectUri: reUrl+"finproj/login/kakao"});
 }
+
+
