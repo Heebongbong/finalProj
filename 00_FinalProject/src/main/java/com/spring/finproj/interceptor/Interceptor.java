@@ -1,6 +1,7 @@
 package com.spring.finproj.interceptor;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -55,20 +56,30 @@ public class Interceptor implements HandlerInterceptor{
 			
 			if(se_dto!=null) { //session 데이터 존재
 				UserDTO user = userDAO.getUserContent(se_dto.getUser_no());
+				
+				if(user.getProfile().equals("sns")) {
+					String profile = refreshProfile(se_dto.getSessionID(), user.getType());
+					user.setProfile(profile);
+				}
+				
 				if((Long.parseLong(se_dto.getExpiresTime())) < nowTime) { // 토큰 만료 - 갱신 필요
 					String type = user.getType();
 					
 					if(type.equals("K")) {
 						se_dto = kakaoTokenRefresh(se_dto);
-						user = userDAO.getUserContent(se_dto.getUser_no());
-
-						session.setAttribute("LoginUser", user);
+						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
+						
+						dto.setProfile(user.getProfile());
+						
+						session.setAttribute("LoginUser", dto);
 						session.setMaxInactiveInterval(60*60*6);
 					}else if(type.equals("N")) {
 						se_dto = naverTokenRefresh(se_dto);
-						user = userDAO.getUserContent(se_dto.getUser_no());
+						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
 						
-						session.setAttribute("LoginUser", user);
+						dto.setProfile(user.getProfile());
+						
+						session.setAttribute("LoginUser", dto);
 						session.setMaxInactiveInterval(60*60);
 					}else if(type.equals("G")) {
 						//user = googleTokenRefresh(se_dto);
@@ -89,6 +100,7 @@ public class Interceptor implements HandlerInterceptor{
 						session.setMaxInactiveInterval(60*60*6);
 					}
 					
+					
 				}else { //토큰 유효 - 자동 로그인 처리
 					session.setAttribute("LoginUser", user);
 					session.setMaxInactiveInterval((int)(Long.parseLong(se_dto.getExpiresTime()) - nowTime));
@@ -97,6 +109,56 @@ public class Interceptor implements HandlerInterceptor{
 		}//로그인 상태
 		
 		return true;
+	}
+
+	private String refreshProfile( String sessionID, String type) throws IOException {
+		// TODO Auto-generated method stub
+		String profile = null;
+		String curl = null;
+		
+		if(type.equals("K")) {
+			curl = "https://kapi.kakao.com/v2/user/me";
+		}else if(type.equals("N")) {
+			curl = "https://openapi.naver.com/v1/nid/me";
+		}else {
+			return null;
+		}
+		
+        URL url = new URL(curl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        conn.setRequestProperty("Authorization", "Bearer "+sessionID);
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        JSONObject jo = new JSONObject(sb.toString());
+        
+        if(type.equals("N")) {
+        	JSONObject jo2 = jo.getJSONObject("response");
+            if(jo2.has("profile_image")) {
+            	profile = jo2.getString("profile_image");
+    		}
+        }else if(type.equals("K")) {
+        	JSONObject joA = jo.getJSONObject("kakao_account");
+            if(joA.has("profile")) {
+            	JSONObject joP = joA.getJSONObject("profile");
+            	if(joP.has("thumbnail_image_url")) {
+            		profile = joP.getString("thumbnail_image_url");
+        		}
+            }
+        }
+        return profile;
 	}
 
 //	private UserDTO googleTokenRefresh(UserSessionDTO se_dto) throws IOException {
