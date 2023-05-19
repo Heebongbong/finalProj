@@ -12,9 +12,35 @@
 		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<com.fasterxml.jackson>2.13.3</com.fasterxml.jackson>
 	</properties>
 	
 	<dependencies>
+	
+	<dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-mapper-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+
+	<!-- Jackson 2.0 -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-core</artifactId>
+	    <version>${com.fasterxml.jackson}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>${com.fasterxml.jackson}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-annotations</artifactId>
+	    <version>${com.fasterxml.jackson}</version>
+	</dependency>
 	
 <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
