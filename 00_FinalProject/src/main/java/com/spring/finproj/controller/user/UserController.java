@@ -2,6 +2,7 @@ package com.spring.finproj.controller.user;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,9 @@ public class UserController {
 	}
 	
 	@RequestMapping("/join/ok")
-	public String userJoinOk(UserDTO dto, HttpServletRequest request, MultipartFile multipartFile) throws Exception {
+	public String userJoinOk(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile multipartFile) throws Exception {
 		
-		userService.insertUserContent(dto, request, multipartFile);
+		userService.insertUserContent(dto, request, response, multipartFile);
 		
 		return "";
 	}
