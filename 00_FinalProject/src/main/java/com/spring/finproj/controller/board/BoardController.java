@@ -1,6 +1,7 @@
 package com.spring.finproj.controller.board;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,6 +34,7 @@ public class BoardController {
     public String boardWrite() {
         return "board.write";
     }
+    
     @RequestMapping("/writeform")
     public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
     		Model model, String[] category, String hashtags,
@@ -43,8 +45,8 @@ public class BoardController {
     
     @RequestMapping("/addlist")
     @ResponseBody
-    public List<BoardDTO> boardAddList(HttpServletRequest request, @RequestParam int cm_no, @RequestParam(required = false) String keyword) throws Exception{
-    	
+    public Map<String ,List<BoardDTO>> boardAddList(HttpServletRequest request, @RequestParam int cm_no, 
+    		@RequestParam(required = false) String keyword) throws Exception{
     	return boardService.getBoardAddList(request, cm_no, keyword);
     }
 }

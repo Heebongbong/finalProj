@@ -118,6 +118,10 @@ public class LoginServiceImpl implements LoginService{
 					user = userDAO.getUserContentId(idlist);
 				}
 			}else { // 기존 회원
+				//프로필 업데이트
+	  			if(dto.getProfile().equals("sns")) {
+	  				dto.setProfile(user.getProfile());
+	  			}
 				user = dto;
 			}
 			
@@ -194,6 +198,10 @@ public class LoginServiceImpl implements LoginService{
 				user = userDAO.getUserContentId(idlist);
 			}
 		}else { // 기존 회원
+			//프로필 업데이트
+  			if(dto.getProfile().equals("sns")) {
+  				dto.setProfile(user.getProfile());
+  			}
 			user = dto;
 		}
 		
@@ -318,6 +326,10 @@ public class LoginServiceImpl implements LoginService{
   				user = userDAO.getUserContentId(idlist);
   			}
   		}else { // 기존 회원
+  			//프로필 업데이트
+  			if(dto.getProfile().equals("sns")) {
+  				dto.setProfile(user.getProfile());
+  			}
   			user = dto;
   		}
   		
@@ -336,7 +348,6 @@ public class LoginServiceImpl implements LoginService{
 		a_t.setMaxAge(60*60*24*7);
 		a_t.setPath("/");
 		response.addCookie(a_t);
-	    System.out.println(2);
 
         session.setAttribute("LoginUser", user);
 		session.setMaxInactiveInterval(60*60*6);

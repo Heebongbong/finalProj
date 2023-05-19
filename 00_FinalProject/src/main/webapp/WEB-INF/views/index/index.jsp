@@ -36,7 +36,7 @@
 	<div class="index_board_wrap">
 		<c:forEach items="${boardList }" var="board">
 		<div class="index_board">
-			<input class="board_no" type="hidden" value="${board.getCm_no() }">
+			<input type="hidden" class="board_no" value="${board.getCm_no() }">
 			${board }
 		</div>
 		</c:forEach>

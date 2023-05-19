@@ -32,35 +32,44 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public String getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception{
 		List<BoardDTO> list = null;
-		if(keyword!="") {
-			list = boardDAO.getBoardList(keyword);
-		}else {
+		if(keyword==null || keyword=="") {
 			list = boardDAO.getBoardList();
+		}else {
+			list = boardDAO.getBoardList(keyword);
 		}
 		
 		for(BoardDTO d : list) {
 			d.setPhoto_files(request);
 		}
+		System.out.println(list);
 		model.addAttribute("BoardList", list);
 		return "board.list";
 	}
 
 	@Override
-	public List<BoardDTO> getBoardAddList(HttpServletRequest request, int cm_no, String keyword) throws Exception {
+	public Map<String, List<BoardDTO>> getBoardAddList(HttpServletRequest request, int cm_no, String keyword) throws Exception {
+		Map<String, List<BoardDTO>> mapList = new HashMap<String, List<BoardDTO>>();
+		
 		List<BoardDTO> list = null;
-		if(keyword!="") {
+		if(keyword==null || keyword=="") {
+			list = boardDAO.getBoardList(cm_no);
+		}else {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("keyword", keyword);
 			map.put("cm_no", cm_no);
 			list = boardDAO.getBoardList(map);
-		}else {
-			list = boardDAO.getBoardList(cm_no);
 		}
+		
+		System.out.println(keyword);
+		System.out.println(cm_no);
 		
 		for(BoardDTO d : list) {
 			d.setPhoto_files(request);
 		}
-		return list;
+		
+		mapList.put("BoardList", list);
+		System.out.println(mapList);
+		return mapList;
 	}
 
 	@SuppressWarnings("deprecation")

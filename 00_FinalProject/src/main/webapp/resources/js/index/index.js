@@ -18,30 +18,37 @@ $(document).ready(function(){
 		if(($(window).scrollTop()+$(window).innerHeight())>=$(document).height()){
 			if(event.originalEvent.deltaY>0){
 				$.ajax({
-					contentType : "application/json",
-					type: "post",
+					type: "get",
 					url: ctxPath+"/board/addlist",
 					data: {
 						cm_no: $('.board_no:last').val(),
 					},
-					async: false,
+					dataType : "json",
+					contentType : "application/json; charset=UTF-8;",
+					async:false,
 					success: function(data){
-						for(let board in data){
-							let table = "<div>"
-							+"<p>"+board.id.cm_no+"</p>"
-							+"<p>"+board.id.cm_no+"</p>"
-							+"</div>";
-
-							$('.index_board_wrap').after(table);
-						}
-						
-						
-						$(data).each(function(){
-							
+						$.each(data.BoardList, function(){
+							let table = "<div class='index_board'>" 
+							+ "<input class='board_no' type='hidden' value='"+this.cm_no+"'>"
+							+ "<p>"
+							+ this.content
+							+ "</p>"
+							+ "<p>"
+							+ this.date
+							+ "</p>"
+							+ "<p>"
+							+ this.hashtag
+							+ "</p>"
+							+ "<p>"
+							+ this.photo_files
+							+ "</div>";
+							console.log(table);
+							console.log(this);
+							$('.index_board_wrap').append(table);
 						});
 					},
 					error: function(){
-						alert('카드 가져오는 중 시스템 오류');
+						alert('게시물 로딩 중 오류');
 					}
 				});
 			}
