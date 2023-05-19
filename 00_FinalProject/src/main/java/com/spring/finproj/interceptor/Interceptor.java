@@ -57,7 +57,7 @@ public class Interceptor implements HandlerInterceptor{
 			if(se_dto!=null) { //session 데이터 존재
 				UserDTO user = userDAO.getUserContent(se_dto.getUser_no());
 				
-				if(user.getProfile().equals("sns")) {
+				if(!user.isProfile_type()) {
 					String profile = refreshProfile(se_dto.getSessionID(), user.getType());
 					user.setProfile(profile);
 				}
@@ -99,8 +99,6 @@ public class Interceptor implements HandlerInterceptor{
 						session.setAttribute("LoginUser", user);
 						session.setMaxInactiveInterval(60*60*6);
 					}
-					
-					
 				}else { //토큰 유효 - 자동 로그인 처리
 					session.setAttribute("LoginUser", user);
 					session.setMaxInactiveInterval((int)(Long.parseLong(se_dto.getExpiresTime()) - nowTime));

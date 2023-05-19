@@ -8,8 +8,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.finproj.model.user.UserDAO;
-import com.spring.finproj.model.user.UserDTO;
-import com.spring.finproj.model.user.UserSessionDTO;
 
 public class UserRefreshAspect {
 	@Autowired
