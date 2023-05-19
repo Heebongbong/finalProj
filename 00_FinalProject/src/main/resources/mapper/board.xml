@@ -6,7 +6,22 @@
 <!-- namespace 명은 패키지를 포함한 DAO 인터페이스, mapper를 구분하는 식별자로 사용 -->
 <mapper namespace="boardDAO">
 	<select id="board_list" resultType="boardDTO">
-		select * from community
+		select * from community order by cm_no desc Limit 5
+	</select>
+	<select id="board_list_search" resultType="boardDTO" parameterType="String">
+		select * from community where hashtag like concat('%',#{keyword},'%') order by cm_no desc Limit 5
+	</select>
+	
+	<select id="board_list_add" resultType="boardDTO" parameterType="int">
+		<![CDATA[
+			select * from community where cm_no < #{cm_no} order by cm_no desc Limit 5
+		]]>
+	</select>
+	
+	<select id="board_list_add_search" resultType="boardDTO" parameterType="map">
+		<![CDATA[
+			select * from community where cm_no < #{cm_no} and hashtag like concat('%',#{keyword},'%') order by cm_no desc Limit 5
+		]]>
 	</select>
 	
 	<insert id="board_insert" parameterType="boardDTO">

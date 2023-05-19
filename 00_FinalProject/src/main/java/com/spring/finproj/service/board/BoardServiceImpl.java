@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -28,17 +30,36 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO boardDAO;
 
 	@Override
-	public String getBoardList(HttpServletRequest request, Model model) throws Exception{
-		
-		List<BoardDTO> list = boardDAO.getBoardList();
+	public void getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception{
+		List<BoardDTO> list = null;
+		if(keyword!="") {
+			list = boardDAO.getBoardList(keyword);
+		}else {
+			list = boardDAO.getBoardList();
+		}
 		
 		for(BoardDTO d : list) {
 			d.setPhoto_files(request);
 		}
 		model.addAttribute("BoardList", list);
+	}
+
+	@Override
+	public List<BoardDTO> getBoardAddList(HttpServletRequest request, int cm_no, String keyword) throws Exception {
+		List<BoardDTO> list = null;
+		if(keyword!="") {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("keyword", keyword);
+			map.put("cm_no", cm_no);
+			list = boardDAO.getBoardList(map);
+		}else {
+			list = boardDAO.getBoardList(cm_no);
+		}
 		
-		return "board.list";
-		
+		for(BoardDTO d : list) {
+			d.setPhoto_files(request);
+		}
+		return list;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -88,12 +109,10 @@ public class BoardServiceImpl implements BoardService{
 		boardDTO.setPhoto_folder(boardFolder);
 		
 		int re = boardDAO.insertBoardContent(boardDTO);
-		
-		try {
-		    return "board.list";
-		} catch (Exception e) {
-		    e.printStackTrace();
-		    model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
+		if(re>0) {
+			 return "board.list";
+		}else {
+			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
 		    return "error/error";
 		}
 	}

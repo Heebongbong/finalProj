@@ -23,17 +23,19 @@
 			로그인 헤더<a href="javascript:close_user_menu()">X</a>
 		</div>
 		<div class="user_menu_body">
-			<div class="user_menu_body_inp">
-				<input name="email" placeholder="Email을 입력하세요">
-				<input name="pwd" placeholder="비밀번호를 입력하세요." type="password">
-			</div>
-			<div class="user_menu_body_btn">
-				<input type="submit" value="로그인">
-				<input type="button" onclick="location.href='${ctxPath}/user/join'" value="회원가입">
-				<div>
-					<a href="javascript:">이메일/비밀번호 찾기</a>
+			<form action="${ctxPath }/login/site" method="post">
+				<div class="user_menu_body_inp">
+					<input name="email" placeholder="Email을 입력하세요">
+					<input name="pwd" placeholder="비밀번호를 입력하세요." type="password">
 				</div>
-			</div>
+				<div class="user_menu_body_btn">
+					<input type="submit" value="로그인">
+					<input type="button" onclick="location.href='${ctxPath}/user/join'" value="회원가입">
+					<div>
+						<a href="javascript:">이메일/비밀번호 찾기</a>
+					</div>
+				</div>
+			</form>
 			<div class="user_menu_body_sns">
 				<%
 					StringBuffer ctxUrl = request.getRequestURL();

@@ -5,6 +5,7 @@
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <c:set value="${CampingList }" var="campingList" />
+<c:set value="${BoardList }" var="boardList" />
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
@@ -31,7 +32,14 @@
 		<img alt="" src="${ctxPath }/resources/images/banner/${banner_num }.jpg">
 	</div>
 	
+	<c:if test="${!empty boardList }">
 	<div class="index_board_wrap">
-		
+		<c:forEach items="${boardList }" var="board">
+		<div class="index_board">
+			<input class="board_no" type="hidden" value="${board.getCm_no() }">
+			${board }
+		</div>
+		</c:forEach>
 	</div>
+	</c:if>
 </div>

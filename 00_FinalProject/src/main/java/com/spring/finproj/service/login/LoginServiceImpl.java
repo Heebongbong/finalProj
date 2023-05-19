@@ -41,8 +41,9 @@ public class LoginServiceImpl implements LoginService{
 		idlist.put("email", email);
 		idlist.put("type", "S");
 		UserDTO dto = userDAO.getUserContentId(idlist);
+		
 		if(dto!=null) { //정보 확인
-			if(dto.getPwd().equals("pwd")) {//비번일치
+			if(dto.getPwd().equals(pwd)) {//비번일치
 				//세션 DB 저장
 				Long ext = (System.currentTimeMillis()/1000)+(60*60*6);
 				UserSessionDTO sessionDto = new UserSessionDTO();
@@ -57,7 +58,7 @@ public class LoginServiceImpl implements LoginService{
 				session.setAttribute("LoginUser", dto);
 				session.setMaxInactiveInterval(60*60*6);
 				
-				response.sendRedirect("/index");
+				response.sendRedirect("/finproj/index");
 			}else {//불일치
 				response.getWriter().println("<script>"
 						+ "alert('비밀번호가 다릅니다.');"
@@ -319,7 +320,6 @@ public class LoginServiceImpl implements LoginService{
   		}else { // 기존 회원
   			user = dto;
   		}
-  		System.out.println(user);
   		
   		//세션 DB 저장
 		Long ext = (System.currentTimeMillis()/1000)+(60*60*6);
@@ -330,13 +330,14 @@ public class LoginServiceImpl implements LoginService{
 		sessionDto.setExpiresTime(ext.toString());
 		
 		userDAO.insertUserSession(sessionDto);
-        
-		//쿠키, 세션 등록
-        Cookie a_t = new Cookie("AccessToken", a_token);
-        a_t.setMaxAge(60*60*24*7);
-        a_t.setPath("/");
-        response.addCookie(a_t);
-        
+		
+		//쿠키 세션 등록
+		Cookie a_t = new Cookie("AccessToken", a_token);
+		a_t.setMaxAge(60*60*24*7);
+		a_t.setPath("/");
+		response.addCookie(a_t);
+	    System.out.println(2);
+
         session.setAttribute("LoginUser", user);
 		session.setMaxInactiveInterval(60*60*6);
 	}

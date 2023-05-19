@@ -23,16 +23,17 @@ public class BoardDTO {
 
 	private List<String> photo_files;
 	
-	public List<String> setPhoto_files(HttpServletRequest request) throws Exception {
+	public void setPhoto_files(HttpServletRequest request) throws Exception {
 		this.photo_files = new ArrayList<String>();
 		
-		Properties prop = new Properties();
-		@SuppressWarnings("deprecation")
-		FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
-		prop.load(new InputStreamReader(fis));
-		fis.close();
-		
 		if(this.photo_folder!=null) {
+			System.out.println(this.photo_folder);
+			
+			Properties prop = new Properties();
+			@SuppressWarnings("deprecation")
+			FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+			prop.load(new InputStreamReader(fis));
+			fis.close();
 			
 			String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3))+"\\board\\"+this.photo_folder;
 			
@@ -42,6 +43,5 @@ public class BoardDTO {
 				this.photo_files.add(f.getName());
 			}
 		}
-		return this.photo_files;
 	}
 }
