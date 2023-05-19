@@ -13,6 +13,8 @@ import lombok.Data;
 
 @Data
 public class BoardDTO {
+	
+	//basic_board
 	private int cm_no;
 	private int user_no;
 	private String content;
@@ -20,6 +22,18 @@ public class BoardDTO {
 	private String update;
 	private String hashtag;
 	private String photo_folder;
+	
+	//market
+	private String title;
+	private String kategory;
+	private int price;
+	private int index;
+	
+	//user
+	private String email;
+	private String nickname;
+	private String profile;
+	private String type;
 
 	private List<String> photo_files;
 	

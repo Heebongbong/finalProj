@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+.market_navi{
+	display: flex;
+	justify-content: flex-start;
+}
+.market_navi_cate{
+	display: flex;
+	flex-direction: column;
+}
+
+
+
+.cate_cont,
+.loc_cont{
+	display: none;
+}

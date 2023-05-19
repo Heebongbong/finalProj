@@ -18,9 +18,13 @@ div{
 }
 a{
 	color: blue;
+	text-decoration: none;
 }
 a:hover{
 	color: lightblue;
+}
+li {
+	list-style: none;
 }
 
 #header{
