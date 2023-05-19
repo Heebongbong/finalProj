@@ -103,6 +103,7 @@ public class LoginServiceImpl implements LoginService{
 			user.setNickname(makeNickName());
 			user.setProfile(pictureUrl);
 			user.setType("G");
+			user.setProfile_type(true);
 			
 			//email, type을 통한 email DB 확인
 			Map<String, Object> idlist = new HashMap<String, Object>();
@@ -110,6 +111,7 @@ public class LoginServiceImpl implements LoginService{
 			idlist.put("type", "G");
 			
 			UserDTO dto = userDAO.getUserContentId(idlist);
+			
 			
 			if(dto==null) { //비회원
 				int re1 = userDAO.insertUserSNSContent(user);
@@ -119,7 +121,7 @@ public class LoginServiceImpl implements LoginService{
 				}
 			}else { // 기존 회원
 				//프로필 업데이트
-	  			if(dto.getProfile().equals("sns")) {
+	  			if(!dto.isProfile_type()) {
 	  				dto.setProfile(user.getProfile());
 	  			}
 				user = dto;
@@ -199,7 +201,7 @@ public class LoginServiceImpl implements LoginService{
 			}
 		}else { // 기존 회원
 			//프로필 업데이트
-  			if(dto.getProfile().equals("sns")) {
+			if(!dto.isProfile_type()) {
   				dto.setProfile(user.getProfile());
   			}
 			user = dto;
@@ -266,8 +268,10 @@ public class LoginServiceImpl implements LoginService{
 		
 		if(jo2.has("profile_image")) {
 			dto.setProfile(jo2.getString("profile_image"));
+			dto.setProfile_type(true);
 		}else {
 			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
+			dto.setProfile_type(false);
 		}
 		
         dto.setType("N");
@@ -327,7 +331,7 @@ public class LoginServiceImpl implements LoginService{
   			}
   		}else { // 기존 회원
   			//프로필 업데이트
-  			if(dto.getProfile().equals("sns")) {
+  			if(!dto.isProfile_type()) {
   				dto.setProfile(user.getProfile());
   			}
   			user = dto;
@@ -398,11 +402,14 @@ public class LoginServiceImpl implements LoginService{
         	JSONObject joP = joA.getJSONObject("profile");
         	if(joP.has("thumbnail_image_url")) {
     			dto.setProfile(joP.getString("thumbnail_image_url"));
+    			dto.setProfile_type(true);
     		}else {
     			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
+    			dto.setProfile_type(false);
     		}
         }else {
 			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
+			dto.setProfile_type(false);
 		}
 		
 		dto.setType("K");
