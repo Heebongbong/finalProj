@@ -4,7 +4,7 @@
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <script>
 function check() {
-	if ($("input:checkbox[name='ck[]']").is(":checked")==false) {
+	if ($("input:checkbox[name='category']").is(":checked")==false) {
 		alert("적어도 하나는 선택하여 주십시오.");
 		return;
 	}

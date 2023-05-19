@@ -1,4 +1,4 @@
-package com.spring.finproj.model.market;
+package com.spring.finproj.model.board;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;

@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
 		model.addAttribute("content", dto);
 	}
 	
+	@SuppressWarnings("all")
 	@Override
 	public void insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile mfile) throws Exception {
 		
