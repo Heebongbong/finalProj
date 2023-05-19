@@ -97,7 +97,12 @@ public class BoardServiceImpl implements BoardService{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
         String today = nowDate.format(formatter);
         
-        String boardFolder = user.getNickname()+"\\"+today;
+        // type + 이메일 아이디
+        String type = boardDTO.getType();
+        
+        StringTokenizer st1 = new StringTokenizer(boardDTO.getEmail(), "@", true);
+        String email_id = st1.nextToken();
+        String boardFolder = type +"_"+ email_id +"\\"+today;
 		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3))+"\\board\\"+boardFolder;
 		
 		File folder = new File(saveFolder);
