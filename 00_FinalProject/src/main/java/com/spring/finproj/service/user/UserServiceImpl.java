@@ -2,10 +2,12 @@ package com.spring.finproj.service.user;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
@@ -35,42 +36,60 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void insertUserContent(UserDTO dto, HttpServletRequest request, MultipartFile multipartFile) throws Exception {
+	public void insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile mfile) throws Exception {
 		
-		if(dto.getProfile() == null) {
-			dto.setProfile("sns");
-		}
+		
+	   
 		
 		Properties prop = new Properties();
 		FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 		prop.load(new InputStreamReader(fis));
 		fis.close();
 		
-		int fileSize = 100 * 1024 * 1024; // 100MB
+		//int fileSize = 100 * 1024 * 1024; // 100MB
 
-	    String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\profile";
+		
+		LocalDateTime nowDate = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
+        String today = nowDate.format(formatter);
+        
+        // type + 이메일 아이디
+        String type = dto.getType();
+        
+        StringTokenizer st = new StringTokenizer(dto.getEmail(), "@", true);
+        String email_id = st.nextToken();
+        
+	    String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\profile\\"  +type + "_" + email_id;
 	    
-	    String originalFileName = multipartFile.getOriginalFilename();
-	    long size = multipartFile.getSize(); //파일 사이즈
-	    
-		
-	    UUID uuid = UUID.randomUUID();
-		System.out.println(uuid.toString());
-		String[] uuids = uuid.toString().split("-");
-		
-		String uniqueName = uuids[0];
-		
-		File saveFile = new File(saveFolder+"\\"+uniqueName + originalFileName);  
-		
-		try {
-			multipartFile.transferTo(saveFile); // 실제 파일 저장메서드(filewriter 작업을 손쉽게 한방에 처리해준다.)
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+	    File folder = new File(saveFolder);
+		if(!folder.exists()) {
+		    folder.mkdirs();
+		    File folder2 = new File(saveFolder + "\\" + today);
+		    if(!folder2.exists()) {
+		    	folder2.mkdir();
+		    }
 		}
+		
+		String originalFileName = mfile.getOriginalFilename();
+	    
+	    // UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
+	    if (!originalFileName.isEmpty()) {
+		    String saveFileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf('.'));
+		    mfile.transferTo(new File(saveFolder +"\\"+ today +"\\"+ saveFileName));
+	    }
+	    
+	    if(dto.getProfile() == null) { dto.setProfile(System.getenv("USERPROFILE").substring(3) + "\\profile\\default_profile.png"); }
 	    
 		int check = userDao.insertUserContent(dto);
+		
+		if(check > 0) {
+			response.sendRedirect("/finproj/index");
+		}else {//불일치
+			response.getWriter().println("<script>"
+					+ "alert('회원가입 실패');"
+					+ "history.back();"
+					+ "</script>");
+		}
 		
 	}
 

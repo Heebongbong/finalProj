@@ -15,7 +15,7 @@ public interface UserService {
 
 	void getUserContent(Model model, int user_no) throws Exception;
 	
-	void insertUserContent(UserDTO dto, HttpServletRequest request, MultipartFile multipartFile) throws Exception;
+	void insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile multipartFile) throws Exception;
 	
 	void updateUserContent(UserDTO dto, String pwd_update, HttpServletResponse response);
 
