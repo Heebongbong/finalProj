@@ -25,13 +25,12 @@ public class BoardController {
     
     @RequestMapping("/list")
     public String boardList(@RequestParam(required = false) String keyword, HttpServletRequest request, Model model) throws Exception {
-    	boardService.getBoardList(request, model, keyword);
-    	return "board.list";
+    	
+    	return boardService.getBoardList(request, model, keyword);
     }
  
     @RequestMapping("/write")
     public String boardWrite() {
-    	System.out.println(2);
         return "board.write";
     }
     @RequestMapping("/writeform")

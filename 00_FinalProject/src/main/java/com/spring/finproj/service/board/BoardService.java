@@ -12,7 +12,7 @@ import com.spring.finproj.model.board.BoardDTO;
 
 public interface BoardService {
 
-	public void getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception;
+	public String getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception;
 	public String writeBoard(BoardDTO boardDTO, MultipartFile[] files, 
 			Model model, String[] category, String hashtags, HttpSession session, HttpServletRequest request) throws Exception;
 	public List<BoardDTO> getBoardAddList(HttpServletRequest request, int cm_no, String keyword) throws Exception;

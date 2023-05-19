@@ -24,6 +24,7 @@ $(document).ready(function(){
 					data: {
 						cm_no: $('.board_no:last').val(),
 					},
+					async: false,
 					success: function(data){
 						for(let board in data){
 							let table = "<div>"

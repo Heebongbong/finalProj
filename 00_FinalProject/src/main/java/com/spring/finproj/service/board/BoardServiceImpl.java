@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO boardDAO;
 
 	@Override
-	public void getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception{
+	public String getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception{
 		List<BoardDTO> list = null;
 		if(keyword!="") {
 			list = boardDAO.getBoardList(keyword);
@@ -42,6 +42,7 @@ public class BoardServiceImpl implements BoardService{
 			d.setPhoto_files(request);
 		}
 		model.addAttribute("BoardList", list);
+		return "board.list";
 	}
 
 	@Override
