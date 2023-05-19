@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO boardDAO;
 
 	@Override
-	public String getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception{
+	public void getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception{
 		List<BoardDTO> list = null;
 		if(keyword==null || keyword=="") {
 			list = boardDAO.getBoardList();
@@ -43,7 +43,6 @@ public class BoardServiceImpl implements BoardService{
 		}
 		System.out.println(list);
 		model.addAttribute("BoardList", list);
-		return "board.list";
 	}
 
 	@Override

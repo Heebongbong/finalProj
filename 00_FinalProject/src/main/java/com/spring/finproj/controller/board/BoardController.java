@@ -26,8 +26,8 @@ public class BoardController {
     
     @RequestMapping("/list")
     public String boardList(@RequestParam(required = false) String keyword, HttpServletRequest request, Model model) throws Exception {
-    	
-    	return boardService.getBoardList(request, model, keyword);
+    	boardService.getBoardList(request, model, keyword);
+    	return "board.list";
     }
  
     @RequestMapping("/write")
