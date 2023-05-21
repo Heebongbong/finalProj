@@ -13,9 +13,7 @@
 		}
 	});
 	
-	
-	
-	
+	let socket = null;
 	
  });
  
@@ -52,4 +50,94 @@ function loginWithKakao() {
 	Kakao.Auth.authorize({redirectUri: reUrl+"finproj/login/kakao"});
 }
 
+//chating js
+function open_chat(){
+	$('.chat_wrap').css('display', 'flex');
+}
 
+function close_chat(){
+	$('.chat_wrap').css('display', 'none');
+	$('.chat_send').attr('onclick','');
+	$('.chat_cont').html("");
+	$('.chat_msg').val("");
+	socket.onclose();
+}
+
+function chat_start(no){
+	$('.chat_cont').html("");
+	$('.chat_msg').val("");
+	$.ajax({
+		type: "get",
+		url: ctxPath+"/chat/enter",
+		data: {
+			user_no: no,
+		},
+		dataType : "json",
+		contentType : "application/json; charset=UTF-8;",
+		async:false,
+		success: function(data){
+			$(data).each(function(){
+
+				let table = "";
+				
+				if(this.send_user == no){
+					table = "<p style='width:100%;' class='chat_sendU'>"+this.nickname+" : "+this.chat_cont+"</p>";
+					
+				}else{
+					table = "<p style='width:100%;' class='chat_loginU'>"+this.chat_cont+"</p>"
+				}
+				$('#chat_receipt').val(no);
+				$('.chat_cont').append(table);
+				$('.chat_send').attr('onclick', 'send_chat('+data[0].chat_room_no+')');
+			});
+
+			connect_chat();
+		},
+		error: function(){
+			alert('게시물 로딩 중 오류');
+		}
+	});
+}
+
+
+
+function connect_chat() {
+	
+	let ws = new WebSocket("ws://192.168.35.185:8787/finproj/chating");
+	socket = ws;
+	//이벤트 헨들러
+	ws.onopen = function() {
+		console.log('Info: connection opened.');
+	};
+	
+	//소켓에 메시지를 보냈을 때(sess.sendMessage) 여기서 받아짐 
+	ws.onmessage = function (event) {
+		let sm = event.data;
+		let sl = sm.split(',');
+		/* $("#writer").text("보내는 이 : " + sl[0]);
+		$("#receiver").text("받는 이 : " + sl[1]);
+		$("#content").text("내용: " + sl[2]); */
+		
+		let table = "<p style='width:100%;' class='chat_sendU'>"+sl[0]+" : "+sl[2]+"</p>";
+		
+		console.log("ReceiveMessage:" + event.data+'\n');
+	};
+	
+	ws.onclose = function (event) { 
+		console.log('Info: connection closed'); 
+		//setTimeout( function() {connect(); }, 1000); // retry connection!!
+	};
+	
+	ws.onerror = function (err) { console.log('Error:', err); };
+}
+ 
+function send_chat(room_no){
+	let receiveId = $('#chat_receipt').val();
+	let msg = $('.chat_msg').val();
+	console.log(msg);
+	//evt.preventDefault();
+	if (socket.readyState !== 1 ) return;
+	socket.send(room_no+"," + receiveId + "," + msg);
+	$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
+	$('.chat_msg').val("");
+}

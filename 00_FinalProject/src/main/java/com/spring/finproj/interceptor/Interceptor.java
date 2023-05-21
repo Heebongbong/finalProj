@@ -29,6 +29,7 @@ public class Interceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
 		// TODO Auto-generated method stub
 		Long nowTime = (System.currentTimeMillis()/1000);
 		HttpSession session = request.getSession();
@@ -37,11 +38,13 @@ public class Interceptor implements HandlerInterceptor{
 		String j_s = null;
 		
 		Cookie[] cs = request.getCookies();
-		for(Cookie c : cs) {
-			if(c.getName().equals("AccessToken")) {
-				a_t = c.getValue();
-			}else if(c.getName().equals("JSESSIONID")){
-				j_s = c.getValue();
+		if(cs!=null) {
+			for(Cookie c : cs) {
+				if(c.getName().equals("AccessToken")) {
+					a_t = c.getValue();
+				}else if(c.getName().equals("JSESSIONID")){
+					j_s = c.getValue();
+				}
 			}
 		}
 		
@@ -87,7 +90,7 @@ public class Interceptor implements HandlerInterceptor{
 						//구글 세션 갱신법 확인 필요
 						response.getWriter().println("<script>"
 								+ "alert('구글 세션 만료');"
-								+ "location.href='/finproj/index';"
+								+ "history.back();';"
 								+ "</script>");
 						return false;
 						

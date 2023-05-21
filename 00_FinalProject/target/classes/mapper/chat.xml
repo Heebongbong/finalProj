@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chatDAO">
+	<select id="chat_list" parameterType="chatDTO" resultType="chatDTO">
+		select *, (select nickname from user_profile where user_no = 6) nickname 
+		from chat_room a join chat b on a.chat_room_no = b.chat_room_no 
+		where (user_no1 = #{user_no1} or user_no2 = #{user_no1})
+		and (user_no1 = #{user_no2} or user_no2 = #{user_no2})
+	</select>
+</mapper>
+
+
+
+

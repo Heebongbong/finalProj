@@ -38,6 +38,9 @@
         <property name="maxUploadSize" value="52428800"/> <!-- 50MB -->
         <property name="maxInMemorySize" value="1048576"/> <!-- 1MB -->
     </bean>
+    
+    <!-- WebSocket -->
+    <bean id="chatHandler" class="com.spring.finproj.service.handler.ChatHandler"/>
 	
 	<!-- AOP XML -->
 	<bean id="userRefreshAspect" class="com.spring.finproj.aop.UserRefreshAspect" />

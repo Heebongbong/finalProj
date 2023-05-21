@@ -41,7 +41,6 @@ public class BoardServiceImpl implements BoardService{
 		for(BoardDTO d : list) {
 			d.setPhoto_files(request);
 		}
-		System.out.println(list);
 		model.addAttribute("BoardList", list);
 	}
 
@@ -59,15 +58,11 @@ public class BoardServiceImpl implements BoardService{
 			list = boardDAO.getBoardList(map);
 		}
 		
-		System.out.println(keyword);
-		System.out.println(cm_no);
-		
 		for(BoardDTO d : list) {
 			d.setPhoto_files(request);
 		}
 		
 		mapList.put("BoardList", list);
-		System.out.println(mapList);
 		return mapList;
 	}
 
