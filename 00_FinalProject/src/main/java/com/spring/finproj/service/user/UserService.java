@@ -13,22 +13,12 @@ import com.spring.finproj.model.user.UserDTO;
 
 public interface UserService {
 
-	void getUserContent(Model model, int user_no) throws Exception;
-	
-	String insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile multipartFile, Model model) throws Exception;
-	
-	void updateUserContent(UserDTO dto, String pwd_update, HttpServletResponse response);
-
-	String getNickCheck(String nickname) throws IOException;
-
-	String sendSMS(String phone, HttpSession session) throws Exception;
-
-	String checkSMS(String input_code, HttpSession session);
-
-	String makeNickName();
-
-	String getPhoneCheck(String phone);
-
-	String getCodeCheck(String code);
+	public String insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile multipartFile, Model model) throws Exception;
+	public void updateUserContent(UserDTO dto, String pwd_update, HttpServletResponse response);
+	public String getNickCheck(String nickname, HttpSession session) throws IOException;
+	public String sendSMS(String phone, HttpSession session) throws Exception;
+	public String checkSMS(String input_code, HttpSession session);
+	public String getPhoneCheck(String phone);
+	public String getSnsProfile(HttpSession session, HttpServletResponse response) throws Exception;
 
 }
