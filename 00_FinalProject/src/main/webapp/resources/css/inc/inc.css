@@ -153,6 +153,7 @@ li {
 	flex-direction: column;
 	width: 150px;
 	height: 100%;
+	padding: 20px 15px;
 }
 
 .chat_main{
@@ -178,6 +179,7 @@ li {
 	flex-direction: column;
 	justify-content: flex-end;
 	overflow: auto;
+	padding: 20px 15px;
 }
 
 .chat_btn{

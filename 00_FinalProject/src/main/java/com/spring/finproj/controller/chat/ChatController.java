@@ -1,6 +1,7 @@
 package com.spring.finproj.controller.chat;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.finproj.model.chat.ChatDTO;
+import com.spring.finproj.model.chat.FaqDTO;
 import com.spring.finproj.service.chat.ChatService;
 
 @Controller
@@ -30,5 +32,12 @@ public class ChatController {
 	@ResponseBody
 	public int chatBoard(int user_no, HttpSession session) {
 		return chatService.insertChatRoomCont(user_no, session);
+	}
+	
+	@RequestMapping("/faq")
+	@ResponseBody
+	public Map<Integer, List<FaqDTO>> chatFaq(){
+		
+		return chatService.getFaqList();
 	}
 }

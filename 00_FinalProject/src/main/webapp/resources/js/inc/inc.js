@@ -14,6 +14,7 @@
 	});
 	
 	let socket = null;
+	const faqList = null;
 	
  });
  
@@ -167,4 +168,56 @@ function chat_board(no){
 			alert('채팅상대 검색 중 오류');
 		}
 	});
+}
+
+function chat_admin(){
+	$('.chat_cont').html("");
+	$('.chat_msg').val("");
+
+	let table = "<p style='width:100%;' class='chat_sendU'>Chat Bot : <span>"
+				+"안녕하세요. Campion 챗봇입니다.<br>"
+				+"궁금하신 사항을 물어보세요.<br>"
+				+"<input type='button' value='관리자와 채팅하기' onclick='chat_start(1)' style='width: 150px;'><br>"
+				+"<input type='button' value='F A Q' onclick='faq_start()' style='width: 150px;'>"
+				+"</span></p>";
+	$('.chat_cont').append(table);
+
+	
+}
+
+function faq_start(){
+	$.ajax({
+		type: "get",
+		url: ctxPath+"/chat/faq",
+		dataType : "json",
+		contentType : "application/json; charset=UTF-8;",
+		async:false,
+		success: function(data){
+			faqList = data;
+			faq_cate();
+		},
+		error: function(){
+			alert('FAQ 로딩 중 오류');
+		}
+	});
+}
+
+function faq_cont(cate_no){
+	let table = "챗봇 : <br>"+faqList[cate_no][0].name+"을 선택하셨습니다.<br>";
+				
+	for(let i = 0; i<faqList[cate_no].length;i++){
+		let d = faqList[cate_no][i];
+		table += "<p>" + d.content + "</p>";
+	}
+	table += "<p style='text-align:right'><input type='button' value='카테고리로' onclick='faq_cate()'></p>";
+	$('.chat_cont').append(table);
+	
+}
+
+function faq_cate(){
+	let table = "챗봇 : <br><t>문의하실 카테고리를 선택하세요.<br>";
+	for(let i=1;i<=5;i++){
+		table += "<p style='text-align:center; width:130px;'><input type='button' value='"+faqList[i][0].name+"' onclick='faq_cont("+faqList[i][0].faq_cate_no+")'></p>";
+	}
+	$('.chat_cont').append(table);
 }
