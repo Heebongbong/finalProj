@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +23,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDAO;
 import com.spring.finproj.model.board.BoardDTO;
+import com.spring.finproj.model.board.MentionDAO;
+import com.spring.finproj.model.board.MentionDTO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Service
 public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private BoardDAO boardDAO;
+	
+	@Autowired
+	private MentionDAO mentionDAO;
 
 	@Override
 	public void getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception{
@@ -45,8 +51,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Map<String, List<BoardDTO>> getBoardAddList(HttpServletRequest request, int cm_no, String keyword) throws Exception {
-		Map<String, List<BoardDTO>> mapList = new HashMap<String, List<BoardDTO>>();
+	public Map<String, Object> getBoardAddList(HttpServletRequest request, int cm_no, String keyword) throws Exception {
+		Map<String, Object> boardTotal = new HashMap<String, Object>();
+		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
 		
 		List<BoardDTO> list = null;
 		if(keyword==null || keyword=="") {
@@ -60,15 +67,20 @@ public class BoardServiceImpl implements BoardService{
 		
 		for(BoardDTO d : list) {
 			d.setPhoto_files(request);
+			
+			List<MentionDTO> list2 = mentionDAO.getMentionList(d.getCm_no());
+			mapList2.put(d.getCm_no(), list2);
 		}
 		
-		mapList.put("BoardList", list);
-		return mapList;
+		boardTotal.put("BoardList", list);
+		boardTotal.put("MentionList", mapList2);
+		
+		return boardTotal;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public String writeBoard(BoardDTO boardDTO, MultipartFile[] files, 
+	public int writeBoard(BoardDTO boardDTO, MultipartFile[] files, 
 			Model model, String[] category, String hashtags, 
 			HttpSession session, HttpServletRequest request) throws Exception {
 		
@@ -97,12 +109,17 @@ public class BoardServiceImpl implements BoardService{
         
         StringTokenizer st1 = new StringTokenizer(boardDTO.getEmail(), "@", true);
         String email_id = st1.nextToken();
-        String boardFolder = type +"_"+ email_id +"\\"+today;
+        String boardFolder = type +"_"+ email_id;
 		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3))+"\\board\\"+boardFolder;
 		
 		File folder = new File(saveFolder);
 		if(!folder.exists()) {
 		    folder.mkdirs();
+		}
+		saveFolder += "\\"+today;
+		File folder2 = new File(saveFolder);
+		if(!folder2.exists()) {
+		    folder2.mkdirs();
 		}
 		
 		for (MultipartFile mfile : files) {
@@ -118,11 +135,6 @@ public class BoardServiceImpl implements BoardService{
 		boardDTO.setPhoto_folder(boardFolder);
 		
 		int re = boardDAO.insertBoardContent(boardDTO);
-		if(re>0) {
-			 return "board.list";
-		}else {
-			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
-		    return "error/error";
-		}
+		return re;
 	}
 }
