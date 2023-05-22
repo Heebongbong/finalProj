@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="loginUser" value="${sessionScope.LoginUser}"/>
+<c:set var="loginUser" value="${sessionScope.LoginUser }"/>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set var="dto" value="${content }"/>
+
 
 
 <style type="text/css">
@@ -38,83 +39,78 @@
 
 <div id="mypage_wrap">
 
+	<h2>내 정보 관리</h2>
 	<form id="mypageForm" action="${ctxPath }/user/mypageOk" method="post" enctype="multipart/form-data" novalidate>
-		
-		<div class="text_part">
-			<div class="profile_part">
+		<div class="profile_part">
 				<p>프로필 사진</p>
 				<div class="profile"><img id="previewImg" src="${loginUser.profile }"/></div>
 				<div><input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)"></div>
 				<c:if test="${loginUser.type ne 'S'|| loginUser.type ne 'G'}">
 					<input type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
 				</c:if>
-				
+								
 				<p class="text">전화번호</p>
-				<input name="phone" class="noWhitespace" id="input_phone" value="${loginUser.phone }" placeholder="휴대폰 번호(-없이 숫자만 입력)">
+				<input name="phone" id="input_phone" value="${loginUser.phone }" placeholder="휴대폰 번호(-없이 숫자만 입력)">
 				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
 				<p class="phoneError">&nbsp;</p>
-				<p class="text">전화번호 확인</p>
-				<input name="code" id="input_code" class="noWhitespace">
+				<input name="code" id="input_code" class="phone">
 				<button type="button" onclick="checkCode()">인증하기</button>
 				<p class="codeError">&nbsp;</p>
-			</div>
+		</div>
+			
+		<div class="text_part">
 			<p class="text">이메일</p>
-			<input name="email" class="noWhitespace" value="${loginUser.email }" readonly>
+			<input name="email" class="email" value="${loginUser.email }" readonly>
 			<p class="emailError">&nbsp;</p>
 			
 			<p class="text">닉네임</p>
-			<input name="nickname" class="noWhitespace" value="${loginUser.nickname }">
+			<input name="nickname" value="${loginUser.nickname }" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="nicknameError">&nbsp;</p>
 			
-			<p class="text">비밀번호</p>
-			<input type="password" name="pwd_check" class="noWhitespace">
-			<button type="button" onclick="checkPwd()">비밀번호 확인</button>
+			<p class="text">비밀번호 확인</p>
+			<input type="text" name="pwd_check" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="pwd_checkError">&nbsp;</p>
-			<p class="text">새 비밀번호</p>
-			<input type="password" name="pwd_re" class="noWhitespace">
+			<p class="text">비밀번호</p>
+			<input type="text" name="pwd" class="noWhitespace" onkeyup="noWhitespace(this);">
+			<p class="pwdError">&nbsp;</p>
+			<input type="text" name="pwd_re" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="pwd_reError">&nbsp;</p>
-			<p class="text">새 비밀번호 확인</p>
-			<input type="password" name="pwd_re" class="noWhitespace">
-			<p class="pwd_reError">&nbsp;</p>
+			
 			
 		</div>
 		
-		<button type="submit">가입하기</button>
-		
+		<button type="submit">변경하기</button>
+	
 	</form>
 	
 </div>
-
-<!-- jQuery validation 플러그인 -->
-<!-- 간단한 클라이언트 측 양식 유효성 검사를 쉽게 할 수 있고 많은 사용자 정의 옵션을 정의할 수 있습니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script type="text/javascript">
-	
+
 	/* 
-	소셜회원(=== K,G,N)일 경우 S로 변경 
-	사이트회원일 경우 회원에 맞는 소셜타입으로 변경
-	mypage페이지 접근 시 토큰 업데이트해서 userprofile 받아와서 버튼 클릭시 소셜 프로필 노출하기.
+		소셜회원(=== K,G,N)일 경우 S로 변경 
+		사이트회원일 경우 회원에 맞는 소셜타입으로 변경
+		mypage페이지 접근 시 토큰 업데이트해서 userprofile 받아와서 버튼 클릭시 소셜 프로필 노출하기.
 	*/
 	function changeProfileType() {
-	
-	$.ajax({
-		  url : ctxPath + "/user/snsProfile",
-		  type : "post",
-		  dataType : "text",
-		  success : function(res) {
-			  console.log(res);
-				$("#previewImg").attr("src", res);
-		  },
-		  error : function() {
-			  alert("전송 실패");
-		  }
-		  
-	  });
-	
-	event.preventDefault();
-	
+		
+		$.ajax({
+			  url : ctxPath + "/user/snsProfile",
+			  type : "post",
+			  dataType : "text",
+			  success : function(res) {
+				  console.log(res);
+					$("#previewImg").attr("src", res);
+			  },
+			  error : function() {
+				  alert("전송 실패");
+			  }
+			  
+		  });
+		
+		event.preventDefault();
+
 	}
-	
 	
 	// 공백제거
 	var elements = document.querySelectorAll('.noWhitespace');
@@ -143,6 +139,7 @@
 	
 	function sendSMS(event) {
 			
+		
 			let phoneError = document.getElementsByClassName("phoneError")[0];
 			const phone = document.getElementById("input_phone").value;
 				
@@ -175,6 +172,9 @@
 
 
 	}
+	  
+
+	  
 	  
 	
 	function checkCode() {
@@ -216,8 +216,31 @@
 		
 	}
 	
+	 // 공백 사용 못 하게
+	 // exec 문자열 일치 확인
+    function noSpaceForm(obj) {             
+        var str_space = /\s/;               // 공백 체크
+        if(str_space.exec(obj.value)) {     // 공백 체크
+            alert("해당 항목에는 공백을 사용할 수 없습니다.\n\n공백 제거됩니다.");
+            obj.focus();
+            obj.value = obj.value.replace(' ',''); // 공백제거
+            return false;
+        }
+    }
+    
+	
 
 	$(document).ready(function(){
+		function noSpaceForm(obj) { // 공백사용못하게
+		    var str_space = /\s/;  // 공백체크
+		    if(str_space.exec(obj.value)) { //공백 체크
+		        //alert("해당 항목에는 공백을 사용할수 없습니다.\n\n공백은 자동적으로 제거 됩니다.");
+		        obj.focus();
+		        obj.value = obj.value.replace(/\s| /gi,''); // 공백제거
+		        return false;
+		    }
+		}
+
 
 		$.validator.addMethod("engAndNum", function(value, element) {
 			   var pattern = /^[A-Za-z0-9]*$/;
@@ -309,9 +332,7 @@
 		        $.ajax({
 		            url: "${ctxPath}/user/check/nickname",
 		            type: "get",
-		            data: 
-		            	{ nickname: value
-		            	},
+		            data: { nickname: value },
 		            async : false,
 		            datatype : "text",
 		            success : function(result) {
@@ -356,7 +377,7 @@
 		        }
 		 });
 		 
-		$("#mypageForm").validate({
+		$("#joinForm").validate({
 			
 			rules : {
 					pwd : {
@@ -482,7 +503,7 @@
 		}
 		
 		
-		
-		/* 문자, 띄어쓰기, 코드 세션 만료 */
+
+
 </script>
 

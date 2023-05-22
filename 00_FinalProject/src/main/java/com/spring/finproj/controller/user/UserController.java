@@ -23,14 +23,24 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("/content")
-	public String userMypage(@RequestParam("user_no") int user_no, Model model) throws Exception {
-		
-		userService.getUserContent(model, user_no);
+	@RequestMapping("/snsProfile")
+	@ResponseBody
+	public String snsProfile(HttpSession session, HttpServletResponse response) throws Exception {
+		return userService.getSnsProfile(session, response);
+	}
+	
+	@RequestMapping("/mypage")
+	public String userMypage() throws Exception {
 		
 		return "user.mypage";
 	}
 	
+	@RequestMapping("/mypageOk")
+	public String userMypageOk(@RequestParam("pwd_update") String pwd_update, UserDTO dto, Model model, HttpServletRequest request) throws Exception {
+		
+		
+		return "user.mypageOk";
+	}
 	
 	@RequestMapping("/join")
 	public String userJoin() throws Exception {
@@ -50,9 +60,9 @@ public class UserController {
 	
 	@RequestMapping("/check/nickname")
 	@ResponseBody
-	public String userCheckNickname(@RequestParam("nickname") String nickname) throws Exception {
-		
-		return userService.getNickCheck(nickname);
+	public String userCheckNickname(String nickname, HttpSession session) throws Exception {
+		System.out.println(nickname);
+		return userService.getNickCheck(nickname, session);
 	}
 	
 	@RequestMapping("/check/phone")
@@ -60,20 +70,6 @@ public class UserController {
 	public String userCheckPhone(@RequestParam("phone") String phone) throws Exception {
 		
 		return userService.getPhoneCheck(phone);
-	}
-	
-	@RequestMapping("/check/code")
-	@ResponseBody
-	public String userCheckCode(@RequestParam("code") String code) throws Exception {
-		
-		return userService.getCodeCheck(code);
-	}
-	
-	@RequestMapping("/insert")
-	public String userMypageOk(@RequestParam("pwd_update") String pwd_update, UserDTO dto, Model model, HttpServletRequest request) throws Exception {
-		
-		
-		return "user.mypageOk";
 	}
 	
 	@RequestMapping("/sms/send")

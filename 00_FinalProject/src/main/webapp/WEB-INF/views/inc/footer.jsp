@@ -21,11 +21,12 @@
 		
 <div class="chat_wrap">
 	<div class="chat_list">
+		<p><a href="javascript:chat_admin()">Admin</a></p>
 		<c:forEach items="${chatRoomList }" var="room">
-		<c:if test="${room.user_no1 == loginUser.user_no }">
+		<c:if test="${room.user_no1 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
 			<p><a href="javascript:chat_start(${room.user_no2 })">${room.nickname }</a></p>
 		</c:if>
-		<c:if test="${room.user_no2 == loginUser.user_no }">
+		<c:if test="${room.user_no2 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
 			<p><a href="javascript:chat_start(${room.user_no1 })">${room.nickname }</a></p>
 		</c:if>
 		</c:forEach>

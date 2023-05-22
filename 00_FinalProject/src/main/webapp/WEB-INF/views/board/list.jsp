@@ -10,6 +10,23 @@
 <link rel="stylesheet" href="${ctxPath }/resources/css/board/board.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
 <div id="list_wrap">
+	<ul class="list_navi">
+		<li class="list_navi_li">
+			<a href="${ctxPath }/board/list">전체목록</a>
+		</li>
+		<li class="list_navi_li">
+			<a href="${ctxPath }/board/list?keyword=요리">요리</a>
+		</li>
+		<li class="list_navi_li">
+			<a href="${ctxPath }/board/list?keyword=일상">일상</a>
+		</li>
+		<li class="list_navi_li">
+			<a href="${ctxPath }/board/list?keyword=캠핑">캠핑</a>
+		</li>
+		<li class="list_navi_li">
+			<a href="${ctxPath }/board/list?keyword=리뷰">리뷰</a>
+		</li>
+	</ul>
 	<c:if test="${!empty boardList }">
 		<c:forEach items="${boardList }" var="board">
 			<div class="list_main">

@@ -12,7 +12,7 @@
 		select * from user u join user_profile p on u.user_no = p.user_no
 			where u.user_no = #{user_no}
 	</select>
-	
+
 	<select id="user_cont_id" resultType="userDTO" parameterType="map">
 		select * from user u join user_profile p on u.user_no = p.user_no where u.email = #{email} and u.type = #{type}
 	</select>
