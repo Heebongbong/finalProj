@@ -42,17 +42,17 @@
 		
 		<div class="text_part">
 			<p class="text">이메일</p>
-			<input name="email" class="email">
+			<input name="email" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="emailError">&nbsp;</p>
 			
 			<p class="text">닉네임</p>
-			<input name="nickname" class="nickname">
+			<input name="nickname" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="nicknameError">&nbsp;</p>
 			
 			<p class="text">비밀번호</p>
-			<input type="text" name="pwd" class="pwd">
+			<input type="password" name="pwd" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="pwdError">&nbsp;</p>
-			<input type="text" name="pwd_re" class="pwd_re">
+			<input type="password" name="pwd_re" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="pwd_reError">&nbsp;</p>
 			
 			<div class="profile_part">
@@ -61,17 +61,17 @@
 				<div><input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)"></div>
 				
 				<p class="text">전화번호(선택)</p>
-				<input name="phone" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)" optional>
+				<input name="phone" class="noWhitespace" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)" onkeyup="noWhitespace(this);">
 				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
 				<p class="phoneError">&nbsp;</p>
-				<input name="code" id="input_code" class="phone">
+				<input name="code" id="input_code" class="noWhitespace" onkeyup="noWhitespace(this);">
 				<button type="button" onclick="checkCode()">인증하기</button>
 				<p class="codeError">&nbsp;</p>
 			</div>
 		</div>
 		
 		<button type="submit">가입하기</button>
-	
+		
 	</form>
 	
 </div>
@@ -80,7 +80,31 @@
 <!-- 간단한 클라이언트 측 양식 유효성 검사를 쉽게 할 수 있고 많은 사용자 정의 옵션을 정의할 수 있습니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script type="text/javascript">
+	
+	// 공백제거
+	var elements = document.querySelectorAll('.noWhitespace');
+	for (var i = 0; i < elements.length; i++) {
+	  elements[i].addEventListener('input', function(event) {
+	    var currentValue = this.value;
+	    var trimmedValue = currentValue.replace(/\s/g, '');
+	    if (currentValue !== trimmedValue) {
+	      this.value = trimmedValue;
+	    }
+	  });
+	}
+	
+	// 숫자만 입력
+  var inputElement = document.getElementById("input_phone");
 
+  inputElement.addEventListener("input", function(event) {
+    var currentValue = inputElement.value;
+    var sanitizedValue = currentValue.replace(/\D/g, "");
+
+    if (currentValue !== sanitizedValue) {
+      inputElement.value = sanitizedValue;
+    }
+  });
+	
 	
 	function sendSMS(event) {
 			
@@ -88,7 +112,7 @@
 			let phoneError = document.getElementsByClassName("phoneError")[0];
 			const phone = document.getElementById("input_phone").value;
 				
-			if(phoneError.innerText === '확인' || !phone) {
+			if(phoneError.innerText === '') {
 				
 				// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
 			  const button = document.getElementById('sendBtn');
@@ -110,8 +134,8 @@
 				  
 			  });
 			  
-			}else {
-				alert("전화번호 입력해주세여");
+			} else {
+				 phoneError.textContent = "휴대전화를 입력하세욘";
 			}
 			event.preventDefault();
 
@@ -125,35 +149,45 @@
 	function checkCode() {
 		
 		event.preventDefault();
-
-	  const input_code = document.getElementById("input_code").value;
-	  
-	  let codeError = document.getElementsByClassName("codeError")[0];
-	  
-	  $.ajax({
-		  url : "${ctxPath}/user/sms/check",
-		  type : "post",
-		  data : { input_code : input_code },
-		  success : function(res) {
-			  if(res == "true"){
-				  codeError.textContent = "인증 완료 회원가입 go";
-			  }else {
-				  codeError.textContent = "인증 번호가 틀렸습니다.";
-			  }
-		  },
-		  error : function() {
-			  alert("인증 실패");
-		  }
+		
+		let phoneError = document.getElementsByClassName("phoneError")[0];
+		
+		const button = document.getElementById('sendBtn');
+		const buttonText = button.innerText;
+		
+		if(buttonText === '재전송'){
+			
+		  const input_code = document.getElementById("input_code").value;
+		  let codeError = document.getElementsByClassName("codeError")[0];
 		  
-	  });
+		  $.ajax({
+			  url : "${ctxPath}/user/sms/check",
+			  type : "post",
+			  data : { input_code : input_code },
+			  success : function(res) {
+				  if(res == "true"/*  && input_code.length != 0 */){
+					  codeError.textContent = "인증 완료 회원가입 go";
+				  }else {
+					  codeError.textContent = "인증 번호가 틀렸습니다.";
+				  }
+			  },
+			  error : function() {
+				  alert("인증 실패");
+			  }
+			  
+		  });
+		  
+		} else {
+			phoneError.textContent = "휴대전화를 입력하세욘";
+		}
+		
 	  
 		
 	}
+    
 	
 
 	$(document).ready(function(){
-		
-
 
 		$.validator.addMethod("engAndNum", function(value, element) {
 			   var pattern = /^[A-Za-z0-9]*$/;
@@ -207,12 +241,24 @@
 		 });
 		 
 		 $.validator.addMethod("codeLength", function(value, element) {
-		        var length = value.trim().length;
-		        
-		        if(length == 0){
-		        	return true;
-		        }else {
+			  const button = document.getElementById('sendBtn');
+				const buttonText = button.innerText;
+	      var length = value.trim().length;
+				if(buttonText === '재전송'){
 			        return length = 6;
+		        }else {
+		        	return true;
+		        }
+		 });
+		 
+		 $.validator.addMethod("codeCheck", function(value, element) {
+			  const button = document.getElementById('sendBtn');
+				const buttonText = button.innerText;
+	      var length = value.trim().length;
+				if(buttonText === '재전송'){
+			        return length != 0;
+		        }else {
+		        	return true;
 		        }
 		 });
 		 
@@ -307,6 +353,7 @@
 						phoneUnique : true
 					}, 
 					code : {
+						codeCheck : true,
 						codeLength : true
 					},
 					nickname : {
@@ -343,6 +390,7 @@
 					phoneUnique : "이미 등록된 번호입니다."
 				},
 				code : {
+					codeCheck : "인증번호를 입력하세요",
 					codeLength : "인증번호는 6자리입니다."
 				},
 				nickname : {
@@ -362,8 +410,7 @@
       success: function(label, element) {
     	    var targetElementClass = $(element).attr("name") + "Error";
     	    var targetElement = $("." + targetElementClass);
-    	    targetElement.text(" ");
-          targetElement.css("color", "green");
+          targetElement.css("height", "17px");
     	}
 
 		});
@@ -404,6 +451,6 @@
 		
 		
 		
-		
+		/* 문자, 띄어쓰기, 코드 세션 만료 */
 </script>
 

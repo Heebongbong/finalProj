@@ -1,26 +1,34 @@
 package com.spring.finproj.service.user;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.finproj.interceptor.Interceptor;
 import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
+import com.spring.finproj.model.user.UserSessionDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,12 +36,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDAO userDao;
 
-	@Override
-	public void getUserContent(Model model, int user_no) throws Exception {
-		UserDTO dto = userDao.getUserContent(user_no);
-
-		model.addAttribute("content", dto);
-	}
+	
 	
 	@SuppressWarnings("all")
 	@Override
@@ -115,9 +118,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String getNickCheck(String nickName) throws IOException {
+	public String getNickCheck(String nickName, HttpSession session) throws IOException {
+		
+		
 		String check = "";
-		if(userDao.getNickCheck(nickName) == null) {
+		UserDTO dto = (UserDTO)session.getAttribute("LoginUser");
+		
+		if(userDao.getNickCheck(nickName) == null || nickName.equals(dto.getNickname())) {
 			check = "true";
 		}
 		return check;
@@ -158,6 +165,7 @@ public class UserServiceImpl implements UserService {
 		
 		// 발송 코드
 		String code = (String) session.getAttribute("code");
+		session.removeAttribute("code");
 		System.out.println("세션 코드 === "+code);
 		
 		if(!input_code.equals(code)) {
@@ -165,16 +173,153 @@ public class UserServiceImpl implements UserService {
 		}
 		return check;
 	}
-	
+
 	@Override
-	public String getCodeCheck(String code) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getSnsProfile(HttpSession session, HttpServletResponse response) throws Exception {
+		
+		UserDTO dto = (UserDTO) session.getAttribute("LoginUser");
+		
+		UserSessionDTO sdto = userDao.getUserSession(dto.getUser_no());
+		System.out.println(sdto);
+		
+		if(dto.getType().equals("N")) {
+			sdto = naverTokenRefresh(sdto);
+		}else if(dto.getType().equals("K")) {
+			sdto = kakaoTokenRefresh(sdto);
+		}
+		
+		//쿠키 세션 등록
+		Cookie a_t = new Cookie("AccessToken", sdto.getSessionID());
+		a_t.setMaxAge(60*60*24*7);
+		a_t.setPath("/");
+		response.addCookie(a_t);
+		
+		return refreshProfile(sdto.getSessionID(), dto.getType());
 	}
 	
-	@Override
-	public String makeNickName() {
+	private String refreshProfile( String sessionID, String type) throws IOException {
 		// TODO Auto-generated method stub
-		return null;
+		String profile = null;
+		String curl = null;
+		
+		if(type.equals("K")) {
+			curl = "https://kapi.kakao.com/v2/user/me";
+		}else if(type.equals("N")) {
+			curl = "https://openapi.naver.com/v1/nid/me";
+		}else {
+			return null;
+		}
+		
+        URL url = new URL(curl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        conn.setRequestProperty("Authorization", "Bearer "+sessionID);
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        JSONObject jo = new JSONObject(sb.toString());
+        
+        if(type.equals("N")) {
+        	JSONObject jo2 = jo.getJSONObject("response");
+            if(jo2.has("profile_image")) {
+            	profile = jo2.getString("profile_image");
+    		}
+        }else if(type.equals("K")) {
+        	JSONObject joA = jo.getJSONObject("kakao_account");
+            if(joA.has("profile")) {
+            	JSONObject joP = joA.getJSONObject("profile");
+            	if(joP.has("thumbnail_image_url")) {
+            		profile = joP.getString("thumbnail_image_url");
+        		}
+            }
+        }
+        return profile;
+	}
+	
+	private UserSessionDTO kakaoTokenRefresh(UserSessionDTO se_dto) throws Exception {
+		
+		StringBuilder urlBuilder = new StringBuilder("https://kauth.kakao.com/oauth/token");
+		urlBuilder.append("?" + URLEncoder.encode("grant_type","UTF-8") + "=" + URLEncoder.encode("refresh_token", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("client_id","UTF-8") + "=" + URLEncoder.encode("98777fbdb2c9b1364e02210caf720b42", "UTF-8")); 
+		urlBuilder.append("&" + URLEncoder.encode("refresh_token","UTF-8") + "=" + URLEncoder.encode(se_dto.getRefreshToken(), "UTF-8")); 
+		URL url = new URL(urlBuilder.toString());
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		System.out.println("Response code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+		    rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		} else {
+		    rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+		    sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
+		
+		Long exp = (Long)(System.currentTimeMillis()/1000)+(60*60*6);
+		
+		JSONObject jo = new JSONObject(sb.toString());
+		String a_t = jo.getString("access_token");
+		
+		se_dto.setSessionID(a_t);
+		se_dto.setExpiresTime(exp.toString());
+		userDao.updateUserSession(se_dto);
+		return se_dto;
+	}
+
+	private UserSessionDTO naverTokenRefresh(UserSessionDTO se_dto) throws Exception {
+		
+		StringBuilder urlBuilder = new StringBuilder("https://nid.naver.com/oauth2.0/token");
+		urlBuilder.append("?" + URLEncoder.encode("grant_type","UTF-8") + "=" + URLEncoder.encode("refresh_token", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("client_id","UTF-8") + "=" + URLEncoder.encode("2fzdhIRlmXgPi9uo_5Xi", "UTF-8")); 
+		urlBuilder.append("&" + URLEncoder.encode("client_secret","UTF-8") + "=" + URLEncoder.encode("nPmw0vdmyR", "UTF-8")); 
+		urlBuilder.append("&" + URLEncoder.encode("refresh_token","UTF-8") + "=" + URLEncoder.encode(se_dto.getRefreshToken(), "UTF-8")); 
+		URL url = new URL(urlBuilder.toString());
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		System.out.println("Response code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+		    rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		} else {
+		    rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+		    sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
+		
+		Long exp = (Long)(System.currentTimeMillis()/1000)+(60*60);
+		
+		JSONObject jo = new JSONObject(sb.toString());
+		String a_t = jo.getString("access_token");
+		
+		se_dto.setSessionID(a_t);
+		se_dto.setExpiresTime(exp.toString());
+		
+		userDao.updateUserSession(se_dto);
+		return se_dto;
 	}
 }
