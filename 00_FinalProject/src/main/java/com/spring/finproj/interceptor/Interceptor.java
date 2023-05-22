@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.finproj.model.chat.ChatDAO;
+import com.spring.finproj.model.chat.ChatDTO;
 import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
 import com.spring.finproj.model.user.UserSessionDTO;
@@ -24,11 +27,14 @@ import com.spring.finproj.model.user.UserSessionDTO;
 public class Interceptor implements HandlerInterceptor{
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private ChatDAO chatDAO;
 	
 	// 로그인기록 있으나 세션 만료되어있는 상태, 자동 로그인 기능
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
 		// TODO Auto-generated method stub
 		Long nowTime = (System.currentTimeMillis()/1000);
 		HttpSession session = request.getSession();
@@ -37,11 +43,13 @@ public class Interceptor implements HandlerInterceptor{
 		String j_s = null;
 		
 		Cookie[] cs = request.getCookies();
-		for(Cookie c : cs) {
-			if(c.getName().equals("AccessToken")) {
-				a_t = c.getValue();
-			}else if(c.getName().equals("JSESSIONID")){
-				j_s = c.getValue();
+		if(cs!=null) {
+			for(Cookie c : cs) {
+				if(c.getName().equals("AccessToken")) {
+					a_t = c.getValue();
+				}else if(c.getName().equals("JSESSIONID")){
+					j_s = c.getValue();
+				}
 			}
 		}
 		
@@ -87,7 +95,7 @@ public class Interceptor implements HandlerInterceptor{
 						//구글 세션 갱신법 확인 필요
 						response.getWriter().println("<script>"
 								+ "alert('구글 세션 만료');"
-								+ "location.href='/finproj/index';"
+								+ "history.back();';"
 								+ "</script>");
 						return false;
 						
@@ -263,7 +271,23 @@ public class Interceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) {
-	
+		HttpSession s = request.getSession();
+		if(s.getAttribute("LoginUser")!=null) {
+			UserDTO user = (UserDTO) s.getAttribute("LoginUser");
+			List<ChatDTO> list = chatDAO.getChatRoomList(user.getUser_no());
+			
+			for(ChatDTO d : list) {
+				if(d.getUser_no1()!=user.getUser_no()) {
+					UserDTO ex = userDAO.getUserContent(d.getUser_no1());
+					d.setNickname(ex.getNickname());
+				}else {
+					UserDTO ex = userDAO.getUserContent(d.getUser_no2());
+					d.setNickname(ex.getNickname());
+				}
+			}
+			System.out.println(list);
+			request.setAttribute("ChatRoomList", list);
+		}
 	}
 
 	@Override

@@ -41,7 +41,6 @@ public class BoardDTO {
 		this.photo_files = new ArrayList<String>();
 		
 		if(this.photo_folder!=null) {
-			System.out.println(this.photo_folder);
 			
 			Properties prop = new Properties();
 			@SuppressWarnings("deprecation")

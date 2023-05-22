@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDTO;
+import com.spring.finproj.model.chat.ChatDTO;
 
 public interface BoardService {
 

@@ -9,6 +9,7 @@ public interface UserDAO {
 	public List<UserDTO> getUserList();
 	public UserDTO getUserContent(int user_no);
 	public int insertUserContent(UserDTO dto);
+	public int insertUserProfileContent(UserDTO dto);
 	public int updateUserContent(UserDTO dto);
 	public int deleteUserContent(int user_no);
 	

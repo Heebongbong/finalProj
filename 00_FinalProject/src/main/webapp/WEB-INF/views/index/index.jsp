@@ -35,6 +35,7 @@
 	<div class="index_board_wrap">
 		<c:forEach items="${boardList }" var="board">
 		<div class="index_board">
+			<input type="button" value="채팅하기" onclick="chat_board(${board.getUser_no() })">
 			<input type="hidden" class="board_no" value="${board.getCm_no() }">
 			${board }
 		</div>
