@@ -12,9 +12,6 @@
 		select * from user u join user_profile p on u.user_no = p.user_no
 			where u.user_no = #{user_no}
 	</select>
-	<insert id="user_insert" parameterType="userDTO">
-		insert into user values(#{user_no}, #{pwd}, #{nickname}, #{phone}, #{profile}, #{date}, #{point}, #{authen})
-	</insert>
 	<select id="user_cont_id" resultType="userDTO" parameterType="map">
 		select * from user u join user_profile p on u.user_no = p.user_no where u.email = #{email} and u.type = #{type}
 	</select>
@@ -51,4 +48,19 @@
 	<update id="user_update_session" parameterType="userSessionDTO">
 		update user_session set sessionID = #{sessionID}, expiresTime = #{expiresTime} where user_no = #{user_no}
 	</update>
+	
+	<!-- 회원가입 -->
+	<insert id="user_insert_profile" parameterType="userDTO">
+		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
+			SELECT MAX(user_no) FROM user_profile
+		</selectKey>
+		INSERT INTO user_profile VALUES(#{user_no} + 1, #{pwd}, #{nickname}, #{phone}, #{profile}, now(), default, #{authen}, #{profile_type})
+	</insert>
+	
+	<insert id="user_insert" parameterType="userDTO">
+		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
+			SELECT MAX(user_no) FROM user
+		</selectKey>
+		INSERT INTO user VALUES(#{user_no} + 1, #{email}, #{type})
+	</insert>
 </mapper>

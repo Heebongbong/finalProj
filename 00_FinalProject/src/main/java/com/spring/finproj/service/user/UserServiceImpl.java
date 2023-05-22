@@ -37,18 +37,19 @@ public class UserServiceImpl implements UserService {
 	
 	@SuppressWarnings("all")
 	@Override
-	public void insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile mfile) throws Exception {
+	public String insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile mfile, Model model) throws Exception {
+
+		dto.setType("S");
 		
-		
-	   
-		
+		String originalFileName = mfile.getOriginalFilename();
+	    
+	    if (!originalFileName.isEmpty()) {
+	    
+	    // 절대경로 가져오기
 		Properties prop = new Properties();
 		FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 		prop.load(new InputStreamReader(fis));
 		fis.close();
-		
-		//int fileSize = 100 * 1024 * 1024; // 100MB
-
 		
 		LocalDateTime nowDate = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
@@ -60,36 +61,48 @@ public class UserServiceImpl implements UserService {
         StringTokenizer st = new StringTokenizer(dto.getEmail(), "@", true);
         String email_id = st.nextToken();
         
-	    String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\profile\\"  +type + "_" + email_id;
+        String userFolder = "\\profile\\"  + type + "_" + email_id;
+	    String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + userFolder;
 	    
-	    File folder = new File(saveFolder);
-		if(!folder.exists()) {
-		    folder.mkdirs();
-		    File folder2 = new File(saveFolder + "\\" + today);
-		    if(!folder2.exists()) {
-		    	folder2.mkdir();
-		    }
+	    File folder1 = new File(saveFolder);
+	    File folder2 = new File(saveFolder + "\\" + today);
+		if(!folder1.exists()) {
+		    folder1.mkdirs();
 		}
 		
-		String originalFileName = mfile.getOriginalFilename();
-	    
-	    // UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
-	    if (!originalFileName.isEmpty()) {
-		    String saveFileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf('.'));
-		    mfile.transferTo(new File(saveFolder +"\\"+ today +"\\"+ saveFileName));
+		if(!folder2.exists()) {
+			folder2.mkdir();
+		}
+		
+
+	    String saveFileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf('.'));
+	    mfile.transferTo(new File(saveFolder + "\\" + today, saveFileName));
+	    dto.setProfile("/finproj/resources/images/profile/" + type + "_" + email_id+"/" + today + "/" + saveFileName);
+	    dto.setProfile_type(false);
+		    
+	    } else {
+	    	// 기본이미지 세팅
+	    	dto.setProfile("/finproj/resources/images/profile/default/default_profile.png"); 
+	    	dto.setProfile_type(true);
 	    }
 	    
-	    if(dto.getProfile() == null) { dto.setProfile(System.getenv("USERPROFILE").substring(3) + "\\profile\\default_profile.png"); }
+	    if(dto.getPhone() != null) {
+	    	dto.setAuthen(false);
+	    } else {
+	    	dto.setAuthen(true);
+	    }
+	    
+		System.out.println("service dto ================>>>> " + dto);
+
 	    
 		int check = userDao.insertUserContent(dto);
+		int check2 = userDao.insertUserProfileContent(dto);
 		
 		if(check > 0) {
-			response.sendRedirect("/finproj/index");
+			return "redirect:/index";
 		}else {//불일치
-			response.getWriter().println("<script>"
-					+ "alert('회원가입 실패');"
-					+ "history.back();"
-					+ "</script>");
+			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
+		    return "error/error";
 		}
 		
 	}
@@ -151,6 +164,12 @@ public class UserServiceImpl implements UserService {
 			check = "false";
 		}
 		return check;
+	}
+	
+	@Override
+	public String getCodeCheck(String code) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override

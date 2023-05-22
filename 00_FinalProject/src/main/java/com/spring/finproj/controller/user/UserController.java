@@ -38,12 +38,14 @@ public class UserController {
 		return "user.join";
 	}
 	
-	@RequestMapping("/join/ok")
-	public String userJoinOk(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile multipartFile) throws Exception {
+	@RequestMapping("/joinOk")
+	public String userJoinOk(UserDTO dto, HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam("upfile") MultipartFile multipartFile, Model model) throws Exception {
 		
-		userService.insertUserContent(dto, request, response, multipartFile);
+		System.out.println("=================" + multipartFile);
+		System.out.println("controller dto =====>" + dto);
+		return userService.insertUserContent(dto, request, response, multipartFile, model);
 		
-		return "";
 	}
 	
 	@RequestMapping("/check/nickname")
@@ -58,6 +60,13 @@ public class UserController {
 	public String userCheckPhone(@RequestParam("phone") String phone) throws Exception {
 		
 		return userService.getPhoneCheck(phone);
+	}
+	
+	@RequestMapping("/check/code")
+	@ResponseBody
+	public String userCheckCode(@RequestParam("code") String code) throws Exception {
+		
+		return userService.getCodeCheck(code);
 	}
 	
 	@RequestMapping("/insert")
