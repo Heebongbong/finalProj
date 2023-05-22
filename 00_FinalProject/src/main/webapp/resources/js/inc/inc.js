@@ -52,7 +52,11 @@ function loginWithKakao() {
 
 //chating js
 function open_chat(){
-	$('.chat_wrap').css('display', 'flex');
+	if(loginUser==''){
+		alert('로그인이 필요합니다.');
+	}else{
+		$('.chat_wrap').css('display', 'flex');
+	}
 }
 
 function close_chat(){
@@ -77,7 +81,6 @@ function chat_start(no){
 		async:false,
 		success: function(data){
 			$(data).each(function(){
-
 				let table = "";
 				
 				if(this.send_user == no){
@@ -94,7 +97,7 @@ function chat_start(no){
 			connect_chat();
 		},
 		error: function(){
-			alert('게시물 로딩 중 오류');
+			alert('채팅 시작 중 오류');
 		}
 	});
 }
@@ -103,7 +106,7 @@ function chat_start(no){
 
 function connect_chat() {
 	
-	let ws = new WebSocket("ws://192.168.35.185:8787/finproj/chating");
+	let ws = new WebSocket("ws://192.168.140.38:8787/finproj/chating");
 	socket = ws;
 	//이벤트 헨들러
 	ws.onopen = function() {
@@ -119,6 +122,7 @@ function connect_chat() {
 		$("#content").text("내용: " + sl[2]); */
 		
 		let table = "<p style='width:100%;' class='chat_sendU'>"+sl[0]+" : "+sl[2]+"</p>";
+		$('.chat_cont').append(table);
 		
 		console.log("ReceiveMessage:" + event.data+'\n');
 	};
@@ -140,4 +144,27 @@ function send_chat(room_no){
 	socket.send(room_no+"," + receiveId + "," + msg);
 	$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
 	$('.chat_msg').val("");
+}
+
+function chat_board(no){
+	open_chat();
+	$.ajax({
+		type: "get",
+		url: ctxPath+"/chat/board",
+		data: {
+			user_no: no,
+		},
+		dataType : "text",
+		async:false,
+		success: function(data){
+			if(data>0){
+				chat_start(no);
+			}else{
+				alert('채팅방 등록 중 오류');
+			}
+		},
+		error: function(){
+			alert('채팅상대 검색 중 오류');
+		}
+	});
 }

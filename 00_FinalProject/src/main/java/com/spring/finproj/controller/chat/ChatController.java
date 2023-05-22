@@ -25,4 +25,10 @@ public class ChatController {
 		List<ChatDTO> list = chatService.getChatListContUser(user_no, session);
 		return list;
 	}
+	
+	@RequestMapping("/board")
+	@ResponseBody
+	public int chatBoard(int user_no, HttpSession session) {
+		return chatService.insertChatRoomCont(user_no, session);
+	}
 }
