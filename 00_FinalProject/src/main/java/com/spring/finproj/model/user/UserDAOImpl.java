@@ -24,11 +24,18 @@ public class UserDAOImpl implements UserDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("user_cont", user_no);
 	}
-
+	
+	// 회원가입
 	@Override
 	public int insertUserContent(UserDTO dto) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("user_insert", dto);
+	}
+	
+	@Override
+	public int insertUserProfileContent(UserDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("user_insert_profile", dto);
 	}
 
 	@Override

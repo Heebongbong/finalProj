@@ -14,7 +14,7 @@
 	}
 	
 	p {
-		font-size: .9em;	
+		font-size: .8em;	
 	}
 	
 	.text {
@@ -38,7 +38,7 @@
 
 <div id="mypage_wrap">
 
-	<form id="joinForm" action="${ctxPath }/user/join/ok" method="post" enctype="multipart/form-data">
+	<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data" novalidate>
 		
 		<div class="text_part">
 			<p class="text">이메일</p>
@@ -58,19 +58,19 @@
 			<div class="profile_part">
 				<p>프로필 사진 (선택)</p>
 				<div class="profile"><img id="previewImg" src="../resources/images/profile/default/default_profile.png"/></div>
-				<div><input type="file" name="profile" id="profileInput" onchange="previewProfileImage(event)"></div>
+				<div><input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)"></div>
 				
 				<p class="text">전화번호(선택)</p>
-				<input name="phone" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)">
-				<button id="sendBtn" onclick="sendSMS()">인증번호발송</button>
+				<input name="phone" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)" optional>
+				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
 				<p class="phoneError">&nbsp;</p>
 				<input name="code" id="input_code" class="phone">
-				<button onclick="checkCode()">인증하기</button>
+				<button type="button" onclick="checkCode()">인증하기</button>
 				<p class="codeError">&nbsp;</p>
 			</div>
 		</div>
 		
-		<input type="submit">
+		<button type="submit">가입하기</button>
 	
 	</form>
 	
@@ -80,35 +80,42 @@
 <!-- 간단한 클라이언트 측 양식 유효성 검사를 쉽게 할 수 있고 많은 사용자 정의 옵션을 정의할 수 있습니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script type="text/javascript">
+
 	
-	function sendSMS() {
-		
-		let phoneError = document.getElementsByClassName("phoneError")[0];
-		
-		if(phoneError.innerText == '확인') {
+	function sendSMS(event) {
 			
-			// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
-		  const button = document.getElementById('sendBtn');
-		  button.innerText = '재전송';
-		  
-		  const phone = document.getElementById("input_phone").value;
-		  
-		  alert(phone);
-		  $.ajax({
-			  url : "${ctxPath}/user/sms/send",
-			  type : "post",
-			  data : { phone : phone },
-			  success : function(res) {
-				  phoneError.textContent = "휴대전화로 인증번호가 전송되었습니다.";
-			  },
-			  error : function() {
-				  alert("전송 실패");
-			  }
+		
+			let phoneError = document.getElementsByClassName("phoneError")[0];
+			const phone = document.getElementById("input_phone").value;
+				
+			if(phoneError.innerText === '확인' || !phone) {
+				
+				// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
+			  const button = document.getElementById('sendBtn');
+			  button.innerText = '재전송';
 			  
-		  });
-		  
-		}
+			  const phone = document.getElementById("input_phone").value;
+			  
+			  alert(phone);
+			  $.ajax({
+				  url : "${ctxPath}/user/sms/send",
+				  type : "post",
+				  data : { phone : phone },
+				  success : function(res) {
+					  phoneError.textContent = "휴대전화로 인증번호가 전송되었습니다.";
+				  },
+				  error : function() {
+					  alert("전송 실패");
+				  }
+				  
+			  });
+			  
+			}else {
+				alert("전화번호 입력해주세여");
+			}
 			event.preventDefault();
+
+
 	}
 	  
 
@@ -116,6 +123,9 @@
 	  
 	
 	function checkCode() {
+		
+		event.preventDefault();
+
 	  const input_code = document.getElementById("input_code").value;
 	  
 	  let codeError = document.getElementsByClassName("codeError")[0];
@@ -137,7 +147,6 @@
 		  
 	  });
 	  
-		event.preventDefault();
 		
 	}
 	
@@ -176,14 +185,35 @@
 			});
 		
 			$.validator.addMethod("phoneCheck", function(value, elements) {
-				  var pattern = /^010\d{7,8}$/;
+					var length = value.trim().length;
 				  
-				  return pattern.test(value);
+			  		if(length == 0){
+		        	return true;
+		        }else {
+						  var pattern = /^010\d{7,8}$/;
+						  return pattern.test(value);
+		        }
+				  
 			});
 			
 		 $.validator.addMethod("phoneLength", function(value, element) {
 		        var length = value.trim().length;
-		        return length >= 10 && length <= 11;
+		        
+		        if(length == 0){
+		        	return true;
+		        }else {
+			        return length >= 10 && length <= 11;
+		        }
+		 });
+		 
+		 $.validator.addMethod("codeLength", function(value, element) {
+		        var length = value.trim().length;
+		        
+		        if(length == 0){
+		        	return true;
+		        }else {
+			        return length = 6;
+		        }
 		 });
 		 
 		 $.validator.addMethod("nicknameLength", function(value, element) {
@@ -218,8 +248,16 @@
 		 });
 		 
 		 $.validator.addMethod("phoneUnique", function(value, element) {
-		        
+		    
+			 
 			 let isUnique = false;
+			 
+			 var length = value.trim().length;
+		        
+		        if(length == 0){
+		        	return true;
+		        }else {
+		        
 			 // AJAX 요청
 		        $.ajax({
 		            url: "${ctxPath}/user/check/phone",
@@ -236,6 +274,8 @@
 		             }
 		        });
 		        return isUnique;
+		        
+		        }
 		 });
 		 
 		$("#joinForm").validate({
@@ -266,6 +306,9 @@
 						phoneCheck : true,
 						phoneUnique : true
 					}, 
+					code : {
+						codeLength : true
+					},
 					nickname : {
 						nicknameLength : true,
 						nicknameUnique : true,
@@ -290,7 +333,7 @@
 
 	      },
 				email : {
-					required : '이메일을 입력해주세요',
+					required: '이메일을 입력해주세요',
 					emailCheck : '유효한 이메일 주소를 입력하세요',
 					email : '유효한 이메일 주소를 입력하세요'
 				},
@@ -298,6 +341,9 @@
 					phoneLength : "유효한 휴대전화 번호를 입력하세욘",
 					phoneCheck : "공백, 문자 없이 입력하세요",
 					phoneUnique : "이미 등록된 번호입니다."
+				},
+				code : {
+					codeLength : "인증번호는 6자리입니다."
 				},
 				nickname : {
 					nicknameLength : "닉네임은 3글자에서 20글자 사이어야 합니다.",
@@ -316,7 +362,7 @@
       success: function(label, element) {
     	    var targetElementClass = $(element).attr("name") + "Error";
     	    var targetElement = $("." + targetElementClass);
-    	    targetElement.text("확인");
+    	    targetElement.text(" ");
           targetElement.css("color", "green");
     	}
 
