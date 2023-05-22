@@ -16,5 +16,23 @@ public class ChatDAOImpl implements ChatDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("chat_list", dto);
 	}
+
+	@Override
+	public List<ChatDTO> getChatRoomList(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("chat_room_list", user_no);
+	}
+
+	@Override
+	public int insertChatRoomCont(ChatDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("chat_room_insert", dto);
+	}
+
+	@Override
+	public void insertChatCont(ChatDTO c_dto) {
+		// TODO Auto-generated method stub
+		sqlSession.insert("chat_insert", c_dto);
+	}
 	
 }

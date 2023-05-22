@@ -29,4 +29,14 @@ public class ChatServiceImpl implements ChatService {
 		
 		return chatList;
 	}
+
+	@Override
+	public int insertChatRoomCont(int user_no, HttpSession session) {
+		// TODO Auto-generated method stub
+		ChatDTO dto = new ChatDTO();
+		UserDTO login = (UserDTO) session.getAttribute("LoginUser");
+		dto.setUser_no1(login.getUser_no());
+		dto.setUser_no2(user_no);
+		return chatDAO.insertChatRoomCont(dto);
+	}
 }

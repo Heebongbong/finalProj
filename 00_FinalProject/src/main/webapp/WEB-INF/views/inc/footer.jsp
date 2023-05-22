@@ -4,7 +4,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
+<c:set value="${ChatRoomList }" var="chatRoomList"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+<script>const loginUser = '${loginUser }';</script>
 <div id="footer">
 	<ul class="move_navi">
 		<li class="navi_camping"><a href="${ctxPath }/campingNavi"><img alt="" src="${ctxPath }/resources/images/logo/tent.png"></a></li>
@@ -19,9 +21,14 @@
 		
 <div class="chat_wrap">
 	<div class="chat_list">
-		<p><a href="javascript:chat_start(6)">채팅하기</a></p>
-		<p>nickName</p>
-		<p>nickName</p>
+		<c:forEach items="${chatRoomList }" var="room">
+		<c:if test="${room.user_no1 == loginUser.user_no }">
+			<p><a href="javascript:chat_start(${room.user_no2 })">${room.nickname }</a></p>
+		</c:if>
+		<c:if test="${room.user_no2 == loginUser.user_no }">
+			<p><a href="javascript:chat_start(${room.user_no1 })">${room.nickname }</a></p>
+		</c:if>
+		</c:forEach>
 	</div>
 	<div class="chat_main">
 		<div class="chat_title">

@@ -14,6 +14,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.spring.finproj.model.chat.ChatDAO;
+import com.spring.finproj.model.chat.ChatDTO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Component
@@ -53,12 +54,24 @@ public class ChatHandler extends TextWebSocketHandler {
 		if(StringUtils.isNotEmpty(msg)) {
 			String[] strs = msg.split(",");
 			if (strs != null && strs.length == 3) {
-				String sendId = strs[0];
+				String room_no = strs[0];
 				String receiveUserId = strs[1];
 				String content = strs[2];
 				
-				System.out.println(sendId+"/"+receiveUserId+"/"+content);
+				System.out.println(room_no+"/"+receiveUserId+"/"+content);
 				System.out.println("최종맵리스트"+userSessions);
+				
+				Map<String, Object> sessionVal =  session.getAttributes();
+			        
+			    UserDTO user = (UserDTO) sessionVal.get("LoginUser");
+				
+				ChatDTO c_dto = new ChatDTO();
+				c_dto.setChat_room_no(Integer.parseInt(room_no));
+				c_dto.setSend_user(user.getUser_no());
+				c_dto.setChat_cont(content);
+				
+				chatDAO.insertChatCont(c_dto);
+				
 				//broadcasting
 				if(receiveUserId.equals("")) {
 					for (WebSocketSession sess: sessions) {
@@ -70,7 +83,7 @@ public class ChatHandler extends TextWebSocketHandler {
 					WebSocketSession responseIdSession = userSessions.get(Integer.parseInt(receiveUserId));
 					
 					if (responseIdSession != null) {
-						TextMessage tmpMsg = new TextMessage(sendId + "," + receiveUserId + "," + content);
+						TextMessage tmpMsg = new TextMessage(user.getNickname() + "," + receiveUserId + "," + content);
 						responseIdSession.sendMessage(tmpMsg);
 					}
 				}
