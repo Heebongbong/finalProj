@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.list_navi{
+	display: flex;
+	justify-content: center;
+}
+.list_navi_li{
+	margin: 10px 50px;
+}

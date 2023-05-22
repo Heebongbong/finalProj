@@ -18,5 +18,6 @@
 	 	<typeAlias type="com.spring.finproj.model.weather.WeatherDTO" alias="weatherDTO"/>
 	 	<typeAlias type="com.spring.finproj.model.chat.ChatDAO" alias="chatDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.chat.ChatDTO" alias="chatDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.chat.FaqDTO" alias="faqDTO"/>
 	</typeAliases>
  </configuration>

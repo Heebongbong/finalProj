@@ -27,6 +27,9 @@
 		</selectKey>
 		insert into chat values(#{chat_no}+1, #{chat_room_no}, #{send_user}, #{chat_cont}, now())
 	</insert>
+	<select id="faq_list" resultType="faqDTO">
+		select * from faq a join faq_category b on a.faq_cate_no = b.faq_cate_no
+	</select>
 </mapper>
 
 

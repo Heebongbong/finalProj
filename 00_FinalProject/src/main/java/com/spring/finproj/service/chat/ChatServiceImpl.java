@@ -1,6 +1,9 @@
 package com.spring.finproj.service.chat;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.finproj.model.chat.ChatDAO;
 import com.spring.finproj.model.chat.ChatDTO;
+import com.spring.finproj.model.chat.FaqDTO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Service
@@ -38,5 +42,25 @@ public class ChatServiceImpl implements ChatService {
 		dto.setUser_no1(login.getUser_no());
 		dto.setUser_no2(user_no);
 		return chatDAO.insertChatRoomCont(dto);
+	}
+
+	@Override
+	public Map<Integer, List<FaqDTO>> getFaqList() {
+		// TODO Auto-generated method stub
+		
+		List<FaqDTO> list = chatDAO.getFaqList();
+		
+		Map<Integer, List<FaqDTO>> faqList = new HashMap<Integer, List<FaqDTO>>();
+		
+		for(int i=1;i<=5;i++) {
+			List<FaqDTO> l = new ArrayList<FaqDTO>();
+			for(FaqDTO f : list) {
+				if(f.getFaq_cate_no()==i) {
+					l.add(f);
+				}
+			}
+			faqList.put(i, l);
+		}
+		return faqList;
 	}
 }

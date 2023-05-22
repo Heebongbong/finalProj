@@ -34,5 +34,11 @@ public class ChatDAOImpl implements ChatDAO{
 		// TODO Auto-generated method stub
 		sqlSession.insert("chat_insert", c_dto);
 	}
+
+	@Override
+	public List<FaqDTO> getFaqList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("faq_list");
+	}
 	
 }

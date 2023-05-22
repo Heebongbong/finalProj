@@ -11,4 +11,10 @@ import com.spring.finproj.service.market.MarketService;
 public class MarketController {
 	@Autowired
 	private MarketService marketService;
+	
+	@RequestMapping("/write")
+	public String marketWriter() {
+		return "market.write";
+	}
+	
 }

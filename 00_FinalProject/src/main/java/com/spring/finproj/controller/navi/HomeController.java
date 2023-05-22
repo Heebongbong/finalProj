@@ -1,7 +1,6 @@
 package com.spring.finproj.controller.navi;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.spring.finproj.service.board.BoardService;
 import com.spring.finproj.service.camping.CampingService;
 import com.spring.finproj.service.drive.DriveService;
+import com.spring.finproj.service.handler.IpChatch;
+import com.spring.finproj.service.market.MarketService;
 
 @Controller
 public class HomeController {
@@ -20,7 +21,9 @@ public class HomeController {
 	private DriveService driveService;
 	@Autowired
 	private BoardService boardService;
-
+	@Autowired
+	private MarketService marketService;
+	
 	@RequestMapping(value = {"/", "/index", "/indexNavi"})
 	public String homeNavi(Model model, HttpServletRequest rq) throws Exception {
 		campingService.getCampingRandomList(model);
@@ -28,6 +31,8 @@ public class HomeController {
 		model.addAttribute("banner_num", ran_num);
 		
 		boardService.getBoardList(rq, model, "");
+		
+		System.out.println(new IpChatch().getClientIP(rq));
 		
 		return "index.index";
 	}
@@ -43,13 +48,14 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/driveNavi")
-	public String driveNavi(Model model) throws Exception {
-		driveService.getGeoLocation(model);
+	public String driveNavi(Model model, HttpServletRequest request) throws Exception {
+		driveService.getGeoLocation(model, request);
 		return "drive.drive";
 	}
 
 	@RequestMapping(value = "/marketNavi")
-	public String marketNavi() {
+	public String marketNavi(Model model) {
+		marketService.getMarketList(model);
 		return "market.market";
 	}
 	
