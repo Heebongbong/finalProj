@@ -12,6 +12,12 @@
 		select * from user u join user_profile p on u.user_no = p.user_no
 			where u.user_no = #{user_no}
 	</select>
+<<<<<<< HEAD
+=======
+	<insert id="user_insert" parameterType="userDTO">
+		insert into user values(#{user_no}, #{pwd}, #{nickname}, #{phone}, #{profile}, #{date}, #{point}, #{authen}, #{profile_type})
+	</insert>
+>>>>>>> branch 'master' of https://github.com/Heebongbong/finalProj.git
 	<select id="user_cont_id" resultType="userDTO" parameterType="map">
 		select * from user u join user_profile p on u.user_no = p.user_no where u.email = #{email} and u.type = #{type}
 	</select>
@@ -28,7 +34,7 @@
 		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
 			select user_no from user where email = #{email} and type = #{type}
 		</selectKey>
-		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, 0)
+		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, 0, #{profile_type})
 	</insert>
 	<delete id="user_delete_session" parameterType="int">
 		delete from user_session where user_no = #{user_no}

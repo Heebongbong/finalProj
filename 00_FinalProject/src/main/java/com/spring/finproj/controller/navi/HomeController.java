@@ -22,9 +22,7 @@ public class HomeController {
 	private BoardService boardService;
 
 	@RequestMapping(value = {"/", "/index", "/indexNavi"})
-	public String homeNavi(Model model,
-			HttpServletRequest rq, HttpServletResponse res) throws Exception {
-		
+	public String homeNavi(Model model, HttpServletRequest rq) throws Exception {
 		campingService.getCampingRandomList(model);
 		int ran_num=(int)((Math.random()*7)+1);
 		model.addAttribute("banner_num", ran_num);
