@@ -67,7 +67,7 @@
 			<p><img alt="" src="${loginUser.getProfile() }"></p>
 			<p>${loginUser.getNickname() }</p>
 			<input type="button" value="로그아웃" onclick="location.href='${ctxPath }/login/logout'">
-			<button onclick="location.href='${ctxPath }/user/content?user_no=3'">마이페이지</button>
+			<button onclick="location.href='${ctxPath }/user/mypage'">마이페이지</button>
 		</div>
 		<div class="user_menu_body">
 			<div></div>
