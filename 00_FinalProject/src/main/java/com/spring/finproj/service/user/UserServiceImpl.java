@@ -111,10 +111,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUserContent(UserDTO dto, String pwd_update, HttpServletResponse response) {
-
-		int check = userDao.updateUserPwd(dto);
-
+	public void updateUserContent(UserDTO dto, HttpSession session) {
+		
+		UserDTO sdto = (UserDTO)session.getAttribute("LoginUser");
+		
+		dto.setUser_no(sdto.getUser_no());
+		// upfile 받아서 사진처리
+		// 세션에서 받을 수 있는 값 처리해서 가져 오든지 아니면 여기서 처리하던지.
+		// if문으로 경우의 수 잘 따지기
+		
+		System.out.println("session" + sdto);
+		System.out.println("게시글     " +dto);
+		System.out.println(dto.getPhone());
+		if(dto.getPhone() != null) {
+			dto.setAuthen(true);
+		}
+		
+		System.out.println(dto);
+//		userDao.updateUserContent(dto);
 	}
 
 	@Override
