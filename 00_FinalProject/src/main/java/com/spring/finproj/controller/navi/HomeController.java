@@ -32,8 +32,6 @@ public class HomeController {
 		
 		boardService.getBoardList(rq, model, "");
 		
-		System.out.println(new IpChatch().getClientIP(rq));
-		
 		return "index.index";
 	}
 
@@ -53,12 +51,6 @@ public class HomeController {
 		return "drive.drive";
 	}
 
-	@RequestMapping(value = "/marketNavi")
-	public String marketNavi(Model model) {
-		marketService.getMarketList(model);
-		return "market.market";
-	}
-	
 	@RequestMapping(value = "/userNavi")
 	public String userNavi(HttpServletRequest rq, Model model) {
 		return "user.user";

@@ -13,3 +13,11 @@
 .loc_cont{
 	display: none;
 }
+
+
+.market_write{
+	position: fixed;
+	right: 50px;
+	top: 200px;
+	z-index: 5;
+}

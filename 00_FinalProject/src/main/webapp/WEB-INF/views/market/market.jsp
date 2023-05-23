@@ -17,10 +17,10 @@
 						<a href="javascript:open_navi_loc(0)">서울  / 인천</a>
 						<ul class="loc_cont">
 							<li>
-								서울
+								<a href="${ctxPath }/market/list?keyword=서울">서울</a>
 							</li>
 							<li>
-								인천
+								<a href="${ctxPath }/market/list?keyword=인천">인천</a>
 							</li>
 						</ul>
 					</li>
@@ -28,10 +28,10 @@
 						<a href="javascript:open_navi_loc(1)">경기도 / 강원도</a>
 						<ul class="loc_cont">
 							<li>
-								경기도
+								<a href="${ctxPath }/market/list?keyword=경기">경기도</a>
 							</li>
 							<li>
-								강원도
+								<a href="${ctxPath }/market/list?keyword=강원">강원도</a>
 							</li>
 						</ul>
 					</li>
@@ -39,10 +39,10 @@
 						<a href="javascript:open_navi_loc(2)">충청도 / 전라도</a>
 						<ul class="loc_cont">
 							<li>
-								충청도
+								<a href="${ctxPath }/market/list?keyword=충청">충청도</a>
 							</li>
 							<li>
-								전라도
+								<a href="${ctxPath }/market/list?keyword=전라">전라도</a>
 							</li>
 						</ul>
 					</li>
@@ -50,10 +50,10 @@
 						<a href="javascript:open_navi_loc(3)">경상도 / 제주도</a>
 						<ul class="loc_cont">
 							<li>
-								경상도
+								<a href="${ctxPath }/market/list?keyword=경상">경상도</a>
 							</li>
 							<li>
-								제주
+								<a href="${ctxPath }/market/list?keyword=제주">제주</a>
 							</li>
 						</ul>
 					</li>	
@@ -62,22 +62,39 @@
 			<div class="cate_cont">
 				<ul class="obj_ul">
 					<li class="obj_li">
-						요리
+						<a href="${ctxPath }/market/list">전체</a>
 					</li>
 					<li class="obj_li">
-						캠핑
+						<a href="${ctxPath }/market/list?keyword=#텐트#타프">텐트/타프</a>
 					</li>
 					<li class="obj_li">
-						대형
+						<a href="${ctxPath }/market/list?keyword=#테이블#체어">테이블/체어</a>
 					</li>
 					<li class="obj_li">
-						기타
+						<a href="${ctxPath }/market/list?keyword=#취사#수납">취사/수납</a>
+					</li>
+					<li class="obj_li">
+						<a href="${ctxPath }/market/list?keyword=#랜턴#조명">랜턴/조명</a>
+					</li>
+					<li class="obj_li">
+						<a href="${ctxPath }/market/list?keyword=#소품#기타">소품/기타</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
+	<div class="market_write">
+		<a href="${ctxPath }/market/write"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+	</div>
+	<form class="market_search" action="" method="get">
+		<input type="text" placeholder="검색어를 입력하세요." name="keyword"><input type="submit" value="검색">
+	</form>
 	<div class="market_main">
-		${marketList }
+		<c:forEach items="${marketList }" var="dto">
+			<div>
+				${dto }
+			</div>
+		</c:forEach>
+		
 	</div>
 </div>
