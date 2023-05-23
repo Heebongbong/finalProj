@@ -30,15 +30,16 @@ function addMention(self){
 	    type: 'get',
 	    url: ctxPath + '/board/addmention',
 	    data: {
-	      cm_no: $('.board_no').val(),
-	      user_no: loginUserObject.user_no,
-	      ment: $('#' + cm_no + 'mention').val()
+	      cm_no: cm_no,
+	      user_no: loginUser_no,
+	      ment: $('#' + cm_no).val()
 	    },
 	    dataType: 'json',
 	    contentType: 'application/json; charset=UTF-8;',
 	    success: function(data) {
 	      // 받아온 댓글 데이터를 처리하고 해당 댓글을 목록에 추가합니다.
-	      let mentions = data.Mention;
+	      let mentions = data.cm_no;
+	      console.log(mentions);
 	      for (let i = 0; i < mentions.length; i++) {
 	        let mention = mentions[i];
 	        let replyListId = '.reply-list' + mention.cm_no; // 적절한 reply-list 선택자로 변경하세요.
