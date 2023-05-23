@@ -83,7 +83,6 @@ public class BoardServiceImpl implements BoardService {
 
 		boardTotal.put("BoardList", list);
 		boardTotal.put("MentionList", mapList2);
-
 		return boardTotal;
 	}
 

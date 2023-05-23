@@ -13,11 +13,11 @@
 		select * from mention where cm_no = #{cm_no} and ()
 	</select>
 	
-	<insert id="board_insert" parameterType="boardDTO">
+	<insert id="mention_insert" parameterType="boardDTO">
 	<selectKey keyProperty="mention_no" resultType="int" order="BEFORE">
 		select max(mention_no) from mention
 	</selectKey>
-        insert into mention (mention_no, cm_no, user_no, ment, created,)
-        values (#{mention_no} +1, #{cm_no}, #{user_no}, #{ment}, now())
+        insert into mention (mention_no, cm_no, user_no, ment, created)
+        values (#{mention_no}+1, #{cm_no}, #{user_no}, #{ment}, now())
     </insert>
 </mapper>

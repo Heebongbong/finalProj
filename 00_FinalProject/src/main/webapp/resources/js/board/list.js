@@ -24,9 +24,6 @@ function addMention(self){
 	// 클릭한 버튼의 id를 가져옵니다.
 	  let cm_no = $(self).attr('id');
 	  console.log("cm_no >>> "+cm_no);
-	  
-	  let user_no = $('.loginUserNo').val();
-	  console.log("user_no >>> " + user_no);
 	
 	  // 해당 버튼에 대한 AJAX 요청을 보냅니다.
 	  $.ajax({
