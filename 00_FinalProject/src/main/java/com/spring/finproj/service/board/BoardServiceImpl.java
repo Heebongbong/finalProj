@@ -51,9 +51,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Map<String, Object> getBoardAddList(HttpServletRequest request, int cm_no, String keyword) throws Exception {
+	public Map<String, Object> getBoardAddList(HttpSession session, HttpServletRequest request, int cm_no, String keyword) throws Exception {
 		Map<String, Object> boardTotal = new HashMap<String, Object>();
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
+		
+		UserDTO dto = (UserDTO)session.getAttribute("LoginUser");
+		
+		System.out.println("dto >>> "+ dto);
 		
 		List<BoardDTO> list = null;
 		if(keyword==null || keyword=="") {
@@ -74,6 +78,7 @@ public class BoardServiceImpl implements BoardService{
 		
 		boardTotal.put("BoardList", list);
 		boardTotal.put("MentionList", mapList2);
+		boardTotal.put("LoginUser", (Object)dto);
 		
 		return boardTotal;
 	}
@@ -81,16 +86,12 @@ public class BoardServiceImpl implements BoardService{
 	@SuppressWarnings("deprecation")
 	@Override
 	public int writeBoard(BoardDTO boardDTO, MultipartFile[] files, 
-			Model model, String[] category, String hashtags, 
+			Model model, String[] category,
 			HttpSession session, HttpServletRequest request) throws Exception {
 		
 		UserDTO user = (UserDTO)session.getAttribute("LoginUser");
 		
-		String hashtag = "#"+String.join("#", category);
-		StringTokenizer st = new StringTokenizer(hashtags, "#");
-		while(st.hasMoreTokens()) {
-			hashtag += "#"+st.nextToken().trim();
-		}
+		String hashtag = boardDTO.getHashtag()+"#"+String.join("#", category);
 		
 		boardDTO.setHashtag(hashtag);
 		boardDTO.setUser_no(user.getUser_no());

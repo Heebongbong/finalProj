@@ -34,9 +34,17 @@ function cate_hash(self){
                <input type="file" class="form-control-file border" name="upfile" multiple="multiple">
            </div>
            <div>
-           	<textarea rows="" cols="" name="hashtags" class="hashtags"></textarea>
+
+           	<input type="text" name="hashtag">
+
            </div>
-           <button type="submit" class="btn btn-primary">글작성</button>
-           <button type="reset" class="btn btn-warning">초기화</button>
+           <script type="text/javascript">
+           	
+           </script>
+           <div>
+           	<button type="submit" class="btn btn-primary">글작성</button>
+           	<button type="reset" class="btn btn-warning">초기화</button>
+           </div>
+           
        </form>
 </div>
