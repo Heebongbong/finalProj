@@ -61,7 +61,7 @@ public class BoardController {
     public Map<String , Object> boardAddList(HttpSession session, HttpServletRequest request, 
     		@RequestParam(required = false) int cm_no, 
     		@RequestParam(required = false) String keyword) throws Exception{
-    	return boardService.getBoardAddList(session, request, cm_no, keyword);
+    	return boardService.getBoardAddList(request, cm_no, keyword);
     }
     
     @RequestMapping("/addmention")

@@ -1,6 +1,7 @@
 package com.spring.finproj.model.board;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,24 @@ public class MarketDAOImpl implements MarketDAO{
 	public List<BoardDTO> getMarketList(List<String> hashList) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("market_list_hashtag", hashList);
+	}
+
+	@Override
+	public List<BoardDTO> getMarketList(int cm_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("market_list_cmno", cm_no);
+	}
+
+	@Override
+	public List<BoardDTO> getMarketHashKeyMap(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("market_list_cmno_hash", map);
+	}
+
+	@Override
+	public List<BoardDTO> getMarketKeyMap(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("market_list_cmno_key", map);
 	}
 
 	@Override

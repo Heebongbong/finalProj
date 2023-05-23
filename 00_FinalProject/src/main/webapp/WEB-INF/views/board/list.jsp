@@ -11,25 +11,31 @@
 <script>
 	let loginUser_no = '${loginUser.user_no }';
 	let loginUser_profile = '${loginUser.profile }';
+	
+	function move_search_cate(key){
+		let keyword = $('#board_keyword').val();
+		location.href=ctxPath+"/board/list?keyword=%23"+key+"%23"+keyword;
+	}
 </script>
 <div id="list_wrap">
 	<ul class="list_navi">
 		<li class="list_navi_li">
-			<a href="${ctxPath }/board/list">전체목록</a>
+			<a href="javascript:move_search_cate('#요리')">요리</a>
 		</li>
 		<li class="list_navi_li">
-			<a href="${ctxPath }/board/list?keyword=요리">요리</a>
+			<a href="javascript:move_search_cate('#일상')">일상</a>
 		</li>
 		<li class="list_navi_li">
-			<a href="${ctxPath }/board/list?keyword=일상">일상</a>
+			<a href="javascript:move_search_cate('#캠핑')">캠핑</a>
 		</li>
 		<li class="list_navi_li">
-			<a href="${ctxPath }/board/list?keyword=캠핑">캠핑</a>
+			<a href="javascript:move_search_cate('#리뷰')">리뷰</a>
 		</li>
 		<li class="list_navi_li">
-			<a href="${ctxPath }/board/list?keyword=리뷰">리뷰</a>
+			<a href="${ctxPath }/market/list">중고거래</a>
 		</li>
 	</ul>
+	<input type="hidden" value="" id="board_keyword">
 	<div class="list_main">
 		
 	</div>

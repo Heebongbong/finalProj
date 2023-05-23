@@ -13,50 +13,109 @@ $(document).ready(function(){
 		autoplaySpeed: 4000,
 		arrows: false
 	});
+
+	boardAddList();
 	
 	$('body').on("mousewheel",function(event){
 		if(($(window).scrollTop()+$(window).innerHeight())>=$(document).height()){
 			if(event.originalEvent.deltaY>0){
-				$.ajax({
-					type: "get",
-					url: ctxPath+"/board/addlist",
-					data: {
-						cm_no: $('.board_no:last').val(),
-					},
-					dataType : "json",
-					contentType : "application/json; charset=UTF-8;",
-					async:false,
-					success: function(data){
-						console.log(data);
-						let menList = data.MentionList;
-						$.each(data.BoardList, function(){
-							let table = "<div class='index_board'>" 
-							+ "<input class='board_no' type='hidden' value='"+this.cm_no+"'>"
-							+ "<p>"
-							+ this.content
-							+ "</p>"
-							+ "<p>"
-							+ this.date
-							+ "</p>"
-							+ "<p>"
-							+ this.hashtag
-							+ "</p>"
-							+ "<p>"
-							+ this.photo_files;
-							for(let i =0;i<menList[this.cm_no].length ;i++){
-								let mencont = menList[this.cm_no][i];
-								table += "<div>"+mencont.ment+"/"+mencont.created+"</div>"
-								console.log(mencont);
-							}
-							table += "</div>";
-							$('.index_board_wrap').append(table);
-						});
-					},
-					error: function(){
-						alert('게시물 로딩 중 오류');
-					}
-				});
+				boardAddList();
 			}
 		}
 	});
 });
+
+
+function boardAddList(){
+	let cm_no = $('.board_no:last').val();
+	if(cm_no==null){
+		cm_no = 0;
+	}
+
+	$.ajax({
+		type: "get",
+		url: ctxPath+"/board/addlist",
+		data: {
+			cm_no: cm_no,
+		},
+		dataType : "json",
+		contentType : "application/json; charset=UTF-8;",
+		async:false,
+		success: function(data){
+			let boardList = data.BoardList;
+        	let mentionList = data.MentionList;
+          
+        	let table = "";
+
+			for(let i = 0; i < boardList.length; i++) {
+				let board = boardList[i];
+				let no = board.cm_no;
+				let mention = mentionList[no];
+				let files = board.photo_files;
+				let folders = board.photo_folder;
+
+				table += "<div class='list_board'>" +
+					"<input class='board_no' type='hidden' value='" + no + "'>" +
+					"<div class='board_user'>" +
+					"<img src='" + board.profile + "'>" +
+					"<span>'" + board.nickname + "'</span>" +
+					"</div>" +
+					"<div class='list_board_files'>";
+				
+				if(files==null){
+					table += "<p>파일이 없습니다.</p>";
+				}else{
+					table += "<div class='photo_file'>";
+
+						for(let z=0;z<files.length;z++){
+							table += "<img src='/finproj/resources/images/board/"+folders+"/"+files[z]+"'>";
+						}
+
+					table += "</div>";
+				}
+
+				table += "</div>" +
+				"<div class='" + board.content + "'>" +
+					"<span>'" + board.content + "'</span>" +
+					"<p>'" + board.hashtag + "'</p>" +
+				"</div>" +
+				"<p>댓글창</p>"+
+				"<div id='reply_card"+no+"'>"+
+					"<div class='card card-body'>"+
+						"<div class='reply-list reply-list"+no+"'>";
+				
+				for(let j = 0; j < mention.length; j++) {
+					table += "<div>"+mention[j].user_no+"</div>"+
+						"<div>"+mention[j].ment+"</div>";
+				}
+
+				table += "</div>";
+						
+				if(loginUser_no==""){
+					table += "<div class='row reply_write'>"+
+						"<input class='loginUserNo' type='hidden' value='" + loginUser_no + "'>"+
+							"<div>"+
+								"<img id='profileImage' src='"+loginUser_profile+"' />"+
+							"</div>"+
+							"<div>"+
+								"<textarea id='"+no+"' name='mention' rows='4' cols='50'></textarea>"+
+							"</div>"+
+							"<div>"+
+								"<button type='button' id='"+no+"' class='btn write_reply' onclick='addMention(this)'>댓글입력</button>"+
+							"</div>"+
+						"</div>";
+				}else{
+					table += "<div class='row reply_write'> </div>";
+				}
+				table += "</div>"+
+					"</div>"+
+				"</div>";
+			}
+
+			$('.index_board_wrap').append(table);
+		},
+		error: function(){
+			alert('게시물 로딩 중 오류');
+		}
+	});
+}
