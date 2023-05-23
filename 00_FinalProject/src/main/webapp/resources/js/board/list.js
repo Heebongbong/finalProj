@@ -38,7 +38,7 @@ $(document).ready(function(){
 	            let mention = mentionList[no];
 	            let files = board.photo_folder;
 	            let loginUserObject = JSON.parse(loginUser);
-	            console.log("OOOUserNO >>>" + loginUserObject.no)
+	            console.log("OOOUserNO >>>" + loginUserObject.user_no);
 
 	            for (let j = 0; j < mention.length; j++) {
 	              table = "<div class='list_board'>" +
@@ -69,7 +69,7 @@ $(document).ready(function(){
 							"</div>"+
 							<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
 								(loginUser ? "<div class='row reply_write'>"+
-									"<input class='loginUserNo' type='hidden' value='" + loginUserObject.no + "'>"+
+									"<input class='loginUserNo' type='hidden' value='" + loginUserObject.user_no + "'>"+
 									"<div>"+
 											"<img id='profileImage' src='"+loginUserObject.profile+"' />"+
 									"</div>"+
@@ -77,7 +77,7 @@ $(document).ready(function(){
 										"<textarea id='"+mention[j].cm_no+"' name='mention' rows='4' cols='50'></textarea>"+
 									"</div>"+
 									"<div>"+
-										"<button type='button' id='"+mention[j].cm_no+"' class='btn write_reply'>댓글입력</button>"+
+										"<button type='button' id='"+no+"' class='btn write_reply'>댓글입력</button>"+
 									"</div>"+
 								"</div>" : "<div class='row reply_write'> </div>") +
 							"</div>"+
@@ -106,7 +106,7 @@ $(document).ready(function(){
 					    url: ctxPath + '/board/addmention',
 					    data: {
 					      cm_no: $('.board_no').val(),
-					      user_no: loginUserObject.user_no,
+					      user_no: user_no,
 					      ment: $('#' + cm_no + 'mention').val()
 					    },
 					    dataType: 'json',
