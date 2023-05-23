@@ -1,5 +1,6 @@
 package com.spring.finproj.service.board;
 
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +29,9 @@ public class MentionServiceImpl implements MentionService{
 	}
 
 	@Override
-	public void create(MentionDTO dto) throws Exception {
-		// TODO Auto-generated method stub
+	public int getMentionInsert(MentionDTO dto) throws Exception {
+		
+		return this.mentionDAO.insertMentionContent(dto);
 		
 	}
 

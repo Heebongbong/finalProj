@@ -44,11 +44,11 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/google")
-	public String loginGoogle(String credential, String g_csrf_token, HttpSession session, 
+	public String loginGoogle(String code, HttpSession session, 
 			HttpServletResponse response, HttpServletRequest request) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		if(session.getAttribute("LoginUser")==null) {
-			loginService.loginGoogle(g_csrf_token, credential, session, response);
+			loginService.loginGoogle(code, session, response);
 		}
 		return "redirect:/index";
 	}

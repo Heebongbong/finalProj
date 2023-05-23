@@ -25,7 +25,6 @@ public class BoardDTO {
 	
 	//market
 	private String title;
-	private String kategory;
 	private int price;
 	private int index;
 	

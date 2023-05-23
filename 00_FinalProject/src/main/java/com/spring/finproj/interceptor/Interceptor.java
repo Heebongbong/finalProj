@@ -1,8 +1,10 @@
 package com.spring.finproj.interceptor;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -65,16 +67,17 @@ public class Interceptor implements HandlerInterceptor{
 			if(se_dto!=null) { //session 데이터 존재
 				UserDTO user = userDAO.getUserContent(se_dto.getUser_no());
 				
-				if(!user.isProfile_type()) {
-					String profile = refreshProfile(se_dto.getSessionID(), user.getType());
-					user.setProfile(profile);
-				}
-				
 				if((Long.parseLong(se_dto.getExpiresTime())) < nowTime) { // 토큰 만료 - 갱신 필요
 					String type = user.getType();
 					
 					if(type.equals("K")) {
 						se_dto = kakaoTokenRefresh(se_dto);
+						
+						if(!user.isProfile_type()) {
+							String profile = refreshProfile(se_dto.getSessionID(), type);
+							user.setProfile(profile);
+						}
+						
 						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
 						
 						dto.setProfile(user.getProfile());
@@ -83,6 +86,12 @@ public class Interceptor implements HandlerInterceptor{
 						session.setMaxInactiveInterval(60*60*6);
 					}else if(type.equals("N")) {
 						se_dto = naverTokenRefresh(se_dto);
+						
+						if(!user.isProfile_type()) {
+							String profile = refreshProfile(se_dto.getSessionID(), type);
+							user.setProfile(profile);
+						}
+						
 						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
 						
 						dto.setProfile(user.getProfile());
@@ -90,14 +99,19 @@ public class Interceptor implements HandlerInterceptor{
 						session.setAttribute("LoginUser", dto);
 						session.setMaxInactiveInterval(60*60);
 					}else if(type.equals("G")) {
-						//user = googleTokenRefresh(se_dto);
+						se_dto = googleTokenRefresh(se_dto);
 						
-						//구글 세션 갱신법 확인 필요
-						response.getWriter().println("<script>"
-								+ "alert('구글 세션 만료');"
-								+ "history.back();';"
-								+ "</script>");
-						return false;
+						if(!user.isProfile_type()) {
+							String profile = refreshProfile(se_dto.getSessionID(), type);
+							user.setProfile(profile);
+						}
+						
+						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
+						
+						dto.setProfile(user.getProfile());
+						
+						session.setAttribute("LoginUser", dto);
+						session.setMaxInactiveInterval(60*60);
 						
 					}else { //사이트 토큰 만료 갱신
 						nowTime += (60*60*6);
@@ -117,24 +131,23 @@ public class Interceptor implements HandlerInterceptor{
 		return true;
 	}
 
-	private String refreshProfile( String sessionID, String type) throws IOException {
+	private String refreshProfile(String sessionID, String type) throws IOException {
 		// TODO Auto-generated method stub
 		String profile = null;
 		String curl = null;
 		
 		if(type.equals("K")) {
-			curl = "https://kapi.kakao.com/v2/user/me";
+			curl = "https://kapi.kakao.com/v2/user/me?Authorization=Bearer "+sessionID;
 		}else if(type.equals("N")) {
-			curl = "https://openapi.naver.com/v1/nid/me";
+			curl = "https://openapi.naver.com/v1/nid/me?Authorization=Bearer "+sessionID;
 		}else {
 			return null;
 		}
 		
-        URL url = new URL(curl);
+		URL url = new URL(curl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-        conn.setRequestProperty("Authorization", "Bearer "+sessionID);
         BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -166,31 +179,52 @@ public class Interceptor implements HandlerInterceptor{
         }
         return profile;
 	}
+	
+	private UserSessionDTO googleTokenRefresh(UserSessionDTO se_dto) throws Exception {
+		
+		String str = "grant_type=refresh_token"
+				+ "&client_id=763924312013-ppith6f1s7furfp1jvagis96rboh584f.apps.googleusercontent.com"
+				+ "&client_secret=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"
+				+ "&refresh_token="+se_dto.getRefreshToken();
+		
+		
+		StringBuilder urlBuilder = new StringBuilder("https://oauth2.googleapis.com/token");
+		URL url = new URL(urlBuilder.toString());
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		conn.setDoOutput(true);
 
-//	private UserDTO googleTokenRefresh(UserSessionDTO se_dto) throws IOException {
-//		//리프레쉬 토큰 있어야함. 다른 가능한 방법 찾아봐야함.
-//		try {
-//			TokenResponse response = new GoogleRefreshTokenRequest(
-//			new NetHttpTransport(), new GsonFactory(),
-//			"tGzv3JOkF0XG5Qx2TlKWIA", "s6BhdRkqt3",
-//			"7Fjfp0ZBr1KtDRbnfVdmIw").execute();
-//			System.out.println("Access token: " + response.getAccessToken());
-//		} catch (TokenResponseException e) {
-//			if (e.getDetails() != null) {
-//				System.err.println("Error: " + e.getDetails().getError());
-//				if (e.getDetails().getErrorDescription() != null) {
-//					System.err.println(e.getDetails().getErrorDescription());
-//				}
-//				if (e.getDetails().getErrorUri() != null) {
-//					System.err.println(e.getDetails().getErrorUri());
-//				}
-//			} else {
-//				System.err.println(e.getMessage());
-//			}
-//		}
-//		
-//		return userDAO.getUserContent(se_dto.getUser_no());
-//	}
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+        bw.write(str);
+        bw.flush();
+        bw.close();
+		
+		System.out.println("Response code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+		    rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		} else {
+		    rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+		    sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
+		
+		Long exp = (Long)(System.currentTimeMillis()/1000)+(60*60);
+		JSONObject jo = new JSONObject(sb.toString());
+		String a_t = jo.getString("access_token");
+		
+		se_dto.setSessionID(a_t);
+		se_dto.setExpiresTime(exp.toString());
+		userDAO.updateUserSession(se_dto);
+		return se_dto;
+	}
 
 	private UserSessionDTO kakaoTokenRefresh(UserSessionDTO se_dto) throws Exception {
 		
@@ -285,7 +319,6 @@ public class Interceptor implements HandlerInterceptor{
 					d.setNickname(ex.getNickname());
 				}
 			}
-			System.out.println(list);
 			request.setAttribute("ChatRoomList", list);
 		}
 	}

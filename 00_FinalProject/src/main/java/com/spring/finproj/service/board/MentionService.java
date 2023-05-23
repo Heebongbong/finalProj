@@ -12,7 +12,7 @@ public interface MentionService {
 
 	void getMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception;
 
-    void create(MentionDTO dto) throws Exception;
+	int getMentionInsert(MentionDTO dto) throws Exception;
 
     void update(MentionDTO dto) throws Exception;
 
