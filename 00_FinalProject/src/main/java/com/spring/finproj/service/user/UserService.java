@@ -14,7 +14,7 @@ import com.spring.finproj.model.user.UserDTO;
 public interface UserService {
 
 	public String insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response, MultipartFile multipartFile, Model model) throws Exception;
-	public void updateUserContent(UserDTO dto, String pwd_update, HttpServletResponse response);
+	public void updateUserContent(UserDTO dto, HttpSession session);
 	public String getNickCheck(String nickname, HttpSession session) throws IOException;
 	public String sendSMS(String phone, HttpSession session) throws Exception;
 	public String checkSMS(String input_code, HttpSession session);

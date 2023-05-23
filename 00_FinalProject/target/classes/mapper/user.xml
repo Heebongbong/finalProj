@@ -64,4 +64,9 @@
 		</selectKey>
 		INSERT INTO user VALUES(#{user_no} + 1, #{email}, #{type})
 	</insert>
+	
+	<!-- 마이페이지 회원 업데이트 -->
+	<update id="user_update" parameterType="userDTO">
+		UPDATE user_profile SET pwd=#{pwd}, nickname=#{nickname}, phone=#{phone}, profile=#{profile}, authen=#{authen}, profile_type=#{profile_type} where user_no = #{user_no}
+	</update>
 </mapper>
