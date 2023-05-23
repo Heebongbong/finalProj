@@ -20,5 +20,6 @@ public interface UserService {
 	public String checkSMS(String input_code, HttpSession session);
 	public String getPhoneCheck(String phone);
 	public String getSnsProfile(HttpSession session, HttpServletResponse response) throws Exception;
+	public String checkPwd(String check_pwd, HttpSession session);
 
 }
