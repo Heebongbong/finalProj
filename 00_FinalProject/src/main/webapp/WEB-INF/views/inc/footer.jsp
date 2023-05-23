@@ -13,7 +13,7 @@
 		<li><a href="${ctxPath }/weatherNavi">날씨</a></li>
 		<li><a href="${ctxPath }/driveNavi">드라이브</a></li>
 		<li><a href="${ctxPath }/board/list">커뮤니티</a></li>
-		<li><a href="${ctxPath }/marketNavi">중고거래</a></li>
+		<li><a href="${ctxPath }/market/list">중고거래</a></li>
 	</ul>
 </div>
 

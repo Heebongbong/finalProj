@@ -51,6 +51,14 @@ function loginWithKakao() {
 	Kakao.Auth.authorize({redirectUri: reUrl+"finproj/login/kakao"});
 }
 
+function loginWithGoogle() {
+	//구글 인증 서버로 인증코드 발급 요청
+	location.href="https://accounts.google.com/o/oauth2/v2/auth?"
+	+"client_id=763924312013-ppith6f1s7furfp1jvagis96rboh584f.apps.googleusercontent.com"
+	+"&redirect_uri="+reUrl+"finproj/login/google&response_type=code&scope=email%20profile%20openid &access_type=offline"
+}
+
+
 //chating js
 function open_chat(){
 	if(loginUser==''){
