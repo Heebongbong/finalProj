@@ -24,24 +24,22 @@ function addMention(self){
 	// 클릭한 버튼의 id를 가져옵니다.
 	  let cm_no = $(self).attr('id');
 	  console.log("cm_no >>> "+cm_no);
-	  
-	  let user_no = $('.loginUserNo').val();
-	  console.log("user_no >>> " + user_no);
 	
 	  // 해당 버튼에 대한 AJAX 요청을 보냅니다.
 	  $.ajax({
 	    type: 'get',
 	    url: ctxPath + '/board/addmention',
 	    data: {
-	      cm_no: $('.board_no').val(),
-	      user_no: loginUserObject.user_no,
-	      ment: $('#' + cm_no + 'mention').val()
+	      cm_no: cm_no,
+	      user_no: loginUser_no,
+	      ment: $('#' + cm_no).val()
 	    },
 	    dataType: 'json',
 	    contentType: 'application/json; charset=UTF-8;',
 	    success: function(data) {
 	      // 받아온 댓글 데이터를 처리하고 해당 댓글을 목록에 추가합니다.
-	      let mentions = data.Mention;
+	      let mentions = data.cm_no;
+	      console.log(mentions);
 	      for (let i = 0; i < mentions.length; i++) {
 	        let mention = mentions[i];
 	        let replyListId = '.reply-list' + mention.cm_no; // 적절한 reply-list 선택자로 변경하세요.
