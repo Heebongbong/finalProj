@@ -1,7 +1,5 @@
 package com.spring.finproj.controller.board;
 
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +57,8 @@ public class BoardController {
     
     @RequestMapping("/addlist")
     @ResponseBody
-    public Map<String , Object> boardAddList(HttpSession session, HttpServletRequest request, @RequestParam int cm_no, 
+    public Map<String , Object> boardAddList(HttpSession session, HttpServletRequest request, 
+    		@RequestParam(required = false) int cm_no, 
     		@RequestParam(required = false) String keyword) throws Exception{
     	return boardService.getBoardAddList(session, request, cm_no, keyword);
     }
