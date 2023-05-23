@@ -54,8 +54,7 @@ public class BoardServiceImpl implements BoardService {
 			String keyword) throws Exception {
 		Map<String, Object> boardTotal = new HashMap<String, Object>();
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
-
-		UserDTO dto = (UserDTO)session.getAttribute("LoginUser");
+		
 		List<BoardDTO> list = null;
 		
 		if(cm_no == 0) {
@@ -84,7 +83,6 @@ public class BoardServiceImpl implements BoardService {
 
 		boardTotal.put("BoardList", list);
 		boardTotal.put("MentionList", mapList2);
-		
 		return boardTotal;
 	}
 
