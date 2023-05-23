@@ -50,13 +50,12 @@
 				</a>
 				<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
 				<script>Kakao.init('78f087e4814e7f60f4ee016cae934876');</script>
-				<script src="https://accounts.google.com/gsi/client" async defer></script>
-				<div id="g_id_onload" data-client_id="763924312013-ppith6f1s7furfp1jvagis96rboh584f.apps.googleusercontent.com"
-					data-login_uri="<%=reUrl %>finproj/login/google" data-auto_prompt="false">
-				</div>
-				<div class="g_id_signin" data-type="icon" data-size="large"
-					data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
-				</div>
+				
+				<a class="google_login_btn" href="javascript:loginWithGoogle()">
+					<img style="width: 50px; height: 50px;" alt="" src="${ctxPath }/resources/images/logo/google_logo.png">
+				</a>
+				
+				
 			</div>
 		</div>
 		</c:if>

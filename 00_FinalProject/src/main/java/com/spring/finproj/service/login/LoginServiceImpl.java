@@ -1,11 +1,12 @@
 package com.spring.finproj.service.login;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,13 +19,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
 import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
 import com.spring.finproj.model.user.UserSessionDTO;
@@ -74,80 +68,126 @@ public class LoginServiceImpl implements LoginService{
 	}
 	
 	@Override
-	public void loginGoogle(String a_token, String credential, HttpSession session, HttpServletResponse response) throws Exception {
+	public void loginGoogle(String code, HttpSession session, HttpServletResponse response) throws Exception {
+
+		String str = "code="+code
+				+ "&client_id=763924312013-ppith6f1s7furfp1jvagis96rboh584f.apps.googleusercontent.com"
+				+ "&client_secret=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"
+				+ "&redirect_uri=http://localhost:8787/finproj/login/google"
+				+ "&grant_type=authorization_code";
 		
-		HttpTransport transport =  new NetHttpTransport();;
-		JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+		StringBuilder urlBuilder = new StringBuilder("https://oauth2.googleapis.com/token");
+		URL url = new URL(urlBuilder.toString());
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		conn.setDoOutput(true);
+
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+        bw.write(str);
+        bw.flush();
+        bw.close();
 		
-		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-				.setAudience(Collections.singletonList("763924312013-ppith6f1s7furfp1jvagis96rboh584f.apps.googleusercontent.com"))
-				.build();
-		GoogleIdToken idToken = verifier.verify(credential);
-		if (idToken != null) {
-			Payload payload = idToken.getPayload();
-			
-			String userId = payload.getSubject();
-			
-			String email = payload.getEmail();
-			String pictureUrl = (String) payload.get("picture");
-			
-			//boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-			//String name = (String) payload.get("name");
-			//String locale = (String) payload.get("locale");
-			//String familyName = (String) payload.get("family_name");
-			//String givenName = (String) payload.get("given_name");
-			
-			UserDTO user = new UserDTO();
-			user.setEmail(email);
-			user.setPwd(userId);
-			user.setNickname(makeNickName());
-			user.setProfile(pictureUrl);
-			user.setType("G");
-			user.setProfile_type(true);
-			
-			//email, type을 통한 email DB 확인
-			Map<String, Object> idlist = new HashMap<String, Object>();
-			idlist.put("email", email);
-			idlist.put("type", "G");
-			
-			UserDTO dto = userDAO.getUserContentId(idlist);
-			
-			
-			if(dto==null) { //비회원
-				int re1 = userDAO.insertUserSNSContent(user);
-				if(re1>0) {
-					userDAO.insertUserSNSProfileContent(user);
-					user = userDAO.getUserContentId(idlist);
-				}
-			}else { // 기존 회원
-				//프로필 업데이트
-	  			if(!dto.isProfile_type()) {
-	  				dto.setProfile(user.getProfile());
-	  			}
-				user = dto;
-			}
-			
-			//세션 DB 저장
-			Long ext = (Long) payload.get("exp");
-			UserSessionDTO sessionDto = new UserSessionDTO();
-			sessionDto.setUser_no(user.getUser_no());
-			sessionDto.setSessionID(a_token);
-			sessionDto.setRefreshToken(a_token);
-			sessionDto.setExpiresTime(ext.toString());
-			
-			userDAO.insertUserSession(sessionDto);
-			
-			//세션 및 쿠키 등록
-			Cookie a_t = new Cookie("AccessToken", a_token);
-			a_t.setMaxAge(60*60*24*7);
-			a_t.setPath("/");
-			response.addCookie(a_t);
-			
-			session.setAttribute("LoginUser", user);
-			session.setMaxInactiveInterval(60*60);
+		System.out.println("Response code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+		    rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		} else {
-			System.out.println("Invalid ID token.");
+		    rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
 		}
+		
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+		    sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
+		
+		JSONObject jo = new JSONObject(sb.toString());
+		
+		String a_token = jo.getString("access_token");
+		String r_token = jo.getString("refresh_token");
+		
+		UserDTO user = getGoogleInfo(a_token, response);
+		
+		//email, type을 통한 email DB 확인
+		Map<String, Object> idlist = new HashMap<String, Object>();
+		idlist.put("email", user.getEmail());
+		idlist.put("type", "G");
+		
+		UserDTO dto = userDAO.getUserContentId(idlist);
+		System.out.println(dto);
+		if(dto==null) { //비회원
+			int re1 = userDAO.insertUserSNSContent(user);
+			if(re1>0) {
+				userDAO.insertUserSNSProfileContent(user);
+				user = userDAO.getUserContentId(idlist);
+			}
+		}else { // 기존 회원
+			//프로필 업데이트
+			if(!dto.isProfile_type()) {
+  				dto.setProfile(user.getProfile());
+  			}
+			user = dto;
+		}
+		System.out.println(user);
+		//세션 DB 저장
+		Long ext = (System.currentTimeMillis()/1000)+(60*60);
+		UserSessionDTO sessionDto = new UserSessionDTO();
+		sessionDto.setUser_no(user.getUser_no());
+		sessionDto.setSessionID(a_token);
+		sessionDto.setRefreshToken(r_token);
+		sessionDto.setExpiresTime(ext.toString());
+		
+		userDAO.insertUserSession(sessionDto);
+		
+		//쿠키 세션 등록
+		Cookie a_t = new Cookie("AccessToken", a_token);
+		a_t.setMaxAge(60*60*24*7);
+		a_t.setPath("/");
+		response.addCookie(a_t);
+		
+		session.setAttribute("LoginUser", user);
+		session.setMaxInactiveInterval(60*60);
+	}
+
+	private UserDTO getGoogleInfo(String access_token, HttpServletResponse response) throws Exception {
+		UserDTO dto = new UserDTO();
+		
+		StringBuilder urlBuilder = new StringBuilder("https://oauth2.googleapis.com/tokeninfo");
+        urlBuilder.append("?" + URLEncoder.encode("access_token","UTF-8") + "=" + URLEncoder.encode(access_token, "UTF-8"));
+        
+		URL url = new URL(urlBuilder.toString());
+	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	    conn.setRequestMethod("GET");
+	    conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	    System.out.println("Response code: " + conn.getResponseCode());
+	    BufferedReader rd;
+	    if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	        rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	    } else {
+	        rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+	    }
+	    StringBuilder sb = new StringBuilder();
+	    String line;
+	    while ((line = rd.readLine()) != null) {
+	        sb.append(line);
+	    }
+	    rd.close();
+	    conn.disconnect();
+	    
+	    JSONObject jo = new JSONObject(sb.toString());
+	
+	    
+	    dto.setEmail(jo.getString("email"));
+	    dto.setPwd(jo.getString("sub"));
+		dto.setNickname(makeNickName());
+		dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
+		dto.setProfile_type(true);
+	    dto.setType("G");
+	    
+		return dto;
 	}
 
 	@Override
@@ -268,10 +308,10 @@ public class LoginServiceImpl implements LoginService{
 		
 		if(jo2.has("profile_image")) {
 			dto.setProfile(jo2.getString("profile_image"));
-			dto.setProfile_type(true);
+			dto.setProfile_type(false);
 		}else {
 			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
-			dto.setProfile_type(false);
+			dto.setProfile_type(true);
 		}
 		
         dto.setType("N");
@@ -402,14 +442,14 @@ public class LoginServiceImpl implements LoginService{
         	JSONObject joP = joA.getJSONObject("profile");
         	if(joP.has("thumbnail_image_url")) {
     			dto.setProfile(joP.getString("thumbnail_image_url"));
-    			dto.setProfile_type(true);
+    			dto.setProfile_type(false);
     		}else {
     			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
-    			dto.setProfile_type(false);
+    			dto.setProfile_type(true);
     		}
         }else {
 			dto.setProfile("/finproj/resources/images/profile/default/default_profile.png");
-			dto.setProfile_type(false);
+			dto.setProfile_type(true);
 		}
 		
 		dto.setType("K");

@@ -4,6 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="marketDAO">
 	<select id="market_list" resultType="boardDTO">
-		select * from community a join market b on a.cm_no = b.cm_no
+		select * from community a join market b on a.cm_no = b.cm_no order by a.cm_no desc Limit 5
 	</select>
+	<select id="market_list_keyword" resultType="boardDTO" parameterType="string">
+		select * from community a join market b on a.cm_no = b.cm_no 
+		where hashtag like concat('%',#{keyword},'%') order by a.cm_no desc Limit 5
+	</select>
+	<select id="market_list_hashtag" resultType="boardDTO" parameterType="list">
+		select * from community a join market b on a.cm_no = b.cm_no 
+		where 
+		<foreach collection="hashList" item="keyword" separator="and">
+			hashtag like concat('%',#{keyword},'%')
+		</foreach>
+		order by a.cm_no desc Limit 5
+	</select>
+	<select id="market_cmno_max" resultType="int">
+		select max(cm_no) from community
+	</select>
+	<insert id="market_insert_board" parameterType="boardDTO">
+		insert into community values(#{cm_no}, #{user_no}, #{content}, now(), default, #{hashtag}, #{photo_folder})
+	</insert>
+	<insert id="market_insert_market" parameterType="boardDTO">
+		insert into market values(#{cm_no}, #{title}, #{price}, 0)
+	</insert>
 </mapper>

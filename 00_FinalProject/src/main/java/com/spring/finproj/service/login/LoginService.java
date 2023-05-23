@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public interface LoginService {
-	public void loginGoogle(String token, String credential, HttpSession session, HttpServletResponse response) throws Exception;
+	public void loginGoogle(String code, HttpSession session, HttpServletResponse response) throws Exception;
 	public void loginNaver(String code, String state, HttpSession session, HttpServletResponse response) throws Exception;
 	public void loginKakao(String code, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception;
 	public void loginSite(String email, String pwd, HttpSession session, HttpServletResponse response, String jSessionId) throws Exception;

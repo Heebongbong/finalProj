@@ -16,4 +16,34 @@ public class MarketDAOImpl implements MarketDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("market_list");
 	}
+
+	@Override
+	public List<BoardDTO> getMarketList(String keyword) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("market_list_keyword", keyword);
+	}
+
+	@Override
+	public List<BoardDTO> getMarketList(List<String> hashList) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("market_list_hashtag", hashList);
+	}
+
+	@Override
+	public int insertBoardContent(BoardDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("market_insert_board", dto);
+	}
+
+	@Override
+	public int insertMarketContent(BoardDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("market_insert_market", dto);
+	}
+
+	@Override
+	public int getCmMax() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("market_cmno_max");
+	}
 }
