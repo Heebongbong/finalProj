@@ -36,10 +36,12 @@ public class UserController {
 	}
 	
 	@RequestMapping("/mypageOk")
-	public String userMypageOk(@RequestParam("pwd_update") String pwd_update, UserDTO dto, Model model, HttpServletRequest request) throws Exception {
+	public String userMypageOk(UserDTO dto, HttpSession session) throws Exception {
 		
+		System.out.println(dto);
+		userService.updateUserContent(dto, session);
 		
-		return "user.mypageOk";
+		return "redirect:/index";
 	}
 	
 	@RequestMapping("/join")
@@ -67,7 +69,7 @@ public class UserController {
 	
 	@RequestMapping("/check/phone")
 	@ResponseBody
-	public String userCheckPhone(@RequestParam("phone") String phone) throws Exception {
+	public String userCheckPhone(String phone) throws Exception {
 		
 		return userService.getPhoneCheck(phone);
 	}

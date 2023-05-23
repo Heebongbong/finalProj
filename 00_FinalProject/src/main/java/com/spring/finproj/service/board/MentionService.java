@@ -1,6 +1,7 @@
 package com.spring.finproj.service.board;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,4 +18,6 @@ public interface MentionService {
     void update(MentionDTO dto) throws Exception;
 
     void delete(MentionDTO dto) throws Exception;
+
+	Map<Integer, List<MentionDTO>> addMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception;
 }

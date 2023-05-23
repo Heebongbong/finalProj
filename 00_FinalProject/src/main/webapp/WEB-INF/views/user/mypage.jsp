@@ -32,13 +32,14 @@
 		border-radius: 50%;
 	}
 	
-	
-	}
 </style>
 
 <div id="mypage_wrap">
 
 	<form id="mypageForm" action="${ctxPath }/user/mypageOk" method="post" enctype="multipart/form-data" novalidate>
+		
+		<input type="hidden" name="profile_type" id="profile_type" value="${loginUser.profile_type}">
+		<input type="hidden" name="phone" id="phone" value="${loginUser.phone}">
 		
 		<div class="text_part">
 			<div class="profile_part">
@@ -50,14 +51,15 @@
 				</c:if>
 				
 				<p class="text">전화번호</p>
-				<input name="phone" class="noWhitespace" id="input_phone" value="${loginUser.phone }" placeholder="휴대폰 번호(-없이 숫자만 입력)">
+				<input name="input_phone" class="noWhitespace" id="input_phone" value="${loginUser.phone }" placeholder="휴대폰 번호(-없이 숫자만 입력)">
 				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
-				<p class="phoneError">&nbsp;</p>
+				<p class="input_phoneError">&nbsp;</p>
 				<p class="text">전화번호 확인</p>
 				<input name="code" id="input_code" class="noWhitespace">
 				<button type="button" onclick="checkCode()">인증하기</button>
 				<p class="codeError">&nbsp;</p>
 			</div>
+			
 			<p class="text">이메일</p>
 			<input name="email" class="noWhitespace" value="${loginUser.email }" readonly>
 			<p class="emailError">&nbsp;</p>
@@ -71,10 +73,10 @@
 			<button type="button" onclick="checkPwd()">비밀번호 확인</button>
 			<p class="pwd_checkError">&nbsp;</p>
 			<p class="text">새 비밀번호</p>
-			<input type="password" name="pwd" class="noWhitespace">
-			<p class="pwd_Error">&nbsp;</p>
+			<input type="password" id="pwd" name="pwd" class="noWhitespace">
+			<p class="pwdError">&nbsp;</p>
 			<p class="text">새 비밀번호 확인</p>
-			<input type="password" name="pwd_re" class="noWhitespace">
+			<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
 			<p class="pwd_reError">&nbsp;</p>
 			
 		</div>
@@ -104,6 +106,7 @@
 		  success : function(res) {
 			  console.log(res);
 				$("#previewImg").attr("src", res);
+				$('#profile_type').val(0);
 		  },
 		  error : function() {
 			  alert("전송 실패");
@@ -117,7 +120,7 @@
 	
 	// 비밀번호 확인
 	function checkPwd() {
-		
+		alert($(".pwd_checkError").text().trim());
 		var check_pwd = document.getElementById("check_pwd").value;
 	  let pwdCheckError = document.getElementsByClassName("pwd_checkError")[0];
 		
@@ -175,8 +178,8 @@
 	
 	function sendSMS(event) {
 			
-			let phoneError = document.getElementsByClassName("phoneError")[0];
-			const phone = document.getElementById("input_phone").value;
+			let phoneError = document.getElementsByClassName("input_phoneError")[0];
+		  const phone = document.getElementById("input_phone").value;
 				
 			if(phone === '') {
 				phoneError.textContent = "휴대전화를 입력하세요.";
@@ -187,8 +190,7 @@
 				// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
 			  const button = document.getElementById('sendBtn');
 			  button.innerText = '재전송';
-			  
-			  const phone = document.getElementById("input_phone").value;
+
 			  
 			  $.ajax({
 				  url : "${ctxPath}/user/sms/send",
@@ -216,7 +218,7 @@
 		
 	  const input_code = document.getElementById("input_code").value;
 		
-		let phoneError = document.getElementsByClassName("phoneError")[0];
+		let phoneError = document.getElementsByClassName("input_phoneError")[0];
 	  let codeError = document.getElementsByClassName("codeError")[0];
 	  
 		const button = document.getElementById('sendBtn');
@@ -232,7 +234,9 @@
 					  data : { input_code : input_code },
 					  success : function(res) {
 						  if(res == "true"/*  && input_code.length != 0 */){
-							  codeError.textContent = "인증 완료 회원가입 go";
+							  codeError.textContent = "인증 완료";
+							  let phone = $('#input_phone').val();
+							  $('#phone').val(phone);
 						  }else {
 							  codeError.textContent = "인증 번호가 틀렸습니다.";
 						  }
@@ -343,7 +347,69 @@
          return pattern.test(value);
      });
 
-		 $.validator.addMethod("nicknameUnique", function(value, element) {
+     
+     
+     
+     
+     $.validator.addMethod("minlength1", function(value, element) {
+    	 var length = value.trim().length;
+
+    	 if($(".pwd_checkError").text().trim() === "비밀번호 확인" || length != 0 ){
+	    		 var length = value.trim().length;
+	         return length >= 6;
+    	 }else {return true}
+     });
+
+     $.validator.addMethod("maxlength1", function(value, element) {
+    	 var length = value.trim().length;
+		  
+    	 if($(".pwd_checkError").text().trim() === "비밀번호 확인" || length != 0 ){
+    	   var length = value.trim().length;
+         return length <= 20;
+    	 }else {return true}
+     });
+
+     $.validator.addMethod("specialChars1", function(value, element) {
+    	 var length = value.trim().length;
+		  
+    	 if($(".pwd_checkError").text().trim() === "비밀번호 확인" || length != 0 ){
+	    	  // Define the pattern to match special characters
+			   var pattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+		
+			   // Test the value against the pattern and return true or false
+			   return pattern.test(value);
+    	 }else {return true}
+     });
+
+     $.validator.addMethod("capitalLetters1", function(value, element) {
+    	 var length = value.trim().length;
+		  
+    	 if($(".pwd_checkError").text().trim() === "비밀번호 확인" || length != 0 ){
+    	// Define the pattern to match capital letters
+		   var pattern = /[A-Z]/;
+	
+		   // Test the value against the pattern and return true or false
+		   return pattern.test(value);
+    	 }else {return true}
+     });
+
+     $.validator.addMethod("equalTo1", function(value, element) {
+    	 var length = value.trim().length;
+		  
+    	 if($(".pwd_checkError").text().trim() === "비밀번호 확인" || length != 0 ){
+    		 let pwd = $("#pwd").val();
+    		 let pwd_re = $("#pwd_re").val();
+    		 
+    		 alert(pwd);
+    		 
+    		 return pwd == pwd_re;
+    	 }else {return true}
+     });
+     
+
+     
+     
+     $.validator.addMethod("nicknameUnique", function(value, element) {
 		        
 			 let isUnique = false;
 			 // AJAX 요청
@@ -351,8 +417,7 @@
 		            url: "${ctxPath}/user/check/nickname",
 		            type: "get",
 		            data: 
-		            	{ nickname: value
-		            	},
+		            	{ nickname: value },
 		            async : false,
 		            datatype : "text",
 		            success : function(result) {
@@ -371,7 +436,7 @@
 			 
 			 let isUnique = false;
 			 
-			 var length = value.trim().length;
+			 let length = value.trim().length;
 		        
 		        if(length == 0){
 		        	return true;
@@ -389,7 +454,7 @@
 		            	console.log(result);
 		             },
 		            error : function (){
-		            	 console.log(1);
+		            	 console.log("/user/check/phone 못받아유~");
 		             }
 		        });
 		        return isUnique;
@@ -400,73 +465,69 @@
 		$("#mypageForm").validate({
 			
 			rules : {
-					pwd : {
-						 required: function(element) { return $(".pwd_checkError").text().trim() === "비밀번호 확인";},
-		         minlength: 6,
-		         maxlength: 12,
-		         specialChars: true,
-		         capitalLetters: true
+					pwd: {
+						minlength1: true,
+	         maxlength1: true,
+	         specialChars1: true,
+	         capitalLetters1: true,
 		      },
-		      pwd_re : {
-		    	   required: function(element) { return $(".pwd_checkError").text().trim() === "비밀번호 확인";},
-		         minlength: 6,
-		         maxlength: 12,
-		         specialChars: true,
-		         capitalLetters: true,
-		         equalTo: ".pwd"
+		      pwd_re: {
+		    	   minlength1: true,
+		         maxlength1: true,
+		         specialChars1: true,
+		         capitalLetters1: true,
+		         equalTo1: true
 		      },
-					email : {
+					email: {
 						required : true,
 						emailCheck : true,
 						email : true
 					},
-					phone : {
+					input_phone: {
 						phoneLength : true,
 						phoneCheck : true,
 						phoneUnique : true
 					}, 
-					code : {
+					code: {
 						codeCheck : true,
 						codeLength : true
 					},
-					nickname : {
+					nickname: {
 						nicknameLength : true,
 						nicknameUnique : true,
 	          noSpecialChars : true
 					}
 			},	
 			messages : {
-				pwd : {
-					 required: "비밀번호를 입력하세요",
-	         minlength : "최소 6글자 이상 입력해주세요.",
-	         maxlength : "12글자를 넘지 말아주세요.",
-	         specialChars : "특수문자 입력해주세요.",
-	         capitalLetters: "대문자 하나 입력해주세요"
+				pwd: {
+					 minlength1 : "최소 6글자 이상 입력해주세요.",
+					 maxlength1 : "12글자를 넘지 말아주세요.",
+	         specialChars1 : "특수문자 입력해주세요.",
+	         capitalLetters1: "대문자 하나 입력해주세요"
 	      },
-	      pwd_re : {
-	    	   required: "비밀번호를 입력하세요",
-	         minlength : "최소 6글자 이상 입력해주세요.",
-	         maxlength : "12글자를 넘지 말아주세요.",
-	         specialChars : "특수문자 입력해주세요.",
-	         capitalLetters: "대문자 하나 입력해주세요",
-	         equalTo: "일치하지 않아요...."
+	      pwd_re: {
+	    	   minlength1 : "최소 6글자 이상 입력해주세요.",
+	         maxlength1 : "12글자를 넘지 말아주세요.",
+	         specialChars1 : "특수문자 입력해주세요.",
+	         capitalLetters1: "대문자 하나 입력해주세요",
+	         equalTo1: "일치하지 않아요...."
 
 	      },
-				email : {
+				email: {
 					required: '이메일을 입력해주세요',
 					emailCheck : '유효한 이메일 주소를 입력하세요',
 					email : '유효한 이메일 주소를 입력하세요'
 				},
-				phone : {
+				input_phone: {
 					phoneLength : "유효한 휴대전화 번호를 입력하세욘",
 					phoneCheck : "공백, 문자 없이 입력하세요",
 					phoneUnique : "이미 등록된 번호입니다."
 				},
-				code : {
+				code: {
 					codeCheck : "인증번호를 입력하세요",
 					codeLength : "인증번호는 6자리입니다."
 				},
-				nickname : {
+				nickname: {
 					nicknameLength : "닉네임은 3글자에서 20글자 사이어야 합니다.",
 					nicknameUnique : "이미 사용 중인 닉네임입니다.",
 	        noSpecialChars : "특수문자는 입력할 수 없습니다."
@@ -513,13 +574,17 @@
 		
 		// 바꾼 프로필 이미지 보여주기
 		function previewProfileImage(event) {
-			var input = event.target;
-			var reader = new FileReader();
+			let input = event.target;
+			let reader = new FileReader();
 			reader.onload = function() {
-				var previewImg =  document.getElementById('previewImg');
+				let previewImg =  document.getElementById('previewImg');
 				previewImg.src = reader.result;
 			};
 			reader.readAsDataURL(input.files[0]);
+			alert(previewImg.src);
+			
+			$('#profile_type').val(1);
+			
 		}
 		
 		

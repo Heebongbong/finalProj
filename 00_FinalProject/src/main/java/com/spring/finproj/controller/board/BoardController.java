@@ -1,5 +1,6 @@
 package com.spring.finproj.controller.board;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,9 +65,13 @@ public class BoardController {
     }
     
     @RequestMapping("/addmention")
-    public void mentionRequest(MentionDTO dto, HttpServletRequest request, Model model, @RequestParam("cm_no") int no) throws Exception {
-    	mentionService.getMentionInsert(dto);
-    	mentionService.getMentionlist(request, model, no);
+    @ResponseBody
+    public Map<Integer, List<MentionDTO>> mentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
+    	int check = mentionService.getMentionInsert(dto);
+    	System.out.println("check +"+check);
     	
+    	Map<Integer, List<MentionDTO>> list = mentionService.addMentionlist(request, model, dto.getCm_no());
+    	System.out.println(list);
+    	return list;
     }
 }
