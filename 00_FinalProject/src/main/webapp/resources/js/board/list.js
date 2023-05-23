@@ -58,16 +58,19 @@ function addMention(self){
 
 function addList(){
 	let cm_no = $('.board_no:last').val();
-	console.log(cm_no);
 	if(cm_no==null){
 		cm_no = 0;
 	}
+	console.log(cm_no)
+
+	console.log('1-'+$('#board_keyword').val());
 
 	$.ajax({
         type: "get",
         url: ctxPath + "/board/addlist",
         data: {
           cm_no: cm_no,
+		  keyword: $('#board_keyword').val()
         },
         dataType: "json",
         contentType: "application/json; charset=UTF-8;",
@@ -76,6 +79,7 @@ function addList(){
           console.log(data);
           let boardList = data.BoardList;
           let mentionList = data.MentionList;
+		  $('#board_keyword').val(data.keyword);
           
           let table = "";
           
@@ -100,7 +104,7 @@ function addList(){
                 }else{
                 	table += "<div class='photo_file'>";
                 		for(let z=0;z<files.length;z++){
-                			table += "<img src='"+ctxPath+"/resources/images"+folders+"/"+files[z]+"'>";
+                			table += "<img src='/finproj/resources/images/board/"+folders+"/"+files[z]+"'>";
                 		}
                 	table += "</div>";
                 }

@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDTO;
@@ -35,23 +34,47 @@ public class MarketServiceImpl implements MarketService{
 	private MentionDAO mentionDAO;
 
 	@Override
-	public void getMarketList(Model model, String keyword, HttpServletRequest request) throws Exception {
+	public Map<String , Object> getMarketList(String keyword, HttpServletRequest request, int cm_no) throws Exception {
 		Map<String, Object> marketTotal = new HashMap<String, Object>();
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
 		List<BoardDTO> list = null;
-		if(keyword==null || keyword=="") {
-			list = marketDAO.getMarketList();
-		}else {
-			if(keyword.charAt(0)=='#') {
-				StringTokenizer st = new StringTokenizer(keyword, "#");
-				List<String> hashList = new ArrayList<String>();
-				while(st.hasMoreTokens()) {
-					hashList.add(st.nextToken());
-				}
-				list = marketDAO.getMarketList(hashList);
-				
+		if(cm_no == 0) {
+			if(keyword==null || keyword=="") {
+				list = marketDAO.getMarketList();
 			}else {
-				list = marketDAO.getMarketList(keyword);
+				if(keyword.charAt(0)=='#') {
+					StringTokenizer st = new StringTokenizer(keyword, "#");
+					List<String> hashList = new ArrayList<String>();
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					list = marketDAO.getMarketList(hashList);
+					
+				}else {
+					list = marketDAO.getMarketList(keyword);
+				}
+			}
+		}else {
+			if(keyword==null || keyword=="") {
+				list = marketDAO.getMarketList(cm_no);
+			}else {
+				if(keyword.charAt(0)=='#') {
+					StringTokenizer st = new StringTokenizer(keyword, "#");
+					List<String> hashList = new ArrayList<String>();
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("hashList", hashList);
+					map.put("cm_no", cm_no);
+					list = marketDAO.getMarketHashKeyMap(map);
+				}else {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("keyword", keyword);
+					map.put("cm_no", cm_no);
+					list = marketDAO.getMarketKeyMap(map);
+				}
 			}
 		}
 		
@@ -64,8 +87,9 @@ public class MarketServiceImpl implements MarketService{
 		
 		marketTotal.put("BoardList", list);
 		marketTotal.put("MentionList", mapList2);
+		marketTotal.put("keyword", keyword);
 		
-		model.addAttribute("MarketList", marketTotal);
+		return marketTotal;
 	}
 
 	@Override
@@ -119,7 +143,7 @@ public class MarketServiceImpl implements MarketService{
 				    mfile.transferTo(new File(saveFolder, saveFileName));
 			    }
 			}
-			dto.setPhoto_folder(boardFolder+"//"+today);
+			dto.setPhoto_folder(boardFolder+"/"+today);
 		}
 		dto.setCm_no(marketDAO.getCmMax()+1);
 		
