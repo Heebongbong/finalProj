@@ -38,13 +38,9 @@ public class MarketServiceImpl implements MarketService{
 		Map<String, Object> marketTotal = new HashMap<String, Object>();
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
 		List<BoardDTO> list = null;
-		
-		System.out.println(keyword);
-		
 		if(cm_no == 0) {
 			if(keyword==null || keyword=="") {
 				list = marketDAO.getMarketList();
-				System.out.println(1);
 			}else {
 				if(keyword.charAt(0)=='#') {
 					StringTokenizer st = new StringTokenizer(keyword, "#");
@@ -53,10 +49,9 @@ public class MarketServiceImpl implements MarketService{
 						hashList.add(st.nextToken());
 					}
 					list = marketDAO.getMarketList(hashList);
-					System.out.println(2);
+					
 				}else {
 					list = marketDAO.getMarketList(keyword);
-					System.out.println(3);
 				}
 			}
 		}else {
