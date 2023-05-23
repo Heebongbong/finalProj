@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDTO;
+import com.spring.finproj.model.board.MentionDTO;
 import com.spring.finproj.service.board.BoardService;
 import com.spring.finproj.service.board.MentionService;
 
@@ -25,6 +26,9 @@ import com.spring.finproj.service.board.MentionService;
 public class BoardController {
     @Autowired
     private BoardService boardService;
+    
+    @Autowired
+    private MentionService mentionService;
     
     
     @RequestMapping("/list")
@@ -40,10 +44,10 @@ public class BoardController {
     
     @RequestMapping("/writeOk")
     public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		Model model, String[] category, String hashtags,
+    		Model model, String[] category,
     		HttpSession session, HttpServletRequest request) throws Exception {
     	
-    	int check = boardService.writeBoard(dto, files, model, category, hashtags, session, request);
+    	int check = boardService.writeBoard(dto, files, model, category, session, request);
     	
     	if(check > 0) {
 			return "board.list";
@@ -55,8 +59,15 @@ public class BoardController {
     
     @RequestMapping("/addlist")
     @ResponseBody
-    public Map<String , Object> boardAddList(HttpServletRequest request, @RequestParam int cm_no, 
+    public Map<String , Object> boardAddList(HttpSession session, HttpServletRequest request, @RequestParam int cm_no, 
     		@RequestParam(required = false) String keyword) throws Exception{
-    	return boardService.getBoardAddList(request, cm_no, keyword);
+    	return boardService.getBoardAddList(session, request, cm_no, keyword);
+    }
+    
+    @RequestMapping("/addmention")
+    public void mentionRequest(MentionDTO dto, HttpServletRequest request, Model model, @RequestParam("cm_no") int no) throws Exception {
+    	mentionService.getMentionInsert(dto);
+    	mentionService.getMentionlist(request, model, no);
+    	
     }
 }

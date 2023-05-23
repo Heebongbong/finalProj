@@ -16,8 +16,7 @@ function check() {
 
 	 <form id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/writeform">
            <div class="form-group" align="left">
-               <label for="subject">해시태그</label>
-               <input type="checkbox" id="life" name="category" value="일상"> 일상
+            <input type="checkbox" id="life" name="category" value="일상"><label>일상</label>
 			<input type="checkbox" id="review" name="category" value="리뷰"> 리뷰
 			<input type="checkbox" id="food" name="category" value="음식"> 음식
 			<input type="checkbox" id="equipment" name="category" value="장비"> 장비
@@ -31,9 +30,15 @@ function check() {
                <input type="file" class="form-control-file border" name="upfile" multiple="multiple">
            </div>
            <div>
-           	<textarea rows="" cols="" name="hashtags"></textarea>
+           	<input type="text" name="hashtag">
            </div>
-           <button type="submit" class="btn btn-primary">글작성</button>
-           <button type="reset" class="btn btn-warning">초기화</button>
+           <script type="text/javascript">
+           	
+           </script>
+           <div>
+           	<button type="submit" class="btn btn-primary">글작성</button>
+           	<button type="reset" class="btn btn-warning">초기화</button>
+           </div>
+           
        </form>
 </div>
