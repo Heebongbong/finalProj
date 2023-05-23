@@ -107,37 +107,38 @@
 	
 	
 	function sendSMS(event) {
+
+		let phoneError = document.getElementsByClassName("phoneError")[0];
+		const phone = document.getElementById("input_phone").value;
 			
+		if(phone === '') {
+			phoneError.textContent = "휴대전화를 입력하세요.";
+		}
 		
-			let phoneError = document.getElementsByClassName("phoneError")[0];
-			const phone = document.getElementById("input_phone").value;
-				
-			if(phoneError.innerText === '') {
-				
-				// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
-			  const button = document.getElementById('sendBtn');
-			  button.innerText = '재전송';
-			  
-			  const phone = document.getElementById("input_phone").value;
-			  
-			  alert(phone);
-			  $.ajax({
-				  url : "${ctxPath}/user/sms/send",
-				  type : "post",
-				  data : { phone : phone },
-				  success : function(res) {
+		if(phoneError.innerText === '' || phoneError.innerText === '휴대전화로 인증번호가 전송되었습니다.') {
+			
+			// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
+		  const button = document.getElementById('sendBtn');
+		  button.innerText = '재전송';
+		  
+		  const phone = document.getElementById("input_phone").value;
+		  
+		  $.ajax({
+			  url : "${ctxPath}/user/sms/send",
+			  type : "post",
+			  data : { phone : phone },
+			  success : function(res) {
 					  phoneError.textContent = "휴대전화로 인증번호가 전송되었습니다.";
-				  },
-				  error : function() {
-					  alert("전송 실패");
-				  }
-				  
-			  });
+			  },
+			  error : function() {
+				  alert("전송 실패");
+			  }
 			  
-			} else {
-				 phoneError.textContent = "휴대전화를 입력하세욘";
-			}
-			event.preventDefault();
+		  });
+		  
+		} 
+		//event.preventDefault();
+
 
 
 	}
@@ -150,37 +151,45 @@
 		
 		event.preventDefault();
 		
-		let phoneError = document.getElementsByClassName("phoneError")[0];
+	  const input_code = document.getElementById("input_code").value;
 		
+		let phoneError = document.getElementsByClassName("phoneError")[0];
+	  let codeError = document.getElementsByClassName("codeError")[0];
+	  
 		const button = document.getElementById('sendBtn');
 		const buttonText = button.innerText;
 		
 		if(buttonText === '재전송'){
 			
-		  const input_code = document.getElementById("input_code").value;
-		  let codeError = document.getElementsByClassName("codeError")[0];
 		  
-		  $.ajax({
-			  url : "${ctxPath}/user/sms/check",
-			  type : "post",
-			  data : { input_code : input_code },
-			  success : function(res) {
-				  if(res == "true"/*  && input_code.length != 0 */){
-					  codeError.textContent = "인증 완료 회원가입 go";
-				  }else {
-					  codeError.textContent = "인증 번호가 틀렸습니다.";
-				  }
-			  },
-			  error : function() {
-				  alert("인증 실패");
-			  }
-			  
-		  });
+			  if(input_code != null){
+				  $.ajax({
+					  url : "${ctxPath}/user/sms/check",
+					  type : "post",
+					  data : { input_code : input_code },
+					  success : function(res) {
+						  if(res == "true"/*  && input_code.length != 0 */){
+							  codeError.textContent = "인증 완료 회원가입 go";
+						  }else {
+							  codeError.textContent = "인증 번호가 틀렸습니다.";
+						  }
+					  },
+					  error : function() {
+						  alert("인증 실패");
+					  }
+					  
+				  });
+			  }	else {
+		 			 codeError.textContent = "인증번호 발송 버튼을 눌러 인증번호를 받으세요";
+			  }  
 		  
 		} else {
-			phoneError.textContent = "휴대전화를 입력하세욘";
+			if(phoneError.innerText === '') {
+				codeError.textContent = "인증번호 발송 버튼을 눌러 인증번호를 받으세요";
+			} else {
+				codeError.textContent = "휴대전화번호를 입력하세요";
+			}
 		}
-		
 	  
 		
 	}

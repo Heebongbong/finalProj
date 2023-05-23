@@ -67,12 +67,12 @@
 			<p class="nicknameError">&nbsp;</p>
 			
 			<p class="text">비밀번호</p>
-			<input type="password" name="pwd_check" class="noWhitespace">
+			<input type="password" name="pwd_check" id="check_pwd">
 			<button type="button" onclick="checkPwd()">비밀번호 확인</button>
 			<p class="pwd_checkError">&nbsp;</p>
 			<p class="text">새 비밀번호</p>
-			<input type="password" name="pwd_re" class="noWhitespace">
-			<p class="pwd_reError">&nbsp;</p>
+			<input type="password" name="pwd" class="noWhitespace">
+			<p class="pwd_Error">&nbsp;</p>
 			<p class="text">새 비밀번호 확인</p>
 			<input type="password" name="pwd_re" class="noWhitespace">
 			<p class="pwd_reError">&nbsp;</p>
@@ -111,10 +111,42 @@
 		  
 	  });
 	
-	event.preventDefault();
+	//event.preventDefault();
 	
 	}
 	
+	// 비밀번호 확인
+	function checkPwd() {
+		
+		var check_pwd = document.getElementById("check_pwd").value;
+	  let pwdCheckError = document.getElementsByClassName("pwd_checkError")[0];
+		
+	  if(check_pwd != null){
+		  
+			$.ajax({
+				  url : "${ctxPath}/user/check/pwd",
+				  type : "post",
+				  data : {check_pwd : check_pwd},
+				  dataType : "text",
+				  success : function(res) {
+					  if(res === "true") {
+						  pwdCheckError.textContent = "비밀번호 확인";
+					  } else {
+						  pwdCheckError.textContent = "비밀번호가 틀렸습니다.";
+					  }
+				  },
+				  error : function() {
+					  alert("비밀번호 확인 실패");
+				  }
+				  
+			  });
+	  } else {
+		  alert("error");
+	  }
+		
+		//event.preventDefault();
+		
+		}
 	
 	// 공백제거
 	var elements = document.querySelectorAll('.noWhitespace');
@@ -146,7 +178,11 @@
 			let phoneError = document.getElementsByClassName("phoneError")[0];
 			const phone = document.getElementById("input_phone").value;
 				
-			if(phoneError.innerText === '') {
+			if(phone === '') {
+				phoneError.textContent = "휴대전화를 입력하세요.";
+			}
+			
+			if(phoneError.innerText === '' || phoneError.innerText === '휴대전화로 인증번호가 전송되었습니다.') {
 				
 				// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
 			  const button = document.getElementById('sendBtn');
@@ -154,13 +190,12 @@
 			  
 			  const phone = document.getElementById("input_phone").value;
 			  
-			  alert(phone);
 			  $.ajax({
 				  url : "${ctxPath}/user/sms/send",
 				  type : "post",
 				  data : { phone : phone },
 				  success : function(res) {
-					  phoneError.textContent = "휴대전화로 인증번호가 전송되었습니다.";
+						  phoneError.textContent = "휴대전화로 인증번호가 전송되었습니다.";
 				  },
 				  error : function() {
 					  alert("전송 실패");
@@ -168,10 +203,8 @@
 				  
 			  });
 			  
-			} else {
-				 phoneError.textContent = "휴대전화를 입력하세욘";
-			}
-			event.preventDefault();
+			} 
+			//event.preventDefault();
 
 
 	}
@@ -181,37 +214,45 @@
 		
 		event.preventDefault();
 		
-		let phoneError = document.getElementsByClassName("phoneError")[0];
+	  const input_code = document.getElementById("input_code").value;
 		
+		let phoneError = document.getElementsByClassName("phoneError")[0];
+	  let codeError = document.getElementsByClassName("codeError")[0];
+	  
 		const button = document.getElementById('sendBtn');
 		const buttonText = button.innerText;
 		
 		if(buttonText === '재전송'){
 			
-		  const input_code = document.getElementById("input_code").value;
-		  let codeError = document.getElementsByClassName("codeError")[0];
 		  
-		  $.ajax({
-			  url : "${ctxPath}/user/sms/check",
-			  type : "post",
-			  data : { input_code : input_code },
-			  success : function(res) {
-				  if(res == "true"/*  && input_code.length != 0 */){
-					  codeError.textContent = "인증 완료 회원가입 go";
-				  }else {
-					  codeError.textContent = "인증 번호가 틀렸습니다.";
-				  }
-			  },
-			  error : function() {
-				  alert("인증 실패");
-			  }
-			  
-		  });
+			  if(input_code != null){
+				  $.ajax({
+					  url : "${ctxPath}/user/sms/check",
+					  type : "post",
+					  data : { input_code : input_code },
+					  success : function(res) {
+						  if(res == "true"/*  && input_code.length != 0 */){
+							  codeError.textContent = "인증 완료 회원가입 go";
+						  }else {
+							  codeError.textContent = "인증 번호가 틀렸습니다.";
+						  }
+					  },
+					  error : function() {
+						  alert("인증 실패");
+					  }
+					  
+				  });
+			  }	else {
+		 			 codeError.textContent = "인증번호 발송 버튼을 눌러 인증번호를 받으세요";
+			  }  
 		  
 		} else {
-			phoneError.textContent = "휴대전화를 입력하세욘";
+			if(phoneError.innerText === '') {
+				codeError.textContent = "인증번호 발송 버튼을 눌러 인증번호를 받으세요";
+			} else {
+				codeError.textContent = "휴대전화번호를 입력하세요";
+			}
 		}
-		
 	  
 		
 	}
@@ -360,14 +401,14 @@
 			
 			rules : {
 					pwd : {
-		         required: true,
+						 required: function(element) { return $(".pwd_checkError").text().trim() === "비밀번호 확인";},
 		         minlength: 6,
 		         maxlength: 12,
 		         specialChars: true,
 		         capitalLetters: true
 		      },
 		      pwd_re : {
-		         required: true,
+		    	   required: function(element) { return $(".pwd_checkError").text().trim() === "비밀번호 확인";},
 		         minlength: 6,
 		         maxlength: 12,
 		         specialChars: true,
@@ -396,14 +437,14 @@
 			},	
 			messages : {
 				pwd : {
-	         required : "비밀번호 입력은 필수 입니다.",
+					 required: "비밀번호를 입력하세요",
 	         minlength : "최소 6글자 이상 입력해주세요.",
 	         maxlength : "12글자를 넘지 말아주세요.",
 	         specialChars : "특수문자 입력해주세요.",
 	         capitalLetters: "대문자 하나 입력해주세요"
 	      },
 	      pwd_re : {
-	         required: "중복체크는 필수 입니다.",
+	    	   required: "비밀번호를 입력하세요",
 	         minlength : "최소 6글자 이상 입력해주세요.",
 	         maxlength : "12글자를 넘지 말아주세요.",
 	         specialChars : "특수문자 입력해주세요.",

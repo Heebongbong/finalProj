@@ -86,6 +86,14 @@ public class UserController {
 		return userService.checkSMS(input_code, session);
 	}
 	
+	@RequestMapping("/check/pwd")
+	@ResponseBody
+	public String checkPwd(String check_pwd, HttpSession session) throws Exception {
+		
+		System.out.println(check_pwd);
+		return userService.checkPwd(check_pwd, session);
+	}
+	
 	
 	
 }
