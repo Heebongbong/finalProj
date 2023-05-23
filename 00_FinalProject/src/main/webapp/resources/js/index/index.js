@@ -27,6 +27,8 @@ $(document).ready(function(){
 					contentType : "application/json; charset=UTF-8;",
 					async:false,
 					success: function(data){
+						console.log(data);
+						let menList = data.MentionList;
 						$.each(data.BoardList, function(){
 							let table = "<div class='index_board'>" 
 							+ "<input class='board_no' type='hidden' value='"+this.cm_no+"'>"
@@ -40,10 +42,13 @@ $(document).ready(function(){
 							+ this.hashtag
 							+ "</p>"
 							+ "<p>"
-							+ this.photo_files
-							+ "</div>";
-							console.log(table);
-							console.log(this);
+							+ this.photo_files;
+							for(let i =0;i<menList[this.cm_no].length ;i++){
+								let mencont = menList[this.cm_no][i];
+								table += "<div>"+mencont.ment+"/"+mencont.created+"</div>"
+								console.log(mencont);
+							}
+							table += "</div>";
 							$('.index_board_wrap').append(table);
 						});
 					},
@@ -55,4 +60,3 @@ $(document).ready(function(){
 		}
 	});
 });
-

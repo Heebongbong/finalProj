@@ -13,7 +13,7 @@
 	<select id="market_list_hashtag" resultType="boardDTO" parameterType="list">
 		select * from community a join market b on a.cm_no = b.cm_no 
 		where 
-		<foreach collection="hashList" item="keyword" separator="and">
+		<foreach collection="list" item="keyword" separator="and">
 			hashtag like concat('%',#{keyword},'%')
 		</foreach>
 		order by a.cm_no desc Limit 5

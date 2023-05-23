@@ -20,9 +20,8 @@ public class MarketController {
 	@Autowired
 	private MarketService marketService;
 	
-	@RequestMapping({"/list"})
+	@RequestMapping("/list")
 	public String marketList(@RequestParam(required = false) String keyword, Model model, HttpServletRequest request) throws Exception {
-		
 		marketService.getMarketList(model, keyword, request);
 		return "market.market";
 	}
