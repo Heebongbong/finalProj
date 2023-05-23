@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,18 +55,24 @@ public class BoardServiceImpl implements BoardService {
 		Map<String, Object> boardTotal = new HashMap<String, Object>();
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
 
-		UserDTO dto = (UserDTO) session.getAttribute("LoginUser");
-
-		System.out.println("dto >>> " + dto);
-
+		UserDTO dto = (UserDTO)session.getAttribute("LoginUser");
 		List<BoardDTO> list = null;
-		if (keyword == null || keyword == "") {
-			list = boardDAO.getBoardList(cm_no);
-		} else {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("keyword", keyword);
-			map.put("cm_no", cm_no);
-			list = boardDAO.getBoardList(map);
+		
+		if(cm_no == 0) {
+			if(keyword==null || keyword=="") {
+				list = boardDAO.getBoardList();
+			}else {
+				list = boardDAO.getBoardList(keyword);
+			}
+		}else {
+			if(keyword==null || keyword=="") {
+				list = boardDAO.getBoardList(cm_no);
+			}else {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("keyword", keyword);
+				map.put("cm_no", cm_no);
+				list = boardDAO.getBoardList(map);
+			}
 		}
 
 		for (BoardDTO d : list) {
@@ -79,8 +84,7 @@ public class BoardServiceImpl implements BoardService {
 
 		boardTotal.put("BoardList", list);
 		boardTotal.put("MentionList", mapList2);
-		boardTotal.put("LoginUser", (Object) dto);
-
+		
 		return boardTotal;
 	}
 
