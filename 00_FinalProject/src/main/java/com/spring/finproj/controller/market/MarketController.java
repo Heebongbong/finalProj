@@ -1,14 +1,16 @@
 package com.spring.finproj.controller.market;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDTO;
@@ -21,10 +23,17 @@ public class MarketController {
 	private MarketService marketService;
 	
 	@RequestMapping("/list")
-	public String marketList(@RequestParam(required = false) String keyword, Model model, HttpServletRequest request) throws Exception {
-		marketService.getMarketList(model, keyword, request);
+	public String marketList() throws Exception {
 		return "market.market";
 	}
+	
+	@RequestMapping("/addlist")
+	@ResponseBody
+	public Map<String , Object> marketAddList(HttpServletRequest request, 
+    		@RequestParam(defaultValue = "0") int cm_no, 
+    		@RequestParam(required = false) String keyword) throws Exception{
+    	return marketService.getMarketList(keyword, request, cm_no);
+    }
 	
 	@RequestMapping("/write")
 	public String marketWrite() {
