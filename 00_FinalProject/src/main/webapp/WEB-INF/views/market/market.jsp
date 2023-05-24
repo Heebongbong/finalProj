@@ -70,19 +70,19 @@
 						<a href="${ctxPath }/market/list">전체</a>
 					</li>
 					<li class="obj_li">
-						<a href="javascript:move_search_cate('%23텐트%23타프')">텐트/타프</a>
+						<a href="javascript:move_search_cate('텐트%23타프')">텐트/타프</a>
 					</li>
 					<li class="obj_li">
-						<a href="javascript:move_search_cate('%23테이블%23체어')">테이블/체어</a>
+						<a href="javascript:move_search_cate('테이블%23체어')">테이블/체어</a>
 					</li>
 					<li class="obj_li">
-						<a href="javascript:move_search_cate('%23취사%23수납')">취사/수납</a>
+						<a href="javascript:move_search_cate('취사%23수납')">취사/수납</a>
 					</li>
 					<li class="obj_li">
-						<a href="javascript:move_search_cate('%23랜턴%23조명')">랜턴/조명</a>
+						<a href="javascript:move_search_cate('랜턴%23조명')">랜턴/조명</a>
 					</li>
 					<li class="obj_li">
-						<a href="javascript:move_search_cate('%23소품%23기타')">소품/기타</a>
+						<a href="javascript:move_search_cate('소품%23기타')">소품/기타</a>
 					</li>
 				</ul>
 			</div>

@@ -11,11 +11,6 @@
 <script>
 	let loginUser_no = '${loginUser.user_no }';
 	let loginUser_profile = '${loginUser.profile }';
-	
-	function move_search_cate(key){
-		let keyword = $('#board_keyword').val();
-		location.href=ctxPath+"/board/list?keyword=%23"+key+"%23"+keyword;
-	}
 </script>
 <div id="list_wrap">
 	<ul class="list_navi">
