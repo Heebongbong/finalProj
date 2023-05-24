@@ -35,28 +35,45 @@
 </style>
 
 <div id="mypage_wrap">
+${loginUser }
 
 	<form id="mypageForm" action="${ctxPath }/user/mypageOk" method="post" enctype="multipart/form-data" novalidate>
 		
+		<input type="hidden" name="user_no" value="${loginUser.user_no}">
 		<input type="hidden" name="profile_type" id="profile_type" value="${loginUser.profile_type}">
 		<input type="hidden" name="phone" id="phone" value="${loginUser.phone}">
+		<input type="hidden" name="type" value="${loginUser.type }">
+		<input type="hidden" name="profile" id="profile_hidden" value="${loginUser.profile }">
+		
+		
 		
 		<div class="text_part">
 			<div class="profile_part">
+				<div class="profile">
 				<p>프로필 사진</p>
-				<div class="profile"><img id="previewImg" src="${loginUser.profile }"/></div>
-				<div><input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)"></div>
+					<img id="previewImg" src="${loginUser.profile }"/>
+				</div>
+				<div>
+					<input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
+				</div>
 				<c:if test="${loginUser.type ne 'S'|| loginUser.type ne 'G'}">
 					<input type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
 				</c:if>
 				
-				<p class="text">전화번호</p>
+				<c:if test="${loginUser.authen }">
+					<p>인증 회원</p>
+					<p class="text">전화번호 변경</p>
+				</c:if>
+				<c:if test="${!loginUser.authen }">
+					<p>비인증 회원</p>
+					<p class="text">전화번호 등록</p>
+				</c:if>
 				<input name="input_phone" class="noWhitespace" id="input_phone" value="${loginUser.phone }" placeholder="휴대폰 번호(-없이 숫자만 입력)">
 				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
 				<p class="input_phoneError">&nbsp;</p>
 				<p class="text">전화번호 확인</p>
 				<input name="code" id="input_code" class="noWhitespace">
-				<button type="button" onclick="checkCode()">인증하기</button>
+				<button type="button" id="checkBtn" onclick="checkCode()">인증하기</button>
 				<p class="codeError">&nbsp;</p>
 			</div>
 			
@@ -81,7 +98,7 @@
 			
 		</div>
 		
-		<button type="submit">가입하기</button>
+		<button type="submit" id="submitBtn">가입하기</button>
 		
 	</form>
 	
@@ -91,7 +108,6 @@
 <!-- 간단한 클라이언트 측 양식 유효성 검사를 쉽게 할 수 있고 많은 사용자 정의 옵션을 정의할 수 있습니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script type="text/javascript">
-	
 	/* 
 	소셜회원(=== K,G,N)일 경우 S로 변경 
 	사이트회원일 경우 회원에 맞는 소셜타입으로 변경
@@ -107,6 +123,8 @@
 			  console.log(res);
 				$("#previewImg").attr("src", res);
 				$('#profile_type').val(0);
+				$('#profile_hidden').val(res);
+				$('#profileInput').val("");
 		  },
 		  error : function() {
 			  alert("전송 실패");
@@ -118,9 +136,21 @@
 	
 	}
 	
+	// 바꾼 프로필 이미지 보여주기
+	function previewProfileImage(event) {
+		let input = event.target;
+		let reader = new FileReader();
+		reader.onload = function() {
+			let previewImg =  document.getElementById('previewImg');
+			previewImg.src = reader.result;
+		};
+		reader.readAsDataURL(input.files[0]);
+		
+		$('#profile_type').val(1);
+	}
+	
 	// 비밀번호 확인
 	function checkPwd() {
-		alert($(".pwd_checkError").text().trim());
 		var check_pwd = document.getElementById("check_pwd").value;
 	  let pwdCheckError = document.getElementsByClassName("pwd_checkError")[0];
 		
@@ -151,41 +181,18 @@
 		
 		}
 	
-	// 공백제거
-	var elements = document.querySelectorAll('.noWhitespace');
-	for (var i = 0; i < elements.length; i++) {
-	  elements[i].addEventListener('input', function(event) {
-	    var currentValue = this.value;
-	    var trimmedValue = currentValue.replace(/\s/g, '');
-	    if (currentValue !== trimmedValue) {
-	      this.value = trimmedValue;
-	    }
-	  });
-	}
-	
-	// 숫자만 입력
-  var inputElement = document.getElementById("input_phone");
-
-  inputElement.addEventListener("input", function(event) {
-    var currentValue = inputElement.value;
-    var sanitizedValue = currentValue.replace(/\D/g, "");
-
-    if (currentValue !== sanitizedValue) {
-      inputElement.value = sanitizedValue;
-    }
-  });
-	
 	
 	function sendSMS(event) {
 			
 			let phoneError = document.getElementsByClassName("input_phoneError")[0];
 		  const phone = document.getElementById("input_phone").value;
 				
+		  /* if("${loginUser.phone}" == $("#phone").val()){
+			 return true;
+		 } */
 			if(phone === '') {
 				phoneError.textContent = "휴대전화를 입력하세요.";
-			}
-			
-			if(phoneError.innerText === '' || phoneError.innerText === '휴대전화로 인증번호가 전송되었습니다.') {
+			}else if(phoneError.innerText === '' || phoneError.innerText === '휴대전화로 인증번호가 전송되었습니다.') {
 				
 				// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
 			  const button = document.getElementById('sendBtn');
@@ -205,7 +212,9 @@
 				  
 			  });
 			  
-			} 
+			} else if(phone === "${loginUser.phone}"){
+				phoneError.textContent = "인증된 전화번호입니다. 다른 번호를 입력하세요";
+		 } 
 			//event.preventDefault();
 
 
@@ -214,17 +223,15 @@
 	
 	function checkCode() {
 		
-		event.preventDefault();
-		
-	  const input_code = document.getElementById("input_code").value;
+	  let input_code = document.getElementById("input_code").value;
 		
 		let phoneError = document.getElementsByClassName("input_phoneError")[0];
 	  let codeError = document.getElementsByClassName("codeError")[0];
 	  
-		const button = document.getElementById('sendBtn');
-		const buttonText = button.innerText;
+		let button = document.getElementById('sendBtn');
+		let buttonText = button.innerText;
 		
-		if(buttonText === '재전송'){
+	  if(buttonText === '재전송'){
 			
 		  
 			  if(input_code != null){
@@ -233,10 +240,13 @@
 					  type : "post",
 					  data : { input_code : input_code },
 					  success : function(res) {
-						  if(res == "true"/*  && input_code.length != 0 */){
-							  codeError.textContent = "인증 완료";
-							  let phone = $('#input_phone').val();
-							  $('#phone').val(phone);
+						  if(res == "true"){
+								// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
+								let checkBtn = document.getElementById('checkBtn');
+								checkBtn.innerText = '인증완료';
+								codeError.textContent = " ";
+							  let input_phone = $('#input_phone').val();
+							  $('#phone').val(input_phone);
 						  }else {
 							  codeError.textContent = "인증 번호가 틀렸습니다.";
 						  }
@@ -257,13 +267,115 @@
 				codeError.textContent = "휴대전화번호를 입력하세요";
 			}
 		}
-	  
+		//event.preventDefault();
 		
 	}
 	
+	
+	
+	
+	
+	
+	
+	
 
 	$(document).ready(function(){
+		
+		// 비밀번호 입력 시 확인 필수
+		$("#pwd").keydown(function(){
+			
+			let pwdCheckError = document.getElementsByClassName("pwd_checkError")[0];
+			
+			if(pwdCheckError.textContent != "비밀번호 확인") {
+				pwdCheckError.textContent = "비밀번호 확인 후에 진행하세요";
+				$("#check_pwd").focus();
+			}
+		});
+		
+		// 비밀번호 입력 시 확인 필수
+		$("#pwd_re").keydown(function(){
+			let pwdCheckError = document.getElementsByClassName("pwd_checkError")[0];
+			let pwdError = document.getElementsByClassName("pwdError")[0];
+			let pwdReError = document.getElementsByClassName("pwd_reError")[0];
+			
+			if(pwdCheckError.textContent != "비밀번호 확인") {
+				pwdCheckError.textContent = "비밀번호 확인 후에 진행하세요";
+				$("#check_pwd").focus();
+			}else if(pwdError.textContent != "") {
+				pwdReError.textContent = "새 비밀번호를 먼저 확인하세요";
+				$("#pwd").focus();
+			}
+		});
+		
+		// 공백제거
+		let elements = document.querySelectorAll('.noWhitespace');
+		
+		for (var i = 0; i < elements.length; i++) {
+		  elements[i].addEventListener('input', function(event) {
+		    var currentValue = this.value;
+		    var trimmedValue = currentValue.replace(/\s/g, '');
+		    if (currentValue !== trimmedValue) {
+		      this.value = trimmedValue;
+		    }
+		  });
+		}
+		
+		// 숫자만 입력
+	  let inputElement = document.getElementById("input_phone");
 
+	  inputElement.addEventListener("input", function(event) {
+		  let currentValue = inputElement.value;
+		  let sanitizedValue = currentValue.replace(/\D/g, "");
+
+	    if (currentValue !== sanitizedValue) {
+	      inputElement.value = sanitizedValue;
+	    }
+	  });
+		
+	  
+		 $("#submitBtn").click(function() {
+			 let input_phone = document.getElementById('input_phone').value;
+			 const button = document.getElementById('sendBtn');
+			 const buttonText = button.innerText; 
+				
+			 if(input_phone.length != 0 && input_phone != "${loginUser.phone}"){
+				 if(buttonText === '인증번호발송') {
+				 
+				  let codeError = document.getElementsByClassName("codeError")[0];
+	
+				  codeError.textContent = "인증번호 발송 버튼을 눌러 인증번호를 받으세요";
+				  
+					event.preventDefault();
+				}
+		 }
+			 
+			 let input_code_length = document.getElementById('input_code').value.length;
+			 const checkBtn = document.getElementById('checkBtn');
+		 	 const checkBtnText = checkBtn.innerText;
+			 	 
+			 if(input_code_length != 0 && checkBtnText === '인증하기') {
+				 
+				  let codeError = document.getElementsByClassName("codeError")[0];
+	
+				  codeError.textContent = "인증하기를 눌러 인증을 완료하세요";
+				  
+					event.preventDefault();
+			 }
+			 
+			/*  let check_pwd_length = document.getElementById('check_pwd').value.length;
+			 let pwd_length = document.getElementById('pwd').value.length;
+			 let pwd_re_length = document.getElementById('pwd_re').value.length;
+ 
+			 if(check_pwd_length == 0 && (pwd_length != 0 || pwd_re_length != 0)) {
+				 
+				  let pwdCheckError = document.getElementsByClassName("pwd_checkError")[0];
+	
+				  pwdCheckError.textContent = "비밀번호 확인 후에 진행하세요";
+				  
+					event.preventDefault();
+			 } */
+		 });
+		 
 		$.validator.addMethod("engAndNum", function(value, element) {
 			   var pattern = /^[A-Za-z0-9]*$/;
 		
@@ -400,8 +512,6 @@
     		 let pwd = $("#pwd").val();
     		 let pwd_re = $("#pwd_re").val();
     		 
-    		 alert(pwd);
-    		 
     		 return pwd == pwd_re;
     	 }else {return true}
      });
@@ -437,12 +547,11 @@
 			 let isUnique = false;
 			 
 			 let length = value.trim().length;
-		        
-		        if(length == 0){
+		   
+		        if(length == 0 || ("${loginUser.phone}" == value)){
 		        	return true;
 		        }else {
 		        
-			 // AJAX 요청
 		        $.ajax({
 		            url: "${ctxPath}/user/check/phone",
 		            type: "get",
@@ -544,51 +653,13 @@
       success: function(label, element) {
     	    var targetElementClass = $(element).attr("name") + "Error";
     	    var targetElement = $("." + targetElementClass);
-          targetElement.css("height", "17px");
+          targetElement.css("height", "20px");
     	}
 
 		});
 		
 	});
 
-
-		
-		
-		
-		// 비밀번호 일치 확인
-		$('.pw').keyup(function() {
-			var pass1 = $("#password_1").val();
-			var pass2 = $("#password_2").val();
-			
-			if(pass1 != "" || pass2 != "") {
-				if(pass1 == pass2) {
-					$("#checkPw").html('비밀번호 일치');
-					$("#checkPw").css('color', 'green');
-				} else if (pass1 != pass2) {
-					$("#checkPw").html('비밀번호 불일치');
-					$("#checkPw").css('color', 'red');
-				}
-			}
-			
-		})
-		
-		// 바꾼 프로필 이미지 보여주기
-		function previewProfileImage(event) {
-			let input = event.target;
-			let reader = new FileReader();
-			reader.onload = function() {
-				let previewImg =  document.getElementById('previewImg');
-				previewImg.src = reader.result;
-			};
-			reader.readAsDataURL(input.files[0]);
-			alert(previewImg.src);
-			
-			$('#profile_type').val(1);
-			
-		}
-		
-		
-		
 		/* 문자, 띄어쓰기, 코드 세션 만료 */
 </script>
 
