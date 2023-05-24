@@ -137,9 +137,9 @@ public class Interceptor implements HandlerInterceptor{
 		String curl = null;
 		
 		if(type.equals("K")) {
-			curl = "https://kapi.kakao.com/v2/user/me?Authorization=Bearer "+sessionID;
+			curl = "https://kapi.kakao.com/v2/user/me";
 		}else if(type.equals("N")) {
-			curl = "https://openapi.naver.com/v1/nid/me?Authorization=Bearer "+sessionID;
+			curl = "https://openapi.naver.com/v1/nid/me";
 		}else {
 			return null;
 		}
@@ -148,6 +148,15 @@ public class Interceptor implements HandlerInterceptor{
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        
+        if(type.equals("K")) {
+            conn.setRequestProperty("Authorization", "Bearer "+sessionID);
+		}else if(type.equals("N")) {
+	        conn.setRequestProperty("Authorization", "Bearer "+sessionID);
+		}else {
+			return null;
+		}
+        
         BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -161,6 +170,7 @@ public class Interceptor implements HandlerInterceptor{
         }
         rd.close();
         conn.disconnect();
+        System.out.println(sb.toString());
         JSONObject jo = new JSONObject(sb.toString());
         
         if(type.equals("N")) {

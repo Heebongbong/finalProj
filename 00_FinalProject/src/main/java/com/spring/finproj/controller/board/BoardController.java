@@ -1,11 +1,9 @@
 package com.spring.finproj.controller.board;
 
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +31,9 @@ public class BoardController {
     
     
     @RequestMapping("/list")
-    public String boardList(@RequestParam(required = false) String keyword, HttpServletRequest request, Model model) throws Exception {
-    	boardService.getBoardList(request, model, keyword);
+    public String boardList(@RequestParam(required = false, value = "keyword") String keyword, Model model) throws Exception {
+    	model.addAttribute("Keyword", keyword);
+    	System.out.println("cont"+keyword);
     	return "board.list";
     }
  
@@ -60,7 +59,7 @@ public class BoardController {
     
     @RequestMapping("/addlist")
     @ResponseBody
-    public Map<String , Object> boardAddList(HttpSession session, HttpServletRequest request, 
+    public Map<String , Object> boardAddList(HttpServletRequest request, 
     		@RequestParam(required = false) int cm_no, 
     		@RequestParam(required = false) String keyword) throws Exception{
     	return boardService.getBoardAddList(request, cm_no, keyword);

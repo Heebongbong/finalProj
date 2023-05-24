@@ -32,8 +32,6 @@
 		border-radius: 50%;
 	}
 	
-	
-	}
 </style>
 
 <div id="mypage_wrap">
