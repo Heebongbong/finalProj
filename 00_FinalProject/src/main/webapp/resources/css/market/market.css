@@ -21,3 +21,89 @@
 	top: 200px;
 	z-index: 5;
 }
+
+/* board_main css */
+.board_content{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 20px auto;
+	width: 90%;
+}
+
+.board_user_wrap{
+	display: flex;
+	justify-content: space-between;
+	height: 
+}
+.board_user_prof{
+	display: flex;
+	justify-content: space-around;
+}
+.board_user_prof img{
+	width: 50px;
+	height: 50px;
+}
+
+.board_title_wrap{
+	display: flex;
+	justify-content: space-around;
+}
+
+.board_main_wrap{
+	display: flex;
+	justify-content: flex-start;
+}
+.board_main_photo{
+	display: flex;
+	width: 40%;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.board_main_files {
+	width: 100%;
+}
+.board_main_files img{
+	width: 350px;
+	height: 350px;
+}
+
+/* 본문 css */
+
+.board_main_cont{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.board_main_text{
+	height: 70px;
+}
+
+.board_reply_cont_total{
+	display: none;
+	flex-direction: column;
+}
+.board_reply_cont_show{
+	display: flex;
+	flex-direction: column;
+}
+.board_reply_ment_cont{
+	display: flex;
+	position: relative;
+	justify-content: flex-start;
+}
+.board_reply_delete{
+	position: absolute;
+	right: 0px;
+}
+
+.board_reply_write_prof{
+	width: 50px;
+	height: 50px;
+}
+
+.board_reply_write{
+	display: flex;
+	justify-content: flex-start;
+}

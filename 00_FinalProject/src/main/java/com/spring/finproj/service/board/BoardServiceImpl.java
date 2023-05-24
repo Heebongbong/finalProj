@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,27 +31,11 @@ import com.spring.finproj.model.user.UserDTO;
 public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDAO boardDAO;
-
 	@Autowired
 	private MentionDAO mentionDAO;
 
 	@Override
-	public void getBoardList(HttpServletRequest request, Model model, String keyword) throws Exception {
-		List<BoardDTO> list = null;
-		if (keyword == null || keyword == "") {
-			list = boardDAO.getBoardList();
-		} else {
-			list = boardDAO.getBoardList(keyword);
-		}
-
-		for (BoardDTO d : list) {
-			d.setPhoto_files(request);
-		}
-		model.addAttribute("BoardList", list);
-	}
-
-	@Override
-	public Map<String, Object> getBoardAddList(HttpSession session, HttpServletRequest request, int cm_no,
+	public Map<String, Object> getBoardAddList(HttpServletRequest request, int cm_no,
 			String keyword) throws Exception {
 		Map<String, Object> boardTotal = new HashMap<String, Object>();
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
@@ -61,16 +46,46 @@ public class BoardServiceImpl implements BoardService {
 			if(keyword==null || keyword=="") {
 				list = boardDAO.getBoardList();
 			}else {
-				list = boardDAO.getBoardList(keyword);
+				
+				if(keyword.charAt(0)=='#') {
+					
+					StringTokenizer st = new StringTokenizer(keyword, "#");
+					List<String> hashList = new ArrayList<String>();
+					
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					
+					list = boardDAO.getBoardHashKeyList(hashList);
+				}else {
+					list = boardDAO.getBoardList(keyword);
+				}
 			}
 		}else {
 			if(keyword==null || keyword=="") {
 				list = boardDAO.getBoardList(cm_no);
 			}else {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("keyword", keyword);
-				map.put("cm_no", cm_no);
-				list = boardDAO.getBoardList(map);
+				if(keyword.charAt(0)=='#') {
+					
+					StringTokenizer st = new StringTokenizer(keyword, "#");
+					List<String> hashList = new ArrayList<String>();
+					
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("hashList", hashList);
+					map.put("cm_no", cm_no);
+					list = boardDAO.getBoardHashKeyMap(map);
+					
+				}else {
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("keyword", keyword);
+					map.put("cm_no", cm_no);
+					list = boardDAO.getBoardList(map);
+				}
 			}
 		}
 
@@ -83,6 +98,8 @@ public class BoardServiceImpl implements BoardService {
 
 		boardTotal.put("BoardList", list);
 		boardTotal.put("MentionList", mapList2);
+		boardTotal.put("keyword", keyword);
+
 		return boardTotal;
 	}
 

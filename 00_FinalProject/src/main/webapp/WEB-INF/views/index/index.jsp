@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
+<script>
+	let loginUser_no = '${loginUser.user_no }';
+	let loginUser_profile = '${loginUser.profile }';
+</script>
 <div id="index_wrap">
 	<c:if test="${!empty campingList }">
 		<div class="index_camping_list">
@@ -33,13 +37,7 @@
 	
 	<c:if test="${!empty boardList }">
 	<div class="index_board_wrap">
-		<c:forEach items="${boardList }" var="board">
-		<div class="index_board">
-			<input type="button" value="채팅하기" onclick="chat_board(${board.getUser_no() })">
-			<input type="hidden" class="board_no" value="${board.getCm_no() }">
-			${board }
-		</div>
-		</c:forEach>
+		
 	</div>
 	</c:if>
 </div>
