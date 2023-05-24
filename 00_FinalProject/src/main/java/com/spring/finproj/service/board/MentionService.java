@@ -19,5 +19,5 @@ public interface MentionService {
 
     void delete(MentionDTO dto) throws Exception;
 
-    List<MentionDTO> addMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception;
+	Map<Integer, List<MentionDTO>> addMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception;
 }

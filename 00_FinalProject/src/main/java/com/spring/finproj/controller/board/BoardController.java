@@ -66,11 +66,11 @@ public class BoardController {
     
     @RequestMapping("/addmention")
     @ResponseBody
-    public List<MentionDTO> mentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
+    public Map<Integer, List<MentionDTO>> mentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
     	int check = mentionService.getMentionInsert(dto);
     	System.out.println("check +"+check);
     	
-    	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
+    	Map<Integer, List<MentionDTO>> list = mentionService.addMentionlist(request, model, dto.getCm_no());
     	System.out.println(list);
     	return list;
     }

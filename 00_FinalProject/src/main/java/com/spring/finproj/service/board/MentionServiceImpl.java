@@ -1,7 +1,6 @@
 package com.spring.finproj.service.board;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +31,13 @@ public class MentionServiceImpl implements MentionService{
 	}
 	
 	@Override
-	public List<MentionDTO> addMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception {
+	public Map<Integer, List<MentionDTO>> addMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception {
 		Map<Integer, List<MentionDTO>> mapList = new HashMap<Integer, List<MentionDTO>>();
 		
-		List<MentionDTO> list = new ArrayList<MentionDTO>();
-		list = mentionDAO.getMentionList(cm_no);
+		List<MentionDTO> list2 = mentionDAO.getMentionList(cm_no);
+		mapList.put(cm_no, list2);
 		
-		return list;
+		return mapList;
 	}
 
 	@Override
