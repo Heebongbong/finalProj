@@ -7,11 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.finproj.service.board.BoardService;
 import com.spring.finproj.service.camping.CampingService;
 import com.spring.finproj.service.drive.DriveService;
-import com.spring.finproj.service.handler.IpChatch;
-import com.spring.finproj.service.market.MarketService;
 
 @Controller
 public class HomeController {
@@ -19,18 +16,12 @@ public class HomeController {
 	private CampingService campingService;
 	@Autowired
 	private DriveService driveService;
-	@Autowired
-	private BoardService boardService;
-	@Autowired
-	private MarketService marketService;
 	
 	@RequestMapping(value = {"/", "/index", "/indexNavi"})
 	public String homeNavi(Model model, HttpServletRequest rq) throws Exception {
 		campingService.getCampingRandomList(model);
 		int ran_num=(int)((Math.random()*7)+1);
 		model.addAttribute("banner_num", ran_num);
-		
-		boardService.getBoardList(rq, model, "");
 		
 		return "index.index";
 	}

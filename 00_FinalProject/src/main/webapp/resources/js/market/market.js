@@ -5,6 +5,17 @@
 $(document).ready(function(){
     marketAddList();
 
+	$(".board_main_files").not('.slick-initialized').slick({
+		dots: true,
+		infinite: true,
+		speed: 1000,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		adaptiveHeight: true,
+		arrows: false,
+		draggable: true
+	});
+
     $('body').on("mousewheel",function(event){
 		if(($(window).scrollTop()+$(window).innerHeight())>=$(document).height()){
 			if(event.originalEvent.deltaY>0){
