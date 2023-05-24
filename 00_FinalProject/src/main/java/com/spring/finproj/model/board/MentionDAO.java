@@ -9,6 +9,6 @@ public interface MentionDAO {
 	public MentionDTO getMentionOne(MentionDTO dto);
 	public int insertMentionContent(MentionDTO dto);
 	public int updateMentionContent(MentionDTO dto);
-	public int deleteMentionContent(MentionDTO dto);
+	public int deleteMentionContent(int mention_no);
 	
 }

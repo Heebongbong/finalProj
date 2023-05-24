@@ -46,6 +46,8 @@ function marketAddList(){
 		cm_no = 0;
 	}
 
+    console.log('1-'+$('#market_keyword').val());
+
 	$.ajax({
 		type: "get",
 		url: ctxPath+"/market/addlist",
@@ -57,119 +59,77 @@ function marketAddList(){
 		contentType : "application/json; charset=UTF-8;",
 		async:false,
 		success: function(data){
+            console.log(data);
 			let boardList = data.BoardList;
         	let mentionList = data.MentionList;
-			$('#market_keyword').val(data.keyword);
-          
-		  
+            $('#market_keyword').val(data.keyword);
+            
         	let table = "";
-          
-        	for (let i = 0; i < boardList.length; i++) {
+        
+			for(let i = 0; i < boardList.length; i++) {
 				let board = boardList[i];
 				let no = board.cm_no;
 				let mention = mentionList[no];
 				let files = board.photo_files;
 				let folders = board.photo_folder;
-				table += "<div class='board_content'>" +
-					"<input class='board_no' type='hidden' value='"+no+"'>" +
 
-				//게시글 헤더
-				"<div class='board_user_wrap'>" +
-					"<div class='board_user_prof'>" +
-						"<img src='"+ board.profile +"'>" +
-						"<span>'"+ board.nickname +"'</span>" +
+				table += "<div class='list_board'>" +
+					"<input class='board_no' type='hidden' value='" + no + "'>" +
+					"<div class='board_user'>" +
+					"<img src='" + board.profile + "'>" +
+					"<span>'" + board.nickname + "'</span>" +
 					"</div>" +
-					"<div class='board_detail_btn'>" +
-						"<a href='javascript:'>***</a>" +
-					"</div>" +
+					"<div class='list_board_files'>";
+				
+				if(files==null){
+					table += "<p>파일이 없습니다.</p>";
+				}else{
+					table += "<div class='photo_file'>";
+
+						for(let z=0;z<files.length;z++){
+							table += "<img src='/finproj/resources/images/board/"+folders+"/"+files[z]+"'>";
+						}
+
+					table += "</div>";
+				}
+
+				table += "</div>" +
+				"<div class='" + board.content + "'>" +
+					"<span>'" + board.content + "'</span>" +
+					"<p>'" + board.hashtag + "'</p>" +
 				"</div>" +
+				"<p>댓글창</p>"+
+				"<div id='reply_card"+no+"'>"+
+					"<div class='card card-body'>"+
+						"<div class='reply-list reply-list"+no+"'>";
+				
+				for(let j = 0; j < mention.length; j++) {
+					table += "<div>"+mention[j].user_no+"</div>"+
+						"<div>"+mention[j].ment+"</div>";
+				}
 
-				//게시글 타이틀
-				"<div class='board_title_wrap'>" +
-					"<div class='board_title_text'>" +
-						board.title +
-					"</div>" +
-					"<div class='board_title_price'>" +
-						board.price +
-					"</div>" +
-				"</div>" +
-
-				//게시글 본문
-				"<div class='board_main_wrap'>" +
-					"<div class='board_main_photo'>" +
-						"<div class='board_main_files'>";
-								if(files.length==0){
-									table += "<div class='board_file_slick'><img src='/finproj/resources/images/board/default/default.jpg'></div>";
-								}else{
-									for(let z=0;z<files.length;z++){
-										table += "<div class='board_file_slick'><img src='/finproj/resources/images/board/"+folders+"/"+files[z]+"'></div>";
-									}
-								}
-					table += "</div>" + //files end
-						"<div class='board_main_hashtag'>" +	//hashtag
-							"<p>'" + board.hashtag + "'</p>" +
-						"</div>" + //hasgtag end
-					"</div>" + //board_main_photo end
-
-
-                "<div class='board_main_cont'>" +
-
-               		"<div class='board_main_text'>'" + board.content + "'</div>" +
-                
-					"<div class='board_reply_wrap'>";
-
-					//댓글 목록 - 보여지는 최대 3개
-					table += "<div class='board_reply_cont_show'>";
-					//<!-- 댓글이 목록이 들어가는 곳 -->
-					for(let j = 0; j < ((mention.length>3) ? 3 : mention.length); j++) {
-						table +=  "<div class='board_reply_ment_cont'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-									"<div class='board_reply_ment'>"+mention[j].ment+"</div>";
-								if(mention[j].user_no==loginUser_no){
-									table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
-								}
-						table += "</div>";
-					}
-					table += "</div>"; //reply_cont end
-
-					
-					//댓글 목록 - 숨어있는 전체목록
-					table += "<div class='board_reply_cont_total'>";
-					//<!-- 댓글이 목록이 들어가는 곳 -->
-					for(let j = 0; j < mention.length; j++) {
-						table +=  "<div class='board_reply_ment_cont'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-									"<div class='board_reply_ment'>"+mention[j].ment+"</div>";
-								if(mention[j].user_no==loginUser_no){
-									table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
-								}
-						table += "</div>";
-					}
-					table += "</div>"; //reply_cont end
-
-					table += "<input type='button' value='전체댓글 보기' onclick='open_ment_modal(this)'>";
-
-					//<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
-						table += "<div class='board_reply_write'>";
-								if(loginUser_no!=""){
-									table += "<div class='reply_write_user'>"+
-												"<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
-											"</div>"+
-											"<div class='reply_write_ment'>"+
-												"<input class='reply_write_ment' id='"+no+"'>"+
-												"<button type='button' class='reply_write_insert' onclick='addMention("+no+")'>댓글입력</button>"+
-											"</div>";
-								}else{
-									table += "<div><h2>로그인이 필요합니다.</h2></div>";
-								}
-							table += "</div>"+	//reply_write end
-
-						"</div>"+	// reply wrap end
-
-					"</div>" + // main_cont end
-
-				"</div>" + //게시글 본문 end
-			"</div>"; //board_content end
-          }
-          // Add the generated table HTML to the list_main element
+				table += "</div>";
+						
+				if(loginUser_no==""){
+					table += "<div class='row reply_write'>"+
+						"<input class='loginUserNo' type='hidden' value='" + loginUser_no + "'>"+
+							"<div>"+
+								"<img id='profileImage' src='"+loginUser_profile+"' />"+
+							"</div>"+
+							"<div>"+
+								"<textarea id='"+no+"' name='mention' rows='4' cols='50'></textarea>"+
+							"</div>"+
+							"<div>"+
+								"<button type='button' id='"+no+"' class='btn write_reply' onclick='addMention(this)'>댓글입력</button>"+
+							"</div>"+
+						"</div>";
+				}else{
+					table += "<div class='row reply_write'> </div>";
+				}
+				table += "</div>"+
+					"</div>"+
+				"</div>";
+			}
 
 			$('.market_main').append(table);
 		},

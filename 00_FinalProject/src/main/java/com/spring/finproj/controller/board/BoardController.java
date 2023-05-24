@@ -67,12 +67,21 @@ public class BoardController {
     
     @RequestMapping("/addmention")
     @ResponseBody
-    public Map<Integer, List<MentionDTO>> mentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
+    public List<MentionDTO> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
     	int check = mentionService.getMentionInsert(dto);
     	System.out.println("check +"+check);
     	
-    	Map<Integer, List<MentionDTO>> list = mentionService.addMentionlist(request, model, dto.getCm_no());
+    	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
     	System.out.println(list);
     	return list;
+    }
+    
+    @RequestMapping("/deletemention")
+    @ResponseBody
+    public int delmentionRequest(int mention_no, HttpServletRequest request) throws Exception {
+    	int check = mentionService.getMentionDelete(mention_no);
+    	System.out.println("check +"+check);
+  
+    	return check;
     }
 }
