@@ -26,8 +26,10 @@ $(document).ready(function(){
 });
 
 function move_search_cate(key){
-	let keyword = $('#board_keyword').val();
-	location.href=ctxPath+"/board/list?keyword=%23"+key+"%23"+keyword;
+	let keyword = "%23"+key+"%23"+$('#board_keyword').val();
+	keyword= keyword.replace(/\#/g,"%23");
+	console.log(keyword);
+	location.href=ctxPath+"/board/list?keyword="+keyword;
 }
 
 function open_ment_modal(self){
@@ -74,9 +76,6 @@ function addList(){
 	if(cm_no==null){
 		cm_no = 0;
 	}
-	console.log(cm_no)
-
-	console.log('1-'+$('#board_keyword').val());
 
 	$.ajax({
         type: "get",

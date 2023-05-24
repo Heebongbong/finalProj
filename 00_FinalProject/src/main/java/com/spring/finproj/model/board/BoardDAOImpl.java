@@ -61,4 +61,14 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board_list_add_search", map);
 	}
+	@Override
+	public List<BoardDTO> getBoardHashKeyList(List<String> list) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board_list_hash_list", list);
+	}
+	@Override
+	public List<BoardDTO> getBoardHashKeyMap(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return  sqlSession.selectList("board_list_hash_map", map);
+	}
 }

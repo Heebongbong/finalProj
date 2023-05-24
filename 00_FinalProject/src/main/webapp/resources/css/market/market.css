@@ -27,6 +27,8 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	margin: 20px auto;
+	width: 90%;
 }
 
 .board_user_wrap{

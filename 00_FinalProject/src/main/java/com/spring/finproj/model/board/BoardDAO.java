@@ -16,5 +16,7 @@ public interface BoardDAO {
 	public List<BoardDTO> getBoardList(String keyword);
 	public List<BoardDTO> getBoardList(int cm_no);
 	public List<BoardDTO> getBoardList(Map<String, Object> map);
+	public List<BoardDTO> getBoardHashKeyList(List<String> hashList);
+	public List<BoardDTO> getBoardHashKeyMap(Map<String, Object> map);
 	
 }
