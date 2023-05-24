@@ -10,8 +10,24 @@ function check() {
 	}
 }
 function cate_hash(self){
-	$('.hashtags').val($('.hashtags').val()+"#"+$(self).val());
+	let checkboxes = document.getElementsByClassName("category");
+	
+	if (checkboxes.length > 0) {
+		  for(var i=0; i<checkboxes.length; i++) {
+			  checkbox = checkboxes[i];
+			  if(checkbox.checked == true) {
+				  console.log(0);
+			  }else {
+				  console.log(1);
+				  
+			  }
+		  }
+		  console.log($('.hashtags').val()+"#"+$(self).val());
+		$('.hashtags').val($('.hashtags').val()+"#"+$(self).val());
+		}
 }
+
+
 
 
 </script>
@@ -20,10 +36,10 @@ function cate_hash(self){
 	 <form id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/writeform">
            <div class="form-group" align="left">
 				<span>해시태그</span>
-	            <input type="checkbox" id="life" onclick="cate_hash(this)" class="category" name="category" value="일상"><label for="life">일상</label>
-				<input type="checkbox" id="review" onclick="cate_hash(this)" class="category" name="category" value="리뷰"><label for="review">리뷰</label>
-				<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" name="category" value="음식"><label for="food">음식</label>
-				<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" name="category" value="장비"><label for="equipment">장비</label>
+	            <input type="checkbox" id="life" onclick="cate_hash(this)" class="category" value="일상" checked><label for="review">일상</label>
+				<input type="checkbox" id="review" onclick="cate_hash(this)" class="category" value="리뷰"><label for="review">리뷰</label>
+				<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" value="음식"><label for="food">음식</label>
+				<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" value="장비"><label for="equipment">장비</label>
            </div>
            <div class="form-group" align="left">
                <label for="content">내용:</label>
@@ -35,7 +51,7 @@ function cate_hash(self){
            </div>
            <div>
 
-           	<input type="text" name="hashtag">
+           	<input type="text" class="hashtags" value="">
 
            </div>
            <script type="text/javascript">

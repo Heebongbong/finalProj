@@ -57,6 +57,26 @@ public class BoardController {
 		}
     }
     
+    @RequestMapping("/update")
+    public String boardUpdate() {
+        return "board.update";
+    }
+    
+    @RequestMapping("/updateOk")
+    public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
+    		Model model, String[] category,
+    		HttpSession session, HttpServletRequest request) throws Exception {
+    	
+    	int check = boardService.writeBoard(dto, files, model, category, session, request);
+    	
+    	if(check > 0) {
+			return "board.list";
+		}else {
+			model.addAttribute("msg", "글수정중 문제가 발생했습니다.");
+		    return "error/error";
+		}
+    }
+    
     @RequestMapping("/addlist")
     @ResponseBody
     public Map<String , Object> boardAddList(HttpServletRequest request, 
