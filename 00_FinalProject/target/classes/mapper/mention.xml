@@ -24,4 +24,8 @@
         insert into mention (mention_no, cm_no, user_no, ment, created)
         values (#{mention_no}+1, #{cm_no}, #{user_no}, #{ment}, now())
     </insert>
+    
+    <delete id="mention_delete" parameterType="int">
+		delete from mention where mention_no = #{mention_no}
+    </delete>
 </mapper>

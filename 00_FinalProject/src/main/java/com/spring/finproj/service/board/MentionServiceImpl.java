@@ -33,7 +33,6 @@ public class MentionServiceImpl implements MentionService{
 	
 	@Override
 	public List<MentionDTO> addMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception {
-		Map<Integer, List<MentionDTO>> mapList = new HashMap<Integer, List<MentionDTO>>();
 		
 		List<MentionDTO> list = new ArrayList<MentionDTO>();
 		list = mentionDAO.getMentionList(cm_no);
@@ -49,13 +48,14 @@ public class MentionServiceImpl implements MentionService{
 	}
 
 	@Override
-	public void update(MentionDTO dto) throws Exception {
-		// TODO Auto-generated method stub
+	public int getMentionDelete(int mention_no) throws Exception {
+
+		return this.mentionDAO.deleteMentionContent(mention_no);
 		
 	}
 
 	@Override
-	public void delete(MentionDTO dto) throws Exception {
+	public void update(MentionDTO dto) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
