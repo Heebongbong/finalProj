@@ -3,6 +3,7 @@ package com.spring.finproj.service.user;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -38,8 +39,10 @@ public class UserServiceImpl implements UserService {
 
 	@SuppressWarnings("all")
 	@Override
-	public String insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response,
-			MultipartFile mfile, Model model) throws Exception {
+	public int insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, MultipartFile mfile) throws Exception {
+
+		session.removeAttribute("code");
 
 		dto.setType("S");
 
@@ -98,37 +101,107 @@ public class UserServiceImpl implements UserService {
 
 		System.out.println("service dto ================>>>> " + dto);
 
-		int check = userDao.insertUserContent(dto);
+		int check1 = userDao.insertUserContent(dto);
 		int check2 = userDao.insertUserProfileContent(dto);
+		int check = 0;
 
-		if (check > 0) {
-			return "redirect:/index";
-		} else {// 불일치
-			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
-			return "error/error";
+		if (check1 == 1 && check2 == 1) {
+			check = 1;
 		}
+		return check;
 
 	}
 
 	@Override
-	public void updateUserContent(UserDTO dto, HttpSession session) {
+	public int updateUserContent(UserDTO dto, HttpSession session, MultipartFile mfile, HttpServletRequest request)
+			throws Exception {
+		session.removeAttribute("code");
+
+		UserDTO sdto = (UserDTO) session.getAttribute("LoginUser");
+
+		System.out.println("=====================================================");
+		System.out.println(sdto);
 		
-		UserDTO sdto = (UserDTO)session.getAttribute("LoginUser");
+		sdto.isAuthen();
+		dto.isProfile_type();
 		
-		dto.setUser_no(sdto.getUser_no());
-		// upfile 받아서 사진처리
-		// 세션에서 받을 수 있는 값 처리해서 가져 오든지 아니면 여기서 처리하던지.
-		// if문으로 경우의 수 잘 따지기
+		System.out.println(dto.getPwd().equals(""));
+		System.out.println(dto.getPhone().equals(""));
 		
-		System.out.println("session" + sdto);
-		System.out.println("게시글     " +dto);
-		System.out.println(dto.getPhone());
-		if(dto.getPhone() != null) {
-			dto.setAuthen(true);
+		if (dto.getPwd().equals("")) {
+			dto.setPwd(sdto.getPwd());
+			System.out.println("기존 비밀번호 세팅");
 		}
 		
+		System.out.println(dto.getPwd());
+		
+		if (!dto.getPhone().equals("")) {
+			dto.setAuthen(true);
+		}
 		System.out.println(dto);
-//		userDao.updateUserContent(dto);
+		System.out.println("=====================================================");
+
+		// 프로필 값비교 & 저장
+		String originalFileName = mfile.getOriginalFilename();
+
+		if (!originalFileName.isEmpty()) {
+
+			// 절대경로 가져오기
+			Properties prop = new Properties();
+			FileInputStream fis = new FileInputStream(
+					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+			prop.load(new InputStreamReader(fis));
+			fis.close();
+
+			LocalDateTime nowDate = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
+			String today = nowDate.format(formatter);
+
+			// type + 이메일 아이디
+			String type = dto.getType();
+
+			StringTokenizer st = new StringTokenizer(dto.getEmail(), "@", true);
+			String email_id = st.nextToken();
+
+			String userFolder = "\\profile\\" + type + "_" + email_id;
+			String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + userFolder;
+
+			String saveFileName = UUID.randomUUID().toString()
+					+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+
+			String profile_src = "/finproj/resources/images/profile/" + type + "_" + email_id + "/" + today + "/"
+					+ saveFileName;
+			System.out.println(profile_src);
+			System.out.println(sdto.getProfile());
+
+			if (sdto.getProfile() != profile_src) {
+				System.out.println("프로필 불일치~");
+				dto.setProfile(profile_src);
+
+				File folder1 = new File(saveFolder);
+				File folder2 = new File(saveFolder + "\\" + today);
+				if (!folder1.exists()) {
+					folder1.mkdirs();
+				}
+
+				if (!folder2.exists()) {
+					folder2.mkdir();
+				}
+
+				mfile.transferTo(new File(saveFolder + "\\" + today, saveFileName));
+			} else {
+				dto.setProfile(sdto.getProfile());
+			}
+
+		} else { // 기존 이미지 세팅
+			if(dto.getProfile() == null) {
+				System.out.println("프로필 수정 없어서 파일 정보 없음~");
+				dto.setProfile(sdto.getProfile());
+			}
+		}
+
+		return userDao.updateUserContent(dto);
+
 	}
 
 	@Override
@@ -182,7 +255,6 @@ public class UserServiceImpl implements UserService {
 
 		// 발송 코드
 		String code = (String) session.getAttribute("code");
-		session.removeAttribute("code");
 		System.out.println("세션 코드 === " + code);
 
 		if (!input_code.equals(code)) {
@@ -227,6 +299,7 @@ public class UserServiceImpl implements UserService {
 		return refreshProfile(sdto.getSessionID(), dto.getType());
 	}
 
+	// 로그인 토큰 관련 메서드 ===========================
 	private String refreshProfile(String sessionID, String type) throws IOException {
 		// TODO Auto-generated method stub
 		String profile = null;
