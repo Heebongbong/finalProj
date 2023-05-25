@@ -17,7 +17,8 @@ public interface UserService {
 	public String getNickCheck(String nickname, HttpSession session) throws IOException;
 	public String sendSMS(String phone, HttpSession session) throws Exception;
 	public String checkSMS(String input_code, HttpSession session);
-	public String getPhoneCheck(String phone);
+	public String getPhoneCheck(String phone, String type);
+	public String getEmailCheck(String email);
 	public String getSnsProfile(HttpSession session, HttpServletResponse response) throws Exception;
 	public String checkPwd(String check_pwd, HttpSession session);
 	public int updateUserContent(UserDTO dto, HttpSession session, MultipartFile mfile, HttpServletRequest request) throws Exception;
