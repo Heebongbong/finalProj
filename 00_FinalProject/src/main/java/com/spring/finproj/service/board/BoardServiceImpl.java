@@ -2,6 +2,7 @@ package com.spring.finproj.service.board;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDAO;
@@ -160,5 +162,85 @@ public class BoardServiceImpl implements BoardService {
 
 		int re = boardDAO.insertBoardContent(boardDTO);
 		return re;
+	}
+
+	@Override
+	public int updateBoard(BoardDTO boardDTO, MultipartFile[] files, Model model, String[] category,
+			HttpSession session, HttpServletRequest request) throws Exception {
+		
+		String hashtag = boardDTO.getHashtag() + "#" + String.join("#", category);
+		
+		boardDTO.setHashtag(hashtag);
+		
+		if (files != null) {
+			Properties prop = new Properties();
+			FileInputStream fis = new FileInputStream(
+					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+			prop.load(new InputStreamReader(fis));
+			fis.close();
+
+			LocalDateTime nowDate = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
+			String today = nowDate.format(formatter);
+
+			// type + 이메일 아이디
+			String type = boardDTO.getType();
+
+			StringTokenizer st1 = new StringTokenizer(boardDTO.getEmail(), "@", true);
+			String email_id = st1.nextToken();
+			String boardFolder = type + "_" + email_id;
+			String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board\\" + boardFolder;
+
+			File folder = new File(saveFolder);
+			if (!folder.exists()) {
+				folder.mkdirs();
+			}
+			saveFolder += "\\" + today;
+			File folder2 = new File(saveFolder);
+			if (!folder2.exists()) {
+				folder2.mkdirs();
+			}
+
+			for (MultipartFile mfile : files) {
+
+				String originalFileName = mfile.getOriginalFilename();
+
+				// UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
+				if (!originalFileName.isEmpty()) {
+					String saveFileName = UUID.randomUUID().toString()
+							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+					mfile.transferTo(new File(folder, saveFileName));
+				}
+			}
+			boardDTO.setPhoto_folder(boardFolder);
+		}
+		int re = boardDAO.updateBoardContent(boardDTO);
+		return re;
+	}
+
+	@Override
+	public Map<String, Object> contentBoard(int cm_no) {
+
+		Map<String, Object> hash = new HashMap<String, Object>();
+    	Map<String, Integer> mapp = new HashMap<String, Integer>();
+		
+    	BoardDTO dto = boardDAO.getBoardContent(cm_no);
+    	
+		if(dto != null) {
+			StringTokenizer st = new StringTokenizer(dto.getHashtag(), "#");
+			while(st.hasMoreTokens()) {
+				mapp.put(st.nextToken(), 1);
+			}
+			
+			System.out.println(mapp);
+			
+			hash.put("BoardDTO", dto);
+			hash.put("HashMap", mapp);
+			
+			return hash;
+		}else {
+			return null;
+		}
+		
 	}
 }

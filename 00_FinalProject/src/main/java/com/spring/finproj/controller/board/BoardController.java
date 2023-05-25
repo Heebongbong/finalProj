@@ -1,7 +1,9 @@
 package com.spring.finproj.controller.board;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,8 +60,13 @@ public class BoardController {
     }
     
     @RequestMapping("/update")
-    public String boardUpdate() {
-        return "board.update";
+    public String boardUpdate(@RequestParam("cm_no") int cm_no, Model model) {
+    	    	
+    	Map<String, Object> map = boardService.contentBoard(cm_no);
+    	
+    	model.addAttribute("Map", map);
+    	return "board.update";
+  
     }
     
     @RequestMapping("/updateOk")
@@ -67,12 +74,12 @@ public class BoardController {
     		Model model, String[] category,
     		HttpSession session, HttpServletRequest request) throws Exception {
     	
-    	int check = boardService.writeBoard(dto, files, model, category, session, request);
+    	int check = boardService.updateBoard(dto, files, model, category, session, request);
     	
     	if(check > 0) {
 			return "board.list";
 		}else {
-			model.addAttribute("msg", "글수정중 문제가 발생했습니다.");
+			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
 		    return "error/error";
 		}
     }
