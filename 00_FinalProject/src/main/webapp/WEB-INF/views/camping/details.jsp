@@ -19,11 +19,11 @@ ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("Campin
 				<p>홈페이지: ${dto.getHomepage() }</p>
 				<p>위도: ${dto.getMapY() }</p>
 				<p>경도: ${dto.getMapX() }</p>
-				<p>id: ${dto.getContentId() }</p>
+				<p>id: ${dto.getContent_id() }</p>
 				
 				
 			<img alt="" src="${dto.getFirstImageUrl() }">
-			<p>: ${dto.getContentId() }</p>
+			<p>: ${dto.getContent_id() }</p>
         	<p>: ${dto.getFacltNm() }</p>
         	<p>: ${dto.getLineIntro() }</p>
         	<p>: ${dto.getIntro() }</p>
@@ -58,10 +58,10 @@ ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("Campin
 
 const popup = document.querySelector('.url');
 const ctxPath = "${ctxPath}";
-const contentId = "${dto.getContentId()}";
+const content_id = "${dto.getContent_id()}";
 
 popup.addEventListener("click", function() {
-	window.open("camping/details?contentId="+contentId, "팝업1", "width=400, height=560, scrollbars=yes");
+	window.open("camping/details?content_id="+content_id, "팝업1", "width=400, height=560, scrollbars=yes");
 });
 
 /* function popup(){

@@ -5,7 +5,7 @@
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <div id="footer">
 	<ul class="move_navi">
-		<li class="navi_camping"><a href="${ctxPath }/campingNavi"><img alt="" src="${ctxPath }/resources/images/logo/tent.png"></a></li>
+		<li class="navi_camping"><a href="${ctxPath }/camping/content"><img alt="" src="${ctxPath }/resources/images/logo/tent.png"></a></li>
 		<li><a href="${ctxPath }/weatherNavi">날씨</a></li>
 		<li><a href="${ctxPath }/driveNavi">드라이브</a></li>
 		<li><a href="${ctxPath }/boardNavi">커뮤니티</a></li>

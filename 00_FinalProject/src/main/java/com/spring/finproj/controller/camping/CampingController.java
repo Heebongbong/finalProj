@@ -23,7 +23,7 @@ public class CampingController {
 	}
 
 	@RequestMapping("/details")
-	public String campingContent(Model model, @RequestParam("contentId") int content_id) throws Exception {
+	public String campingContent(Model model, @RequestParam("content_id") int content_id) throws Exception {
 		campingService.getCampingContent(model, content_id);
 		return "camping.details";
 	}

@@ -8,7 +8,7 @@
 	<insert id="camping_insert_list" parameterType="list">
 		insert into camping values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.contentId},
+			(#{item.content_id},
 			#{item.facltNm},
 			#{item.lineIntro},
 			#{item.intro},
