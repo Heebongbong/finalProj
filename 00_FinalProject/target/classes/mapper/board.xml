@@ -96,4 +96,15 @@
    		delete from mention where cm_no = #{cm_no};
    		delete from recommand where cm_no = #{cm_no}
    	</delete>
+    
+    <select id="board_cont" resultType="boardDTO" parameterType="int">
+    	select * from community where cm_no = #{cm_no}
+    </select>
+    
+    <update id="board_update" parameterType="boardDTO">
+    	update community set hashtag = #{hashtag}, content = #{content},
+    	update = now(), photo_folder = #{phto_folder}
+		where cm_no = #{cm_no}    
+	</update>
+  
 </mapper>

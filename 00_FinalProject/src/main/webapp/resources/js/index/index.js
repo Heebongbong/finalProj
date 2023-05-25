@@ -89,10 +89,9 @@ function declaration(){
 
 
 function cm_modify(cm_no){ //게시글 수정
-
-
-
+	location.href=ctxPath+"/board/update?cm_no="+cm_no;
 }
+
 function cm_delete(cm_no, user_no){ //게시글 삭제
 	if(user_no==loginUser_no){
 		location.href=ctxPath+'/board/delete?cm_no='+cm_no;
