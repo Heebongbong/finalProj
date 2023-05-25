@@ -11,15 +11,13 @@
 <title><tiles:getAsString name="title"/></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="base_css" />">
+<link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="inc_css" />">
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="css" />">
 <script type="text/javascript" src="${ctxPath }<tiles:getAsString name="base_js" />"></script>
 <script type="text/javascript" src="${ctxPath }<tiles:getAsString name="js" />"></script>
-<style type="text/css">
-	#content{
-		display: flex;
-		justify-content: flex-start;
-	}
-</style>
+<script type="text/javascript">
+	const ctxPath = '${ctxPath }';
+</script>
 </head>
 <body>
 	<div id="container">

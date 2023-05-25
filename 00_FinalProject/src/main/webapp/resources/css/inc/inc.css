@@ -27,7 +27,7 @@ body {
 	line-height: 1;
 	overflow-x: hidden;
 }
-ol, ul {
+ol, ul, li {
 	list-style: none;
 }
 blockquote, q {
@@ -251,3 +251,4 @@ div{
 .chat_loginU{
 	text-align: right;
 }
+

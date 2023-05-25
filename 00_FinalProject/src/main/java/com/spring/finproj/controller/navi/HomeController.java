@@ -39,11 +39,6 @@ public class HomeController {
 		return boardService.getBoardAddList(request, cm_no, keyword);
 	}
 
-	@RequestMapping(value = "/campingNavi")
-	public String campingNavi() {
-		return "camping.camping";
-	}
-
 	@RequestMapping(value = "/weatherNavi")
 	public String weatherNavi() {
 		return "weather.weather";

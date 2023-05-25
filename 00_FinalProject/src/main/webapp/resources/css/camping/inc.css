@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+#content{
+	display: flex;
+	flex-direction: column;
+}
+
+.camping_side_ul{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+.camping_side_ul li{
+	width: 19%;
+	text-align: center;
+}
+
+#camping_content, #camping_details_wrap {
+	display: flex;
+}
+
+.camping_image {
+	width : 300px;
+}
+
+#camping_content_info {
+	border: none;
+	padding: 5px;
+	line-height: 1.4;
+}
+
+#camping_details {
+	line-height: 1.4
+}
+
+#camping_details th {
+	width: 100px;
+}
+
+.side_search {
+	display: flex;
+	justify-content: flex-end;
+}
