@@ -1,7 +1,9 @@
 package com.spring.finproj.controller.board;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -57,6 +59,31 @@ public class BoardController {
 		}
     }
     
+    @RequestMapping("/update")
+    public String boardUpdate(int cm_no, Model model) {
+    	    	
+    	Map<String, Object> map = boardService.contentBoard(cm_no);
+    	System.out.println(map);
+    	model.addAttribute("Map", map);
+    	return "board.update";
+  
+    }
+    
+    @RequestMapping("/updateOk")
+    public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
+    		Model model, String[] category,
+    		HttpSession session, HttpServletRequest request) throws Exception {
+    	
+    	int check = boardService.updateBoard(dto, files, model, category, session, request);
+    	
+    	if(check > 0) {
+			return "board.list";
+		}else {
+			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
+		    return "error/error";
+		}
+    }
+    
     @RequestMapping("/addlist")
     @ResponseBody
     public Map<String , Object> boardAddList(HttpServletRequest request, 
@@ -67,12 +94,21 @@ public class BoardController {
     
     @RequestMapping("/addmention")
     @ResponseBody
-    public Map<Integer, List<MentionDTO>> mentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
+    public List<MentionDTO> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
     	int check = mentionService.getMentionInsert(dto);
     	System.out.println("check +"+check);
     	
-    	Map<Integer, List<MentionDTO>> list = mentionService.addMentionlist(request, model, dto.getCm_no());
+    	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
     	System.out.println(list);
     	return list;
+    }
+    
+    @RequestMapping("/deletemention")
+    @ResponseBody
+    public int delmentionRequest(int mention_no, HttpServletRequest request) throws Exception {
+    	int check = mentionService.getMentionDelete(mention_no);
+    	System.out.println("check +"+check);
+  
+    	return check;
     }
 }

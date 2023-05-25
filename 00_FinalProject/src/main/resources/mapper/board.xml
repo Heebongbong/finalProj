@@ -78,5 +78,15 @@
         insert into community (cm_no, user_no, hashtag, content, date, photo_folder)
         values (#{cm_no} +1, #{user_no}, #{hashtag}, #{content}, now(), #{photo_folder})
     </insert>
+    
+    <select id="board_cont" resultType="boardDTO" parameterType="int">
+    	select * from community where cm_no = #{cm_no}
+    </select>
+    
+    <update id="board_update" parameterType="boardDTO">
+    	update community set hashtag = #{hashtag}, content = #{content},
+    	update = now(), photo_folder = #{phto_folder}
+		where cm_no = #{cm_no}    
+	</update>
   
 </mapper>

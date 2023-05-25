@@ -1,6 +1,7 @@
 package com.spring.finproj.model.camping;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CampingDAO {
 	public int insertCampingList(List<CampingDTO> list);
@@ -13,5 +14,6 @@ public interface CampingDAO {
 	
 	//부가기능
 	public List<CampingDTO> getCampingRandomList();
-	public List<CampingDTO> getCampingLocList(String loc);
+	public List<CampingDTO> getCampingLocList(Map<String, String> map);
+	public List<CampingDTO> getCampingAddList(Map<String, String> map);
 }

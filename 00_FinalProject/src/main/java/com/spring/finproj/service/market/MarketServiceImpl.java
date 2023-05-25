@@ -41,6 +41,7 @@ public class MarketServiceImpl implements MarketService{
 		
 		System.out.println("key"+keyword);
 		System.out.println("cm"+cm_no);
+
 		if(cm_no == 0) {
 			if(keyword==null || keyword=="") {
 				list = marketDAO.getMarketList();
@@ -52,6 +53,7 @@ public class MarketServiceImpl implements MarketService{
 						hashList.add(st.nextToken());
 					}
 					list = marketDAO.getMarketList(hashList);
+
 				}else {
 					list = marketDAO.getMarketList(keyword);
 				}
@@ -71,6 +73,7 @@ public class MarketServiceImpl implements MarketService{
 					map.put("hashList", hashList);
 					map.put("cm_no", cm_no);
 					list = marketDAO.getMarketHashKeyMap(map);
+					
 				}else {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("keyword", keyword);
