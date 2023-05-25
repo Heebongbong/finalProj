@@ -18,5 +18,8 @@ public interface BoardDAO {
 	public List<BoardDTO> getBoardList(Map<String, Object> map);
 	public List<BoardDTO> getBoardHashKeyList(List<String> hashList);
 	public List<BoardDTO> getBoardHashKeyMap(Map<String, Object> map);
+	public int insertDeclaration(Map<String, String> decla);
+	public int checkDeclaration(Map<String, String> decla);
+	public void deleteCommAll(int cm_no);
 	
 }

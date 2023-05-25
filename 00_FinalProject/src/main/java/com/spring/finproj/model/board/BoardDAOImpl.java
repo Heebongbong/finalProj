@@ -71,4 +71,19 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return  sqlSession.selectList("board_list_hash_map", map);
 	}
+	@Override
+	public int insertDeclaration(Map<String, String> decla) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("declaration_insert", decla);
+	}
+	@Override
+	public int checkDeclaration(Map<String, String> decla) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("declaration_content", decla);
+	}
+	@Override
+	public void deleteCommAll(int cm_no) {
+		// TODO Auto-generated method stub
+		sqlSession.delete("board_delete_all", cm_no);
+	}
 }

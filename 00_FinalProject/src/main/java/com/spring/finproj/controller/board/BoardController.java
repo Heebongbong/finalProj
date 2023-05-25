@@ -1,9 +1,7 @@
 package com.spring.finproj.controller.board;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,15 +25,12 @@ import com.spring.finproj.service.board.MentionService;
 public class BoardController {
     @Autowired
     private BoardService boardService;
-    
     @Autowired
     private MentionService mentionService;
-    
     
     @RequestMapping("/list")
     public String boardList(@RequestParam(required = false, value = "keyword") String keyword, Model model) throws Exception {
     	model.addAttribute("Keyword", keyword);
-    	System.out.println("cont"+keyword);
     	return "board.list";
     }
  
@@ -61,9 +56,7 @@ public class BoardController {
     
     @RequestMapping("/update")
     public String boardUpdate(int cm_no, Model model) {
-    	    	
     	Map<String, Object> map = boardService.contentBoard(cm_no);
-    	System.out.println(map);
     	model.addAttribute("Map", map);
     	return "board.update";
   
@@ -99,7 +92,6 @@ public class BoardController {
     	System.out.println("check +"+check);
     	
     	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
-    	System.out.println(list);
     	return list;
     }
     
@@ -107,8 +99,11 @@ public class BoardController {
     @ResponseBody
     public int delmentionRequest(int mention_no, HttpServletRequest request) throws Exception {
     	int check = mentionService.getMentionDelete(mention_no);
-    	System.out.println("check +"+check);
-  
     	return check;
+    }
+    @RequestMapping("/delete")
+    public String boardDelete(int cm_no, HttpServletRequest request) {
+    	boardService.deleteBoardCont(cm_no, request);
+    	return "redirect:/finproj/index";
     }
 }
