@@ -34,9 +34,74 @@ $(document).ready(function(){
 });
 
 function open_board_detail(self){
-	console.log($(self).next());
 	$(self).next().show();
 }
+
+function cm_declaration(cm_no, nickname){ //게시글 신고
+	if(loginUser_no==''){
+		alert("로그인이 필요합니다.");
+	}else{
+		$(".decl_nickname").html("<b style='font-weight:bold'>"+nickname+"</b>의 게시글 신고");
+		$(".decl_cm_no").val(cm_no);
+		$('.declaration_modal_overlay').show();
+	}
+}
+
+function close_declaration(){
+	$('.declaration_modal_overlay').hide();
+}
+
+function declaration(){
+	if(loginUser_no==''){
+		alert("로그인이 필요합니다.");
+	}else{
+
+		console.log($('.decl_modal_text').val());
+		$.ajax({
+			type: "post",
+			url: ctxPath + "/index/declaration",
+			data: {
+				cm_no: $('.decl_cm_no').val(),
+				reason: $('.decl_modal_text').val()
+			},
+			dataType: "text",
+			async: false,
+			success: function(data) {
+				console.log(data);
+				if(data>0){
+					alert('신고접수가 완료되었습니다.');
+					close_declaration();
+				}else if(data==-1){
+					alert('이미 신고접수가 진행되었습니다.');
+				}else{
+					alert('신고처리 중 오류발생');
+				}
+			},
+			error: function() {
+				alert('신고처리 중 시스템 오류');
+			}
+		});
+	}
+}
+
+
+
+
+
+function cm_modify(cm_no){ //게시글 수정
+
+
+
+}
+function cm_delete(cm_no, user_no){ //게시글 삭제
+	if(user_no==loginUser_no){
+		location.href=ctxPath+'/board/delete?cm_no='+cm_no;
+	}else{
+		alert('본인의 게시글만 삭제 가능합니다.');
+	}
+}
+
+
 
 function boardAddList(){
 	let cm_no = $('.board_no:last').val();
@@ -82,9 +147,9 @@ function boardAddList(){
 					//게시글 상세 메뉴 모달창
 					"<div class='detail_modal_overlay'>" +
 						"<div class='detail_modal_window'>"+
-							"<a>게시글 신고</a>"+
-							"<a>게시글 수정</a>"+
-							"<a>게시글 삭제</a>"+
+							"<a href='javascript:cm_declaration("+no+",\""+board.nickname+"\")'>게시글 신고</a>"+
+							"<a href='javascript:cm_modify("+no+")'>게시글 수정</a>"+
+							"<a href='javascript:cm_delete("+no+","+board.user_no+")'>게시글 삭제</a>"+
 						"</div>"+
 					"</div>" +
 				"</div>" +

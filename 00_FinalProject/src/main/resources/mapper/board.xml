@@ -78,5 +78,22 @@
         insert into community (cm_no, user_no, hashtag, content, date, photo_folder)
         values (#{cm_no} +1, #{user_no}, #{hashtag}, #{content}, now(), #{photo_folder})
     </insert>
-  
+  	<insert id="declaration_insert" parameterType="map">
+  		insert into accuse values(#{cm_no}, #{user_no}, #{reason})
+  	</insert>
+  	
+  	<select id="declaration_content" resultType="int" parameterType="map">
+  		select count(*) from accuse where cm_no = #{cm_no} and user_no = #{user_no}
+   	</select>
+   	
+   	<delete id="board_delete" parameterType="int">
+   		delete from community where cm_no = #{cm_no}
+   	</delete>
+   	<delete id="board_delete_all" parameterType="int">
+   		delete from accuse where cm_no = #{cm_no};
+   		delete from alarm where cm_no = #{cm_no};
+   		delete from market where cm_no = #{cm_no};
+   		delete from mention where cm_no = #{cm_no};
+   		delete from recommand where cm_no = #{cm_no}
+   	</delete>
 </mapper>
