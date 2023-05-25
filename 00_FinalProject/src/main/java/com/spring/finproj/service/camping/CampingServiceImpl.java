@@ -128,7 +128,19 @@ public class CampingServiceImpl implements CampingService{
 	}
 
 	@Override
-	public Map<String, CampingDTO> getCampingAddList(int content_id, String keyword, String keyword2) {
-		return null;
+	public List<CampingDTO> getCampingAddList(int content_id, String keyword, String keyword2) {
+		if(keyword2.equals("")) {
+			keyword2 = null;
+		}
+		System.out.println(keyword2);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("content_id", ((Integer)content_id).toString());
+		map.put("loc", keyword);
+		map.put("loc2", keyword2);
+		
+		List<CampingDTO> list = campingDAO.getCampingAddList(map);
+		
+		
+		return list;
 	}
 }

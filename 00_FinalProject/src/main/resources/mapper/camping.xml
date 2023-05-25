@@ -54,4 +54,19 @@
 	<select id="camping_list_random" resultType="campingDTO">
 		select * from camping where not firstImageUrl = '' and not lineIntro = '' Order by rand() Limit 10 
 	</select>
+	
+	<select id="camping_list_add" resultType="campingDTO" parameterType="map">
+		<choose>
+			<when test="(loc =='서울' || loc =='경기'|| loc =='강원'|| loc =='경북'|| loc =='경남'|| loc =='충북'|| loc =='충남'
+					|| loc =='전북'|| loc =='전남'|| loc =='제주'|| loc =='광주'|| loc =='대전'|| loc =='대구'|| loc =='울산'
+					|| loc2 =='인천'|| loc2 =='경상북도'|| loc2 =='경상남도'|| loc2 =='충청북도'|| loc2 =='충청남도'
+					|| loc2 =='전라북도'|| loc2 =='전라남도'|| loc2 =='세종'|| loc2 =='부산')">
+				select * from camping where not firstImageUrl = '' and (addr1 like concat('%',#{loc},'%') 
+			           					 or addr1 like concat('%',#{loc2},'%')) and content_id > #{content_id} order by content_id Limit 5
+			</when>
+			<otherwise>
+				select * from camping where not firstImageUrl = '' and (facltNm like concat('%',#{loc},'%')) and content_id > #{content_id} order by content_id Limit 5
+			</otherwise>
+		</choose>
+	</select>
 </mapper>

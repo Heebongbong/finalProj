@@ -1,6 +1,7 @@
 package com.spring.finproj.controller.camping;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class CampingController {
 	
 	@RequestMapping("/addlist")
 	@ResponseBody
-	public Map<String, CampingDTO> campingAddList(int content_id, String keyword, String keyword2){
+	public List<CampingDTO> campingAddList(int content_id, String keyword, String keyword2){
 		System.out.println(keyword2);
 		return campingService.getCampingAddList(content_id, keyword, keyword2);
 	}

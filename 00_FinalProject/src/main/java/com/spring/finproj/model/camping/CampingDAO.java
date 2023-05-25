@@ -15,4 +15,5 @@ public interface CampingDAO {
 	//부가기능
 	public List<CampingDTO> getCampingRandomList();
 	public List<CampingDTO> getCampingLocList(Map<String, String> map);
+	public List<CampingDTO> getCampingAddList(Map<String, String> map);
 }
