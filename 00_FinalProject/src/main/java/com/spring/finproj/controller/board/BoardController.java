@@ -60,10 +60,10 @@ public class BoardController {
     }
     
     @RequestMapping("/update")
-    public String boardUpdate(@RequestParam("cm_no") int cm_no, Model model) {
+    public String boardUpdate(int cm_no, Model model) {
     	    	
     	Map<String, Object> map = boardService.contentBoard(cm_no);
-    	
+    	System.out.println(map);
     	model.addAttribute("Map", map);
     	return "board.update";
   

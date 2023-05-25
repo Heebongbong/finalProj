@@ -83,7 +83,7 @@ function boardAddList(){
 					"<div class='detail_modal_overlay'>" +
 						"<div class='detail_modal_window'>"+
 							"<a>게시글 신고</a>"+
-							"<a>게시글 수정</a>"+
+							"<a href='"+ctxPath+"/board/update?cm_no="+no+"'>게시글 수정</a>"+
 							"<a>게시글 삭제</a>"+
 						"</div>"+
 					"</div>" +
