@@ -11,6 +11,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -125,9 +128,6 @@ public class UserServiceImpl implements UserService {
 		sdto.isAuthen();
 		dto.isProfile_type();
 		
-		System.out.println(dto.getPwd().equals(""));
-		System.out.println(dto.getPhone().equals(""));
-		
 		if (dto.getPwd().equals("")) {
 			dto.setPwd(sdto.getPwd());
 			System.out.println("기존 비밀번호 세팅");
@@ -217,9 +217,26 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String getPhoneCheck(String phone) {
+	public String getPhoneCheck(String phone, String type) {
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("phone", phone);
+		map.put("type", type);
+		
 		String check = "";
-		if (userDao.getPhoneCheck(phone) == null) {
+		System.out.println(userDao.getPhoneCheck(map));
+		if (userDao.getPhoneCheck(map) == null) {
+			check = "true";
+		}
+		return check;
+	}
+	
+	@Override
+	public String getEmailCheck(String email) {
+		String check = "";
+		System.out.println("서비스 > "+email);
+		System.out.println(userDao.getEmailCheck(email));
+		if (userDao.getEmailCheck(email) == null) {
 			check = "true";
 		}
 		return check;

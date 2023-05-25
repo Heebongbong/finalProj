@@ -37,8 +37,11 @@
 	<select id="user_nick_check" parameterType="String" resultType="String">
 		select nickname from user_profile where nickname = #{nickName}
 	</select>
-	<select id="user_phone_check" parameterType="String" resultType="String">
-		select phone from user_profile where phone = #{phone}
+	<select id="user_phone_check" parameterType="map" resultType="String">
+		select phone from user u join user_profile p on u.user_no = p.user_no where phone = #{phone} and type = #{type}
+	</select>
+	<select id="user_email_check" parameterType="String" resultType="String">
+		SELECT email FROM user WHERE email = #{email}
 	</select>
 	<select id="user_get_session_no" parameterType="int" resultType="userSessionDTO">
 		select * from user_session where user_no = #{user_no}

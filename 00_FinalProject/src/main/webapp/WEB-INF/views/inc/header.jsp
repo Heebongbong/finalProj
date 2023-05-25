@@ -32,7 +32,7 @@
 					<input type="submit" value="로그인">
 					<input type="button" onclick="location.href='${ctxPath}/user/join'" value="회원가입">
 					<div>
-						<a href="javascript:">이메일/비밀번호 찾기</a>
+						<a href="${ctxPath }/user/forget">비밀번호 찾기</a>
 					</div>
 				</div>
 			</form>
@@ -62,11 +62,19 @@
 		
 		<c:if test="${!empty loginUser }">
 		<div class="user_menu_head"> <!-- 로그인시 -->
-			<a href="javascript:close_user_menu()">X</a>
-			<p><img alt="" src="${loginUser.getProfile() }"></p>
-			<p>${loginUser.getNickname() }</p>
-			<input type="button" value="로그아웃" onclick="location.href='${ctxPath }/login/logout'">
-			<button onclick="location.href='${ctxPath }/user/mypage'">마이페이지</button>
+			<div>
+				<a href="javascript:close_user_menu()">X</a>
+				<p><img alt="" src="${loginUser.getProfile() }"></p>
+				<p>${loginUser.getNickname() }</p>
+				<input type="button" value="로그아웃" onclick="location.href='${ctxPath }/login/logout'">
+				<button onclick="location.href='${ctxPath }/user/mypage'">마이페이지</button>
+			</div>
+			<div>
+				<p>내 게시물</p>
+				<p>내가 좋아요한 게시물</p>
+				<p>회원 탈퇴</p>
+			</div>
+			
 		</div>
 		<div class="user_menu_body">
 			<div></div>

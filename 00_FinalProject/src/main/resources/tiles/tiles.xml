@@ -22,6 +22,7 @@
 	
 	<definition name="camping_set" template="/WEB-INF/views/camping/inc/layout.jsp">
  		<put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+		<put-attribute name="inc_css" value="/resources/css/camping/inc.css" />
 		<put-attribute name="base_css" value="/resources/css/inc/inc.css" />
 		<put-attribute name="base_js" value="/resources/js/inc/inc.js" />
 		<put-attribute name="side" value="/WEB-INF/views/camping/inc/side.jsp" />

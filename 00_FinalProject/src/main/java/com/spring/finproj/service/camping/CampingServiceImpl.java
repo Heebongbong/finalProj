@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,7 +59,7 @@ public class CampingServiceImpl implements CampingService{
 	        	CampingDTO dto = new CampingDTO();
 	        	JSONObject cont = jo2.getJSONObject(i);
 	        	
-	        	dto.setContent_id(cont.getInt("contentId"));
+	        	dto.setContent_id(cont.getInt("content_id"));
 	        	dto.setFacltNm(cont.getString("facltNm"));
 	        	dto.setLineIntro(cont.getString("lineIntro"));
 	        	dto.setIntro(cont.getString("intro"));
@@ -95,11 +97,20 @@ public class CampingServiceImpl implements CampingService{
 	}
 
 	@Override
-	public void getCampingList(Model model, String loc) throws IOException {
-		// TODO Auto-generated method stub
-		List<CampingDTO> list = campingDAO.getCampingLocList(loc);
+	public void getCampingList(Model model, String keyword, String keyword2) throws IOException {
+		if(keyword==null||keyword.equals("")) {
+			keyword = "서울";
+		}
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("loc", keyword);
+		map.put("loc2", keyword2);
+		
+		List<CampingDTO> list = campingDAO.getCampingLocList(map);
+		
 		model.addAttribute("CampingList", list);
-		System.out.println(list);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("keyword2", keyword2);
 	}
 
 	@Override
@@ -113,6 +124,23 @@ public class CampingServiceImpl implements CampingService{
 	public void getCampingContent(Model model, int content_id) throws IOException {
 		CampingDTO dto = campingDAO.getCampingContent(content_id);
 		model.addAttribute("Content", dto);
+		System.out.println(dto);
+	}
+
+	@Override
+	public List<CampingDTO> getCampingAddList(int content_id, String keyword, String keyword2) {
+		if(keyword2.equals("")) {
+			keyword2 = null;
+		}
+		System.out.println(keyword2);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("content_id", ((Integer)content_id).toString());
+		map.put("loc", keyword);
+		map.put("loc2", keyword2);
 		
+		List<CampingDTO> list = campingDAO.getCampingAddList(map);
+		
+		
+		return list;
 	}
 }

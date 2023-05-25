@@ -9,7 +9,7 @@
 <script>const loginUser = '${loginUser }';</script>
 <div id="footer">
 	<ul class="move_navi">
-		<li class="navi_camping"><a href="${ctxPath }/campingNavi"><img alt="" src="${ctxPath }/resources/images/logo/tent.png"></a></li>
+		<li class="navi_camping"><a href="${ctxPath }/camping/camping"><img alt="" src="${ctxPath }/resources/images/logo/tent.png"></a></li>
 		<li><a href="${ctxPath }/weatherNavi">날씨</a></li>
 		<li><a href="${ctxPath }/driveNavi">드라이브</a></li>
 		<li><a href="${ctxPath }/board/list">커뮤니티</a></li>

@@ -28,7 +28,7 @@ ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("Campin
 				<p>홈페이지: ${dto.getHomepage() }</p>
 				<p>위도: ${dto.getMapY() }</p>
 				<p>경도: ${dto.getMapX() }</p>
-				<p>ID: ${dto.getContentId() }</p>
+				<p>ID: ${dto.getContent_id() }</p>
 			</div>
 		</div>
 		</c:forEach>
@@ -40,10 +40,10 @@ ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("Campin
 
 
 const popup = document.querySelector('.url');
-const contentId = "${dto.getContentId()}";
+const content_id = "${dto.getContent_id()}";
 
 popup.addEventListener("click", function() {
-	window.open("${ctxPath }/camping/details?contentId="+contentId, "팝업1", "width=400, height=560, top = 100, left = 200, location = yes, scrollbars=yes");
+	window.open("${ctxPath }/camping/details?content_id="+content_id, "팝업1", "width=400, height=560, top = 100, left = 200, location = yes, scrollbars=yes");
 });
 
 
