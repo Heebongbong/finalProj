@@ -30,14 +30,12 @@ public class MentionDAOImpl implements MentionDAO{
 
 	@Override
 	public int updateMentionContent(MentionDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.sqlSession.insert("mention_insert", dto);
 	}
 
 	@Override
-	public int deleteMentionContent(MentionDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteMentionContent(int mention_no) {
+		return this.sqlSession.insert("mention_delete", mention_no);
 	}
 
 	

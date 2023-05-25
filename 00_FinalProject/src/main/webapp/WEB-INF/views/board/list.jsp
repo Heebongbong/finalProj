@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="ctxPath" value="<%=request.getContextPath()%>" />
 <c:set value="<%=request.getContextPath()%>" var="ctxPath" />
 <c:set value="${sessionScope.LoginUser }" var="loginUser" />
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
@@ -10,6 +9,11 @@
 <script>
 	let loginUser_no = '${loginUser.user_no }';
 	let loginUser_profile = '${loginUser.profile }';
+	
+	function move_search_cate(key){
+		let keyword = $('#board_keyword').val();
+		location.href=ctxPath+"/board/list?keyword=%23"+key+"%23"+keyword;
+	}
 </script>
 <div id="list_wrap">
 	<ul class="list_navi">
