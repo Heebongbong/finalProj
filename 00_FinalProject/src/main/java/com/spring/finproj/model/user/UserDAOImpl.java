@@ -93,9 +93,15 @@ public class UserDAOImpl implements UserDAO{
 	}
 	
 	@Override
-	public Object getPhoneCheck(String phone) {
+	public String getPhoneCheck(Map<String, String> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("user_phone_check", phone);
+		return sqlSession.selectOne("user_phone_check", map);
+	}
+	
+	@Override
+	public String getEmailCheck(String email) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user_email_check", email);
 	}
 
 	@Override

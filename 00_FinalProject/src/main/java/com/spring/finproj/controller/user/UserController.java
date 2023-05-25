@@ -74,12 +74,20 @@ public class UserController {
 		System.out.println(nickname);
 		return userService.getNickCheck(nickname, session);
 	}
+	
+	@RequestMapping("/check/email")
+	@ResponseBody
+	public String userCheckemail(String email) throws Exception {
+		System.out.println(email);
+		return userService.getEmailCheck(email);
+	}
 
 	@RequestMapping("/check/phone")
 	@ResponseBody
-	public String userCheckPhone(String phone) throws Exception {
-
-		return userService.getPhoneCheck(phone);
+	public String userCheckPhone(String phone, String type) throws Exception {
+		System.out.println(phone);
+		System.out.println(type);
+		return userService.getPhoneCheck(phone, type);
 	}
 
 	@RequestMapping("/sms/send")
@@ -102,6 +110,12 @@ public class UserController {
 
 		System.out.println(check_pwd);
 		return userService.checkPwd(check_pwd, session);
+	}
+
+	@RequestMapping("/forget")
+	public String userForget() throws Exception {
+
+		return "user.forget";
 	}
 
 }
