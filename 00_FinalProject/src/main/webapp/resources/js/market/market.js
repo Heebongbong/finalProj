@@ -35,8 +35,10 @@ function open_navi_loc(i){
 }
 
 function move_search_cate(key){
-    let keyword = $('#market_keyword').val();
-    location.href=ctxPath+"/market/list?keyword=%23"+key+"%23"+keyword;
+	let keyword = "%23"+key+"%23"+$('#market_keyword').val();
+    keyword= keyword.replace(/\#/g,"%23");
+	console.log(keyword);
+	location.href=ctxPath+"/market/list?keyword="+keyword;
 	
 }
 

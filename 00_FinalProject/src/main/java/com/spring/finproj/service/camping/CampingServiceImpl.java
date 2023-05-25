@@ -57,7 +57,7 @@ public class CampingServiceImpl implements CampingService{
 	        	CampingDTO dto = new CampingDTO();
 	        	JSONObject cont = jo2.getJSONObject(i);
 	        	
-	        	dto.setContentId(cont.getInt("contentId"));
+	        	dto.setContent_id(cont.getInt("contentId"));
 	        	dto.setFacltNm(cont.getString("facltNm"));
 	        	dto.setLineIntro(cont.getString("lineIntro"));
 	        	dto.setIntro(cont.getString("intro"));

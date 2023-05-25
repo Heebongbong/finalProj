@@ -14,7 +14,7 @@
 </script>
 <div id="index_wrap">
 	<c:if test="${!empty campingList }">
-		<div class="index_camping_list">
+		<div class="index_camping_list slider-for">
        		 <c:forEach items="${campingList}" var="dto">
 				<div class="index_camping_content">
 					<div class="camping_img">
@@ -34,10 +34,21 @@
 	<div class="banner">
 		<img alt="" src="${ctxPath }/resources/images/banner/${banner_num }.jpg">
 	</div>
-	
-	<c:if test="${!empty boardList }">
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".board_main_files").slick({
+			dots: true,
+			infinite: true,
+			speed: 1000,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			adaptiveHeight: true,
+			arrows: false,
+			draggable: true
+		});
+	});
+</script>
 	<div class="index_board_wrap">
 		
 	</div>
-	</c:if>
 </div>
