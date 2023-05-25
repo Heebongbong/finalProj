@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -20,92 +23,142 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDAO;
 import com.spring.finproj.model.board.BoardDTO;
+import com.spring.finproj.model.board.MentionDAO;
+import com.spring.finproj.model.board.MentionDTO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Service
-public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDAO boardDAO;
+	@Autowired
+	private MentionDAO mentionDAO;
 
 	@Override
-    public void writeArticle(BoardDTO board) {
+	public Map<String, Object> getBoardAddList(HttpServletRequest request, int cm_no,
+			String keyword) throws Exception {
+		Map<String, Object> boardTotal = new HashMap<String, Object>();
+		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
 		
-    }
-
-	@Override
-	public void getCommunity(MultipartFile file) {
-		// TODO Auto-generated method stub
+		List<BoardDTO> list = null;
 		
-	}
-	
-	public String getBoardList(HttpServletRequest request, Model model) throws Exception{
-		
-		List<BoardDTO> list = boardDAO.getBoardList();
-		
-		for(BoardDTO d : list) {
-			d.setPhoto_files(request);
+		if(cm_no == 0) {
+			if(keyword==null || keyword=="") {
+				list = boardDAO.getBoardList();
+			}else {
+				
+				if(keyword.charAt(0)=='#') {
+					
+					StringTokenizer st = new StringTokenizer(keyword, "#");
+					List<String> hashList = new ArrayList<String>();
+					
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					
+					list = boardDAO.getBoardHashKeyList(hashList);
+				}else {
+					list = boardDAO.getBoardList(keyword);
+				}
+			}
+		}else {
+			if(keyword==null || keyword=="") {
+				list = boardDAO.getBoardList(cm_no);
+			}else {
+				if(keyword.charAt(0)=='#') {
+					
+					StringTokenizer st = new StringTokenizer(keyword, "#");
+					List<String> hashList = new ArrayList<String>();
+					
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("hashList", hashList);
+					map.put("cm_no", cm_no);
+					list = boardDAO.getBoardHashKeyMap(map);
+					
+				}else {
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("keyword", keyword);
+					map.put("cm_no", cm_no);
+					list = boardDAO.getBoardList(map);
+				}
+			}
 		}
-		
-		model.addAttribute("BoardList", list);
-		
-		return "board.board";
-		
+
+		for (BoardDTO d : list) {
+			d.setPhoto_files(request);
+
+			List<MentionDTO> list2 = mentionDAO.getMentionList(d.getCm_no());
+			mapList2.put(d.getCm_no(), list2);
+		}
+
+		boardTotal.put("BoardList", list);
+		boardTotal.put("MentionList", mapList2);
+		boardTotal.put("keyword", keyword);
+
+		return boardTotal;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public String writeBoard(BoardDTO boardDTO, MultipartFile[] files, 
-			Model model, String[] category, String hashtags, 
-			HttpSession session, HttpServletRequest request) throws Exception {
-		
-		UserDTO user = (UserDTO)session.getAttribute("LoginUser");
-		
-		String hashtag = "#"+String.join("#", category);
-		StringTokenizer st = new StringTokenizer(hashtags, "#");
-		while(st.hasMoreTokens()) {
-			hashtag += "#"+st.nextToken().trim();
-		}
-		
+	public int writeBoard(BoardDTO boardDTO, MultipartFile[] files, Model model, String[] category, HttpSession session,
+			HttpServletRequest request) throws Exception {
+
+		UserDTO user = (UserDTO) session.getAttribute("LoginUser");
+
+		String hashtag = boardDTO.getHashtag() + "#" + String.join("#", category);
+
 		boardDTO.setHashtag(hashtag);
 		boardDTO.setUser_no(user.getUser_no());
-        
-		Properties prop = new Properties();
-		FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
-		prop.load(new InputStreamReader(fis));
-		fis.close();
-		
-		LocalDateTime nowDate = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
-        String today = nowDate.format(formatter);
-        
-        String boardFolder = user.getUser_no()+"\\"+today;
-		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3))+"\\board\\"+boardFolder;
-		
-		File folder = new File(saveFolder);
-		if(!folder.exists()) {
-		    folder.mkdirs();
+
+		if (files != null) {
+			Properties prop = new Properties();
+			FileInputStream fis = new FileInputStream(
+					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+			prop.load(new InputStreamReader(fis));
+			fis.close();
+
+			LocalDateTime nowDate = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
+			String today = nowDate.format(formatter);
+
+			// type + 이메일 아이디
+			String type = boardDTO.getType();
+
+			StringTokenizer st1 = new StringTokenizer(boardDTO.getEmail(), "@", true);
+			String email_id = st1.nextToken();
+			String boardFolder = type + "_" + email_id;
+			String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board\\" + boardFolder;
+
+			File folder = new File(saveFolder);
+			if (!folder.exists()) {
+				folder.mkdirs();
+			}
+			saveFolder += "\\" + today;
+			File folder2 = new File(saveFolder);
+			if (!folder2.exists()) {
+				folder2.mkdirs();
+			}
+
+			for (MultipartFile mfile : files) {
+
+				String originalFileName = mfile.getOriginalFilename();
+
+				// UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
+				if (!originalFileName.isEmpty()) {
+					String saveFileName = UUID.randomUUID().toString()
+							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+					mfile.transferTo(new File(folder, saveFileName));
+				}
+			}
+			boardDTO.setPhoto_folder(boardFolder);
 		}
-		
-		for (MultipartFile mfile : files) {
-		  
-			String originalFileName = mfile.getOriginalFilename();
-		    
-		    // UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
-		    if (!originalFileName.isEmpty()) {
-			    String saveFileName = UUID.randomUUID().toString() + originalFileName.substring(originalFileName.lastIndexOf('.'));
-			    mfile.transferTo(new File(folder, saveFileName));
-		    }
-		}
-		boardDTO.setPhoto_folder(boardFolder);
-		
+
 		int re = boardDAO.insertBoardContent(boardDTO);
-		
-		try {
-		    return "board.board";
-		} catch (Exception e) {
-		    e.printStackTrace();
-		    model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
-		    return "error/error";
-		}
+		return re;
 	}
 }

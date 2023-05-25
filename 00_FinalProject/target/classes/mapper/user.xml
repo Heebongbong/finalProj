@@ -12,6 +12,7 @@
 		select * from user u join user_profile p on u.user_no = p.user_no
 			where u.user_no = #{user_no}
 	</select>
+
 	<select id="user_cont_id" resultType="userDTO" parameterType="map">
 		select * from user u join user_profile p on u.user_no = p.user_no where u.email = #{email} and u.type = #{type}
 	</select>
@@ -28,7 +29,7 @@
 		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
 			select user_no from user where email = #{email} and type = #{type}
 		</selectKey>
-		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, 0)
+		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, 0, #{profile_type})
 	</insert>
 	<delete id="user_delete_session" parameterType="int">
 		delete from user_session where user_no = #{user_no}
@@ -36,7 +37,36 @@
 	<select id="user_nick_check" parameterType="String" resultType="String">
 		select nickname from user_profile where nickname = #{nickName}
 	</select>
-	<select id="user_get_session" parameterType="int" resultType="userSessionDTO">
+	<select id="user_phone_check" parameterType="String" resultType="String">
+		select phone from user_profile where phone = #{phone}
+	</select>
+	<select id="user_get_session_no" parameterType="int" resultType="userSessionDTO">
 		select * from user_session where user_no = #{user_no}
 	</select>
+	<select id="user_get_session_id" parameterType="String" resultType="userSessionDTO">
+		select * from user_session where sessionID = #{sessionID}
+	</select>
+	<update id="user_update_session" parameterType="userSessionDTO">
+		update user_session set sessionID = #{sessionID}, expiresTime = #{expiresTime} where user_no = #{user_no}
+	</update>
+	
+	<!-- 회원가입 -->
+	<insert id="user_insert_profile" parameterType="userDTO">
+		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
+			SELECT MAX(user_no) FROM user_profile
+		</selectKey>
+		INSERT INTO user_profile VALUES(#{user_no} + 1, #{pwd}, #{nickname}, #{phone}, #{profile}, now(), default, #{authen}, #{profile_type})
+	</insert>
+	
+	<insert id="user_insert" parameterType="userDTO">
+		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
+			SELECT MAX(user_no) FROM user
+		</selectKey>
+		INSERT INTO user VALUES(#{user_no} + 1, #{email}, #{type})
+	</insert>
+	
+	<!-- 마이페이지 회원 업데이트 -->
+	<update id="user_update" parameterType="userDTO">
+		UPDATE user_profile SET pwd=#{pwd}, nickname=#{nickname}, phone=#{phone}, profile=#{profile}, authen=#{authen}, profile_type=#{profile_type} where user_no = #{user_no}
+	</update>
 </mapper>

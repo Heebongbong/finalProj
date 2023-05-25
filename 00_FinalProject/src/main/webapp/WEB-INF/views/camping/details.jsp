@@ -3,126 +3,159 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-@SuppressWarnings("all")
-ArrayList<CampingDTO> list = (ArrayList<CampingDTO>)request.getAttribute("CampingList");
-%>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
+<c:set var="dto" value="${Content }" />
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4sqz6l4y8y&submodules=geocoder"></script>
 <div id="map_wrap">
-	<div id="map" style="height: 1000px;"></div>
 	<div id="camping_details_wrap">
-		<c:set var="dto" value="${Content }" />
+		
+		<div id="camping_details_img">
+			<div id="map" style="width:400px; height: 50%;"></div>
+			<img alt="" src="${dto.getFirstImageUrl() }" width="400px" height="50%">
+		</div>
 		<div id="camping_details">
-				<p>이름: ${dto.getFacltNm() }</p>
-				<p>소개: ${dto.getLineIntro() }</p>
-				<p>홈페이지: ${dto.getHomepage() }</p>
-				<p>위도: ${dto.getMapY() }</p>
-				<p>경도: ${dto.getMapX() }</p>
-				<p>id: ${dto.getContent_id() }</p>
+			<table border="1" cellspacing="1" >
+				<tr>
+					<th>이름</th>
+					<td>${dto.getFacltNm() }</td>
+				</tr>
+				<tr>
+					<th>야영장명</th>
+					<td> ${dto.getFacltNm() }</td>
+				</tr>
+				<tr>
+					<th>전체면적</th>
+					<td>${dto.getAllar() }</td>
+				</tr>
+				<tr>
+					<th>업종</th>
+					<td>${dto.getInduty() }</td>
+				</tr>
+				<tr>
+					<th>한줄소개</th>
+					<td>${dto.getLineIntro() }</td>
+				</tr>
+				<tr>
+					<th>소개</th>
+					<td>${dto.getIntro() }</td>
+				</tr>
 				
 				
-			<img alt="" src="${dto.getFirstImageUrl() }">
-			<p>: ${dto.getContent_id() }</p>
-        	<p>: ${dto.getFacltNm() }</p>
-        	<p>: ${dto.getLineIntro() }</p>
-        	<p>: ${dto.getIntro() }</p>
-        	<p>: ${dto.getAllar() }</p>
-        	<p>: ${dto.getFeatureNm() }</p>
-        	<p>: ${dto.getInduty() }</p>
-        	<p>: ${dto.getLctCl() }</p>
-        	<p>: ${dto.getAddr1() }</p>
-        	<p>: ${dto.getAddr2() }</p>
-        	<p>: ${dto.getMapX() }</p>
-        	<p>: ${dto.getMapY() }</p>
-        	<p>: ${dto.getTooltip() }</p>
-        	<p>: ${dto.getTel() }</p>
-        	<p>: ${dto.getHomepage() }</p>
-        	<p>: ${dto.getOperPdCl() }</p>
-        	<p>: ${dto.getOperDeCl() }</p>
-        	<p>: ${dto.getPosblFcltyCl() }</p>
-        	<p>: ${dto.getExprnProgrm() }</p>
-        	<p>: ${dto.getThemaEnvrnCl() }</p>
-        	<c:if test="${dto.getAnimalCmgCl() == 0 }">
-        		<p>예견동반: X
-        	</c:if>
-        	<c:if test="${dto.getAnimalCmgCl() != 0 }">
-        		<p>예견동반: O
-        	</c:if>
+				
+				<tr>
+					<th>소개</th>
+					<td>${dto.getLineIntro() }</td>
+				</tr>
+				<tr>
+					<th>홈페이지</th>
+					<td> ${dto.getHomepage() }</td>
+				</tr>
+				<tr>
+					<th>위도</th>
+					<td>${dto.getMapY() }</td>
+				</tr>
+				<tr>
+					<th>경도</th>
+					<td>${dto.getMapX() }</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<th>특징</th>
+					<td>${dto.getFeatureNm() }</td>
+				</tr>
+				
+				<tr>
+					<th>입지구분</th>
+					<td>${dto.getLctCl() }</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td>${dto.getAddr1() }</td>
+				</tr>
+				<tr>
+					<th>주소상세</th>
+					<td>${dto.getAddr2() }</td>
+				</tr>
+				<tr>
+					<th>툴팁</th>
+					<td>${dto.getTooltip() }</td>
+				</tr>
+				<tr>
+					<th>연락처</th>
+					<td>${dto.getTel() }</td>
+				</tr>
+				<tr>
+					<th>운영기간</th>
+					<td>${dto.getOperPdCl() }</td>
+				</tr>
+				<tr>
+					<th>운영일</th>
+					<td>${dto.getOperDeCl() }</td>
+				</tr>
+				<tr>
+					<th>주변<br>이용가능시설</th>
+					<td>${dto.getPosblFcltyCl() }</td>
+				</tr>
+				<tr>
+					<th>체험<br>프로그램명</th>
+					<td>${dto.getExprnProgrm() }</td>
+				</tr>
+				<tr>
+					<th>테마환경</th>
+					<td>${dto.getThemaEnvrnCl() }</td>
+				</tr>
+				
+				<tr>
+					<c:if test="${dto.getAnimalCmgCl() == 0 }">
+						<th>애견동반</th>
+		        		<td>X</td>
+		        	</c:if>
+		        	<c:if test="${dto.getAnimalCmgCl() != 0 }">
+		        		<th>애견동반</th>
+		        		<td>O</td>
+		        	</c:if>
+        		</tr>
+			</table>	
 		</div>
 	</div>
-	
 </div>
 
 <script type="text/javascript">
 
-const popup = document.querySelector('.url');
-const ctxPath = "${ctxPath}";
-const content_id = "${dto.getContent_id()}";
-
-popup.addEventListener("click", function() {
-	window.open("camping/details?content_id="+content_id, "팝업1", "width=400, height=560, scrollbars=yes");
-});
-
-/* function popup(){
-   	let url = "camping.camp";
-    let name = "popup";
-    let option = "width = 200, height = 200, top = 100, left = 200, location = yes, scrollbars = yes"
-    window.open(url, name, option);
-} */
-		
+$(document).ready(function(){
+	let mapOptions = {
+	    center: new naver.maps.LatLng(${dto.getMapY() },${dto.getMapX() }),
+	    zoom: 15
+	};
 	
-
-		$(document).ready(function(){
-			let mapOptions = {
-			    center: new naver.maps.LatLng(37.567944413725904,126.9831230334937),
-			    zoom: 6
-			};
-			
-			let arrayinfo = new Array();
-			arrayinfo.push(
-					<%for(CampingDTO d : list){ %>
-					{name: "<%=d.getFacltNm() %>", intro: "<%=d.getIntro() %>", lat: "<%=d.getMapY() %>", lng: "<%=d.getMapX() %>"},
-					<%}%>
-			);
-			
-			let map = new naver.maps.Map('map', mapOptions);
-			
-			let markers = new Array();
-			let infos = new Array();
-			
-			for(let i=0;i<arrayinfo.length;i++){
-				let marker = new naver.maps.Marker({
-				    title: arrayinfo[i].name,
-					position: new naver.maps.LatLng(arrayinfo[i].lat, arrayinfo[i].lng),
-				    map: map
-				});
-				
-				let infoWindow = new naver.maps.InfoWindow({
-					content: "<div style='width: 200px;test-align:center;padding:10px;'><b>"+arrayinfo[i].name+"</b><br><font>"+arrayinfo[i].intro+"</font></div>"
-				});
-				
-				markers.push(marker);
-				infos.push(infoWindow);
+	
+	let map = new naver.maps.Map('map', mapOptions);
+	
+	
+	let marker = new naver.maps.Marker({
+	    title: "${dto.getFacltNm() }",
+		position: new naver.maps.LatLng(${dto.getMapY() }, ${dto.getMapX() }),
+	    map: map
+	});
+	
+	let infoWindow = new naver.maps.InfoWindow({
+		content: "<div style='width: 200px;test-align:center;padding:10px;'><b>${dto.getFacltNm() }</b><br><font>${dto.getLineIntro() }</font></div>"
+	});
+	
+	function getClickHandler() {
+		return function(e) {
+			if(infoWindow.getMap()){
+				infoWindow.close();
+			}else{
+				infoWindow.open(map, marker);
 			}
-			
-			function getClickHandler(seq) {
-				return function(e) {
-					let marker = markers[seq],
-					infoWindow = infos[seq];
-					
-					if(infoWindow.getMap()){
-						infoWindow.close();
-					}else{
-						infoWindow.open(map, marker);
-					}
-				}
-			}
-			
-			for(let i=0;i<markers.length;i++){
-				naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
-			}
-			
-		});
+		}
+	}
+	
+	naver.maps.Event.addListener(marker, 'click', getClickHandler());
+	
+});
 		
 </script>

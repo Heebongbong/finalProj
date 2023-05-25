@@ -13,6 +13,14 @@
 		border: 0;
 	}
 	
+	p {
+		font-size: .8em;	
+	}
+	
+	.text {
+		font-size: 1em;
+	}
+	
 	#mypage_wrap {
 		text-align: center;
 		padding-top: 60px;
@@ -24,42 +32,44 @@
 		border-radius: 50%;
 	}
 	
-	}
 </style>
 
 <div id="mypage_wrap">
 
-	<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data">
-		
-		<div class="profile_part">
-			<div class="profile"><img id="previewImg" src="../resources/images/profile/default/default_profile.png"/></div>
-			<div><input type="file" name="profile" id="profileInput" onchange="previewProfileImage(event)"></div>
-		</div>
+	<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data" novalidate>
 		
 		<div class="text_part">
 			<p class="text">이메일</p>
-			<input name="email" class="email">
+			<input name="email" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="emailError">&nbsp;</p>
 			
 			<p class="text">닉네임</p>
-			<input name="nickname" class="nickname">
+			<input name="nickname" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="nicknameError">&nbsp;</p>
 			
 			<p class="text">비밀번호</p>
-			<input type="text" name="pwd" class="pwd">
+			<input type="password" name="pwd" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="pwdError">&nbsp;</p>
-			<p class="text">비밀번호 확인</p>
-			<input type="text" name="pwd_re" class="pwd_re">
+			<input type="password" name="pwd_re" class="noWhitespace" onkeyup="noWhitespace(this);">
 			<p class="pwd_reError">&nbsp;</p>
 			
-			<p class="text">전화번호</p>
-			<input name="phone" class="phone">
-			<button>인증하기</button>
-			<p class="phoneError">&nbsp;</p>
+			<div class="profile_part">
+				<p>프로필 사진 (선택)</p>
+				<div class="profile"><img id="previewImg" src="../resources/images/profile/default/default_profile.png"/></div>
+				<div><input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)"></div>
+				
+				<p class="text">전화번호(선택)</p>
+				<input name="phone" class="noWhitespace" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)" onkeyup="noWhitespace(this);">
+				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
+				<p class="phoneError">&nbsp;</p>
+				<input name="code" id="input_code" class="noWhitespace" onkeyup="noWhitespace(this);">
+				<button type="button" onclick="checkCode()">인증하기</button>
+				<p class="codeError">&nbsp;</p>
+			</div>
 		</div>
 		
-		<input type="submit">
-	
+		<button type="submit">가입하기</button>
+		
 	</form>
 	
 </div>
@@ -68,11 +78,123 @@
 <!-- 간단한 클라이언트 측 양식 유효성 검사를 쉽게 할 수 있고 많은 사용자 정의 옵션을 정의할 수 있습니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script type="text/javascript">
+	
+	// 공백제거
+	var elements = document.querySelectorAll('.noWhitespace');
+	for (var i = 0; i < elements.length; i++) {
+	  elements[i].addEventListener('input', function(event) {
+	    var currentValue = this.value;
+	    var trimmedValue = currentValue.replace(/\s/g, '');
+	    if (currentValue !== trimmedValue) {
+	      this.value = trimmedValue;
+	    }
+	  });
+	}
+	
+	// 숫자만 입력
+  var inputElement = document.getElementById("input_phone");
 
+  inputElement.addEventListener("input", function(event) {
+    var currentValue = inputElement.value;
+    var sanitizedValue = currentValue.replace(/\D/g, "");
+
+    if (currentValue !== sanitizedValue) {
+      inputElement.value = sanitizedValue;
+    }
+  });
+	
+	
+	function sendSMS(event) {
+
+		let phoneError = document.getElementsByClassName("phoneError")[0];
+		const phone = document.getElementById("input_phone").value;
+			
+		if(phone === '') {
+			phoneError.textContent = "휴대전화를 입력하세요.";
+		}
+		
+		if(phoneError.innerText === '' || phoneError.innerText === '휴대전화로 인증번호가 전송되었습니다.') {
+			
+			// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
+		  const button = document.getElementById('sendBtn');
+		  button.innerText = '재전송';
+		  
+		  const phone = document.getElementById("input_phone").value;
+		  
+		  $.ajax({
+			  url : "${ctxPath}/user/sms/send",
+			  type : "post",
+			  data : { phone : phone },
+			  success : function(res) {
+					  phoneError.textContent = "휴대전화로 인증번호가 전송되었습니다.";
+			  },
+			  error : function() {
+				  alert("전송 실패");
+			  }
+			  
+		  });
+		  
+		} 
+		//event.preventDefault();
+
+
+
+	}
+	  
+
+	  
+	  
+	
+	function checkCode() {
+		
+		event.preventDefault();
+		
+	  const input_code = document.getElementById("input_code").value;
+		
+		let phoneError = document.getElementsByClassName("phoneError")[0];
+	  let codeError = document.getElementsByClassName("codeError")[0];
+	  
+		const button = document.getElementById('sendBtn');
+		const buttonText = button.innerText;
+		
+		if(buttonText === '재전송'){
+			
+		  
+			  if(input_code != null){
+				  $.ajax({
+					  url : "${ctxPath}/user/sms/check",
+					  type : "post",
+					  data : { input_code : input_code },
+					  success : function(res) {
+						  if(res == "true"/*  && input_code.length != 0 */){
+							  codeError.textContent = "인증 완료 회원가입 go";
+						  }else {
+							  codeError.textContent = "인증 번호가 틀렸습니다.";
+						  }
+					  },
+					  error : function() {
+						  alert("인증 실패");
+					  }
+					  
+				  });
+			  }	else {
+		 			 codeError.textContent = "인증번호 발송 버튼을 눌러 인증번호를 받으세요";
+			  }  
+		  
+		} else {
+			if(phoneError.innerText === '') {
+				codeError.textContent = "인증번호 발송 버튼을 눌러 인증번호를 받으세요";
+			} else {
+				codeError.textContent = "휴대전화번호를 입력하세요";
+			}
+		}
+	  
+		
+	}
+    
+	
 
 	$(document).ready(function(){
-		
-
 
 		$.validator.addMethod("engAndNum", function(value, element) {
 			   var pattern = /^[A-Za-z0-9]*$/;
@@ -104,11 +226,49 @@
 			});
 		
 			$.validator.addMethod("phoneCheck", function(value, elements) {
-				  var pattern = /^010\d{7,8}$/;
+					var length = value.trim().length;
 				  
-				  return pattern.test(value);
+			  		if(length == 0){
+		        	return true;
+		        }else {
+						  var pattern = /^010\d{7,8}$/;
+						  return pattern.test(value);
+		        }
+				  
 			});
 			
+		 $.validator.addMethod("phoneLength", function(value, element) {
+		        var length = value.trim().length;
+		        
+		        if(length == 0){
+		        	return true;
+		        }else {
+			        return length >= 10 && length <= 11;
+		        }
+		 });
+		 
+		 $.validator.addMethod("codeLength", function(value, element) {
+			  const button = document.getElementById('sendBtn');
+				const buttonText = button.innerText;
+	      var length = value.trim().length;
+				if(buttonText === '재전송'){
+			        return length = 6;
+		        }else {
+		        	return true;
+		        }
+		 });
+		 
+		 $.validator.addMethod("codeCheck", function(value, element) {
+			  const button = document.getElementById('sendBtn');
+				const buttonText = button.innerText;
+	      var length = value.trim().length;
+				if(buttonText === '재전송'){
+			        return length != 0;
+		        }else {
+		        	return true;
+		        }
+		 });
+		 
 		 $.validator.addMethod("nicknameLength", function(value, element) {
 		        var length = value.trim().length;
 		        return length >= 3 && length <= 20;
@@ -120,21 +280,57 @@
      });
 
 		 $.validator.addMethod("nicknameUnique", function(value, element) {
-		        // Ajax 요청을 통해 서버에 닉네임 중복 확인을 진행합니다.
-		        // 이 부분은 서버의 구현에 따라 다르므로 예시 코드로 대체하겠습니다.
-
-		        // AJAX 요청
-		        return $.ajax({
-		            url: "${ctxPath}/user/checkNickname",
-		            type: "POST",
+		        
+			 let isUnique = false;
+			 // AJAX 요청
+		        $.ajax({
+		            url: "${ctxPath}/user/check/nickname",
+		            type: "get",
 		            data: { nickname: value },
-		            dataType: "json"
-		        }).then(function(response) {
-		            // 서버로부터의 응답을 처리합니다.
-		            return response; // 중복된 닉네임이 아닌 경우 true 반환
+		            async : false,
+		            datatype : "text",
+		            success : function(result) {
+		            	isUnique = result;
+		            	console.log(result);
+		             },
+		            error : function (){
+		            	 console.log(1);
+		             }
 		        });
-		 })
-     
+		        return isUnique;
+		 });
+		 
+		 $.validator.addMethod("phoneUnique", function(value, element) {
+		    
+			 
+			 let isUnique = false;
+			 
+			 var length = value.trim().length;
+		        
+		        if(length == 0){
+		        	return true;
+		        }else {
+		        
+			 // AJAX 요청
+		        $.ajax({
+		            url: "${ctxPath}/user/check/phone",
+		            type: "get",
+		            data: { phone: value },
+		            async : false,
+		            datatype : "text",
+		            success : function(result) {
+		            	isUnique = result;
+		            	console.log(result);
+		             },
+		            error : function (){
+		            	 console.log(1);
+		             }
+		        });
+		        return isUnique;
+		        
+		        }
+		 });
+		 
 		$("#joinForm").validate({
 			
 			rules : {
@@ -147,6 +343,10 @@
 		      },
 		      pwd_re : {
 		         required: true,
+		         minlength: 6,
+		         maxlength: 12,
+		         specialChars: true,
+		         capitalLetters: true,
 		         equalTo: ".pwd"
 		      },
 					email : {
@@ -155,8 +355,14 @@
 						email : true
 					},
 					phone : {
-						phoneCheck : true
+						phoneLength : true,
+						phoneCheck : true,
+						phoneUnique : true
 					}, 
+					code : {
+						codeCheck : true,
+						codeLength : true
+					},
 					nickname : {
 						nicknameLength : true,
 						nicknameUnique : true,
@@ -168,21 +374,31 @@
 	         required : "비밀번호 입력은 필수 입니다.",
 	         minlength : "최소 6글자 이상 입력해주세요.",
 	         maxlength : "12글자를 넘지 말아주세요.",
-	         capitalLetters: "대문자 하나 입력해주세요",
-	         specialChars : "특수문자 입력해주세요."
+	         specialChars : "특수문자 입력해주세요.",
+	         capitalLetters: "대문자 하나 입력해주세요"
 	      },
 	      pwd_re : {
 	         required: "중복체크는 필수 입니다.",
+	         minlength : "최소 6글자 이상 입력해주세요.",
+	         maxlength : "12글자를 넘지 말아주세요.",
+	         specialChars : "특수문자 입력해주세요.",
+	         capitalLetters: "대문자 하나 입력해주세요",
 	         equalTo: "일치하지 않아요...."
 
 	      },
 				email : {
-					required : '이메일을 입력해주세요',
+					required: '이메일을 입력해주세요',
 					emailCheck : '유효한 이메일 주소를 입력하세요',
 					email : '유효한 이메일 주소를 입력하세요'
 				},
 				phone : {
-					phoneCheck : "공백, 문자 없이 입력하세요"
+					phoneLength : "유효한 휴대전화 번호를 입력하세욘",
+					phoneCheck : "공백, 문자 없이 입력하세요",
+					phoneUnique : "이미 등록된 번호입니다."
+				},
+				code : {
+					codeCheck : "인증번호를 입력하세요",
+					codeLength : "인증번호는 6자리입니다."
 				},
 				nickname : {
 					nicknameLength : "닉네임은 3글자에서 20글자 사이어야 합니다.",
@@ -195,12 +411,13 @@
           var targetElementClass = element.attr("name") + "Error";
           var targetElement = $("." + targetElementClass);
           targetElement.html(error);
+          targetElement.css("color", "red");
       },
       
       success: function(label, element) {
     	    var targetElementClass = $(element).attr("name") + "Error";
     	    var targetElement = $("." + targetElementClass);
-    	    targetElement.text("확인");
+          targetElement.css("height", "17px");
     	}
 
 		});
@@ -241,6 +458,6 @@
 		
 		
 		
-		
+		/* 문자, 띄어쓰기, 코드 세션 만료 */
 </script>
 

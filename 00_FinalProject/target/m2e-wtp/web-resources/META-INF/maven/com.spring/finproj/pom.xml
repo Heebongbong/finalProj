@@ -8,13 +8,61 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.6</java-version>
-		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
+		<java-version>1.8</java-version>
+		<org.springframework-version>4.1.1.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<com.fasterxml.jackson>2.13.3</com.fasterxml.jackson>
+		<tiles_version>3.0.8</tiles_version>
 	</properties>
 	
 	<dependencies>
+	
+	 <!-- Spring Web -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${org.springframework-version}</version>
+    </dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- messaging -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+		    <artifactId>spring-messaging</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+	
+	<dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-mapper-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+
+	<!-- Jackson 2.0 -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-core</artifactId>
+	    <version>${com.fasterxml.jackson}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>${com.fasterxml.jackson}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-annotations</artifactId>
+	    <version>${com.fasterxml.jackson}</version>
+	</dependency>
 	
 <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
@@ -111,35 +159,35 @@
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-extras</artifactId>
-		    <version>2.2.2</version>
+		    <version>${tiles_version}</version>
 		</dependency>
 			
 	<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-api -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-api</artifactId>
-		    <version>2.2.2</version>
+		    <version>${tiles_version}</version>
 		</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-servlet -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-servlet</artifactId>
-		    <version>2.2.2</version>
+		    <version>${tiles_version}</version>
 		</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-core -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-core</artifactId>
-		    <version>2.2.2</version>
+		    <version>${tiles_version}</version>
 		</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-jsp -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-jsp</artifactId>
-		    <version>2.2.2</version>
+		    <version>${tiles_version}</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->

@@ -10,8 +10,7 @@ import java.net.URL;
 import org.json.JSONObject;
 
 public class SendSMSAPI {
-	public int sendSMS(String phone) throws Exception {
-		int result = 0;
+	public String sendSMS(String phone) throws Exception {
 		String code = new MakeCode().makeSMSCode();
 		
 		Signature sign = new Signature();
@@ -67,12 +66,13 @@ public class SendSMSAPI {
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }
+        
         in.close();
         
         JSONObject reJo = new JSONObject(response.toString());
 		
         System.out.println(reJo);
 		
-		return result;
+		return code;
 	}
 }

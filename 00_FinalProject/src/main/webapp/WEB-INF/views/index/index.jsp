@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <c:set value="${CampingList }" var="campingList" />
+<c:set value="${BoardList }" var="boardList" />
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
+<script>
+	let loginUser_no = '${loginUser.user_no }';
+	let loginUser_profile = '${loginUser.profile }';
+</script>
 <div id="index_wrap">
 	<c:if test="${!empty campingList }">
 		<div class="index_camping_list">
@@ -31,7 +35,9 @@
 		<img alt="" src="${ctxPath }/resources/images/banner/${banner_num }.jpg">
 	</div>
 	
+	<c:if test="${!empty boardList }">
 	<div class="index_board_wrap">
 		
 	</div>
+	</c:if>
 </div>

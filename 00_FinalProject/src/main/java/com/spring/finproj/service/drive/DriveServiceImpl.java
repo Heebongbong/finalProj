@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,7 @@ public class DriveServiceImpl implements DriveService{
 	}
 
 	@Override
-	public void getGeoLocation(Model model) throws Exception {
+	public void getGeoLocation(Model model, HttpServletRequest request) throws Exception {
 		
 		Signature sign = new Signature();
 		String signUrl = "/geolocation/v2/geoLocation?ip=112.221.156.36&ext=t&responseFormatType=json";

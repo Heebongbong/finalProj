@@ -4,7 +4,9 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.1.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
@@ -20,11 +22,11 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	
 	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
+		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	
-	<beans:bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<beans:property name="definitions" value="classpath:tiles/tiles.xml" />
 	</beans:bean>
 
@@ -34,6 +36,23 @@
 		<beans:property name="suffix" value=".jsp" />
 		<beans:property name="order" value="2" />
 	</beans:bean>
+	
+	<!--  websocket handler -->
+
+    <websocket:handlers>
+        <websocket:mapping handler="chatHandler" path="/chating" />
+        <websocket:handshake-interceptors>
+        	<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+    </websocket:handlers>
+	
+	<!-- Intercepter -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean id="intercepter" class="com.spring.finproj.interceptor.Interceptor" />
+		</interceptor>
+	</interceptors>
 	
 	<aop:aspectj-autoproxy />
 	

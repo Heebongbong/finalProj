@@ -1,2 +1,3 @@
 eclipse.preferences.version=1
+encoding//src/main/resources/properties/filepath.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/views/inc/layout.jsp=UTF-8

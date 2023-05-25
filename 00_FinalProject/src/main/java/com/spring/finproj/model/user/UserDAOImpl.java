@@ -24,11 +24,18 @@ public class UserDAOImpl implements UserDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("user_cont", user_no);
 	}
-
+	
+	// 회원가입
 	@Override
 	public int insertUserContent(UserDTO dto) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("user_insert", dto);
+	}
+	
+	@Override
+	public int insertUserProfileContent(UserDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("user_insert_profile", dto);
 	}
 
 	@Override
@@ -84,11 +91,29 @@ public class UserDAOImpl implements UserDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("user_nick_check", nickName);
 	}
+	
+	@Override
+	public Object getPhoneCheck(String phone) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user_phone_check", phone);
+	}
 
 	@Override
 	public UserSessionDTO getUserSession(int user_no) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("user_get_session", user_no);
+		return sqlSession.selectOne("user_get_session_no", user_no);
+	}
+
+	@Override
+	public UserSessionDTO getUserSession(String sessionID) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user_get_session_id", sessionID);
+	}
+
+	@Override
+	public void updateUserSession(UserSessionDTO se_dto) {
+		// TODO Auto-generated method stub
+		sqlSession.update("user_update_session", se_dto);
 	}
 	
 }

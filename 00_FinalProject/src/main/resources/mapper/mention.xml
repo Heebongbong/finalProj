@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- namespace 명은 패키지를 포함한 DAO 인터페이스, mapper를 구분하는 식별자로 사용 -->
+<mapper namespace="com.spring.finproj.model.board.MentionDAO">
+	<select id="mention_list" resultType="com.spring.finproj.model.board.MentionDTO">
+		select a.*, b.nickname from 
+		mention a
+		join user_profile b
+		on a.user_no = b.user_no
+		where cm_no = #{cm_no} order by mention_no desc
+	</select>
+	
+	<select id="mention_one" resultType="com.spring.finproj.model.board.MentionDTO">		
+		select * from mention where cm_no = #{cm_no} and ()
+	</select>
+	
+	<insert id="mention_insert" parameterType="boardDTO">
+	<selectKey keyProperty="mention_no" resultType="int" order="BEFORE">
+		select max(mention_no) from mention
+	</selectKey>
+        insert into mention (mention_no, cm_no, user_no, ment, created)
+        values (#{mention_no}+1, #{cm_no}, #{user_no}, #{ment}, now())
+    </insert>
+    
+    <delete id="mention_delete" parameterType="int">
+		delete from mention where mention_no = #{mention_no}
+    </delete>
+</mapper>

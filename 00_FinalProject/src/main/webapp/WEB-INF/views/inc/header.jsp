@@ -8,10 +8,10 @@
 	<ul class="login_navi">
 		<li><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
 		<li>
-			<div>
-				<input type="text" placeholder="검색창">
-				<input type="button" value="검색">
-			</div>
+			<form action="${ctxPath }/board/list" method="post">
+				<input type="text" placeholder="검색창" name="keyword">
+				<input type="submit" value="검색">
+			</form>
 		</li>
 		<li>
 			<a href="javascript:open_user_menu()"><i class="fa fa-bars" aria-hidden="true"></i></a>
@@ -23,17 +23,19 @@
 			로그인 헤더<a href="javascript:close_user_menu()">X</a>
 		</div>
 		<div class="user_menu_body">
-			<div class="user_menu_body_inp">
-				<input name="email" placeholder="Email을 입력하세요">
-				<input name="pwd" placeholder="비밀번호를 입력하세요." type="password">
-			</div>
-			<div class="user_menu_body_btn">
-				<input type="submit" value="로그인">
-				<input type="button" onclick="location.href='${ctxPath}/user/join'" value="회원가입">
-				<div>
-					<a href="javascript:">이메일/비밀번호 찾기</a>
+			<form action="${ctxPath }/login/site" method="post">
+				<div class="user_menu_body_inp">
+					<input name="email" placeholder="Email을 입력하세요">
+					<input name="pwd" placeholder="비밀번호를 입력하세요." type="password">
 				</div>
-			</div>
+				<div class="user_menu_body_btn">
+					<input type="submit" value="로그인">
+					<input type="button" onclick="location.href='${ctxPath}/user/join'" value="회원가입">
+					<div>
+						<a href="javascript:">이메일/비밀번호 찾기</a>
+					</div>
+				</div>
+			</form>
 			<div class="user_menu_body_sns">
 				<%
 					StringBuffer ctxUrl = request.getRequestURL();
@@ -48,13 +50,12 @@
 				</a>
 				<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
 				<script>Kakao.init('78f087e4814e7f60f4ee016cae934876');</script>
-				<script src="https://accounts.google.com/gsi/client" async defer></script>
-				<div id="g_id_onload" data-client_id="763924312013-ppith6f1s7furfp1jvagis96rboh584f.apps.googleusercontent.com"
-					data-login_uri="<%=reUrl %>finproj/login/google" data-auto_prompt="false">
-				</div>
-				<div class="g_id_signin" data-type="icon" data-size="large"
-					data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
-				</div>
+				
+				<a class="google_login_btn" href="javascript:loginWithGoogle()">
+					<img style="width: 50px; height: 50px;" alt="" src="${ctxPath }/resources/images/logo/google_logo.png">
+				</a>
+				
+				
 			</div>
 		</div>
 		</c:if>
@@ -65,7 +66,7 @@
 			<p><img alt="" src="${loginUser.getProfile() }"></p>
 			<p>${loginUser.getNickname() }</p>
 			<input type="button" value="로그아웃" onclick="location.href='${ctxPath }/login/logout'">
-			<button onclick="location.href='${ctxPath }/user/content?user_no=3'">마이페이지</button>
+			<button onclick="location.href='${ctxPath }/user/mypage'">마이페이지</button>
 		</div>
 		<div class="user_menu_body">
 			<div></div>

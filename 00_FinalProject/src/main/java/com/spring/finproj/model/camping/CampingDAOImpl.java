@@ -1,6 +1,8 @@
 package com.spring.finproj.model.camping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +60,8 @@ public class CampingDAOImpl implements CampingDAO{
 	}
 
 	@Override
-	public List<CampingDTO> getCampingLocList(String loc) {
+	public List<CampingDTO> getCampingLocList(Map<String, String> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("camping_list_loc", loc);
+		return sqlSession.selectList("camping_list_loc", map);
 	}
 }
