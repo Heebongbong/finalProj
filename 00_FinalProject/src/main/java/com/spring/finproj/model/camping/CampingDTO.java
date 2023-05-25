@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CampingDTO {
-	private int contentId;
+	private int content_id;
 	private String facltNm;
 	private String lineIntro;
 	private String intro;
