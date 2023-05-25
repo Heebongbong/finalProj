@@ -35,14 +35,14 @@ function cate_hash(self){
            <div class="form-group" align="left">
 				<span>해시태그</span>
 				
-	            <input type="checkbox" <c:if test="${hash.get('일상') == 1 }">checked</c:if> id="life" onclick="cate_hash(this)" class="category" name="category" value="일상"><label for="review">일상</label>
+	            <input type="checkbox" id="life" onclick="cate_hash(this)" class="category" name="category" value="일상" <c:if test="${hash.get('운동') == 1 }">checked</c:if>><label for="review">일상</label>
 				<input type="checkbox" id="review" onclick="cate_hash(this)" class="category" name="category" value="리뷰"><label for="review">리뷰</label>
 				<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" name="category" value="음식"><label for="food">음식</label>
 				<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" name="category" value="장비"><label for="equipment">장비</label>
            </div>
            <div class="form-group" align="left">
                <label for="content">내용:</label>
-               <textarea class="form-control" rows="15" id="content" name="content"></textarea>
+               <textarea class="form-control" rows="15" id="content" name="content">${dto.getContent() }</textarea>
            </div>
            <div class="form-group" align="left">
                <label for="subject">파일:</label>
@@ -50,7 +50,7 @@ function cate_hash(self){
            </div>
            <div>
 
-           	<input type="text" class="hashtags" value="">
+           	<input type="text" class="hashtags" value="${dto.getHashtag() }">
 
            </div>
            <script type="text/javascript">

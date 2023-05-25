@@ -25,6 +25,11 @@ $(document).ready(function(){
 	});
 });
 
+function open_board_detail(self){
+	console.log($(self).next());
+	$(self).next().show();
+}
+
 function move_search_cate(key){
 	let keyword = "%23"+key+"%23"+$('#board_keyword').val();
 	keyword= keyword.replace(/\#/g,"%23");
@@ -153,8 +158,17 @@ function addList(){
 						"<img src='"+ board.profile +"'>" +
 						"<span>'"+ board.nickname +"'</span>" +
 					"</div>" +
-					"<div class='board_detail_btn'>" +
-						"<a href='javascript:'>***</a>" +
+					"<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
+						"<a class='board_detail_btn' href='javascript:'>***</a>" +
+					"</div>" +
+
+					//게시글 상세 메뉴 모달창
+					"<div class='detail_modal_overlay'>" +
+						"<div class='detail_modal_window'>"+
+							"<a>게시글 신고</a>"+
+							"<a>게시글 수정</a>"+
+							"<a>게시글 삭제</a>"+
+						"</div>"+
 					"</div>" +
 				"</div>" +
 
