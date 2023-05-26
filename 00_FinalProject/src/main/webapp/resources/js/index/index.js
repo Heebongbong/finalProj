@@ -134,7 +134,7 @@ function boardAddList(){
 				"<input class='board_no' type='hidden' value='"+no+"'>" +
 
 				//게시글 헤더
-				"<div class='board_user_wrap'>" +
+				"<div class='board_user_wrap'>" +f
 					"<div class='board_user_prof'>" +
 						"<img src='"+ board.profile +"'>" +
 						"<span>'"+ board.nickname +"'</span>" +

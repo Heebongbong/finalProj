@@ -69,4 +69,30 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<select id="camping_review_list" resultType="boardDTO" parameterType="int">
+		select * from
+		(select a.*, b.email, b.type, b.nickname, b.profile from 
+		(select * from community  where cm_no not in (select cm_no from market)) a 
+		join (select c.user_no, c.email, c.type, d.nickname, d.profile 
+			from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
+		on a.user_no = b.user_no ) e
+		join review f on e.cm_no = f.cm_no
+		where f.content_id = #{content_id}
+		order by e.cm_no desc Limit 5
+	</select>
+	<select id="camping_review_list_map" parameterType="map" resultType="boardDTO">
+		<![CDATA[
+			select * from
+			(select a.*, b.email, b.type, b.nickname, b.profile from 
+			(select * from community  where cm_no not in (select cm_no from market)) a 
+			join (select c.user_no, c.email, c.type, d.nickname, d.profile 
+				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
+			on a.user_no = b.user_no ) e
+			join review f on e.cm_no = f.cm_no
+			where f.content_id = #{content_id} and f.cm_no < #{cm_no}
+			order by e.cm_no desc Limit 5
+		]]>
+	</select>
+	
 </mapper>

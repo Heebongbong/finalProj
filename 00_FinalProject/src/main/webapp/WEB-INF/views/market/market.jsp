@@ -8,10 +8,6 @@
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
-<script>
-	let loginUser_no = '${loginUser.user_no }';
-	let loginUser_profile = '${loginUser.profile }';
-</script>
 <div id="market_wrap">
 	<div class="market_navi">
 		<div class="market_navi_cate">
