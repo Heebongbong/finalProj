@@ -105,17 +105,17 @@ public class BoardServiceImpl implements BoardService {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public int writeBoard(BoardDTO boardDTO, MultipartFile[] files, Model model, String[] category, HttpSession session,
+	public int writeBoard(BoardDTO boardDTO, MultipartFile[] files,
 			HttpServletRequest request) throws Exception {
 
-		UserDTO user = (UserDTO) session.getAttribute("LoginUser");
-
-		String hashtag = boardDTO.getHashtag() + "#" + String.join("#", category);
+		String hashtag = boardDTO.getHashtag();
+		
+		System.out.println(hashtag);
 
 		boardDTO.setHashtag(hashtag);
-		boardDTO.setUser_no(user.getUser_no());
+		boardDTO.setUser_no(boardDTO.getUser_no());
 
-		if (files != null) {
+		if (files.length == 0) {
 			Properties prop = new Properties();
 			FileInputStream fis = new FileInputStream(
 					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
@@ -193,20 +193,23 @@ public class BoardServiceImpl implements BoardService {
 		
 		
 	@SuppressWarnings("deprecation")
-	public int updateBoard(BoardDTO boardDTO, MultipartFile[] files, Model model, String[] category,
+	@Override
+	public int updateBoard(BoardDTO boardDTO, MultipartFile[] files,
 			HttpSession session, HttpServletRequest request) throws Exception {
 		
-		String hashtag = boardDTO.getHashtag() + "#" + String.join("#", category);
+		boardDTO.setHashtag(boardDTO.getHashtag());
 		
-		boardDTO.setHashtag(hashtag);
+		System.out.println(1);
 		
-		if (files != null) {
+		if (files.length == 0) {
 			Properties prop = new Properties();
 			FileInputStream fis = new FileInputStream(
 					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 			prop.load(new InputStreamReader(fis));
 			fis.close();
 
+			System.out.println(2);
+			
 			LocalDateTime nowDate = LocalDateTime.now();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
 			String today = nowDate.format(formatter);
@@ -223,6 +226,7 @@ public class BoardServiceImpl implements BoardService {
 			if (!folder.exists()) {
 				folder.mkdirs();
 			}
+			
 			saveFolder += "\\" + today;
 			File folder2 = new File(saveFolder);
 			if (!folder2.exists()) {
@@ -242,16 +246,17 @@ public class BoardServiceImpl implements BoardService {
 			}
 			boardDTO.setPhoto_folder(boardFolder);
 		}
+		System.out.println(3);
 		int re = boardDAO.updateBoardContent(boardDTO);
 		return re;
 	}
 
 	@Override
-	public Map<String, Object> contentBoard(int cm_no) {
+	public Map<String, Object> contentBoard(HttpServletRequest request, int cm_no, Model model) throws Exception {
 
 		Map<String, Object> hash = new HashMap<String, Object>();
     	Map<String, Integer> mapp = new HashMap<String, Integer>();
-		
+    	List<String> file = new ArrayList<String>();
     	BoardDTO dto = boardDAO.getBoardContent(cm_no);
     	
 		if(dto != null) {
@@ -260,8 +265,20 @@ public class BoardServiceImpl implements BoardService {
 				mapp.put(st.nextToken(), 1);
 			}
 			
+			try {
+				if(dto.getPhoto_folder() != null) {
+					dto.setPhoto_files(request);
+					file = dto.getPhoto_files();
+					System.out.println(file);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			System.out.println(mapp);
 			
+			hash.put("Files", file);
 			hash.put("BoardDTO", dto);
 			hash.put("HashMap", mapp);
 			

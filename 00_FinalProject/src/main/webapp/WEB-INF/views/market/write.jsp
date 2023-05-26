@@ -15,7 +15,7 @@ function loc_hash(){
 }
 </script>
 <div class="market_write_wrap">
-	<form id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/market/writeform">
+	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/market/writeform">
 		<div class="form-group" align="left">
 			<div>
 				<input type="checkbox" value="#텐트#타프" id="cate_tent" name="category"><label for="cate_tent">텐트/타프</label>

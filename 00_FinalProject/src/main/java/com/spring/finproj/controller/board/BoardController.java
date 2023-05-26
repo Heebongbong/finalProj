@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,41 +40,48 @@ public class BoardController {
         return "board.write";
     }
     
-    @RequestMapping("/writeOk")
+    @RequestMapping("/writeform")
     public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		Model model, String[] category,
-    		HttpSession session, HttpServletRequest request) throws Exception {
+    		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
-    	int check = boardService.writeBoard(dto, files, model, category, session, request);
+    	System.out.println(dto);
     	
-    	if(check > 0) {
-			return "board.list";
+    	int check = boardService.writeBoard(dto, files, request);
+    	
+    	if(check>0) {
+			return "redirect:/board/list";
 		}else {
-			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
-		    return "error/error";
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().println("<script>"
+					+ "alert('글 작성 중 오류 발생');"
+					+ "history.back();"
+					+ "</script>");
+			return null;
 		}
     }
     
     @RequestMapping("/update")
-    public String boardUpdate(int cm_no, Model model) {
-    	Map<String, Object> map = boardService.contentBoard(cm_no);
+    public String boardUpdate(HttpServletRequest request, int cm_no, Model model) throws Exception {
+    	Map<String, Object> map = boardService.contentBoard(request, cm_no, model);
     	model.addAttribute("Map", map);
     	return "board.update";
   
     }
     
-    @RequestMapping("/updateOk")
+    @RequestMapping("/updateform")
     public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		Model model, String[] category,
-    		HttpSession session, HttpServletRequest request) throws Exception {
+    		HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	int check = boardService.updateBoard(dto, files, session, request);
     	
-    	int check = boardService.updateBoard(dto, files, model, category, session, request);
-    	
-    	if(check > 0) {
-			return "board.list";
+    	if(check>0) {
+			return "redirect:/board/list";
 		}else {
-			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
-		    return "error/error";
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().println("<script>"
+					+ "alert('글 작성 중 오류 발생');"
+					+ "history.back();"
+					+ "</script>");
+			return null;
 		}
     }
     
@@ -101,6 +109,7 @@ public class BoardController {
     	int check = mentionService.getMentionDelete(mention_no);
     	return check;
     }
+    
     @RequestMapping("/delete")
     public String boardDelete(int cm_no, HttpServletRequest request) {
     	boardService.deleteBoardCont(cm_no, request);
