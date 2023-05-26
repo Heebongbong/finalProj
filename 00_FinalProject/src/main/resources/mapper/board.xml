@@ -17,7 +17,9 @@
 		(select * from community  where cm_no not in (select cm_no from market))a 
 		join (select c.user_no, c.email, c.type, d.nickname, d.profile 
 			from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
-		on a.user_no = b.user_no where hashtag like concat('%',#{keyword},'%') order by cm_no desc Limit 5
+		on a.user_no = b.user_no where hashtag like concat('%',#{keyword},'%') 
+		or a.content like concat('%',#{keyword},'%') 
+		or b.nickname like concat('%',#{keyword},'%') order by cm_no desc Limit 5
 	</select>
 	
 	<select id="board_list_add" resultType="boardDTO" parameterType="int">
@@ -38,7 +40,9 @@
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no 
 			 where cm_no < #{cm_no} 
-			 and hashtag like concat('%',#{keyword},'%') order by cm_no desc Limit 5
+			 and hashtag like concat('%',#{keyword},'%') 
+		or a.content like concat('%',#{keyword},'%') 
+		or b.nickname like concat('%',#{keyword},'%') order by cm_no desc Limit 5
 		]]>
 	</select>
 	
@@ -49,11 +53,13 @@
 			join (select c.user_no, c.email, c.type, d.nickname, d.profile 
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no where 
-		]]>
+		]]>(
 			 <foreach collection="list" item="item" separator="and">
 			 	hashtag like concat('%',#{item},'%') 
 			 </foreach>
-		 order by cm_no desc Limit 5
+		)
+		or a.content like concat('%',#{keyword},'%') 
+		or b.nickname like concat('%',#{keyword},'%')  order by cm_no desc Limit 5
 	</select>
 	
 	<select id="board_list_hash_map" parameterType="map" resultType="boardDTO">
@@ -64,10 +70,13 @@
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no 
 			 where cm_no < #{cm_no} 
-		]]>
+		]]>(
 			 <foreach collection="hashList" item="item">
 			 	and hashtag like concat('%',#{item},'%') 
 			 </foreach>
+			 )
+		or a.content like concat('%',#{keyword},'%') 
+		or b.nickname like concat('%',#{keyword},'%') 
 		 order by cm_no desc Limit 5
 	</select>
 	
@@ -89,12 +98,20 @@
    	<delete id="board_delete" parameterType="int">
    		delete from community where cm_no = #{cm_no}
    	</delete>
-   	<delete id="board_delete_all" parameterType="int">
-   		delete from accuse where cm_no = #{cm_no};
-   		delete from alarm where cm_no = #{cm_no};
-   		delete from market where cm_no = #{cm_no};
-   		delete from mention where cm_no = #{cm_no};
+   	<delete id="board_accuser_delete" parameterType="int">
+   		delete from accuse where cm_no = #{cm_no}
+   	</delete>
+   	<delete id="board_alarm_delete" parameterType="int">
+   		delete from alarm where cm_no = #{cm_no}
+   	</delete>
+   	<delete id="board_mention_delete" parameterType="int">
+   		delete from mention where cm_no = #{cm_no}
+   	</delete>
+   	<delete id="board_recommand_delete" parameterType="int">
    		delete from recommand where cm_no = #{cm_no}
+   	</delete>
+   	<delete id="board_market_delete" parameterType="int">
+   		delete from market where cm_no = #{cm_no}
    	</delete>
     
     <select id="board_cont" resultType="boardDTO" parameterType="int">

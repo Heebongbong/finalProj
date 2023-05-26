@@ -37,13 +37,13 @@ public class HomeController {
 	@ResponseBody
 	public Map<String, Object> indexAddList(HttpServletRequest request, int cm_no) throws Exception{
 		String keyword = "";
-		return boardService.getBoardAddList(request, cm_no, keyword);
+		String category = "";
+		return boardService.getBoardAddList(request, cm_no, keyword, category);
 	}
 	
 	@RequestMapping("/index/declaration")
 	@ResponseBody
 	public String indexDeclaration(int cm_no, String reason, HttpSession session) {
-		System.out.println(reason);
 		return boardService.declaration(cm_no, reason, session);
 	}
 

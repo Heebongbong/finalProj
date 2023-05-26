@@ -29,7 +29,7 @@
 		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
 			select user_no from user where email = #{email} and type = #{type}
 		</selectKey>
-		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, 0, #{profile_type})
+		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, #{profile_type})
 	</insert>
 	<delete id="user_delete_session" parameterType="int">
 		delete from user_session where user_no = #{user_no}
