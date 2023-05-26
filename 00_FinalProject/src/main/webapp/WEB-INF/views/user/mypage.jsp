@@ -4,7 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="loginUser" value="${sessionScope.LoginUser}"/>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
-<c:set var="dto" value="${content }"/>
+<c:set var="dto" value="${content }"/>	
 
 
 <style type="text/css">

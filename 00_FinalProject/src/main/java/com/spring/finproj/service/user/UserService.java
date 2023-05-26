@@ -22,5 +22,8 @@ public interface UserService {
 	public String getSnsProfile(HttpSession session, HttpServletResponse response) throws Exception;
 	public String checkPwd(String check_pwd, HttpSession session);
 	public int updateUserContent(UserDTO dto, HttpSession session, MultipartFile mfile, HttpServletRequest request) throws Exception;
+	public int updatePwd(UserDTO dto);
+	public String sendSMSSite(String phone, HttpSession session);
+	public int deleteUser(String check_pwd, HttpSession session) throws Exception;
 
 }
