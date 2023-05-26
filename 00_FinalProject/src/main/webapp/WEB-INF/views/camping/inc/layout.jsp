@@ -17,6 +17,8 @@
 <script type="text/javascript" src="${ctxPath }<tiles:getAsString name="js" />"></script>
 <script type="text/javascript">
 	const ctxPath = '${ctxPath }';
+	const loginUser_no = '${loginUser.user_no }';
+	const loginUser_profile = '${loginUser.profile }';
 </script>
 </head>
 <body>

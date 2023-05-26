@@ -6,15 +6,6 @@
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
-<script>
-	let loginUser_no = '${loginUser.user_no }';
-	let loginUser_profile = '${loginUser.profile }';
-	
-	function move_search_cate(key){
-		let keyword = $('#board_keyword').val();
-		location.href=ctxPath+"/board/list?keyword=%23"+key+"%23"+keyword;
-	}
-</script>
 <div id="list_wrap">
 	<ul class="list_navi">
 		<li class="list_navi_li">

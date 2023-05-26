@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +30,8 @@ public class CampingController {
 
 	@RequestMapping("/details")
 	public String campingContent(Model model, int content_id) throws Exception {
-		System.out.println(content_id);
 		
 		campingService.getCampingContent(model, content_id);
-		System.out.println(11);
 		return "camping.details";
 	}
 	
@@ -44,7 +44,12 @@ public class CampingController {
 	@RequestMapping("/addlist")
 	@ResponseBody
 	public List<CampingDTO> campingAddList(int content_id, String keyword, String keyword2){
-		System.out.println(keyword2);
 		return campingService.getCampingAddList(content_id, keyword, keyword2);
+	}
+	
+	@RequestMapping("/review")
+	@ResponseBody
+	public Map<String, Object> campingReviewList(int content_id, HttpServletRequest request, int cm_no) throws Exception {
+		return campingService.getCampingReviewList(content_id, request, cm_no);
 	}
 }
