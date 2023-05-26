@@ -1,5 +1,6 @@
 package com.spring.finproj.controller.board;
 
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +30,16 @@ public class BoardController {
     private MentionService mentionService;
     
     @RequestMapping("/list")
-    public String boardList(@RequestParam(required = false, value = "keyword") String keyword, Model model) throws Exception {
+    public String boardList(@RequestParam(required = false, value = "keyword") String keyword,
+    		@RequestParam(required = false) String category, Model model) throws Exception {
+    	if(!(keyword==null||keyword=="")) {
+    		keyword = URLDecoder.decode(keyword, "UTF-8");
+    	}
+    	if(!(category==null||category=="")) {
+    		category = URLDecoder.decode(category, "UTF-8");
+    	}
     	model.addAttribute("Keyword", keyword);
+    	model.addAttribute("Category", category);
     	return "board.list";
     }
  
@@ -81,15 +90,23 @@ public class BoardController {
     @ResponseBody
     public Map<String , Object> boardAddList(HttpServletRequest request, 
     		@RequestParam(required = false) int cm_no, 
-    		@RequestParam(required = false) String keyword) throws Exception{
-    	return boardService.getBoardAddList(request, cm_no, keyword);
+    		@RequestParam(required = false) String keyword,
+    		@RequestParam(required = false) String category) throws Exception{
+    	System.out.println(keyword);
+    	System.out.println(category);
+    	if(!(keyword==null||keyword=="")) {
+    		keyword = URLDecoder.decode(keyword, "UTF-8");
+    	}
+    	if(!(category==null||category=="")) {
+    		category = URLDecoder.decode(category, "UTF-8");
+    	}
+    	return boardService.getBoardAddList(request, cm_no, keyword, category);
     }
     
     @RequestMapping("/addmention")
     @ResponseBody
     public List<MentionDTO> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
     	int check = mentionService.getMentionInsert(dto);
-    	System.out.println("check +"+check);
     	
     	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
     	return list;
@@ -101,9 +118,15 @@ public class BoardController {
     	int check = mentionService.getMentionDelete(mention_no);
     	return check;
     }
-    @RequestMapping("/delete")
+    
+    @RequestMapping(value = "/delete")
+    @ResponseBody
     public String boardDelete(int cm_no, HttpServletRequest request) {
-    	boardService.deleteBoardCont(cm_no, request);
-    	return "redirect:/finproj/index";
+    	int re = boardService.deleteBoardCont(cm_no, request);
+    	if(re>0) {
+    		return "<script>alert('게시글 삭제 성공');location.href='/finproj/index';</script>";
+    	}else {
+    		return "<script>alert('게시글 삭제 실패');history.back();</script>";
+    	}
     }
 }

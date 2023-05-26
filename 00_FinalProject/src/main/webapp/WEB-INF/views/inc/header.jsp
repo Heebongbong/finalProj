@@ -9,7 +9,7 @@
 		<li><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
 		<li>
 			<form action="${ctxPath }/board/list" method="post">
-				<input type="text" placeholder="검색창" name="keyword">
+				<input type="text" id="search_keyword" placeholder="검색창" name="keyword" value="<c:if test="${!empty Keyword }">${Keyword }</c:if>">
 				<input type="submit" value="검색">
 			</form>
 		</li>
