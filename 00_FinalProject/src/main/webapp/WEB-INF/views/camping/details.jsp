@@ -7,8 +7,10 @@
 <c:set var="dto" value="${Content }" />
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4sqz6l4y8y&submodules=geocoder"></script>
 <div id="map_wrap">
+
+<input type="hidden" value="${dto.getContent_id() }" id="hidden_content_id">
+
 	<div id="camping_details_wrap">
-		
 		<div id="camping_details_img">
 			<div id="map" style="width:400px; height: 50%;"></div>
 			<img alt="" src="${dto.getFirstImageUrl() }" width="400px" height="50%">
@@ -48,7 +50,7 @@
 				</tr>
 				<tr>
 					<th>홈페이지</th>
-					<td> ${dto.getHomepage() }</td>
+					<td> <a href="${dto.getHomepage() }" target="_blank">${dto.getHomepage() }</a></td>
 				</tr>
 				<tr>
 					<th>위도</th>
@@ -117,9 +119,17 @@
 		        		<td>O</td>
 		        	</c:if>
         		</tr>
-			</table>	
+        		
+        		
+        		<tr>
+					<th>아이디</th>
+					<td>${dto.getContent_id() }</td>
+				</tr>
+			</table>
 		</div>
 	</div>
+	
+	<div class="camping_review_wrap"></div>
 </div>
 
 <script type="text/javascript">

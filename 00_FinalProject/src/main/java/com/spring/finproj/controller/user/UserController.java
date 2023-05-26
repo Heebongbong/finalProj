@@ -67,6 +67,23 @@ public class UserController {
 		}
 
 	}
+	
+	@RequestMapping("/delete")
+	public String userDrop() throws Exception {
+		
+		return "user.delete";
+	}
+	
+	@RequestMapping("/deleteOk")
+	public String userDropOk(String check_pwd, HttpSession session, Model model) throws Exception {
+		int check = userService.deleteUser(check_pwd, session);
+		if (check > 0) {
+			return "redirect:/index";
+		} else {// 불일치
+			model.addAttribute("msg", "탈퇴 중 문제가 발생했습니다.");
+			return "error/error";
+		}
+	}
 
 	@RequestMapping("/check/nickname")
 	@ResponseBody
@@ -96,6 +113,13 @@ public class UserController {
 
 		return userService.sendSMS(phone, session);
 	}
+	
+	@RequestMapping("/sms/siteuser")
+	@ResponseBody
+	public String sendSMSSite(String phone, HttpSession session) throws Exception {
+		
+		return userService.sendSMSSite(phone, session);
+	}
 
 	@RequestMapping("/sms/check")
 	@ResponseBody
@@ -116,6 +140,18 @@ public class UserController {
 	public String userForget() throws Exception {
 
 		return "user.forget";
+	}
+	
+	@RequestMapping("/forgetOk")
+	public String userForgetOk(UserDTO dto, Model model) {
+		int check = userService.updatePwd(dto);
+		
+		if (check > 0) {
+			return "redirect:/index";
+		} else {// 불일치
+			model.addAttribute("msg", "수정 중 문제가 발생했습니다.");
+			return "error/error";
+		}
 	}
 
 }

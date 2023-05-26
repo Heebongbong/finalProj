@@ -92,7 +92,9 @@ div{
 	list-style: none;
 }
 #header .login_navi img{
-	width: 100px;
+	margin: 10px;
+	width: 80px;
+	border-radius: 50%;
 }
 #header .login_navi .fa-bars:before{
 	font-size: 50px;
@@ -251,4 +253,3 @@ div{
 .chat_loginU{
 	text-align: right;
 }
-
