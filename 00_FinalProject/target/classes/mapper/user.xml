@@ -29,7 +29,7 @@
 		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
 			select user_no from user where email = #{email} and type = #{type}
 		</selectKey>
-		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, 0, #{profile_type})
+		insert into user_profile values(#{user_no}, #{pwd}, #{nickname}, default, #{profile}, now(), 0, #{profile_type})
 	</insert>
 	<delete id="user_delete_session" parameterType="int">
 		delete from user_session where user_no = #{user_no}
@@ -58,7 +58,7 @@
 		<selectKey resultType="int" keyProperty="user_no" order="BEFORE">
 			SELECT MAX(user_no) FROM user_profile
 		</selectKey>
-		INSERT INTO user_profile VALUES(#{user_no} + 1, #{pwd}, #{nickname}, #{phone}, #{profile}, now(), default, #{authen}, #{profile_type})
+		INSERT INTO user_profile VALUES(#{user_no} + 1, #{pwd}, #{nickname}, #{phone}, #{profile}, now(), #{authen}, #{profile_type})
 	</insert>
 	
 	<insert id="user_insert" parameterType="userDTO">
@@ -72,4 +72,18 @@
 	<update id="user_update" parameterType="userDTO">
 		UPDATE user_profile SET pwd=#{pwd}, nickname=#{nickname}, phone=#{phone}, profile=#{profile}, authen=#{authen}, profile_type=#{profile_type} where user_no = #{user_no}
 	</update>
+	
+	<!-- 사이트 회원 비밀번호 변경 -->
+	<update id="user_pwd_update" parameterType="userDTO">
+		UPDATE user_profile SET pwd = #{pwd} WHERE user_no = #{user_no}
+	</update>
+	
+	<select id="check_type_phone" parameterType="String" resultType="String">
+		SELECT u.user_no FROM user u join user_profile p on u.user_no = p.user_no
+			where p.phone = #{phone} and u.type = 'S'
+	</select>
+	
+	<delete id="user_delete" parameterType="int">
+		DELETE FROM user WHERE user_no = #{user_no}
+	</delete>
 </mapper>

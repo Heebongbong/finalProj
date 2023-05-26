@@ -520,34 +520,4 @@ public class LoginServiceImpl implements LoginService{
         conn.disconnect();
 	}
 
-//	//네이버 회원 연결 끊기 진행됨. 회원 탈퇴에서 사용 예정
-//	private void naverLogout(String sessionID) throws Exception {
-//		
-//		StringBuilder urlBuilder = new StringBuilder("https://nid.naver.com/oauth2.0/token");
-//        urlBuilder.append("?" + URLEncoder.encode("grant_type","UTF-8") + "=" + URLEncoder.encode("delete", "UTF-8")); 
-//        urlBuilder.append("&" + URLEncoder.encode("client_id","UTF-8") + "=" + URLEncoder.encode("2fzdhIRlmXgPi9uo_5Xi", "UTF-8")); 
-//        urlBuilder.append("&" + URLEncoder.encode("client_secret","UTF-8") + "=" + URLEncoder.encode("nPmw0vdmyR", "UTF-8")); 
-//        urlBuilder.append("&" + URLEncoder.encode("access_token","UTF-8") + "=" + URLEncoder.encode(sessionID, "UTF-8")); 
-//        urlBuilder.append("&" + URLEncoder.encode("service_provider","UTF-8") + "=" + URLEncoder.encode("NAVER", "UTF-8")); 
-//        URL url = new URL(urlBuilder.toString());
-//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//        conn.setRequestMethod("POST");
-//        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-//        System.out.println("delete code: " + conn.getResponseCode());
-//        BufferedReader rd;
-//        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-//            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//        } else {
-//            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-//        }
-//        
-//        StringBuilder sb = new StringBuilder();
-//        String line;
-//        while ((line = rd.readLine()) != null) {
-//            sb.append(line);
-//        }
-//        rd.close();
-//        conn.disconnect();
-//	}
-
 }

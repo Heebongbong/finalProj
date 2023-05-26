@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -203,6 +204,12 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateUserContent(dto);
 
 	}
+	
+	@Override
+	public int updatePwd(UserDTO dto) {
+			
+		return userDao.updateUserPwd(dto);
+	}
 
 	@Override
 	public String getNickCheck(String nickName, HttpSession session) throws IOException {
@@ -265,6 +272,35 @@ public class UserServiceImpl implements UserService {
 		return check;
 	}
 
+	
+	@Override
+	public String sendSMSSite(String phone, HttpSession session) {
+		
+		String check = "";
+		String res = userDao.checkTypeAndPhone(phone);
+		System.out.println("user_no === "+res);
+		if(res != null) {
+			
+			/*
+			 * SendSMSAPI send = new SendSMSAPI();
+			 * 
+			 * String code = send.sendSMS(phone);
+			 */
+			
+			String code = "123";
+			
+			
+			if (code != null) {
+				session.setAttribute("code", code);
+				System.out.println("코드생성 및 발신 성공~");
+				check = res;
+			}
+		}else {
+			System.out.println("미등록 유저");
+		}
+
+		return check;
+	}
 	@Override
 	public String checkSMS(String input_code, HttpSession session) {
 
@@ -291,6 +327,100 @@ public class UserServiceImpl implements UserService {
 			check = "true";
 		}
 		return check;
+	}
+	
+	@Override
+	public int deleteUser(String check_pwd, HttpSession session) throws Exception {
+		
+		UserDTO dto = (UserDTO) session.getAttribute("LoginUser");
+		
+		int check = -1;
+		int res = -1;
+		
+		System.out.println(dto);
+		System.out.println(check_pwd);
+		if (check_pwd.equals(dto.getPwd())) {
+			// 쿼리문 type = D 로 변경
+			userDao.deleteUser(dto.getUser_no());
+			UserSessionDTO sdto = userDao.getUserSession(dto.getUser_no());
+			userDao.deleteUserSessionContent(dto.getUser_no());
+			String sessionID = sdto.getSessionID();
+			 
+				if(dto.getType().equals("K")) {
+					deleteKakaorUser(sessionID);
+				}else if(dto.getType().equals("N")) {
+					deleteNaverUser(sessionID);
+				}else if(dto.getType().equals("G")) {
+					deleteGoogleUser(sessionID);
+				}
+		}
+
+		if(res ==1) {
+			check = 1;
+		}
+		
+		return check;
+	}
+	
+	private void deleteKakaorUser(String sessionID) throws Exception {
+		// TODO Auto-generated method stub
+		StringBuilder urlBuilder = new StringBuilder("https://kapi.kakao.com/v1/user/unlink");
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+        conn.setRequestProperty("Authorization", "Bearer "+ sessionID);
+        System.out.println("delete code: " + conn.getResponseCode());
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        //sb.toString();
+	}
+
+	private void deleteNaverUser(String sessionID) throws Exception {
+
+		StringBuilder urlBuilder = new StringBuilder("https://nid.naver.com/oauth2.0/token");
+        urlBuilder.append("?" + URLEncoder.encode("grant_type","UTF-8") + "=" + URLEncoder.encode("delete", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("client_id","UTF-8") + "=" + URLEncoder.encode("2fzdhIRlmXgPi9uo_5Xi", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("client_secret","UTF-8") + "=" + URLEncoder.encode("nPmw0vdmyR", "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("access_token","UTF-8") + "=" + URLEncoder.encode(sessionID, "UTF-8")); 
+        urlBuilder.append("&" + URLEncoder.encode("service_provider","UTF-8") + "=" + URLEncoder.encode("NAVER", "UTF-8")); 
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+        System.out.println("delete code: " + conn.getResponseCode());
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+
+	}
+	
+	private void deleteGoogleUser(String sessionID) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

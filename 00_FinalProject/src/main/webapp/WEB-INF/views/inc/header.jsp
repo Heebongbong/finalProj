@@ -9,19 +9,26 @@
 		<li><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
 		<li>
 			<form action="${ctxPath }/board/list" method="post">
-				<input type="text" placeholder="검색창" name="keyword">
+				<input type="text" id="search_keyword" placeholder="검색창" name="keyword" value="<c:if test="${!empty Keyword }">${Keyword }</c:if>">
 				<input type="submit" value="검색">
 			</form>
 		</li>
-		<li>
-			<a href="javascript:open_user_menu()"><i class="fa fa-bars" aria-hidden="true"></i></a>
-		</li>
+		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
+			<li class="user_menu_profile">
+				<a href="javascript:open_user_menu()"><img src="${ctxPath }/resources/images/logo/logo.png"></a>
+			</li>
+		</c:if>
+		<c:if test="${!empty loginUser }"><!-- 로그인시 -->
+			<li class="user_menu_profile">
+				<a href="javascript:open_user_menu()"><img src="${loginUser.profile }"></a>
+			</li>
+		</c:if>
 	</ul>
 	<div class="user_menu_wrap">
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
 		<div class="user_menu_head">
 			로그인 헤더<a href="javascript:close_user_menu()">X</a>
-		</div>
+		</div>	
 		<div class="user_menu_body">
 			<form action="${ctxPath }/login/site" method="post">
 				<div class="user_menu_body_inp">
@@ -68,11 +75,11 @@
 				<p>${loginUser.getNickname() }</p>
 				<input type="button" value="로그아웃" onclick="location.href='${ctxPath }/login/logout'">
 				<button onclick="location.href='${ctxPath }/user/mypage'">마이페이지</button>
+				<button onclick="location.href='${ctxPath }/user/delete'">회원탈퇴</button>
 			</div>
 			<div>
 				<p>내 게시물</p>
 				<p>내가 좋아요한 게시물</p>
-				<p>회원 탈퇴</p>
 			</div>
 			
 		</div>
