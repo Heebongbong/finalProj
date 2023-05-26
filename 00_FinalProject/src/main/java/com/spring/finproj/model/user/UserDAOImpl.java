@@ -50,13 +50,28 @@ public class UserDAOImpl implements UserDAO{
 		return sqlSession.delete("user_delete", user_no);
 	}
 	
+	@Override
+	public String checkTypeAndPhone(String phone) {
+		return sqlSession.selectOne("check_type_phone",phone);
+		
+	}
 	
 	//부가기능
 	@Override
 	public int updateUserPwd(UserDTO dto) {
-		return sqlSession.update("user_update_pwd", dto);
+		return sqlSession.update("user_pwd_update", dto);
 	}
 
+	@Override
+	public int deleteUser(int user_no) {
+		return sqlSession.delete("user_delete", user_no);
+	}
+	
+	@Override
+	public int deleteUserProfile(int user_no) {
+		return sqlSession.delete("user_profile_delete", user_no);
+		
+	}
 	@Override
 	public UserDTO getUserContentId(Map<String, Object> idlist) {
 		// TODO Auto-generated method stub
@@ -97,7 +112,7 @@ public class UserDAOImpl implements UserDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("user_phone_check", map);
 	}
-	
+		
 	@Override
 	public String getEmailCheck(String email) {
 		// TODO Auto-generated method stub
