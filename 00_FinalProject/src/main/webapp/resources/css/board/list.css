@@ -16,12 +16,21 @@
 
 /* board_main css */
 .board_content{
+<<<<<<< HEAD
    display: flex;
    flex-direction: column;
    justify-content: space-between;
    margin: 20px auto;
    width: 90%;
    position: relative;
+=======
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 20px auto;
+	width: 90%;
+	position: relative;
+>>>>>>> refs/remotes/origin/master
 }
 
 .board_user_wrap{

@@ -82,8 +82,23 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.selectOne("declaration_content", decla);
 	}
 	@Override
-	public void deleteCommAll(int cm_no) {
+	public int deleteAccuserContent(int cm_no) {
 		// TODO Auto-generated method stub
-		sqlSession.delete("board_delete_all", cm_no);
+		return sqlSession.delete("board_accuser_delete", cm_no);
+	}
+	@Override
+	public int deleteAlarmContent(int cm_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("board_alarm_delete", cm_no);
+	}
+	@Override
+	public int deleteMentionContent(int cm_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("board_mention_delete", cm_no);
+	}
+	@Override
+	public int deleteRecommandContent(int cm_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("board_recommand_delete", cm_no);
 	}
 }

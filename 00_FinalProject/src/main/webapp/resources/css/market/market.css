@@ -14,13 +14,57 @@
 	display: none;
 }
 
-
 .market_write{
 	position: fixed;
 	right: 50px;
 	top: 200px;
 	z-index: 5;
 }
+
+/* decl_modal css */
+
+.declaration_modal_overlay{
+	background-color: white;
+	position: fixed;
+	top: 20%;
+	left: 30%;
+	width: 400px;
+	height: 400px;
+	z-index: 5;
+	display: none;
+}
+.declaration_modal_window{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 90%;
+	height: 90%;
+	margin: 20px auto;
+}
+.decl_modal_header{
+	display: flex;
+	justify-content: space-between;
+}
+.decl_modal_close{
+	cursor: pointer;
+}
+.decl_modal_body{
+	height: 100%;
+}
+.decl_modal_text{
+	width: 95%;
+	height: 95%;
+	border: none;
+	resize: none;
+}
+.decl_modal_text:focus{
+	outline: none;
+}
+
+.decl_modal_btn{
+	text-align: center;
+}
+
 
 /* board_main css */
 .board_content{
@@ -34,7 +78,8 @@
 .board_user_wrap{
 	display: flex;
 	justify-content: space-between;
-	height: 
+	height: 50px;
+	position: relative;
 }
 .board_user_prof{
 	display: flex;
@@ -45,8 +90,22 @@
 	height: 50px;
 }
 
-.board_title_wrap{
+/* detail_modal css */
+.detail_modal_overlay{
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+	background-color: white;
+	width: 100px;
+	height: 150px;
+	z-index: 1;
+}
+.detail_modal_window{
 	display: flex;
+	padding: 5px;
+	flex-direction: column;
+	height: 100%;
 	justify-content: space-around;
 }
 
@@ -66,6 +125,14 @@
 .board_main_files img{
 	width: 350px;
 	height: 350px;
+}
+
+.board_market_title{
+	display: flex;
+	justify-content: flex-start;
+}
+.board_market_title p{
+	width: 50%;
 }
 
 /* 본문 css */

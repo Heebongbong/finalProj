@@ -35,6 +35,7 @@ function open_board_detail(self){
 	$(self).next().show();
 }
 
+
 function cm_declaration(cm_no, nickname){ //게시글 신고
 	if(loginUser_no==''){
 		alert("로그인이 필요합니다.");
@@ -96,10 +97,12 @@ function cm_delete(cm_no, user_no){ //게시글 삭제
 }
 
 function move_search_cate(key){
-	let keyword = "%23"+key+"%23"+$('#board_keyword').val();
-	keyword= keyword.replace(/\#/g,"%23");
-	console.log(keyword);
-	location.href=ctxPath+"/board/list?keyword="+keyword;
+	let keyword = $('#search_keyword').val();
+	let category = key;
+	keyword = replace_keyword(keyword);
+	category= replace_keyword(category);
+	console.log(category);
+	location.href=ctxPath+"/board/list?keyword="+keyword+"&category="+category;
 }
 
 function open_ment_modal(self){
@@ -190,12 +193,16 @@ function addList(){
 		cm_no = 0;
 	}
 
+	let keyword = replace_keyword($('#search_keyword').val());
+	let category = replace_keyword($('#board_category').val());
+
 	$.ajax({
         type: "get",
         url: ctxPath + "/board/addlist",
         data: {
           cm_no: cm_no,
-		  keyword: $('#board_keyword').val()
+		  keyword: keyword,
+		  category: category
         },
         dataType: "json",
         contentType: "application/json; charset=UTF-8;",
@@ -203,8 +210,6 @@ function addList(){
         success: function(data) {
           let boardList = data.BoardList;
           let mentionList = data.MentionList;
-		  $('#board_keyword').val(data.keyword);
-          
 		  
           let table = "";
           
