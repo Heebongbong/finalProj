@@ -25,12 +25,7 @@ function cate_hash(self){
 		let arr = str.split('#');
 		
 	}
-		  
-	
 }
-
-
-
 
 </script>
 <div class="board_wrap">

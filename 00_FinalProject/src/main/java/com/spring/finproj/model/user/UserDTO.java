@@ -12,7 +12,6 @@ public class UserDTO {
 	private String profile;
 	private String type;
 	private String date;
-	private int point;
 	private boolean authen;
 	private boolean profile_type;
 }

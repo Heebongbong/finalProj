@@ -1,8 +1,9 @@
-package com.spring.finproj.controller.navi;
+package com.spring.finproj.controller.index;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,13 @@ public class HomeController {
 	public Map<String, Object> indexAddList(HttpServletRequest request, int cm_no) throws Exception{
 		String keyword = "";
 		return boardService.getBoardAddList(request, cm_no, keyword);
+	}
+	
+	@RequestMapping("/index/declaration")
+	@ResponseBody
+	public String indexDeclaration(int cm_no, String reason, HttpSession session) {
+		System.out.println(reason);
+		return boardService.declaration(cm_no, reason, session);
 	}
 
 	@RequestMapping(value = "/weatherNavi")

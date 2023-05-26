@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.board.BoardDAO;
@@ -164,6 +163,36 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public String declaration(int cm_no, String reason, HttpSession session) {
+		UserDTO loginUser = (UserDTO) session.getAttribute("LoginUser");
+		Map<String, String> decla = new HashMap<String, String>();
+		decla.put("cm_no", ((Integer)cm_no).toString());
+		decla.put("user_no", ((Integer)loginUser.getUser_no()).toString());
+		decla.put("reason", reason);
+		
+		int check = boardDAO.checkDeclaration(decla);
+		if(check==0) {
+			int re = boardDAO.insertDeclaration(decla);
+			return ((Integer)re).toString();
+		}else {
+			return "-1";
+		}
+	}
+
+	@Override
+	public void deleteBoardCont(int cm_no, HttpServletRequest request) {
+		BoardDTO dto = boardDAO.getBoardContent(cm_no);
+		
+		int re = boardDAO.deleteBoardContent(cm_no);
+		if(re>0) {
+			boardDAO.deleteCommAll(cm_no);
+		}else {
+			
+		}
+	}
+		
+		
+	@SuppressWarnings("deprecation")
 	public int updateBoard(BoardDTO boardDTO, MultipartFile[] files, Model model, String[] category,
 			HttpSession session, HttpServletRequest request) throws Exception {
 		
@@ -240,6 +269,5 @@ public class BoardServiceImpl implements BoardService {
 		}else {
 			return null;
 		}
-		
 	}
 }
