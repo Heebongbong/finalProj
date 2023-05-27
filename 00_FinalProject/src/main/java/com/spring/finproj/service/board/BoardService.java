@@ -17,4 +17,6 @@ public interface BoardService {
 	public Map<String, Object> contentBoard(HttpServletRequest request, int cm_no, Model model) throws Exception;
 	public int updateBoard(BoardDTO boardDTO, MultipartFile[] files, HttpSession session, HttpServletRequest request) throws Exception;
 	public int deleteBoardCont(int cm_no, HttpServletRequest request);
+	public int manageBoardLike(int check, int cm_no, HttpSession session);
+	public int manageMentionLike(int check, int mention_no, HttpSession session);
 }

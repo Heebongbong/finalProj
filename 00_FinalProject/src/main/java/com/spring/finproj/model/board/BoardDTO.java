@@ -23,6 +23,9 @@ public class BoardDTO {
 	private String hashtag;
 	private String photo_folder;
 	
+	//like count
+	private int likeCount;
+	
 	//market
 	private String title;
 	private int price;
