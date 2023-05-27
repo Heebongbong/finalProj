@@ -111,4 +111,14 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("board_like_count", cm_no);
 	}
+	@Override
+	public int deleteBoardLike(Map<String, Integer> keyMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("board_like_delete", keyMap);
+	}
+	@Override
+	public int insertBoardLike(Map<String, Integer> keyMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("board_like_insert", keyMap);
+	}
 }

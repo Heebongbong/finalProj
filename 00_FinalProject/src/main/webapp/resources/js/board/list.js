@@ -135,6 +135,90 @@ function open_ment_modal(self){
 	$(self).siblings().find('.board_reply_cont_total').show();
 }
 
+//게시글 좋아요 
+function click_like_board(cm_no, self){
+	if(loginUser_no!=''){
+		let check;
+		if($(self).find('.fa').hasClass('fa-heart')){
+			check = 1; //like -> unlike
+		}else{
+			check = 0; // unlike -> like
+		}
+		$.ajax({
+			type: 'get',
+			url: ctxPath + '/board/like/manage',
+			data: {
+			  cm_no: cm_no,
+			  check: check
+			},
+			dataType: 'json',
+			contentType: 'application/json; charset=UTF-8;',
+			success: function(data) {
+				if(data==1){ //like -> unlike
+					$(self).find('.fa').attr('class', 'fa fa-heart-o');
+					let count = $(self).next().text();
+					count = parseInt(count);
+					$(self).next().text(count-1);
+				}else if(data == 0){ // unlike -> like
+					$(self).find('.fa').attr('class', 'fa fa-heart');
+					let count = $(self).next().text();
+					count = parseInt(count);
+					$(self).next().text(count+1);
+				}else{ //오류
+					alert('좋아요 데이터 베이스 처리 오류');
+				}
+				
+			}, error: function() {
+				alert('좋아요 처리 중 오류');
+			  }
+		  });
+	}else{
+		alert('로그인이 필요합니다.');
+	}
+}
+
+//댓글 좋아요 관리
+function click_like_mention(mention_no, self){
+	if(loginUser_no!=''){
+		let check;
+		if($(self).find('.fa').hasClass('fa-heart')){
+			check = 1; //like -> unlike
+		}else{
+			check = 0; // unlike -> like
+		}
+		$.ajax({
+			type: 'get',
+			url: ctxPath + '/board/like/mention/manage',
+			data: {
+				mention_no: mention_no,
+			  check: check
+			},
+			dataType: 'json',
+			contentType: 'application/json; charset=UTF-8;',
+			success: function(data) {
+				if(data==1){ //like -> unlike
+					$(self).find('.fa').attr('class', 'fa fa-heart-o');
+					let count = $(self).next().text();
+					count = parseInt(count);
+					$(self).next().text(count-1);
+				}else if(data == 0){ // unlike -> like
+					$(self).find('.fa').attr('class', 'fa fa-heart');
+					let count = $(self).next().text();
+					count = parseInt(count);
+					$(self).next().text(count+1);
+				}else{ //오류
+					alert('좋아요 데이터 베이스 처리 오류');
+				}
+				
+			}, error: function() {
+				alert('좋아요 처리 중 오류');
+			  }
+		  });
+	}else{
+		alert('로그인이 필요합니다.');
+	}
+}
+
 function addMention(no){
 	// 클릭한 버튼의 id를 가져옵니다.
 	  console.log("no >>> "+no);
@@ -318,7 +402,7 @@ function addList(){
 
                		"<div class='board_main_text'>" + board.content +
 						"<div class='board_like_wrap'>" +
-							"<a href='javascript:click_like_board(\""+no+"\")'>";
+							"<a href='javascript:' onclick='click_like_board("+no+", this)'>";
 
 							
 							// 유저에 따른 좋아요 등록 여부
@@ -332,7 +416,8 @@ function addList(){
 								table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
 							}
 							
-					table += "</a>" + board.likeCount + 
+					table += "</a>" + 
+						"<span>" + board.likeCount + "</span>" +
 						"</div>" +
 					"</div>" +
 					"<div class='"+no+"board_reply_wrap'>";
@@ -346,7 +431,7 @@ function addList(){
 										"<div class='board_reply_ment'>"+mention[j].ment+
 											
 											//댓글 좋아요 버튼
-											"<a class='mention_like_wrap' href='javascript:'>";
+											"<a class='mention_like_wrap' href='javascript:' onclick='click_like_mention("+mention[j].mention_no+", this)'>";
 											if(loginUser_no != ''){
 												if(mentionLikeList.find(element => element == no)!=null){
 													table += "<i class='fa fa-heart' aria-hidden='true'></i>";
@@ -356,7 +441,7 @@ function addList(){
 											}else{
 												table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
 											}
-										table += "</a>" + mention[j].likeCount +
+										table += "</a>" + "<span>" + mention[j].likeCount + "</span>" +
 										"</div>";
 								if(mention[j].user_no==loginUser_no){
 									table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";

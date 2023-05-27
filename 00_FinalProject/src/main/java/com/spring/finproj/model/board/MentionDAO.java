@@ -1,6 +1,7 @@
 package com.spring.finproj.model.board;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MentionDAO {
 
@@ -12,5 +13,7 @@ public interface MentionDAO {
 	public int deleteMentionContent(int mention_no);
 	public List<Integer> getMentionLikeList(int user_no);
 	public int getMentionLikeCount(int mention_no);
+	public int deleteMentionLike(Map<String, Integer> keyMap);
+	public int insertMentionLike(Map<String, Integer> keyMap);
 	
 }

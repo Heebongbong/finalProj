@@ -35,4 +35,11 @@
     <select id="mention_like_count" parameterType="int" resultType="int">
     	select count(mention_no) from re_mention where mention_no = #{mention_no}
     </select>
+    
+    <delete id="mention_like_delete" parameterType="map">
+    	delete from re_mention where mention_no = #{mention_no} and user_no = #{user_no}
+    </delete>
+    <insert id="mention_like_insert" parameterType="map">
+    	insert into re_mention values(#{mention_no}, #{user_no})
+    </insert>
 </mapper>

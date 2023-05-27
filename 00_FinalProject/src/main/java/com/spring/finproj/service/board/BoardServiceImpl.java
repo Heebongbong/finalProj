@@ -323,4 +323,50 @@ public class BoardServiceImpl implements BoardService {
 			return null;
 		}
 	}
+
+	@Override
+	public int manageBoardLike(int check, int cm_no, HttpSession session) {
+		UserDTO user = (UserDTO) session.getAttribute("LoginUser");
+		Map<String, Integer> keyMap = new HashMap<String, Integer>();
+		int re;
+		
+		keyMap.put("cm_no", cm_no);
+		keyMap.put("user_no", user.getUser_no());
+		
+		if(check == 1) {//like -> unlike
+			re = boardDAO.deleteBoardLike(keyMap);
+			
+		}else {// unlike -> like
+			re = boardDAO.insertBoardLike(keyMap);
+		}
+		
+		if(re>0) {
+			return check;
+		}else {
+			return -1;
+		}
+	}
+
+	@Override
+	public int manageMentionLike(int check, int mention_no, HttpSession session) {
+		UserDTO user = (UserDTO) session.getAttribute("LoginUser");
+		Map<String, Integer> keyMap = new HashMap<String, Integer>();
+		int re;
+		
+		keyMap.put("mention_no", mention_no);
+		keyMap.put("user_no", user.getUser_no());
+		
+		if(check == 1) {//like -> unlike
+			re = mentionDAO.deleteMentionLike(keyMap);
+			
+		}else {// unlike -> like
+			re = mentionDAO.insertMentionLike(keyMap);
+		}
+		
+		if(re>0) {
+			return check;
+		}else {
+			return -1;
+		}
+	}
 }
