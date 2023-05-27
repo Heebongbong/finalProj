@@ -117,7 +117,9 @@ function boardAddList(){
           let mentionList = data.MentionList;
 
           let table = "";
-          
+          if(data.length==0){
+          	console.log('마지막 게시물입니다.');
+          }
           for (let i = 0; i < boardList.length; i++) {
             let board = boardList[i];
             let no = board.cm_no;

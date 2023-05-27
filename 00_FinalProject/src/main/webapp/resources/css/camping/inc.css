@@ -15,7 +15,7 @@
 	text-align: center;
 }
 
-#camping_content, #camping_details_wrap {
+.camping_list_wrap, #camping_details_wrap {
 	display: flex;
 }
 
@@ -23,7 +23,7 @@
 	width : 300px;
 }
 
-#camping_content_info {
+.camping_list_info {
 	border: none;
 	padding: 5px;
 	line-height: 1.4;

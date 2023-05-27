@@ -11,7 +11,12 @@
 <title><tiles:getAsString name="title"/></title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/e6bfca85af.js" crossorigin="anonymous"></script>
-<script type="text/javascript">const ctxPath = '${ctxPath }';</script>
+<script type="text/javascript">
+	const ctxPath = '${ctxPath }';
+	const loginUser = '${loginUser }';
+	const loginUser_no = '${loginUser.user_no }';
+	const loginUser_profile = '${loginUser.profile }';
+</script>
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="base_css" />">
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="css" />">
 <script type="text/javascript" src="${ctxPath }<tiles:getAsString name="base_js" />"></script>

@@ -15,7 +15,6 @@
 	
 	const socket = null;
 	const faqList = null;
-	
  });
  
  

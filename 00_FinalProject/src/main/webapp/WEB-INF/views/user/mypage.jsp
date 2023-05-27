@@ -4,36 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="loginUser" value="${sessionScope.LoginUser}"/>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
-<c:set var="dto" value="${content }"/>
-
-
-<style type="text/css">
-	
-	div {
-		border: 0;
-	}
-	
-	p {
-		font-size: .8em;	
-	}
-	
-	.text {
-		font-size: 1em;
-	}
-	
-	#mypage_wrap {
-		text-align: center;
-		padding-top: 60px;
-	}
-	
-	#previewImg {
-		width: 150px;
-		height: 150px;
-		border-radius: 50%;
-	}
-	
-</style>
-
+<c:set var="dto" value="${content }"/>	
 <!-- jQuery validation 플러그인 -->
 <!-- 간단한 클라이언트 측 양식 유효성 검사를 쉽게 할 수 있고 많은 사용자 정의 옵션을 정의할 수 있습니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
@@ -42,17 +13,12 @@
 	const loginType = '${loginUser.type}';
 </script>
 <div id="mypage_wrap">
-
 	<form id="mypageForm" action="${ctxPath }/user/mypageOk" method="post" enctype="multipart/form-data" novalidate>
-		
 		<input type="hidden" name="user_no" value="${loginUser.user_no}">
 		<input type="hidden" name="profile_type" id="profile_type" value="${loginUser.profile_type}">
 		<input type="hidden" name="phone" id="phone" value="${loginUser.phone}">
 		<input type="hidden" name="type" value="${loginUser.type }">
 		<input type="hidden" name="profile" id="profile_hidden" value="${loginUser.profile }">
-		
-		
-		
 		<div class="text_part">
 			<div class="profile_part">
 				<div class="profile">
@@ -95,17 +61,15 @@
 			<input type="password" name="pwd_check" id="check_pwd">
 			<button type="button" onclick="checkPwd()">비밀번호 확인</button>
 			<p class="pwd_checkError">&nbsp;</p>
+			
 			<p class="text">새 비밀번호</p>
 			<input type="password" id="pwd" name="pwd" class="noWhitespace">
 			<p class="pwdError">&nbsp;</p>
+			
 			<p class="text">새 비밀번호 확인</p>
 			<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
 			<p class="pwd_reError">&nbsp;</p>
-			
 		</div>
-		
-		<button type="submit" id="submitBtn">가입하기</button>
-		
+		<button type="submit" id="submitBtn">수정하기</button>
 	</form>
-	
 </div>

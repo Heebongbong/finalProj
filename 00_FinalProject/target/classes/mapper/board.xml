@@ -119,9 +119,8 @@
     </select>
     
     <update id="board_update" parameterType="boardDTO">
-    	update community set hashtag = #{hashtag}, content = #{content},
-    	update = now(), photo_folder = #{phto_folder}
-		where cm_no = #{cm_no}    
+    	update community set hashtag = #{hashtag}, content = #{content}, update_time = now()
+		where cm_no = #{cm_no}
 	</update>
   
 </mapper>

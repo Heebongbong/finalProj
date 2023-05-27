@@ -3,6 +3,8 @@ package com.spring.finproj.model.camping;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.finproj.model.board.BoardDTO;
+
 public interface CampingDAO {
 	public int insertCampingList(List<CampingDTO> list);
 	//CRUD
@@ -16,4 +18,6 @@ public interface CampingDAO {
 	public List<CampingDTO> getCampingRandomList();
 	public List<CampingDTO> getCampingLocList(Map<String, String> map);
 	public List<CampingDTO> getCampingAddList(Map<String, String> map);
+	public List<BoardDTO> getCampingReviewList(int content_id);
+	public List<BoardDTO> getCampingReviewList(Map<String, Integer> keyList);
 }

@@ -26,4 +26,7 @@ public interface UserDAO {
 	public UserSessionDTO getUserSession(String sessionID);
 	public void updateUserSession(UserSessionDTO se_dto);
 	public String getEmailCheck(String email);
+	public String checkTypeAndPhone(String phone); // return user_no
+	public int deleteUser(int user_no);
+	public int deleteUserProfile(int user_no);
 }

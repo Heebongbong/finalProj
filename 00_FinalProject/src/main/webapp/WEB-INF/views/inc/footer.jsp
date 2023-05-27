@@ -6,7 +6,6 @@
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <c:set value="${ChatRoomList }" var="chatRoomList"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
-<script>const loginUser = '${loginUser }';</script>
 <div id="footer">
 	<ul class="move_navi">
 		<li class="navi_camping"><a href="${ctxPath }/camping/camping"><img alt="" src="${ctxPath }/resources/images/logo/tent.png"></a></li>
@@ -16,9 +15,7 @@
 		<li><a href="${ctxPath }/market/list">중고거래</a></li>
 	</ul>
 </div>
-
-<div class="chat_open" onclick="open_chat()"><i class="fa fa-commenting" aria-hidden="true"></i></div>
-		
+<div class="chat_open" onclick="open_chat()"><i class="fa fa-commenting" aria-hidden="true"></i></div>	
 <div class="chat_wrap">
 	<div class="chat_list">
 		<p class="chat_list_p"><a href="javascript:chat_admin()">Admin</a></p>

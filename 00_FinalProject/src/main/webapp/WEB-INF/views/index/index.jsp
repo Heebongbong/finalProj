@@ -8,10 +8,6 @@
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
-<script>
-	let loginUser_no = '${loginUser.user_no }';
-	let loginUser_profile = '${loginUser.profile }';
-</script>
 <div id="index_wrap">
 	<c:if test="${!empty campingList }">
 		<div class="index_camping_list slider-for">
@@ -49,7 +45,7 @@
 			</div>
 		</div>
 	</div>
-	
+	<!-- 슬릭 추가적용 -->
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".board_main_files").slick({

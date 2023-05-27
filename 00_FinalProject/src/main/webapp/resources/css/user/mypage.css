@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.text {
+	font-size: 1em;
+}
+
+#mypage_wrap {
+	text-align: center;
+	padding-top: 60px;
+}
+
+#previewImg {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+}
