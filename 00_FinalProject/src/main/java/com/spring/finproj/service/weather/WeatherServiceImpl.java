@@ -12,20 +12,16 @@ import java.util.StringTokenizer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.spring.finproj.model.weather.WeatherDAO;
 import com.spring.finproj.service.handler.WeatherAPI;
 
 @Service
 public class WeatherServiceImpl implements WeatherService{
-	@Autowired
-	private WeatherDAO weatherDAO;
 
 	@Override
-	public void getSatellite_aop(Model model) throws Exception {
+	public void getSatellite(Model model) throws Exception {
 		
 		LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -34,7 +30,7 @@ public class WeatherServiceImpl implements WeatherService{
 		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/SatlitImgInfoService/getInsightSatlit"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + URLEncoder.encode("phamApqtKDIobE2PYsYGQbaOjZ1ubeYuzGHHRypOTUlsk/vIKv7BlDfoboSoBl+SgdrQXDuV13Xr3a4InxJjdA==", "UTF-8")); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호 Default: 1*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*한 페이지 결과 수*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
         urlBuilder.append("&" + URLEncoder.encode("sat","UTF-8") + "=" + URLEncoder.encode("G2", "UTF-8")); /*위성구분 -G2: 천리안위성 2A호*/
         urlBuilder.append("&" + URLEncoder.encode("data","UTF-8") + "=" + URLEncoder.encode("ir105", "UTF-8")); /*영상구분 -적외영상(ir105) -가시영상(vi006) -수증기영상(wv069) -단파적외영상(sw038) -RGB 컬러(rgbt) -RGB 주야간합성(rgbdn)*/
@@ -66,13 +62,8 @@ public class WeatherServiceImpl implements WeatherService{
         StringTokenizer st = new StringTokenizer(str.substring(1, str.length()-1), ",");
         ArrayList<String> list = new ArrayList<String>();
         
-        int count = 0;
         while (st.hasMoreTokens()) {
-            String token = st.nextToken();
-            if (count >= 0 && count <= 9) {
-                list.add(token);
-            }
-            count++;
+        	list.add(st.nextToken());
         }
         
         model.addAttribute("list", list);
