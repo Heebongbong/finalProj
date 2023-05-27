@@ -38,6 +38,15 @@ public class MentionDAOImpl implements MentionDAO{
 		return this.sqlSession.insert("mention_delete", mention_no);
 	}
 
-	
+	@Override
+	public List<Integer> getMentionLikeList(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mention_like_list", user_no);
+	}
 
+	@Override
+	public int getMentionLikeCount(int mention_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mention_like_count", mention_no);
+	}
 }

@@ -17,6 +17,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -38,6 +39,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Map<String, Object> getBoardAddList(HttpServletRequest request, int cm_no,
 			String keyword, String category) throws Exception {
+		
 		Map<String, Object> boardTotal = new HashMap<String, Object>();
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
 		
@@ -62,7 +64,6 @@ public class BoardServiceImpl implements BoardService {
 					list = boardDAO.getBoardHashKeyList(hashList);
 				}else {
 					key = keyword+= category;
-					System.out.println(key);
 					list = boardDAO.getBoardList(key);
 				}
 			}
@@ -98,10 +99,33 @@ public class BoardServiceImpl implements BoardService {
 
 		for (BoardDTO d : list) {
 			d.setPhoto_files(request);
-
+			
+			d.setLikeCount(boardDAO.getBoardLikeCount(d.getCm_no()));
+			
+			//<cm_no, List<mention>> 댓글 맵리스트
 			List<MentionDTO> list2 = mentionDAO.getMentionList(d.getCm_no());
+			
+			for(MentionDTO m : list2) {
+				m.setLikeCount(mentionDAO.getMentionLikeCount(m.getMention_no()));
+			}
+			
 			mapList2.put(d.getCm_no(), list2);
+			
+			
 		}
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("LoginUser")!=null) {
+			int login_user_no = ((UserDTO)session.getAttribute("LoginUser")).getUser_no();
+			List<Integer> userLikeList = boardDAO.getBoardLikeList(login_user_no);
+			
+			boardTotal.put("LikeList", userLikeList);
+			
+			List<Integer> mentionLikeList = mentionDAO.getMentionLikeList(login_user_no);
+			
+			boardTotal.put("MentionLikeList", mentionLikeList);
+		}
+		
 
 		boardTotal.put("BoardList", list);
 		boardTotal.put("MentionList", mapList2);
@@ -188,6 +212,9 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteBoardCont(int cm_no, HttpServletRequest request) {
 		BoardDTO dto = boardDAO.getBoardContent(cm_no);
+		
+		//사진파일 삭제
+		
 		
 		int re = boardDAO.deleteBoardContent(cm_no);
 		if(re>0) {

@@ -101,4 +101,14 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board_recommand_delete", cm_no);
 	}
+	@Override
+	public List<Integer> getBoardLikeList(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board_like_cm_list", user_no);
+	}
+	@Override
+	public int getBoardLikeCount(int cm_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board_like_count", cm_no);
+	}
 }

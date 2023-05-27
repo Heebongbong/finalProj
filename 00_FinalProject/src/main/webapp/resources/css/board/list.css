@@ -125,6 +125,13 @@
 
 .board_main_text{
    height: 70px;
+   position: relative;
+}
+
+.board_like_wrap{
+	position: absolute;
+	right: 2px;
+	top: 2px;
 }
 
 .board_reply_cont_total{
@@ -140,6 +147,7 @@
    position: relative;
    justify-content: flex-start;
 }
+
 .board_reply_delete{
    position: absolute;
    right: 0px;

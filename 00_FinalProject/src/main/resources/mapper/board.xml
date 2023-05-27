@@ -122,5 +122,11 @@
     	update community set hashtag = #{hashtag}, content = #{content}, update_time = now()
 		where cm_no = #{cm_no}
 	</update>
-  
+  	<select id="board_like_cm_list" parameterType="int" resultType="int">
+  		select cm_no from recommand where user_no = #{user_no}
+  	</select>
+  	
+  	<select id="board_like_count" parameterType="int" resultType="int">
+  		select count(cm_no) from recommand where cm_no = #{cm_no}
+  	</select>
 </mapper>

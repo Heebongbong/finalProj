@@ -24,12 +24,14 @@ $(document).ready(function(){
 	  }
 	});
 	
+	//게시판 상세메뉴 모달창 닫기
 	$('body').on('click', function(event){
 		if($(event.target).parents('.detail_modal_overlay').length < 1&&event.target.className!='board_detail_btn'){
 			$('.detail_modal_overlay').hide();
 		}
 	});
 	
+	//유저프로필정보 닫기
 	$('body').on('click', function(event){
 		if($(event.target).parents('.user_modal_overlay').length < 1&&event.target.className!='board_user_prof_img'){
 			$('.user_modal_overlay').hide();
@@ -38,11 +40,18 @@ $(document).ready(function(){
 
 });
 
+// 게시판 상세메뉴 오픈
 function open_board_detail(self){
 	$(self).next().show();
 }
 
-function cm_declaration(cm_no, nickname){ //게시글 신고
+//유저프로필정보 오픈
+function open_user_modal(self){
+	$(self).parent().next().show();
+}
+
+//신고 모달창 오픈
+function cm_declaration(cm_no, nickname){ 
 	if(loginUser_no==''){
 		alert("로그인이 필요합니다.");
 	}else{
@@ -52,10 +61,12 @@ function cm_declaration(cm_no, nickname){ //게시글 신고
 	}
 }
 
+//신고 모달창 닫기
 function close_declaration(){
 	$('.declaration_modal_overlay').hide();
 }
 
+//신고하기 ajax
 function declaration(){
 	if(loginUser_no==''){
 		alert("로그인이 필요합니다.");
@@ -89,12 +100,13 @@ function declaration(){
 	}
 }
 
-
-function cm_modify(cm_no){ //게시글 수정
+//게시글 수정
+function cm_modify(cm_no){ 
 	location.href=ctxPath+"/board/update?cm_no="+cm_no;
 }
 
-function cm_delete(cm_no, user_no){ //게시글 삭제
+//게시글 삭제
+function cm_delete(cm_no, user_no){ 
 	if(user_no==loginUser_no){
 		location.href=ctxPath+'/board/delete?cm_no='+cm_no;
 	}else{
@@ -102,30 +114,25 @@ function cm_delete(cm_no, user_no){ //게시글 삭제
 	}
 }
 
+//키워드 url인코딩
+function replace_keyword(key){
+	key= key.replace(/\#/g,"%23");
+	return key;
+}
+
+//카테고리 클릭시 url 요청
 function move_search_cate(key){
 	let keyword = $('#search_keyword').val();
 	let category = key;
 	keyword = replace_keyword(keyword);
 	category= replace_keyword(category);
-	console.log(category);
 	location.href=ctxPath+"/board/list?keyword="+keyword+"&category="+category;
 }
 
+//전체댓글 오픈
 function open_ment_modal(self){
-	console.log($(self).siblings()+"111");
 	$(self).siblings().find('.board_reply_cont_show').hidden();
 	$(self).siblings().find('.board_reply_cont_total').show();
-}
-
-
-//board_detail manage
-function open_board_detail(self){
-	$(self).next().show();
-}
-
-//user_modal manage
-function open_user_modal(self){
-	$(self).parent().next().show();
 }
 
 function addMention(no){
@@ -227,6 +234,8 @@ function addList(){
         success: function(data) {
           let boardList = data.BoardList;
           let mentionList = data.MentionList;
+		  let likeList = data.LikeList;
+		  let mentionLikeList = data.MentionLikeList;
 		  
           let table = "";
           
@@ -236,6 +245,9 @@ function addList(){
             let mention = mentionList[no];
             let files = board.photo_files;
             let folders = board.photo_folder;
+
+			console.log(likeList.find(element => element == no));
+
 			table += "<div class='board_content'>" +
 				"<input class='board_no' type='hidden' value='"+no+"'>" +
 
@@ -304,16 +316,48 @@ function addList(){
 
                 "<div class='board_main_cont'>" +
 
-               		"<div class='board_main_text'>'" + board.content + "'</div>" +
-                
-					   "<div class='"+no+"board_reply_wrap'>";
+               		"<div class='board_main_text'>" + board.content +
+						"<div class='board_like_wrap'>" +
+							"<a href='javascript:click_like_board(\""+no+"\")'>";
+
+							
+							// 유저에 따른 좋아요 등록 여부
+							if(loginUser_no != ''){
+								if(likeList.find(element => element == no)!=null){
+									table += "<i class='fa fa-heart' aria-hidden='true'></i>";
+								}else{
+									table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+								}
+							}else{
+								table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+							}
+							
+					table += "</a>" + board.likeCount + 
+						"</div>" +
+					"</div>" +
+					"<div class='"+no+"board_reply_wrap'>";
 
 					//댓글 목록 - 보여지는 최대 3개
 					table += "<div class='board_reply_cont_show'>";
 					//<!-- 댓글이 목록이 들어가는 곳 -->
 					for(let j = 0; j < ((mention.length>3) ? 3 : mention.length); j++) {
-						table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-									"<div class='board_reply_ment'>"+mention[j].ment+"</div>";
+						table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'>"+
+										"<div class='board_reply_user'>"+mention[j].nickname+"</div>"+
+										"<div class='board_reply_ment'>"+mention[j].ment+
+											
+											//댓글 좋아요 버튼
+											"<a class='mention_like_wrap' href='javascript:'>";
+											if(loginUser_no != ''){
+												if(mentionLikeList.find(element => element == no)!=null){
+													table += "<i class='fa fa-heart' aria-hidden='true'></i>";
+												}else{
+													table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+												}
+											}else{
+												table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+											}
+										table += "</a>" + mention[j].likeCount +
+										"</div>";
 								if(mention[j].user_no==loginUser_no){
 									table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
 								}
@@ -339,7 +383,7 @@ function addList(){
 
 					//<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
 						table += "<div class='board_reply_write'>";
-								if(loginUser_no!=""){
+								if(loginUser!=''){
 									table += "<div class='reply_write_user'>"+
 												"<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
 											"</div>"+

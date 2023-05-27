@@ -28,4 +28,11 @@
     <delete id="mention_delete" parameterType="int">
 		delete from mention where mention_no = #{mention_no}
     </delete>
+    
+    <select id="mention_like_list" parameterType="int" resultType="int">
+    	select mention_no from re_mention where user_no = #{user_no}
+    </select>
+    <select id="mention_like_count" parameterType="int" resultType="int">
+    	select count(mention_no) from re_mention where mention_no = #{mention_no}
+    </select>
 </mapper>

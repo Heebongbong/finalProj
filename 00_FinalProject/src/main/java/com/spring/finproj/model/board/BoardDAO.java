@@ -24,5 +24,7 @@ public interface BoardDAO {
 	public List<BoardDTO> getBoardHashKeyMap(Map<String, Object> map);
 	public int insertDeclaration(Map<String, String> decla);
 	public int checkDeclaration(Map<String, String> decla);
+	public List<Integer> getBoardLikeList(int user_no);
+	public int getBoardLikeCount(int cm_no);
 	
 }
