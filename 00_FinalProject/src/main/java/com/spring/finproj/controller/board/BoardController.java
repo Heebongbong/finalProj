@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -137,4 +138,20 @@ public class BoardController {
     		return "<script>alert('게시글 삭제 실패');history.back();</script>";
     	}
     }
+    
+    @RequestMapping("/like/manage")
+    @ResponseBody
+    public int boardLikeManage(int check, int cm_no, HttpSession session) {
+		int re = boardService.manageBoardLike(check, cm_no, session);
+    	return re;
+    }
+    
+    @RequestMapping("/like/mention/manage")
+    @ResponseBody
+    public int boardLikeMentionManage(int check, int mention_no, HttpSession session) {
+    	int re = boardService.manageMentionLike(check, mention_no, session);
+    	return re;
+    }
+    
+    
 }

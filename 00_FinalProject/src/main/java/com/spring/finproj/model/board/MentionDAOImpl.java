@@ -1,6 +1,7 @@
 package com.spring.finproj.model.board;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,27 @@ public class MentionDAOImpl implements MentionDAO{
 		return this.sqlSession.insert("mention_delete", mention_no);
 	}
 
-	
+	@Override
+	public List<Integer> getMentionLikeList(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mention_like_list", user_no);
+	}
 
+	@Override
+	public int getMentionLikeCount(int mention_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mention_like_count", mention_no);
+	}
+
+	@Override
+	public int deleteMentionLike(Map<String, Integer> keyMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("mention_like_delete", keyMap);
+	}
+
+	@Override
+	public int insertMentionLike(Map<String, Integer> keyMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("mention_like_insert", keyMap);
+	}
 }
