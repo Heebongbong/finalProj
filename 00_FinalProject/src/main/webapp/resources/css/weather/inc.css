@@ -4,3 +4,14 @@
 	display: flex;
 	justify-content: flex-start;
 }
+
+
+body {
+	margin: 0;
+  	display: flex;
+  	justify-content: center;
+}
+#now_wrap {
+	display: flex;
+	justify-content: center;
+}
