@@ -5,34 +5,6 @@
 <c:set var="loginUser" value="${sessionScope.LoginUser}"/>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set var="dto" value="${content }"/>
-
-
-<style type="text/css">
-	
-	div {
-		border: 0;
-	}
-	
-	p {
-		font-size: .8em;	
-	}
-	
-	.text {
-		font-size: 1em;
-	}
-	
-	#mypage_wrap {
-		text-align: center;
-		padding-top: 60px;
-	}
-	
-	#previewImg {
-		width: 150px;
-		height: 150px;
-		border-radius: 50%;
-	}
-	
-</style>
 <!-- jQuery validation 플러그인 -->
 <!-- 간단한 클라이언트 측 양식 유효성 검사를 쉽게 할 수 있고 많은 사용자 정의 옵션을 정의할 수 있습니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
@@ -41,11 +13,8 @@
 	const loginType = '${loginUser.type}';
 	const loginEmail = '${loginUser.email}';
 </script>
-
 <div id="mypage_wrap">
-
 	<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data" novalidate>
-		
 		<div class="text_part">
 			<p class="text">이메일</p>
 			<input name="email" class="noWhitespace">
@@ -58,15 +27,19 @@
 			<p class="text">비밀번호</p>
 			<input type="password" id="pwd" name="pwd" class="noWhitespace">
 			<p class="pwdError">&nbsp;</p>
+			
 			<p class="text">비밀번호 확인</p>
 			<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
 			<p class="pwd_reError">&nbsp;</p>
 			
 			<div class="profile_part">
 				<p>프로필 사진 (선택)</p>
-				<div class="profile"><img id="previewImg" src="../resources/images/profile/default/default_profile.png"/></div>
-				<div><input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)"></div>
-				
+				<div class="profile">
+					<img id="previewImg" src="../resources/images/profile/default/default_profile.png"/>
+				</div>
+				<div>
+					<input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
+				</div>
 				<p class="text">전화번호(선택)</p>
 				<input name="phone" class="noWhitespace" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)">
 				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
@@ -76,9 +49,6 @@
 				<p class="codeError">&nbsp;</p>
 			</div>
 		</div>
-		
 		<button type="submit">가입하기</button>
-		
 	</form>
-	
 </div>

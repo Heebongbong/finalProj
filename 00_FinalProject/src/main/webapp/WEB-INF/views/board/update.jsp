@@ -5,54 +5,6 @@
 <c:set var="dto" value="${Map.get('BoardDTO') }"/>
 <c:set var="hash" value="${Map.get('HashMap') }"/>
 <c:set var="files" value="${Map.get('Files') }"/>
-<style>
-.upload_photo_file {
-  width: 300px;
-  height: auto;
-  text-align: center; /* 이미지를 가운데 정렬합니다 */
-  padding: 10px; /* 여백을 추가합니다 */
-}
-
-.upload_photo_file img {
-  max-width: 100%; /* 이미지가 div의 크기를 넘지 않도록 설정합니다 */
-  max-height: 100%; /* 이미지가 div의 크기를 넘지 않도록 설정합니다 */
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 15px; /* 열 사이의 간격 조정을 위한 마진 설정 */
-}
-
-
-.row::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.col {
-  float: left;
-  box-sizing: border-box;
-}
-
-/* 예를 들어, 3개의 열을 가지는 경우 */
-.col-4 {
-  width: 33.33%;
-}
-
-/* 예를 들어, 2개의 열을 가지는 경우 */
-.col-6 {
-  width: 50%;
-}
-
-/* 예를 들어, 1개의 열을 가지는 경우 */
-.col-12 {
-  width: 100%;
-}
-
-</style>
-
 <div class="board_wrap">
 	<h2>게시글 작성</h2>
 	 <form onsubmit="return check()" id="updateform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/updateform">

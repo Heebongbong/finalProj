@@ -13,9 +13,8 @@
 		}
 	});
 	
-	let socket = null;
+	const socket = null;
 	const faqList = null;
-	
  });
  
  
@@ -58,13 +57,50 @@ function loginWithGoogle() {
 	+"&redirect_uri="+reUrl+"finproj/login/google&response_type=code&scope=email%20profile%20openid &access_type=offline"
 }
 
+//chat window manage
+function open_room_out(self){
+	console.log($(self).children("button"));
+	$(self).children("button").show();
+	setTimeout(function(){
+		$(self).children("button").hide();
+	}, 3000);
+}
+
+function chat_room_out(room_no, self){
+	if(confirm('채팅방을 나가시겠습니까.')){
+		$.ajax({
+			type: "get",
+			url: ctxPath+"/chat/room/out",
+			data: {
+				chat_room_no: room_no,
+			},
+			dataType : "text",
+			async:false,
+			success: function(data){
+				console.log(data);
+				if(data>0){
+					$(self).parent().remove();
+				}else{
+					alert('채팅방 퇴장 중 오류');
+				}
+			},
+			error: function(){
+				alert('채팅방 퇴장 중 오류');
+			}
+		});
+	}
+}
+
+
 
 //chating js
 function open_chat(){
 	if(loginUser==''){
 		alert('로그인이 필요합니다.');
+		return false;
 	}else{
 		$('.chat_wrap').css('display', 'flex');
+		return true;
 	}
 }
 
@@ -74,6 +110,34 @@ function close_chat(){
 	$('.chat_cont').html("");
 	$('.chat_msg').val("");
 	socket.onclose();
+}
+
+function chat_board(no){
+	if(open_chat()){
+		console.log(123123);
+		$.ajax({
+			type: "get",
+			url: ctxPath+"/chat/board",
+			data: {
+				user_no: no,
+			},
+			dataType : "text",
+			async:false,
+			success: function(data){
+				console.log(data);
+				if(data==0){
+					alert('채팅방 등록 중 오류');
+				}else{
+					let table = "<p><a href='javascript:chat_start("+no+")'>"+data+"</a></p>";
+					$('.chat_list').append(table);
+					chat_start(no);
+				}
+			},
+			error: function(){
+				alert('채팅상대 검색 중 오류');
+			}
+		});
+	};
 }
 
 function chat_start(no){
@@ -89,19 +153,22 @@ function chat_start(no){
 		contentType : "application/json; charset=UTF-8;",
 		async:false,
 		success: function(data){
+			console.log(data);
+			let table = "";
+
 			$(data).each(function(){
-				let table = "";
-				
 				if(this.send_user == no){
-					table = "<p style='width:100%;' class='chat_sendU'>"+this.nickname+" : "+this.chat_cont+"</p>";
+					table += "<p style='width:100%;' class='chat_sendU'>"+this.nickname+" : "+this.chat_cont+"</p>";
 					
 				}else{
-					table = "<p style='width:100%;' class='chat_loginU'>"+this.chat_cont+"</p>"
+					table += "<p style='width:100%;' class='chat_loginU'>"+this.chat_cont+"</p>"
 				}
-				$('#chat_receipt').val(no);
-				$('.chat_cont').append(table);
-				$('.chat_send').attr('onclick', 'send_chat('+data[0].chat_room_no+')');
+				
 			});
+			console.log($('.chat_send'));
+			$('#chat_receipt').val(no);
+			$('.chat_cont').append(table);
+			$('.chat_send').attr('onclick', 'send_chat('+data[0].chat_room_no+')');
 
 			connect_chat();
 		},
@@ -126,9 +193,9 @@ function connect_chat() {
 	ws.onmessage = function (event) {
 		let sm = event.data;
 		let sl = sm.split(',');
-		/* $("#writer").text("보내는 이 : " + sl[0]);
-		$("#receiver").text("받는 이 : " + sl[1]);
-		$("#content").text("내용: " + sl[2]); */
+		/* "보내는 이 : " + sl[0]);
+		"받는 이 : " + sl[1]);
+		"내용: " + sl[2]); */
 		
 		let table = "<p style='width:100%;' class='chat_sendU'>"+sl[0]+" : "+sl[2]+"</p>";
 		$('.chat_cont').append(table);
@@ -153,29 +220,6 @@ function send_chat(room_no){
 	socket.send(room_no+"," + receiveId + "," + msg);
 	$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
 	$('.chat_msg').val("");
-}
-
-function chat_board(no){
-	open_chat();
-	$.ajax({
-		type: "get",
-		url: ctxPath+"/chat/board",
-		data: {
-			user_no: no,
-		},
-		dataType : "text",
-		async:false,
-		success: function(data){
-			if(data>0){
-				chat_start(no);
-			}else{
-				alert('채팅방 등록 중 오류');
-			}
-		},
-		error: function(){
-			alert('채팅상대 검색 중 오류');
-		}
-	});
 }
 
 function chat_admin(){

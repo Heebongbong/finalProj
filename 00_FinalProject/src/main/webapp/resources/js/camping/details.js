@@ -2,61 +2,61 @@
  * 
  */
  
- 
 $(document).ready(function(){
+	
+	//네이버 지도 생성 및 관리
+	let mapOptions = {
+	    center: new naver.maps.LatLng(campingY,campingX),
+	    zoom: 15
+	};
+	
+	let map = new naver.maps.Map('map', mapOptions);
+	
+	let marker = new naver.maps.Marker({
+	    title: campName,
+		position: new naver.maps.LatLng(campingY, campingX),
+	    map: map
+	});
+	
+	let infoWindow = new naver.maps.InfoWindow({
+		content: "<div style='width: 200px;test-align:center;padding:10px;'><b>"+campName+"</b><br><font>"+campLineIntro+"</font></div>"
+	});
+	
+	naver.maps.Event.addListener(marker, 'click', getClickHandler());
 
+	//캠핑장 리뷰 리스트 추가
 	campingReviewList();
 
-    $('body').on("mousewheel", function(event) {
-        if (($(window).scrollTop() + $(window).innerHeight()) >= $(document).height() - 1) {
-          if (event.originalEvent.deltaY > 0) {
-            campingReviewList();
-          }
-        }
-      });
+	$('body').on("mousewheel", function(event) {
+		if (($(window).scrollTop() + $(window).innerHeight()) >= $(document).height() - 1) {
+			if (event.originalEvent.deltaY > 0) {
+				campingReviewList();
+			}
+		}
+	});
 	
-
+	$(".board_main_files").not('.slick-initialized').slick({
+		dots: true,
+		infinite: true,
+		speed: 1000,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		adaptiveHeight: true,
+		arrows: false,
+		draggable: true
+	});
+	
 });
 
-// function campingReviewList(){
-    
-//     $.ajax({
-// 		type: "get",
-// 		url: ctxPath+"/camping/review",
-// 		data: {
-// 			content_id: $('#hidden_content_id').val()
-// 		},
-// 		dataType : "json",
-// 		contentType : "application/json; charset=UTF-8;",
-// 		async:false,
-// 		success: function(data){
-// 			let table = "";
-			
-// 			for (let i = 0; i < data.length; i++) {
-// 				let content = data[i];
-
-// 			   table += "<div class='camping_review_info'>"+
-// 							"<p>게시글번호:"+content.cm_no+"</p>"+
-// 							"<p>유저번호: "+content.user_no+"</p>"+
-// 							"<p>댓글내용 : "+content.content+"</p>";
-// 							if(content.update != null) {
-// 								table += "<p>날짜 : "+content.update+"</p>";
-// 							}else {
-// 								table += "<p>날짜 : "+content.date+"</p>";
-// 							}
-// 							table += "<p>해시태그 : "+content.hashtag+"</p>"+
-// 							"<p>포토 : "+content.photo_folder+"</p>";
-// 						"</div>";
-							
-// 			}
-// 			$('.camping_review_wrap').append(table);	
-// 		},
-// 		error: function(){
-// 			alert('게시물 로딩 중 오류');
-// 		}
-// 	});
-// }
-
+function getClickHandler() {
+	return function(e) {
+		if(infoWindow.getMap()){
+			infoWindow.close();
+		}else{
+			infoWindow.open(map, marker);
+		}
+	}
+}
 
 function campingReviewList(){
 	let cm_no = $('.board_no:last').val();
@@ -114,6 +114,7 @@ function campingReviewList(){
                     //게시글 본문
                     "<div class='board_main_wrap'>" +
                         "<div class='board_main_photo'>" +
+                        	//게시글 사진 , 슬릭 적용되는 곳
                             "<div class='board_main_files'>";
                                     if(files.length==0){
                                         table += "<div class='board_file_slick'><img src='/finproj/resources/images/board/default/default.jpg'></div>";

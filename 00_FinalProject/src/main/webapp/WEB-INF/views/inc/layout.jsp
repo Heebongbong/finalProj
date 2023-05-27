@@ -13,6 +13,7 @@
 <script src="https://kit.fontawesome.com/e6bfca85af.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	const ctxPath = '${ctxPath }';
+	const loginUser = '${loginUser }';
 	const loginUser_no = '${loginUser.user_no }';
 	const loginUser_profile = '${loginUser.profile }';
 </script>

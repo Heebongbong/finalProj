@@ -29,12 +29,18 @@ $(document).ready(function(){
 			$('.detail_modal_overlay').hide();
 		}
 	});
+	
+	$('body').on('click', function(event){
+		if($(event.target).parents('.user_modal_overlay').length < 1&&event.target.className!='board_user_prof_img'){
+			$('.user_modal_overlay').hide();
+		}
+	});
+
 });
 
 function open_board_detail(self){
 	$(self).next().show();
 }
-
 
 function cm_declaration(cm_no, nickname){ //게시글 신고
 	if(loginUser_no==''){
@@ -109,6 +115,17 @@ function open_ment_modal(self){
 	console.log($(self).siblings()+"111");
 	$(self).siblings().find('.board_reply_cont_show').hidden();
 	$(self).siblings().find('.board_reply_cont_total').show();
+}
+
+
+//board_detail manage
+function open_board_detail(self){
+	$(self).next().show();
+}
+
+//user_modal manage
+function open_user_modal(self){
+	$(self).parent().next().show();
 }
 
 function addMention(no){
@@ -225,9 +242,34 @@ function addList(){
 				//게시글 헤더
 				"<div class='board_user_wrap'>" +
 					"<div class='board_user_prof'>" +
-						"<img src='"+ board.profile +"'>" +
+						"<img src='"+ board.profile +"' class='board_user_prof_img' onclick='open_user_modal(this)'>" +
 						"<span>'"+ board.nickname +"'</span>" +
 					"</div>" +
+
+					//유저 프로필 모달창
+					"<div class='user_modal_overlay'>" +
+						"<div class='user_modal_window'>" +
+							"<div class='user_modal_title'>" +
+								"<img src='"+ board.profile +"'>" +
+								"<div>"+board.nickname+"</div>" ;
+								if(board.type=='S'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/logo.png'>";
+								}else if(board.type=='G'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/google_logo.png'>";
+								}else if(board.type=='N'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/naver_logo.jpg'>";
+								}else if(board.type=='K'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/kakao_logo.png'>";
+								}
+						table += "</div>" +
+							"<div class='user_modal_body'>" +
+								"<a href='javascript:chat_board("+board.user_no+")'>유저와 채팅하기</a>" +
+								"<a href=''>유저 게시글 보기</a>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+
+					//게시글 상세메뉴 버튼
 					"<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
 						"<a class='board_detail_btn' href='javascript:'>***</a>" +
 					"</div>" +

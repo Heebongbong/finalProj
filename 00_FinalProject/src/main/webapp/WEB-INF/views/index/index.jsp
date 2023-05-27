@@ -45,7 +45,7 @@
 			</div>
 		</div>
 	</div>
-	
+	<!-- 슬릭 추가적용 -->
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".board_main_files").slick({

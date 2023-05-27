@@ -15,9 +15,6 @@ $(document).ready(function(){
 
 });
 
-
-
-
 function campingAddList(){
 	console.log($('.content_id:last').val());
     console.log($('#hidden_keyword').val());
@@ -48,7 +45,7 @@ function campingAddList(){
 									"<img src='"+content.firstImageUrl+"' alt='캠핑장 대표 이미지' class='camping_image'>"+
 								"</div>"+
 								"<div class='camping_list_info'>"+
-									"<p>이름:<a href='"+ctxPath +"/camping/details?content_id="+content.facltNm+"'>"+content.facltNm+"</a> </p>"+
+									"<p>이름:<a href='"+ctxPath +"/camping/details?content_id="+content.content_id+"'>"+content.facltNm+"</a> </p>"+
 									"<p>소개:"+content.LineIntro+"</p>"+
 									"<p>홈페이지: <a href='"+content.homepage+"' target='_blank'>"+content.homepage+"</a></p>"+
 									"<p>시설 : "+content.induty+"</p>"+

@@ -5,18 +5,25 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set var="dto" value="${Content }" />
+<script type="text/javascript">
+	const campName = '${dto.getFacltNm() }';
+	const campLineIntro = '${dto.getLineIntro() }';
+	const campingX = '${dto.getMapX() }';
+	const campingY = '${dto.getMapY() }';
+</script>
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4sqz6l4y8y&submodules=geocoder"></script>
+<link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
+<link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
+<script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
 <div id="map_wrap">
-
 <input type="hidden" value="${dto.getContent_id() }" id="hidden_content_id">
-
 	<div id="camping_details_wrap">
 		<div id="camping_details_img">
 			<div id="map" style="width:400px; height: 50%;"></div>
 			<img alt="" src="${dto.getFirstImageUrl() }" width="400px" height="50%">
 		</div>
 		<div id="camping_details">
-			<table border="1" cellspacing="1" >
+			<table>
 				<tr>
 					<th>이름</th>
 					<td>${dto.getFacltNm() }</td>
@@ -41,9 +48,6 @@
 					<th>소개</th>
 					<td>${dto.getIntro() }</td>
 				</tr>
-				
-				
-				
 				<tr>
 					<th>소개</th>
 					<td>${dto.getLineIntro() }</td>
@@ -60,9 +64,6 @@
 					<th>경도</th>
 					<td>${dto.getMapX() }</td>
 				</tr>
-				
-				
-				
 				<tr>
 					<th>특징</th>
 					<td>${dto.getFeatureNm() }</td>
@@ -108,7 +109,6 @@
 					<th>테마환경</th>
 					<td>${dto.getThemaEnvrnCl() }</td>
 				</tr>
-				
 				<tr>
 					<c:if test="${dto.getAnimalCmgCl() == 0 }">
 						<th>애견동반</th>
@@ -119,8 +119,6 @@
 		        		<td>O</td>
 		        	</c:if>
         		</tr>
-        		
-        		
         		<tr>
 					<th>아이디</th>
 					<td>${dto.getContent_id() }</td>
@@ -128,44 +126,5 @@
 			</table>
 		</div>
 	</div>
-	
 	<div class="camping_review_wrap"></div>
 </div>
-
-<script type="text/javascript">
-
-$(document).ready(function(){
-	let mapOptions = {
-	    center: new naver.maps.LatLng(${dto.getMapY() },${dto.getMapX() }),
-	    zoom: 15
-	};
-	
-	
-	let map = new naver.maps.Map('map', mapOptions);
-	
-	
-	let marker = new naver.maps.Marker({
-	    title: "${dto.getFacltNm() }",
-		position: new naver.maps.LatLng(${dto.getMapY() }, ${dto.getMapX() }),
-	    map: map
-	});
-	
-	let infoWindow = new naver.maps.InfoWindow({
-		content: "<div style='width: 200px;test-align:center;padding:10px;'><b>${dto.getFacltNm() }</b><br><font>${dto.getLineIntro() }</font></div>"
-	});
-	
-	function getClickHandler() {
-		return function(e) {
-			if(infoWindow.getMap()){
-				infoWindow.close();
-			}else{
-				infoWindow.open(map, marker);
-			}
-		}
-	}
-	
-	naver.maps.Event.addListener(marker, 'click', getClickHandler());
-	
-});
-		
-</script>
