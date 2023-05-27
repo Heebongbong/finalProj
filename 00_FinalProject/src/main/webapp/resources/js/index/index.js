@@ -24,7 +24,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-
+	
 	$('body').on('click', function(event){
 		if($(event.target).parents('.detail_modal_overlay').length < 1&&event.target.className!='board_detail_btn'){
 			$('.detail_modal_overlay').hide();
@@ -84,10 +84,6 @@ function declaration(){
 	}
 }
 
-
-
-
-
 function cm_modify(cm_no){ //게시글 수정
 	location.href=ctxPath+"/board/update?cm_no="+cm_no;
 }
@@ -99,8 +95,6 @@ function cm_delete(cm_no, user_no){ //게시글 삭제
 		alert('본인의 게시글만 삭제 가능합니다.');
 	}
 }
-
-
 
 function boardAddList(){
 	let cm_no = $('.board_no:last').val();

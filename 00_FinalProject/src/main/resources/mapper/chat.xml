@@ -30,8 +30,18 @@
 	<select id="faq_list" resultType="faqDTO">
 		select * from faq a join faq_category b on a.faq_cate_no = b.faq_cate_no
 	</select>
+	
+	<select id="chat_room_content" parameterType="chatDTO" resultType="chatDTO">
+		select * from chat_room where (user_no1 = #{user_no1} or user_no2 = #{user_no1})
+		and (user_no1 = #{user_no2} or user_no2 = #{user_no2})
+	</select>
+	<delete id="chat_room_delete" parameterType="int">
+		delete from chat_room where chat_room_no = #{chat_room_no}
+	</delete>
+	<delete id="chat_list_delete" parameterType="int">
+		delete from chat where chat_room_no = #{chat_room_no}
+	</delete>
+	<select id="chat_room_get_cont" parameterType="int" resultType="chatDTO">
+		select * from chat_room where chat_room_no = #{chat_room_no}
+	</select>
 </mapper>
-
-
-
-

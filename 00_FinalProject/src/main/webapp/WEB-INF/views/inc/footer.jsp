@@ -21,13 +21,19 @@
 		
 <div class="chat_wrap">
 	<div class="chat_list">
-		<p><a href="javascript:chat_admin()">Admin</a></p>
+		<p class="chat_list_p"><a href="javascript:chat_admin()">Admin</a></p>
 		<c:forEach items="${chatRoomList }" var="room">
 		<c:if test="${room.user_no1 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
-			<p><a href="javascript:chat_start(${room.user_no2 })">${room.nickname }</a></p>
+			<p class="chat_list_p" onmouseover="open_room_out(this)">
+				<a href="javascript:chat_start(${room.user_no2 })">${room.nickname }</a>
+				<button onclick="chat_room_out(${room.chat_room_no})" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+			</p>
 		</c:if>
 		<c:if test="${room.user_no2 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
-			<p><a href="javascript:chat_start(${room.user_no1 })">${room.nickname }</a></p>
+			<p class="chat_list_p" onmouseover="open_room_out(this)">
+				<a href="javascript:chat_start(${room.user_no1 })">${room.nickname }</a>
+				<button onclick="chat_room_out(${room.chat_room_no}, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+			</p>
 		</c:if>
 		</c:forEach>
 	</div>
@@ -36,9 +42,8 @@
 			<h2>채팅 창</h2>
 			<span class="chat_close" onclick="close_chat()">x</span>
 		</div>
-			
-		
 		<div class="chat_cont">
+			
 		</div>
 		
 		<div class="chat_btn">
