@@ -43,6 +43,8 @@
            </script>
            <div>
            	<input type="hidden" name="cm_no" value="${dto.getCm_no() }">
+           	<input type="hidden" name="type" value="${dto.getType() }">
+           	<input type="hidden" name="email" value="${dto.getEmail() }">
            	<button type="submit" class="btn btn-primary">글작성</button>
            	<button type="reset" class="btn btn-warning">초기화</button>
            </div>

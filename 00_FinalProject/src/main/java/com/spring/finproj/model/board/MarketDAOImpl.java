@@ -59,10 +59,28 @@ public class MarketDAOImpl implements MarketDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.insert("market_insert_market", dto);
 	}
+	
+	@Override
+	public int updateBoardContent(BoardDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("market_update_board", dto);
+	}
+
+	@Override
+	public int updateMarketContent(BoardDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("market_update_market", dto);
+	}
 
 	@Override
 	public int getCmMax() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("market_cmno_max");
+	}
+
+	@Override
+	public BoardDTO getMarketContent(int cm_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("market_content", cm_no);
 	}
 }
