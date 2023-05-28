@@ -178,9 +178,6 @@ public class CampingServiceImpl implements CampingService{
 		}
 		
 		
-
-		
-		
 		fin_List.put("BoardList", reviewList);
 		fin_List.put("MentionList", m_map);
 		

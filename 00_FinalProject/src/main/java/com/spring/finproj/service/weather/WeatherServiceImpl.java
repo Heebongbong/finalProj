@@ -1,6 +1,7 @@
 package com.spring.finproj.service.weather;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -8,6 +9,8 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.json.JSONArray;
@@ -81,7 +84,50 @@ public class WeatherServiceImpl implements WeatherService{
         System.out.println("현재실황: "+sb1);
         System.out.println("날씨예보: "+sb2);
         
-        model.addAttribute("str", sb1);
-        model.addAttribute("str2", sb2);
+        JSONObject jo = new JSONObject(sb1);
+        JSONArray ja = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
+        String baseTime = ja.getJSONObject(0).getString("baseTime");
+        
+        ArrayList<String> nowCategory = new ArrayList<String>();
+        ArrayList<Double> nowObsrValue = new ArrayList<Double>();
+        
+        for(int i=0; i<ja.length(); i++) {
+        	nowCategory.add(ja.getJSONObject(i).getString("category"));
+        	nowObsrValue.add(ja.getJSONObject(i).getDouble("obsrValue"));
+        }
+        
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("bastime", baseTime);
+        map.put("category", nowCategory);
+        map.put("obsrValue", nowObsrValue);
+
+        
+        
+        
+        JSONObject jo2 = new JSONObject(sb2);
+        JSONArray ja2 = jo2.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
+        //String fcstTime = ja2.getJSONObject(0).getString("fcstTime");
+        
+        ArrayList<String> fcstTime = new ArrayList<String>();
+        ArrayList<String> fcstCategory = new ArrayList<String>();
+        ArrayList<Object> fcstValue = new ArrayList<Object>();
+        
+        for(int i=0; i<ja2.length(); i++) {
+        	fcstTime.add(ja2.getJSONObject(i).getString("fcstTime"));
+        	fcstCategory.add(ja2.getJSONObject(i).getString("category"));
+        	fcstValue.add((Object)ja2.getJSONObject(i).get("fcstValue"));
+        	
+        	System.out.println("리슽:"+fcstCategory);
+        }
+        
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("fcstTime", fcstTime);
+        map2.put("fcstCategory", fcstCategory);
+        map2.put("fcstValue", fcstValue);
+        
+        
+        
+        model.addAttribute("str", map);
+        model.addAttribute("str2", map2);
 	}
 }
