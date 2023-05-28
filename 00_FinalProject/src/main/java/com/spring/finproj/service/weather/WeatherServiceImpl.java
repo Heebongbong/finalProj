@@ -1,7 +1,6 @@
 package com.spring.finproj.service.weather;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -57,7 +56,7 @@ public class WeatherServiceImpl implements WeatherService{
         }
         rd.close();
         conn.disconnect();
-        
+        System.out.println(sb.toString());
         JSONObject jo = new JSONObject(sb.toString());
         JSONArray ja = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
         String str = (String) ja.getJSONObject(0).get("satImgC-file");
