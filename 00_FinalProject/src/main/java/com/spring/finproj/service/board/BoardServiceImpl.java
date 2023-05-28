@@ -3,7 +3,6 @@ package com.spring.finproj.service.board;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -140,8 +138,6 @@ public class BoardServiceImpl implements BoardService {
 
 		String hashtag = boardDTO.getHashtag();
 		
-		System.out.println(hashtag);
-
 		boardDTO.setHashtag(hashtag);
 		boardDTO.setUser_no(boardDTO.getUser_no());
 
@@ -182,7 +178,7 @@ public class BoardServiceImpl implements BoardService {
 				if (!originalFileName.isEmpty()) {
 					String saveFileName = UUID.randomUUID().toString()
 							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-					mfile.transferTo(new File(folder, saveFileName));
+					mfile.transferTo(new File(folder2, saveFileName));
 				}
 			}
 			boardDTO.setPhoto_folder(boardFolder);
@@ -210,18 +206,62 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int deleteBoardCont(int cm_no, HttpServletRequest request) {
+	public int deleteBoardCont(int cm_no, HttpServletRequest request) throws Exception {
 		BoardDTO dto = boardDAO.getBoardContent(cm_no);
 		
 		//사진파일 삭제
-		
+		if(dto.getPhoto_folder()!=null) {
+			dto.setPhoto_files(request);
+			
+			Properties prop = new Properties();
+			@SuppressWarnings("deprecation")
+			FileInputStream fis = new FileInputStream(
+					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+			prop.load(new InputStreamReader(fis));
+			fis.close();
+
+			String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board\\";
+
+			String realFolder = saveFolder + dto.getPhoto_folder();
+			
+			// type + 이메일 아이디
+			String type = dto.getType();
+
+			StringTokenizer st1 = new StringTokenizer(dto.getEmail(), "@", true);
+			String email_id = st1.nextToken();
+			String nameFolder = saveFolder + "\\" + type + "_" + email_id;
+			
+			//게시글 폴더 및 사진 삭제
+			File fileFolder = new File(realFolder);
+			
+			File[] fileList = fileFolder.listFiles();
+			
+			for(File f : fileList) {
+				f.delete();
+			}
+			fileFolder.delete();
+			
+			//계정 폴더 내 타 게시글 부재시 삭제
+			File userFolder = new File(nameFolder);
+			if(userFolder.delete()) {
+				System.out.println("계정 폴더 삭제 됨.");
+			}else {
+				System.out.println("계정 폴더 내 타 폴더 존재");
+			}
+		}
 		
 		int re = boardDAO.deleteBoardContent(cm_no);
 		if(re>0) {
 			boardDAO.deleteAccuserContent(cm_no);
 			boardDAO.deleteAlarmContent(cm_no);
-			boardDAO.deleteMentionContent(cm_no);
 			boardDAO.deleteRecommandContent(cm_no);
+			
+			List<MentionDTO> menList = mentionDAO.getMentionList(cm_no);
+			
+			int men_re = boardDAO.deleteMentionContent(cm_no);
+			if(men_re>0) {
+				mentionDAO.deleteMentionLikeList(menList);
+			}
 		}
 		
 		return re;
@@ -230,60 +270,92 @@ public class BoardServiceImpl implements BoardService {
 		
 	@SuppressWarnings("deprecation")
 	@Override
-	public int updateBoard(BoardDTO boardDTO, MultipartFile[] files,
-			HttpSession session, HttpServletRequest request) throws Exception {
+	public int updateBoard(BoardDTO dto, MultipartFile[] files,
+			HttpServletRequest request, String[] deletefile) throws Exception {
 		
-		boardDTO.setHashtag(boardDTO.getHashtag());
-		
-		System.out.println(1);
-		
-		if (files.length == 0) {
-			Properties prop = new Properties();
-			FileInputStream fis = new FileInputStream(
-					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
-			prop.load(new InputStreamReader(fis));
-			fis.close();
+		//본 게시글 dto
+		BoardDTO db_dto = boardDAO.getBoardContent(dto.getCm_no());
+		db_dto.setPhoto_files(request);
 
-			System.out.println(2);
+		//dto photofolder setting
+		dto.setPhoto_folder(db_dto.getPhoto_folder());
+		
+		//properties file read
+		Properties prop = new Properties();
+		FileInputStream fis = new FileInputStream(
+				request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+		prop.load(new InputStreamReader(fis));
+		fis.close();
+		
+		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board";
+		
+		if (files.length != 0) { //파일 저장 필요
 			
-			LocalDateTime nowDate = LocalDateTime.now();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
-			String today = nowDate.format(formatter);
+			if(db_dto.getPhoto_folder()==null) { //폴더 없음, 생성 필요
+				LocalDateTime nowDate = LocalDateTime.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
+				String today = nowDate.format(formatter);
 
-			// type + 이메일 아이디
-			String type = boardDTO.getType();
+				// type + 이메일 아이디
+				String type = db_dto.getType();
 
-			StringTokenizer st1 = new StringTokenizer(boardDTO.getEmail(), "@", true);
-			String email_id = st1.nextToken();
-			String boardFolder = type + "_" + email_id;
-			String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board\\" + boardFolder;
+				StringTokenizer st1 = new StringTokenizer(db_dto.getEmail(), "@", true);
+				String email_id = st1.nextToken();
+				String boardFolder = type + "_" + email_id;
+				String realFolder = saveFolder + "\\" + boardFolder;
 
-			File folder = new File(saveFolder);
-			if (!folder.exists()) {
-				folder.mkdirs();
-			}
+				File folder = new File(realFolder);
+				if (!folder.exists()) {
+					folder.mkdirs();
+				}
+				
+				realFolder += "\\" + today;
+				File folder2 = new File(realFolder);
+				if (!folder2.exists()) {
+					folder2.mkdirs();
+				}
+
+				for (MultipartFile mfile : files) {
+
+					String originalFileName = mfile.getOriginalFilename();
+
+					// UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
+					if (!originalFileName.isEmpty()) {
+						String saveFileName = UUID.randomUUID().toString()
+								+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+						mfile.transferTo(new File(folder2, saveFileName));
+					}
+				}
+				//dto 객체에 폴더명 세팅
+				dto.setPhoto_folder(boardFolder);
 			
-			saveFolder += "\\" + today;
-			File folder2 = new File(saveFolder);
-			if (!folder2.exists()) {
-				folder2.mkdirs();
-			}
-
-			for (MultipartFile mfile : files) {
-
-				String originalFileName = mfile.getOriginalFilename();
-
-				// UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
-				if (!originalFileName.isEmpty()) {
-					String saveFileName = UUID.randomUUID().toString()
-							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-					mfile.transferTo(new File(folder, saveFileName));
+			}else { //폴더 존재 , 파일 저장필요
+				String realFolder = saveFolder + "\\" + db_dto.getPhoto_folder();
+				
+				for (MultipartFile mfile : files) {
+	
+					String originalFileName = mfile.getOriginalFilename();
+	
+					// UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
+					if (!originalFileName.isEmpty()) {
+						String saveFileName = UUID.randomUUID().toString()
+								+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+						mfile.transferTo(new File(realFolder, saveFileName));
+					}
 				}
 			}
-			boardDTO.setPhoto_folder(boardFolder);
+		} //file 저장 end
+		
+		//삭제요청 파일 처리
+		if(deletefile.length>0) {
+			String realFolder = saveFolder + "\\" + db_dto.getPhoto_folder();
+			for(String f : deletefile) {
+				File d_f = new File(realFolder+"\\"+f);
+				d_f.delete();
+			}
 		}
-		System.out.println(3);
-		int re = boardDAO.updateBoardContent(boardDTO);
+		
+		int re = boardDAO.updateBoardContent(dto);
 		return re;
 	}
 
@@ -305,14 +377,11 @@ public class BoardServiceImpl implements BoardService {
 				if(dto.getPhoto_folder() != null) {
 					dto.setPhoto_files(request);
 					file = dto.getPhoto_files();
-					System.out.println(file);
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			System.out.println(mapp);
 			
 			hash.put("Files", file);
 			hash.put("BoardDTO", dto);

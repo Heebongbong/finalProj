@@ -62,4 +62,10 @@ public class MentionDAOImpl implements MentionDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.insert("mention_like_insert", keyMap);
 	}
+
+	@Override
+	public int deleteMentionLikeList(List<MentionDTO> menList) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("mention_like_list_delete", menList);
+	}
 }
