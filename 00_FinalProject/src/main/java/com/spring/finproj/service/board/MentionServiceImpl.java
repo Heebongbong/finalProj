@@ -1,10 +1,7 @@
 package com.spring.finproj.service.board;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.spring.finproj.model.board.BoardDAO;
-import com.spring.finproj.model.board.BoardDTO;
 import com.spring.finproj.model.board.MentionDAO;
 import com.spring.finproj.model.board.MentionDTO;
 

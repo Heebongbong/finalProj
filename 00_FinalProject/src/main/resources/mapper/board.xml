@@ -115,11 +115,15 @@
    	</delete>
     
     <select id="board_cont" resultType="boardDTO" parameterType="int">
-    	select * from community where cm_no = #{cm_no}
+    	select * from 
+		(select * from community  where cm_no not in (select cm_no from market))a 
+		join (select c.user_no, c.email, c.type, d.nickname, d.profile 
+			from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
+		on a.user_no = b.user_no where cm_no = #{cm_no}
     </select>
     
     <update id="board_update" parameterType="boardDTO">
-    	update community set hashtag = #{hashtag}, content = #{content}, update_time = now()
+    	update community set hashtag = #{hashtag}, content = #{content}, update_time = now(), photo_folder = #{photo_folder}
 		where cm_no = #{cm_no}
 	</update>
   	<select id="board_like_cm_list" parameterType="int" resultType="int">

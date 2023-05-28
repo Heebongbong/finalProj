@@ -42,4 +42,9 @@
     <insert id="mention_like_insert" parameterType="map">
     	insert into re_mention values(#{mention_no}, #{user_no})
     </insert>
+    <delete id="mention_like_list_delete" parameterType="list">
+    	<foreach collection="menList" item="item" close=";">
+    		delete from re_mention where mention_no = #{item.mention_no}
+    	</foreach>
+    </delete>
 </mapper>
