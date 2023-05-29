@@ -4,7 +4,7 @@
  
  $(document).ready(function(){
  
- 	setInterval(changePicture,500);
+ 	setInterval(changePicture,100);
  	
  });
 

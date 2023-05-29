@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+.inp_drive{
+	display: flex;
+	flex-direction: column;
+}
+#drive_road_view{
+	display: flex;
+	justify-content: space-around;
+}
+.drive_road_img{
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+.drive_road_info{
+	text-align: center;
+}

@@ -9,7 +9,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -57,8 +56,6 @@ public class CrawlingRoad {
 				dto.setName(name.text());
 				dto.setAddress(addr.text());
 				dto.setInfo(info);
-				System.out.println(a_no);
-				System.out.println(dto.toString());
 				
 				list.add(dto);
 			}
@@ -115,11 +112,6 @@ public class CrawlingRoad {
         in.close();
         
         JSONObject jo = new JSONObject(response.toString());
-        JSONArray jo2 = jo.getJSONObject("route").getJSONArray("traoptimal");
-        JSONObject jo3 = jo2.getJSONObject(0);
-        JSONArray jo4 = jo3.getJSONArray("path");
-        
-		jo4.toString();
-		
+        System.out.println(jo.toString());
 	}
 }

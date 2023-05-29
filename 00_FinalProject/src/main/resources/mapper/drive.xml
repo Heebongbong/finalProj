@@ -13,4 +13,7 @@
 	<update id="road_insert_xy" parameterType="map">
 		update waypoint set wpX = #{wpX}, wpY = #{wpY} where wp_no = #{wp_no}
 	</update>
+	<select id="road_get_list" resultType="driveRoadDTO">
+		select * from waypoint
+	</select>
 </mapper>

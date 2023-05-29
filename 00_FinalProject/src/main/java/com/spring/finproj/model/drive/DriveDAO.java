@@ -6,4 +6,5 @@ import java.util.Map;
 public interface DriveDAO {
 	int insertRoadInfo(DriveRoadDTO d);
 	void insertRoadXY(Map<String, Object> map);
+	List<DriveRoadDTO> getRoadXY();
 }
