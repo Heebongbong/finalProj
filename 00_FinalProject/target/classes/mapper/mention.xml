@@ -10,7 +10,7 @@
 		mention a
 		join user_profile b
 		on a.user_no = b.user_no
-		where cm_no = #{cm_no} order by mention_no desc
+		where cm_no = #{cm_no} order by mention_no
 	</select>
 	
 	<select id="mention_one" resultType="com.spring.finproj.model.board.MentionDTO">		

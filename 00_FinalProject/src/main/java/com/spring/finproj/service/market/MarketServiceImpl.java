@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.finproj.model.board.BoardDAO;
 import com.spring.finproj.model.board.BoardDTO;
 import com.spring.finproj.model.board.MarketDAO;
 import com.spring.finproj.model.board.MentionDAO;
@@ -30,42 +31,53 @@ import com.spring.finproj.model.user.UserDTO;
 @Service
 public class MarketServiceImpl implements MarketService{
 	@Autowired
+	private BoardDAO boardDAO;
+	@Autowired
 	private MarketDAO marketDAO;
 	@Autowired
 	private MentionDAO mentionDAO;
 
 	@Override
-	public Map<String , Object> getMarketList(String keyword, HttpServletRequest request, int cm_no) throws Exception {
+	public Map<String , Object> getMarketList(String keyword, String category, HttpServletRequest request, int cm_no) throws Exception {
 		Map<String, Object> marketTotal = new HashMap<String, Object>();
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
 		List<BoardDTO> list = null;
-		
+		String key;
 		System.out.println("key"+keyword);
 		System.out.println("cm"+cm_no);
 
 		if(cm_no == 0) {
-			if(keyword==null || keyword=="") {
+			if((keyword==null || keyword=="") && (category==""||category==null)) {
 				list = marketDAO.getMarketList();
 			}else {
-				if(keyword.charAt(0)=='#') {
-					StringTokenizer st = new StringTokenizer(keyword, "#");
+				if(keyword.startsWith("%23")) {
+					key = keyword += category;
+					
+					StringTokenizer st = new StringTokenizer(key, "%23");
 					List<String> hashList = new ArrayList<String>();
+					
 					while(st.hasMoreTokens()) {
 						hashList.add(st.nextToken());
 					}
+					
 					list = marketDAO.getMarketList(hashList);
 
 				}else {
+					key = keyword += category;
+					
 					list = marketDAO.getMarketList(keyword);
 				}
 			}
 		}else {
-			if(keyword==null || keyword=="") {
+			if((keyword==null || keyword=="") && (category==""||category==null)) {
 				list = marketDAO.getMarketList(cm_no);
 			}else {
-				if(keyword.charAt(0)=='#') {
-					StringTokenizer st = new StringTokenizer(keyword, "#");
+				if(keyword.startsWith("%23")) {
+					key = keyword+= category;
+					
+					StringTokenizer st = new StringTokenizer(key, "%23");
 					List<String> hashList = new ArrayList<String>();
+					
 					while(st.hasMoreTokens()) {
 						hashList.add(st.nextToken());
 					}
@@ -76,8 +88,10 @@ public class MarketServiceImpl implements MarketService{
 					list = marketDAO.getMarketHashKeyMap(map);
 					
 				}else {
+					key = keyword+= category;
+					
 					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("keyword", keyword);
+					map.put("keyword", key);
 					map.put("cm_no", cm_no);
 					list = marketDAO.getMarketKeyMap(map);
 				}
@@ -87,8 +101,29 @@ public class MarketServiceImpl implements MarketService{
 		for(BoardDTO d : list) {
 			d.setPhoto_files(request);
 			
+			
+			d.setLikeCount(boardDAO.getBoardLikeCount(d.getCm_no()));
+			
+			//<cm_no, List<mention>> 댓글 맵리스트
 			List<MentionDTO> list2 = mentionDAO.getMentionList(d.getCm_no());
+			
+			for(MentionDTO m : list2) {
+				m.setLikeCount(mentionDAO.getMentionLikeCount(m.getMention_no()));
+			}
+			
 			mapList2.put(d.getCm_no(), list2);
+		}
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("LoginUser")!=null) {
+			int login_user_no = ((UserDTO)session.getAttribute("LoginUser")).getUser_no();
+			List<Integer> userLikeList = boardDAO.getBoardLikeList(login_user_no);
+			
+			marketTotal.put("LikeList", userLikeList);
+			
+			List<Integer> mentionLikeList = mentionDAO.getMentionLikeList(login_user_no);
+			
+			marketTotal.put("MentionLikeList", mentionLikeList);
 		}
 		
 		marketTotal.put("BoardList", list);

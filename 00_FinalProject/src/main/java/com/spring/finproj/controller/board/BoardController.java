@@ -1,7 +1,6 @@
 package com.spring.finproj.controller.board;
 
 import java.net.URLDecoder;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,8 +99,7 @@ public class BoardController {
     		@RequestParam(required = false) int cm_no, 
     		@RequestParam(required = false) String keyword,
     		@RequestParam(required = false) String category) throws Exception{
-    	System.out.println(keyword);
-    	System.out.println(category);
+    	
     	if(!(keyword==null||keyword=="")) {
     		keyword = URLDecoder.decode(keyword, "UTF-8");
     	}
@@ -113,10 +111,12 @@ public class BoardController {
     
     @RequestMapping("/addmention")
     @ResponseBody
-    public List<MentionDTO> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
+    public Map<String, Object> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
+    	
     	mentionService.getMentionInsert(dto);
     	
-    	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
+    	Map<String, Object> list = mentionService.addMentionlist(request, model, dto.getCm_no());
+    	
     	return list;
     }
     

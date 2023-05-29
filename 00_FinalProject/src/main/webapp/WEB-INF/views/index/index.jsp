@@ -31,6 +31,7 @@
 		<img alt="" src="${ctxPath }/resources/images/banner/${banner_num }.jpg">
 	</div>
 	
+	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">
 		<div class="declaration_modal_window">
 			<div class="decl_modal_header">

@@ -17,6 +17,7 @@ $(document).ready(function(){
 
 	boardAddList();
 	
+	//게시판 추가
 	$('body').on("mousewheel",function(event){
 		if(($(window).scrollTop()+$(window).innerHeight())>=$(document).height()){
 			if(event.originalEvent.deltaY>0){
@@ -25,19 +26,33 @@ $(document).ready(function(){
 		}
 	});
 	
+	//상세 모달창 닫기
 	$('body').on('click', function(event){
 		if($(event.target).parents('.detail_modal_overlay').length < 1&&event.target.className!='board_detail_btn'){
 			$('.detail_modal_overlay').hide();
 		}
 	});
+	//유저프로필정보 닫기
+	$('body').on('click', function(event){
+		if($(event.target).parents('.user_modal_overlay').length < 1&&event.target.className!='board_user_prof_img'){
+			$('.user_modal_overlay').hide();
+		}
+	});
 
 });
 
+//상세메뉴 오픈
 function open_board_detail(self){
 	$(self).next().show();
 }
 
-function cm_declaration(cm_no, nickname){ //게시글 신고
+//유저프로필정보 오픈
+function open_user_modal(self){
+	$(self).parent().next().show();
+}
+
+//신고창 오픈
+function cm_declaration(cm_no, nickname){ 
 	if(loginUser_no==''){
 		alert("로그인이 필요합니다.");
 	}else{
@@ -47,10 +62,12 @@ function cm_declaration(cm_no, nickname){ //게시글 신고
 	}
 }
 
+//신고창 닫기
 function close_declaration(){
 	$('.declaration_modal_overlay').hide();
 }
 
+//신고
 function declaration(){
 	if(loginUser_no==''){
 		alert("로그인이 필요합니다.");
@@ -96,6 +113,162 @@ function cm_delete(cm_no, user_no){ //게시글 삭제
 	}
 }
 
+//게시글 좋아요 
+function click_like_board(cm_no, self){
+	if(loginUser_no!=''){
+		let check;
+		if($(self).find('.fa').hasClass('fa-heart')){
+			check = 1; //like -> unlike
+		}else{
+			check = 0; // unlike -> like
+		}
+		$.ajax({
+			type: 'get',
+			url: ctxPath + '/board/like/manage',
+			data: {
+			  cm_no: cm_no,
+			  check: check
+			},
+			dataType: 'json',
+			contentType: 'application/json; charset=UTF-8;',
+			success: function(data) {
+				if(data==1){ //like -> unlike
+					$(self).find('.fa').attr('class', 'fa fa-heart-o');
+					let count = $(self).next().text();
+					count = parseInt(count);
+					$(self).next().text(count-1);
+				}else if(data == 0){ // unlike -> like
+					$(self).find('.fa').attr('class', 'fa fa-heart');
+					let count = $(self).next().text();
+					count = parseInt(count);
+					$(self).next().text(count+1);
+				}else{ //오류
+					alert('좋아요 데이터 베이스 처리 오류');
+				}
+				
+			}, error: function() {
+				alert('좋아요 처리 중 오류');
+			  }
+		  });
+	}else{
+		alert('로그인이 필요합니다.');
+	}
+}
+
+//댓글 좋아요 관리
+function click_like_mention(mention_no, self){
+	if(loginUser_no!=''){
+		let check;
+		if($(self).find('.fa').hasClass('fa-heart')){
+			check = 1; //like -> unlike
+		}else{
+			check = 0; // unlike -> like
+		}
+		$.ajax({
+			type: 'get',
+			url: ctxPath + '/board/like/mention/manage',
+			data: {
+				mention_no: mention_no,
+			  check: check
+			},
+			dataType: 'json',
+			contentType: 'application/json; charset=UTF-8;',
+			success: function(data) {
+				if(data==1){ //like -> unlike
+					$(self).find('.fa').attr('class', 'fa fa-heart-o');
+					let count = $(self).next().text();
+					count = parseInt(count);
+					$(self).next().text(count-1);
+				}else if(data == 0){ // unlike -> like
+					$(self).find('.fa').attr('class', 'fa fa-heart');
+					let count = $(self).next().text();
+					count = parseInt(count);
+					$(self).next().text(count+1);
+				}else{ //오류
+					alert('좋아요 데이터 베이스 처리 오류');
+				}
+				
+			}, error: function() {
+				alert('좋아요 처리 중 오류');
+			  }
+		  });
+	}else{
+		alert('로그인이 필요합니다.');
+	}
+}
+
+function addMention(no, self){
+	
+	// 해당 버튼에 대한 AJAX 요청을 보냅니다.
+	$.ajax({
+	  type: 'get',
+	  url: ctxPath + '/board/addmention',
+	  data: {
+		cm_no: no,
+		user_no: loginUser_no,
+		ment: $(self).prev().val()
+	  },
+	  dataType: 'json',
+	  contentType: 'application/json; charset=UTF-8;',
+	  success: function(data) {
+		  // 댓글 수신 영역 초기화
+		  $("."+no+"board_reply_wrap").html("");
+		  // 받아온 댓글 데이터를 처리하고 해당 댓글을 목록에 추가합니다.
+		  let mention = data.MentionList;
+		  let mentionLikeList = data.MentionLikeList;
+
+		  //댓글 목록
+		  let table = "";
+		  table += "<div class='board_reply_cont_show'>";
+		  //<!-- 댓글이 목록이 들어가는 곳 -->
+		  for(let j = 0; j < mention.length; j++) {
+			  table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
+						  "<div class='board_reply_ment'>"+mention[j].ment+
+						  
+							  //댓글 좋아요 버튼
+							  "<a class='mention_like_wrap' href='javascript:' onclick='click_like_mention("+mention[j].mention_no+", this)'>";
+							  
+							  if(mentionLikeList.find(element => element == mention[j].mention_no)!=null){
+								  table += "<i class='fa fa-heart' aria-hidden='true'></i>";
+							  }else{
+								  table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+							  }
+
+							  table += "</a>" + "<span>" + mention[j].likeCount + "</span>" + //좋아요 end
+						  
+						  "</div>";
+					  if(mention[j].user_no==loginUser_no){
+						  table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
+					  }
+			  table += "</div>";
+		  }
+		  table += "</div>"; //reply_cont end
+
+		  //<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
+		  table += "<div class='board_reply_write'>";
+			  if(loginUser_no!=""){
+				  table += "<div class='reply_write_user'>"+
+							  "<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
+						  "</div>"+
+						  "<div class='reply_write_ment'>"+
+							  "<input class='reply_write_ment'>"+
+							  "<button type='button' class='reply_write_insert' onclick='addMention("+no+", this)'>댓글입력</button>"+
+						  "</div>";
+			  }else{
+				  table += "<div><h2>로그인이 필요합니다.</h2></div>";
+			  }
+		  table += "</div>"+	//reply_write end
+
+
+
+		  $("."+no+"board_reply_wrap").append(table);
+	  },
+	  error: function() {
+		alert('댓글 로딩 중 오류');
+	  }
+  });
+}
+
 function boardAddList(){
 	let cm_no = $('.board_no:last').val();
 	if(cm_no==null){
@@ -104,10 +277,9 @@ function boardAddList(){
 
 	$.ajax({
         type: "get",
-        url: ctxPath + "/index/addlist",
+        url: ctxPath + "/board/addlist",
         data: {
-          cm_no: cm_no,
-		  keyword: $('#board_keyword').val()
+          cm_no: cm_no
         },
         dataType: "json",
         contentType: "application/json; charset=UTF-8;",
@@ -115,26 +287,54 @@ function boardAddList(){
         success: function(data) {
           let boardList = data.BoardList;
           let mentionList = data.MentionList;
+		  let likeList = data.LikeList;
+		  let mentionLikeList = data.MentionLikeList;
+		  
+		  console.log(data);
 
           let table = "";
-          if(data.length==0){
-          	console.log('마지막 게시물입니다.');
-          }
+          
           for (let i = 0; i < boardList.length; i++) {
             let board = boardList[i];
             let no = board.cm_no;
             let mention = mentionList[no];
             let files = board.photo_files;
             let folders = board.photo_folder;
+
 			table += "<div class='board_content'>" +
 				"<input class='board_no' type='hidden' value='"+no+"'>" +
 
 				//게시글 헤더
 				"<div class='board_user_wrap'>" +
 					"<div class='board_user_prof'>" +
-						"<img src='"+ board.profile +"'>" +
+						"<img src='"+ board.profile +"' class='board_user_prof_img' onclick='open_user_modal(this)'>" +
 						"<span>'"+ board.nickname +"'</span>" +
 					"</div>" +
+
+					//유저 프로필 모달창
+					"<div class='user_modal_overlay'>" +
+						"<div class='user_modal_window'>" +
+							"<div class='user_modal_title'>" +
+								"<img src='"+ board.profile +"'>" +
+								"<div>"+board.nickname+"</div>" ;
+								if(board.type=='S'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/logo.png'>";
+								}else if(board.type=='G'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/google_logo.png'>";
+								}else if(board.type=='N'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/naver_logo.jpg'>";
+								}else if(board.type=='K'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/kakao_logo.png'>";
+								}
+						table += "</div>" +
+							"<div class='user_modal_body'>" +
+								"<a href='javascript:chat_board("+board.user_no+")'>유저와 채팅하기</a>" +
+								"<a href=''>유저 게시글 보기</a>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+
+					//게시글 상세메뉴 버튼
 					"<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
 						"<a class='board_detail_btn' href='javascript:'>***</a>" +
 					"</div>" +
@@ -152,7 +352,7 @@ function boardAddList(){
 				//게시글 본문
 				"<div class='board_main_wrap'>" +
 					"<div class='board_main_photo'>" +
-						"<div class='board_main_files slider-for'>";
+						"<div class='board_main_files'>";
 								if(files.length==0){
 									table += "<div class='board_file_slick'><img src='/finproj/resources/images/board/default/default.jpg'></div>";
 								}else{
@@ -169,48 +369,66 @@ function boardAddList(){
 
                 "<div class='board_main_cont'>" +
 
-               		"<div class='board_main_text'>'" + board.content + "'</div>" +
-                
-					"<div class='board_reply_wrap'>";
+               		"<div class='board_main_text'>" + board.content +
+						"<div class='board_like_wrap'>" +
+							"<a href='javascript:' onclick='click_like_board("+no+", this)'>";
 
-					//댓글 목록 - 보여지는 최대 3개
-					table += "<div class='board_reply_cont_show'>";
-					//<!-- 댓글이 목록이 들어가는 곳 -->
-					for(let j = 0; j < ((mention.length>3) ? 3 : mention.length); j++) {
-						table +=  "<div class='board_reply_ment_cont'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-									"<div class='board_reply_ment'>"+mention[j].ment+"</div>";
-								if(mention[j].user_no==loginUser_no){
-									table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
+							
+							// 유저에 따른 좋아요 등록 여부
+							if(loginUser_no != ''){
+								if(likeList.find(element => element == no)!=null){
+									table += "<i class='fa fa-heart' aria-hidden='true'></i>";
+								}else{
+									table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
 								}
-						table += "</div>";
-					}
-					table += "</div>"; //reply_cont end
+							}else{
+								table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+							}
+							
+					table += "</a>" + 
+						"<span>" + board.likeCount + "</span>" +
+						"</div>" +
+					"</div>"; //main_cont end
 
-					
-					//댓글 목록 - 숨어있는 전체목록
-					table += "<div class='board_reply_cont_total'>";
+
+					//댓글 목록
+					table += "<div class='"+no+"board_reply_wrap reply_wrap'>" +
+								"<div class='board_reply_cont_show'>";
 					//<!-- 댓글이 목록이 들어가는 곳 -->
 					for(let j = 0; j < mention.length; j++) {
-						table +=  "<div class='board_reply_ment_cont'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-									"<div class='board_reply_ment'>"+mention[j].ment+"</div>";
+						table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'>"+
+										"<div class='board_reply_user'>"+mention[j].nickname+"</div>"+
+										"<div class='board_reply_ment'>"+mention[j].ment+
+											
+											//댓글 좋아요 버튼
+											"<a class='mention_like_wrap' href='javascript:' onclick='click_like_mention("+mention[j].mention_no+", this)'>";
+											if(loginUser_no != ''){
+												if(mentionLikeList.find(element => element == mention[j].mention_no)!=null){
+													table += "<i class='fa fa-heart' aria-hidden='true'></i>";
+												}else{
+													table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+												}
+											}else{
+												table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+											}
+										table += "</a>" + "<span>" + mention[j].likeCount + "</span>" + //좋아요 end
+										"</div>";
 								if(mention[j].user_no==loginUser_no){
 									table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
 								}
 						table += "</div>";
 					}
 					table += "</div>"; //reply_cont end
-
-					table += "<input type='button' value='전체댓글 보기' onclick='open_ment_modal(this)'>";
 
 					//<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
 						table += "<div class='board_reply_write'>";
-								if(loginUser_no!=""){
+								if(loginUser!=''){
 									table += "<div class='reply_write_user'>"+
 												"<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
 											"</div>"+
 											"<div class='reply_write_ment'>"+
-												"<input class='reply_write_ment' id='"+no+"'>"+
-												"<button type='button' class='reply_write_insert' onclick='addMention("+no+")'>댓글입력</button>"+
+												"<input class='reply_write_ment'>"+
+												"<button type='button' class='reply_write_insert' onclick='addMention("+no+", this)'>댓글입력</button>"+
 											"</div>";
 								}else{
 									table += "<div><h2>로그인이 필요합니다.</h2></div>";
@@ -230,5 +448,34 @@ function boardAddList(){
         error: function() {
           alert('게시물 로딩 중 오류');
         }
-      });
+    });
+}
+
+//댓글 삭제
+function delete_ment(no){
+	console.log("mention_no >>> "+no);
+	
+	  // 해당 버튼에 대한 AJAX 요청을 보냅니다.
+	  $.ajax({
+	    type: 'get',
+	    url: ctxPath + '/board/deletemention',
+	    data: {
+	      mention_no: no
+	    },
+	    dataType: 'text',
+	    success: function(data) {
+			let check = data;
+			console.log("ckkkkk"+check);
+
+			if(check == "1"){
+					// no 다 넣어주기 $("."+no+"board_reply_wrap").html("");
+				console.log(2);
+				$("#"+no).html("");
+			}
+
+		},
+	    error: function() {
+	      alert('댓글 로딩 중 오류');
+	    }
+	});
 }
