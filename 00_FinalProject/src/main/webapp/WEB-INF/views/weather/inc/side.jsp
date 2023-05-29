@@ -5,13 +5,13 @@
 <div id="weather_side">
 	<ul>
 		<li>
-			<a href="${ctxPath }/weather/now">실시간</a>
+			<a href="${ctxPath }/weather/now">실시간 날씨 및 예보</a>
 		</li>
 		<li>
-			<a href="${ctxPath }/weather/star">별자리</a>
+			<a href="${ctxPath }/weather/star">실시간 위성사진</a>
 		</li>
 		<li>
-			<a href="${ctxPath }/weather/stella">Stella</a>
+			<a href="${ctxPath }/weather/stella">Stella/별자리 어플</a>
 		</li>
 	</ul>
 </div>

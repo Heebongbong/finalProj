@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,19 +78,19 @@ public class BoardController {
     }
     
     @RequestMapping("/updateform")
-    public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	int check = boardService.updateBoard(dto, files, session, request);
+    @ResponseBody
+    public String update(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
+    		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile) throws Exception {
+    	int check = boardService.updateBoard(dto, files, request, deletefile);
     	
     	if(check>0) {
-			return "redirect:/board/list";
+			return "<script>location.href='/finproj/board/list'</script>";
 		}else {
-			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().println("<script>"
+			
+			return "<script>"
 					+ "alert('글 작성 중 오류 발생');"
 					+ "history.back();"
-					+ "</script>");
-			return null;
+					+ "</script>";
 		}
     }
     
@@ -115,7 +114,7 @@ public class BoardController {
     @RequestMapping("/addmention")
     @ResponseBody
     public List<MentionDTO> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
-    	int check = mentionService.getMentionInsert(dto);
+    	mentionService.getMentionInsert(dto);
     	
     	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
     	return list;
@@ -130,7 +129,7 @@ public class BoardController {
     
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public String boardDelete(int cm_no, HttpServletRequest request) {
+    public String boardDelete(int cm_no, HttpServletRequest request) throws Exception {
     	int re = boardService.deleteBoardCont(cm_no, request);
     	if(re>0) {
     		return "<script>alert('게시글 삭제 성공');location.href='/finproj/index';</script>";

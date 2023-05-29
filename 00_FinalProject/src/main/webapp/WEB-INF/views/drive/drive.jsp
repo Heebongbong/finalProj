@@ -11,7 +11,10 @@
 
 	<div id="view">
 	</div>
-
+	<div>
+	
+		<input type="button" value="아름다운 길 크롤링" onclick="location.href='${ctxPath }/drive/load/insert'">
+	</div>
 	<div>
 		${GpsDTO }
 	</div>

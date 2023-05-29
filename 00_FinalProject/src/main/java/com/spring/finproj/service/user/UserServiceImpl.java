@@ -3,10 +3,8 @@ package com.spring.finproj.service.user;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -23,14 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.finproj.interceptor.Interceptor;
 import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
 import com.spring.finproj.model.user.UserSessionDTO;
@@ -149,6 +144,7 @@ public class UserServiceImpl implements UserService {
 
 			// 절대경로 가져오기
 			Properties prop = new Properties();
+			@SuppressWarnings("deprecation")
 			FileInputStream fis = new FileInputStream(
 					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 			prop.load(new InputStreamReader(fis));
