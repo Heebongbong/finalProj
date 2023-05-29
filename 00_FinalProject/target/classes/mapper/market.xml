@@ -78,6 +78,26 @@
 		insert into community values(#{cm_no}, #{user_no}, #{content}, now(), default, #{hashtag}, #{photo_folder})
 	</insert>
 	<insert id="market_insert_market" parameterType="boardDTO">
-		insert into market values(#{cm_no}, #{title}, #{price}, 0)
+		insert into market values(#{cm_no}, #{title}, #{price})
 	</insert>
+	
+	<update id="market_update_board" parameterType="boardDTO">
+    	update community set hashtag = #{hashtag}, content = #{content}, update_time = now()
+		where cm_no = #{cm_no}
+	</update>
+	
+	<update id="market_update_market" parameterType="boardDTO">
+    	update market set title = #{title}, price = #{price}
+		where cm_no = #{cm_no}
+	</update>
+	
+	<select id="market_content" parameterType="int" resultType="boardDTO">
+		select * from 
+		(community a join
+		(select c.user_no, c.email, c.type, d.nickname, d.profile 
+			from user c join user_profile d on c.user_no = d.user_no where type != 'D') e
+			on a.user_no = e.user_no)
+		join market b on a.cm_no = b.cm_no
+		where a.cm_no = #{cm_no}
+	</select>
 </mapper>

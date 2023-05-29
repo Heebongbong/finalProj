@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,4 +57,29 @@ public class MarketController {
 			return null;
 		}
 	}
+	
+	@RequestMapping("/update")
+    public String boardUpdate(HttpServletRequest request, int cm_no, Model model) throws Exception {
+    	Map<String, Object> map = marketService.contentBoard(request, cm_no, model);
+    	model.addAttribute("Map", map);
+    	return "market.update";
+  
+    }
+    
+    @RequestMapping("/updateform")
+    public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
+    		HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	int check = marketService.updateMarketCont(dto, files, session, request);
+    	
+    	if(check>0) {
+			return "redirect:/market/list";
+		}else {
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().println("<script>"
+					+ "alert('글 작성 중 오류 발생');"
+					+ "history.back();"
+					+ "</script>");
+			return null;
+		}
+    }
 }
