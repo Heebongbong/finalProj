@@ -39,7 +39,7 @@ function openwindows() {
 		$('#addr').html("검색하신 주소는 : "+items[0].roadAddress+" 입니다.")
        
 		$.ajax({
-			url: '${ctxPath }/drive/content', 
+			url: ctxPath+'/drive/content', 
 			type:'post',
 			data:{
 				xDri: xDri,

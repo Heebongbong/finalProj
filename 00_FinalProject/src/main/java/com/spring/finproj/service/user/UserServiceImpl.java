@@ -144,6 +144,7 @@ public class UserServiceImpl implements UserService {
 
 			// 절대경로 가져오기
 			Properties prop = new Properties();
+			@SuppressWarnings("deprecation")
 			FileInputStream fis = new FileInputStream(
 					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 			prop.load(new InputStreamReader(fis));
@@ -324,33 +325,50 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int deleteUser(String check_pwd, HttpSession session) throws Exception {
+	public int deleteUser(String check_pwd, HttpSession session, HttpServletResponse response) throws Exception {
 
 		UserDTO dto = (UserDTO) session.getAttribute("LoginUser");
-
+		UserSessionDTO sdto = userDao.getUserSession(dto.getUser_no());
+		String sessionID = sdto.getSessionID();
+		
 		int check = -1;
 		int res = -1;
-
-		System.out.println(dto);
-		System.out.println(check_pwd);
-		if (check_pwd.equals(dto.getPwd())) {
+		
+		if (check_pwd.equals(dto.getPwd()) && dto.getType().equals("S")) {
 			// 쿼리문 type = D 로 변경
 			userDao.deleteUser(dto.getUser_no());
-			UserSessionDTO sdto = userDao.getUserSession(dto.getUser_no());
 			userDao.deleteUserSessionContent(dto.getUser_no());
-			String sessionID = sdto.getSessionID();
-
+			res = 1;
+		}
+		
+		if(check_pwd.equals("")) {
 			if (dto.getType().equals("K")) {
 				deleteKakaorUser(sessionID);
 			} else if (dto.getType().equals("N")) {
 				deleteNaverUser(sessionID);
-			} else if (dto.getType().equals("G")) {
-				deleteGoogleUser(sessionID);
 			}
+			
+			userDao.deleteUser(dto.getUser_no());
+			userDao.deleteUserSessionContent(dto.getUser_no());
+			
+			res = 1;
 		}
-
+		
+		
+		
 		if (res == 1) {
 			check = 1;
+			
+			Cookie a_t = new Cookie("AccessToken", null);
+	        a_t.setMaxAge(0);
+	        a_t.setPath("/");
+	        response.addCookie(a_t);
+	        Cookie j_t = new Cookie("JSESSIONID", null);
+	        a_t.setMaxAge(0);
+	        a_t.setPath("/");
+	        response.addCookie(j_t);
+	        
+			session.invalidate();
 		}
 
 		return check;
@@ -414,9 +432,30 @@ public class UserServiceImpl implements UserService {
 		conn.disconnect();
 
 	}
+	
 
-	private void deleteGoogleUser(String sessionID) {
+	private void deleteGoogleUser(String sessionID) throws Exception {
 
+		String urlBuilder = "https://oauth2.googleapis.com/revoke?token="+sessionID;
+		URL url = new URL(urlBuilder);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		System.out.println("delete code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		} else {
+			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		}
+
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+			sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
 	}
 
 	@Override

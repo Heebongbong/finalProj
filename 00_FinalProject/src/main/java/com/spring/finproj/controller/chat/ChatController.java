@@ -30,7 +30,7 @@ public class ChatController {
 	
 	@RequestMapping("/board")
 	@ResponseBody
-	public int chatBoard(int user_no, HttpSession session) {
+	public String chatBoard(int user_no, HttpSession session) {
 		return chatService.insertChatRoomCont(user_no, session);
 	}
 	
@@ -39,5 +39,11 @@ public class ChatController {
 	public Map<Integer, List<FaqDTO>> chatFaq(){
 		
 		return chatService.getFaqList();
+	}
+	
+	@RequestMapping("/room/out")
+	@ResponseBody
+	public int chatRoomOut(int chat_room_no) {
+		return chatService.deleteChatRoom(chat_room_no); 
 	}
 }

@@ -8,4 +8,7 @@ public interface ChatDAO {
 	public int insertChatRoomCont(ChatDTO dto);
 	public void insertChatCont(ChatDTO c_dto);
 	public List<FaqDTO> getFaqList();
+	public ChatDTO getChatRoomContent(ChatDTO dto);
+	public int deleteChatRoom(int chat_room_no);
+	public int deleteChatList(int chat_room_no);
 }

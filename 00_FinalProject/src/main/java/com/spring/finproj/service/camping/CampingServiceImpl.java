@@ -10,12 +10,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.spring.finproj.model.board.BoardDTO;
+import com.spring.finproj.model.board.MentionDAO;
+import com.spring.finproj.model.board.MentionDTO;
 import com.spring.finproj.model.camping.CampingDAO;
 import com.spring.finproj.model.camping.CampingDTO;
 
@@ -23,6 +28,8 @@ import com.spring.finproj.model.camping.CampingDTO;
 public class CampingServiceImpl implements CampingService{
 	@Autowired
 	private CampingDAO campingDAO;
+	@Autowired
+	private MentionDAO mentionDAO;
 
 	@Override
 	public void insertCampingListSetDB() throws IOException {
@@ -142,5 +149,38 @@ public class CampingServiceImpl implements CampingService{
 		
 		
 		return list;
+	}
+	
+	@Override
+	public Map<String, Object> getCampingReviewList(int content_id, HttpServletRequest request, int cm_no) throws Exception {
+		
+		Map<Integer, List<MentionDTO>> m_map = new HashMap<Integer, List<MentionDTO>>();
+		Map<String, Object> fin_List = new HashMap<String, Object>();
+		List<BoardDTO> reviewList = null;
+		
+		if(cm_no==0) {
+			reviewList = campingDAO.getCampingReviewList(content_id);
+		}else {
+			Map<String, Integer> keyList = new HashMap<String, Integer>();
+			keyList.put("cm_no", cm_no);
+			keyList.put("content_id", content_id);
+			reviewList = campingDAO.getCampingReviewList(keyList);
+		}
+		
+		
+		for(BoardDTO b : reviewList) {
+			b.setPhoto_files(request);
+			
+			List<MentionDTO> m_list = mentionDAO.getMentionList(b.getCm_no());
+			m_map.put(b.getCm_no(), m_list);
+			
+			System.out.println("댓글 리스트"+m_map);
+		}
+		
+		
+		fin_List.put("BoardList", reviewList);
+		fin_List.put("MentionList", m_map);
+		
+		return fin_List;
 	}
 }

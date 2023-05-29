@@ -8,24 +8,22 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.spring.finproj.model.weather.WeatherDAO;
 import com.spring.finproj.service.handler.WeatherAPI;
 
 @Service
 public class WeatherServiceImpl implements WeatherService{
-	@Autowired
-	private WeatherDAO weatherDAO;
 
 	@Override
-	public void getSatellite_aop(Model model) throws Exception {
+	public void getSatellite(Model model) throws Exception {
 		
 		LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -34,7 +32,7 @@ public class WeatherServiceImpl implements WeatherService{
 		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/SatlitImgInfoService/getInsightSatlit"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + URLEncoder.encode("phamApqtKDIobE2PYsYGQbaOjZ1ubeYuzGHHRypOTUlsk/vIKv7BlDfoboSoBl+SgdrQXDuV13Xr3a4InxJjdA==", "UTF-8")); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호 Default: 1*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*한 페이지 결과 수*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
         urlBuilder.append("&" + URLEncoder.encode("sat","UTF-8") + "=" + URLEncoder.encode("G2", "UTF-8")); /*위성구분 -G2: 천리안위성 2A호*/
         urlBuilder.append("&" + URLEncoder.encode("data","UTF-8") + "=" + URLEncoder.encode("ir105", "UTF-8")); /*영상구분 -적외영상(ir105) -가시영상(vi006) -수증기영상(wv069) -단파적외영상(sw038) -RGB 컬러(rgbt) -RGB 주야간합성(rgbdn)*/
@@ -58,7 +56,7 @@ public class WeatherServiceImpl implements WeatherService{
         }
         rd.close();
         conn.disconnect();
-        
+        System.out.println(sb.toString());
         JSONObject jo = new JSONObject(sb.toString());
         JSONArray ja = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
         String str = (String) ja.getJSONObject(0).get("satImgC-file");
@@ -66,13 +64,8 @@ public class WeatherServiceImpl implements WeatherService{
         StringTokenizer st = new StringTokenizer(str.substring(1, str.length()-1), ",");
         ArrayList<String> list = new ArrayList<String>();
         
-        int count = 0;
         while (st.hasMoreTokens()) {
-            String token = st.nextToken();
-            if (count >= 0 && count <= 9) {
-                list.add(token);
-            }
-            count++;
+        	list.add(st.nextToken());
         }
         
         model.addAttribute("list", list);
@@ -90,7 +83,50 @@ public class WeatherServiceImpl implements WeatherService{
         System.out.println("현재실황: "+sb1);
         System.out.println("날씨예보: "+sb2);
         
-        model.addAttribute("str", sb1);
-        model.addAttribute("str2", sb2);
+        JSONObject jo = new JSONObject(sb1);
+        JSONArray ja = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
+        String baseTime = ja.getJSONObject(0).getString("baseTime");
+        
+        ArrayList<String> nowCategory = new ArrayList<String>();
+        ArrayList<Double> nowObsrValue = new ArrayList<Double>();
+        
+        for(int i=0; i<ja.length(); i++) {
+        	nowCategory.add(ja.getJSONObject(i).getString("category"));
+        	nowObsrValue.add(ja.getJSONObject(i).getDouble("obsrValue"));
+        }
+        
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("bastime", baseTime);
+        map.put("category", nowCategory);
+        map.put("obsrValue", nowObsrValue);
+
+        
+        
+        
+        JSONObject jo2 = new JSONObject(sb2);
+        JSONArray ja2 = jo2.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
+        //String fcstTime = ja2.getJSONObject(0).getString("fcstTime");
+        
+        ArrayList<String> fcstTime = new ArrayList<String>();
+        ArrayList<String> fcstCategory = new ArrayList<String>();
+        ArrayList<Object> fcstValue = new ArrayList<Object>();
+        
+        for(int i=0; i<ja2.length(); i++) {
+        	fcstTime.add(ja2.getJSONObject(i).getString("fcstTime"));
+        	fcstCategory.add(ja2.getJSONObject(i).getString("category"));
+        	fcstValue.add((Object)ja2.getJSONObject(i).get("fcstValue"));
+        	
+        	System.out.println("리슽:"+fcstCategory);
+        }
+        
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("fcstTime", fcstTime);
+        map2.put("fcstCategory", fcstCategory);
+        map2.put("fcstValue", fcstValue);
+        
+        
+        
+        model.addAttribute("str", map);
+        model.addAttribute("str2", map2);
 	}
 }

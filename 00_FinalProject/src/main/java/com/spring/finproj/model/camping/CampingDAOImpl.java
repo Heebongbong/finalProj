@@ -1,12 +1,13 @@
 package com.spring.finproj.model.camping;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.spring.finproj.model.board.BoardDTO;
 
 @Repository
 public class CampingDAOImpl implements CampingDAO{
@@ -69,5 +70,18 @@ public class CampingDAOImpl implements CampingDAO{
 	public List<CampingDTO> getCampingAddList(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("camping_list_add", map);
+	}
+	
+	//캠핑 리뷰 리스트 Map타입 파라메터 오버로드
+	@Override
+	public List<BoardDTO> getCampingReviewList(int content_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("camping_review_list", content_id);
+	}
+
+	@Override
+	public List<BoardDTO> getCampingReviewList(Map<String, Integer> keyList) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("camping_review_list_map", keyList);
 	}
 }

@@ -115,13 +115,29 @@
    	</delete>
     
     <select id="board_cont" resultType="boardDTO" parameterType="int">
-    	select * from community where cm_no = #{cm_no}
+    	select * from 
+		(select * from community  where cm_no not in (select cm_no from market))a 
+		join (select c.user_no, c.email, c.type, d.nickname, d.profile 
+			from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
+		on a.user_no = b.user_no where cm_no = #{cm_no}
     </select>
     
     <update id="board_update" parameterType="boardDTO">
-    	update community set hashtag = #{hashtag}, content = #{content},
-    	update = now(), photo_folder = #{phto_folder}
-		where cm_no = #{cm_no}    
+    	update community set hashtag = #{hashtag}, content = #{content}, update_time = now(), photo_folder = #{photo_folder}
+		where cm_no = #{cm_no}
 	</update>
-  
+  	<select id="board_like_cm_list" parameterType="int" resultType="int">
+  		select cm_no from recommand where user_no = #{user_no}
+  	</select>
+  	
+  	<select id="board_like_count" parameterType="int" resultType="int">
+  		select count(cm_no) from recommand where cm_no = #{cm_no}
+  	</select>
+  	
+  	<delete id="board_like_delete" parameterType="map">
+  		delete from recommand where cm_no = #{cm_no} and user_no = #{user_no}
+  	</delete>
+  	<insert id="board_like_insert" parameterType="map">
+  		insert into recommand values(#{cm_no}, #{user_no})
+  	</insert>
 </mapper>

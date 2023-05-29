@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,41 +49,48 @@ public class BoardController {
         return "board.write";
     }
     
-    @RequestMapping("/writeOk")
+    @RequestMapping("/writeform")
     public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		Model model, String[] category,
-    		HttpSession session, HttpServletRequest request) throws Exception {
+    		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
-    	int check = boardService.writeBoard(dto, files, model, category, session, request);
+    	System.out.println(dto);
     	
-    	if(check > 0) {
-			return "board.list";
+    	int check = boardService.writeBoard(dto, files, request);
+    	
+    	if(check>0) {
+			return "redirect:/board/list";
 		}else {
-			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
-		    return "error/error";
+			response.setContentType("text/html; charset=UTF-8");
+			response.getWriter().println("<script>"
+					+ "alert('글 작성 중 오류 발생');"
+					+ "history.back();"
+					+ "</script>");
+			return null;
 		}
     }
     
     @RequestMapping("/update")
-    public String boardUpdate(int cm_no, Model model) {
-    	Map<String, Object> map = boardService.contentBoard(cm_no);
+    public String boardUpdate(HttpServletRequest request, int cm_no, Model model) throws Exception {
+    	Map<String, Object> map = boardService.contentBoard(request, cm_no, model);
     	model.addAttribute("Map", map);
     	return "board.update";
   
     }
     
-    @RequestMapping("/updateOk")
-    public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		Model model, String[] category,
-    		HttpSession session, HttpServletRequest request) throws Exception {
+    @RequestMapping("/updateform")
+    @ResponseBody
+    public String update(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
+    		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile) throws Exception {
+    	int check = boardService.updateBoard(dto, files, request, deletefile);
     	
-    	int check = boardService.updateBoard(dto, files, model, category, session, request);
-    	
-    	if(check > 0) {
-			return "board.list";
+    	if(check>0) {
+			return "<script>location.href='/finproj/board/list'</script>";
 		}else {
-			model.addAttribute("msg", "글작성중 문제가 발생했습니다.");
-		    return "error/error";
+			
+			return "<script>"
+					+ "alert('글 작성 중 오류 발생');"
+					+ "history.back();"
+					+ "</script>";
 		}
     }
     
@@ -106,7 +114,7 @@ public class BoardController {
     @RequestMapping("/addmention")
     @ResponseBody
     public List<MentionDTO> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
-    	int check = mentionService.getMentionInsert(dto);
+    	mentionService.getMentionInsert(dto);
     	
     	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
     	return list;
@@ -121,7 +129,7 @@ public class BoardController {
     
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public String boardDelete(int cm_no, HttpServletRequest request) {
+    public String boardDelete(int cm_no, HttpServletRequest request) throws Exception {
     	int re = boardService.deleteBoardCont(cm_no, request);
     	if(re>0) {
     		return "<script>alert('게시글 삭제 성공');location.href='/finproj/index';</script>";
@@ -129,4 +137,20 @@ public class BoardController {
     		return "<script>alert('게시글 삭제 실패');history.back();</script>";
     	}
     }
+    
+    @RequestMapping("/like/manage")
+    @ResponseBody
+    public int boardLikeManage(int check, int cm_no, HttpSession session) {
+		int re = boardService.manageBoardLike(check, cm_no, session);
+    	return re;
+    }
+    
+    @RequestMapping("/like/mention/manage")
+    @ResponseBody
+    public int boardLikeMentionManage(int check, int mention_no, HttpSession session) {
+    	int re = boardService.manageMentionLike(check, mention_no, session);
+    	return re;
+    }
+    
+    
 }

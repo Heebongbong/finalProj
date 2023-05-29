@@ -75,13 +75,13 @@ public class UserController {
 	}
 	
 	@RequestMapping("/deleteOk")
-	public String userDropOk(String check_pwd, HttpSession session, Model model) throws Exception {
-		int check = userService.deleteUser(check_pwd, session);
+	public String userDropOk(@RequestParam(defaultValue = "") String check_pwd, HttpSession session, HttpServletResponse response) throws Exception {
+		int check = userService.deleteUser(check_pwd, session, response);
 		if (check > 0) {
 			return "redirect:/index";
 		} else {// 불일치
-			model.addAttribute("msg", "탈퇴 중 문제가 발생했습니다.");
-			return "error/error";
+			response.getWriter().println("<script>alert('탈퇴 중 문제가 발생했습니다.');history.back();</script>");
+			return null;
 		}
 	}
 

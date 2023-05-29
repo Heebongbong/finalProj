@@ -43,7 +43,7 @@ const popup = document.querySelector('.url');
 const content_id = "${dto.getContent_id()}";
 
 popup.addEventListener("click", function() {
-	window.open("${ctxPath }/camping/details?content_id="+content_id, "팝업1", "width=400, height=560, top = 100, left = 200, location = yes, scrollbars=yes");
+	window.open(ctxPath+"/camping/details?content_id="+content_id, "팝업1", "width=400, height=560, top = 100, left = 200, location = yes, scrollbars=yes");
 });
 
 

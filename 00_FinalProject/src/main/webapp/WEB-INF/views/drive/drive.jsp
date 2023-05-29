@@ -8,11 +8,13 @@
 	<input type="text" id="drive">
 	<input type="button" value="드라이브 경로 추천" onclick="openwindows()">
 	<p id="addr"></p>
-	
+
 	<div id="view">
-		
 	</div>
+	<div>
 	
+		<input type="button" value="아름다운 길 크롤링" onclick="location.href='${ctxPath }/drive/load/insert'">
+	</div>
 	<div>
 		${GpsDTO }
 	</div>

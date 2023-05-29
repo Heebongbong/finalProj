@@ -5,13 +5,9 @@
 <c:set var="loginUser" value="${sessionScope.LoginUser}"/>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set var="dto" value="${content }"/>
-<script>
-</script>
-
 <div id="forget_wrap">
 	<form id="forgetForm" action="${ctxPath }/user/forgetOk" method="post">
 		<input class="phone_user_no" type="hidden" name="user_no" value="123">
-	
 		<div>
 			<p>비밀번호 찾기</p>
 		</div>	
@@ -37,8 +33,6 @@
 				<p class="pwd_reError">&nbsp;</p>
 			</div>
 		</div>
-		
 		<button type="submit" id="submitBtn">가입하기</button>
-		
 	</form>
 </div>

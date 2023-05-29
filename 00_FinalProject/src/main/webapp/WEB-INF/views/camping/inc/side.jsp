@@ -56,10 +56,3 @@
 		<input type="button" value="검색" onclick="locSearch()">
 	</div>
 </div>
-
-<script>
-	function locSearch() {
-		let locs = $('#locs').val();
-		location.href='${ctxPath}/camping/camping?keyword='+locs;
-	}
-</script>

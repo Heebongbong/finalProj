@@ -2,20 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
-<script>
-function check() {
-	if ($("input:checkbox[name='category']").is(":checked")==false) {
-		alert("적어도 하나는 선택하여 주십시오.");
-		return;
-	}
-}
-
-function loc_hash(){
-	$('.hashtag').val($('.hashtag').val()+"#"+$('#subject').val());
-}
-</script>
 <div class="market_write_wrap">
-	<form id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/market/writeform">
+	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/market/writeform">
 		<div class="form-group" align="left">
 			<div>
 				<input type="checkbox" value="#텐트#타프" id="cate_tent" name="category"><label for="cate_tent">텐트/타프</label>

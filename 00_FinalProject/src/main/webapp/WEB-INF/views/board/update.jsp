@@ -4,62 +4,40 @@
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set var="dto" value="${Map.get('BoardDTO') }"/>
 <c:set var="hash" value="${Map.get('HashMap') }"/>
-<script>
-function check() {
-	if ($("input:checkbox[name='category']").is(":checked")==false) {
-		alert("적어도 하나는 선택하여 주십시오.");
-		return;
-	}
-}
-function cate_hash(self){
-	let check_id = self.id;
-	console.log(check_id);
-	
-	
-	if ($("#"+check_id).is(":checked") == true) {
-		
-		console.log($('.hashtags').val()+"#"+$(self).val());
-		$('.hashtags').val($('.hashtags').val()+"#"+$(self).val());
-	}else {
-
-		let str = $('.hashtags').val().trim();
-		console.log(str.split('#'));	
-	}
-		  
-}
-
-</script>
+<c:set var="files" value="${Map.get('Files') }"/>
 <div class="board_wrap">
-	<h2>게시글 작성</h2>
-	 <form id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/writeform">
-           <div class="form-group" align="left">
-				<span>해시태그</span>
-				
-	            <input type="checkbox" id="life" onclick="cate_hash(this)" class="category" name="category" value="일상" <c:if test="${hash.get('운동') == 1 }">checked</c:if>><label for="review">일상</label>
-				<input type="checkbox" id="review" onclick="cate_hash(this)" class="category" name="category" value="리뷰"><label for="review">리뷰</label>
-				<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" name="category" value="음식"><label for="food">음식</label>
-				<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" name="category" value="장비"><label for="equipment">장비</label>
-           </div>
-           <div class="form-group" align="left">
-               <label for="content">내용:</label>
-               <textarea class="form-control" rows="15" id="content" name="content">${dto.getContent() }</textarea>
-           </div>
-           <div class="form-group" align="left">
-               <label for="subject">파일:</label>
-               <input type="file" class="form-control-file border" name="upfile" multiple="multiple">
-           </div>
-           <div>
-
-           	<input type="text" class="hashtags" value="${dto.getHashtag() }">
-
-           </div>
-           <script type="text/javascript">
-           	
-           </script>
-           <div>
-           	<button type="submit" class="btn btn-primary">글작성</button>
-           	<button type="reset" class="btn btn-warning">초기화</button>
-           </div>
-           
-       </form>
+	<form onsubmit="return check()" id="updateform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/updateform">
+		<div>
+			<span>카테고리</span>
+			<input type="checkbox" id="life" onclick="cate_hash(this)" class="category" name="category" value="일상" <c:if test="${hash.get('일상') == 1 }">checked</c:if>><label for="review">일상</label>
+			<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" name="category" value="요리" <c:if test="${hash.get('요리') == 1 }">checked</c:if>><label for="food">요리</label>
+			<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" name="category" value="장비" <c:if test="${hash.get('장비') == 1 }">checked</c:if>><label for="equipment">장비</label>
+		</div>
+		<div class="form-group" align="left">
+			<textarea class="form-control" rows="15" id="content" name="content">${dto.getContent() }</textarea>
+		</div>
+		<div class="form-group" align="left">
+			<label for="form-control-file">파일:</label>
+			<input type="file" class="form-control-file border" name="upfile" multiple="multiple" id="form-control-file">
+		</div>
+		<div class="form-group" align="left">
+			<p>삭제할 파일을 선택하세요.</p>
+			<div class="row">
+				<c:forEach var="file" items="${files}">
+					<div class='upload_photo_file col-4' >
+						<input id="${file }" type="checkbox" name=deletefile value="${file }">
+						<label for="${file }"><img src="/finproj/resources/images/board/${dto.getPhoto_folder()}/${file }"></label>
+					</div>
+				</c:forEach>
+			</div>
+			<div>
+				<input type="text" class="hashtag" name="hashtag" value="${dto.getHashtag() }">
+			</div>
+		</div>
+		<div>
+			<input type="hidden" name="cm_no" value="${dto.getCm_no() }">
+			<button type="submit" class="btn btn-primary">수정</button>
+			<button type="reset" class="btn btn-warning">초기화</button>
+		</div>
+	</form>
 </div>

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.user.UserDTO;
@@ -24,6 +23,6 @@ public interface UserService {
 	public int updateUserContent(UserDTO dto, HttpSession session, MultipartFile mfile, HttpServletRequest request) throws Exception;
 	public int updatePwd(UserDTO dto);
 	public String sendSMSSite(String phone, HttpSession session);
-	public int deleteUser(String check_pwd, HttpSession session) throws Exception;
+	public int deleteUser(String check_pwd, HttpSession session, HttpServletResponse response) throws Exception;
 
 }

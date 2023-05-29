@@ -40,5 +40,23 @@ public class ChatDAOImpl implements ChatDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("faq_list");
 	}
+
+	@Override
+	public ChatDTO getChatRoomContent(ChatDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("chat_room_content", dto);
+	}
+
+	@Override
+	public int deleteChatRoom(int chat_room_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("chat_room_delete", chat_room_no);
+	}
+
+	@Override
+	public int deleteChatList(int chat_room_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("chat_list_delete", chat_room_no);
+	}
 	
 }
