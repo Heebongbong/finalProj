@@ -15,6 +15,7 @@
 	const loginUser_no = '${loginUser.user_no }';
 	const loginUser_profile = '${loginUser.profile }';
 </script>
+<script src="https://kit.fontawesome.com/e6bfca85af.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="base_css" />">
 <link rel="stylesheet" href="${ctxPath }<tiles:getAsString name="inc_css" />">

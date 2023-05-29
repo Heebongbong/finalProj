@@ -25,6 +25,21 @@
 		</li>
 	</ul>
 	<input type="hidden" value="${Category }" id="board_category">
+	<!-- 신고 모달창 -->
+	<div class="declaration_modal_overlay">
+		<div class="declaration_modal_window">
+			<div class="decl_modal_header">
+				<p class="decl_nickname"></p><span class="decl_modal_close" onclick="close_declaration()">X</span>
+				<input type="hidden" class="decl_cm_no" value="">
+			</div>
+			<div class="decl_modal_body">
+				<textarea rows="" cols="" class="decl_modal_text"></textarea>
+			</div>
+			<div class="decl_modal_btn">
+				<input type="button" value="신고하기" onclick="declaration()">
+			</div>
+		</div>
+	</div>
 	<div class="list_main">
 		
 	</div>

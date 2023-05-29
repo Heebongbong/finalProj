@@ -16,6 +16,7 @@ $(document).ready(function(){
 		draggable: true
 	});
 	
+	//게시글 추가
 	$('body').on("mousewheel", function(event) {
 	  if (($(window).scrollTop() + $(window).innerHeight()) >= $(document).height() - 1) {
 	    if (event.originalEvent.deltaY > 0) {
@@ -129,12 +130,6 @@ function move_search_cate(key){
 	location.href=ctxPath+"/board/list?keyword="+keyword+"&category="+category;
 }
 
-//전체댓글 오픈
-function open_ment_modal(self){
-	$(self).siblings().find('.board_reply_cont_show').hidden();
-	$(self).siblings().find('.board_reply_cont_total').show();
-}
-
 //게시글 좋아요 
 function click_like_board(cm_no, self){
 	if(loginUser_no!=''){
@@ -219,9 +214,7 @@ function click_like_mention(mention_no, self){
 	}
 }
 
-function addMention(no){
-	// 클릭한 버튼의 id를 가져옵니다.
-	  console.log("no >>> "+no);
+function addMention(no, self){
 	
 	  // 해당 버튼에 대한 AJAX 요청을 보냅니다.
 	  $.ajax({
@@ -230,7 +223,7 @@ function addMention(no){
 	    data: {
 	      cm_no: no,
 	      user_no: loginUser_no,
-	      ment: $('#' + no).val()
+	      ment: $(self).prev().val()
 	    },
 	    dataType: 'json',
 	    contentType: 'application/json; charset=UTF-8;',
@@ -238,52 +231,50 @@ function addMention(no){
 			// 댓글 수신 영역 초기화
 			$("."+no+"board_reply_wrap").html("");
 	    	// 받아온 댓글 데이터를 처리하고 해당 댓글을 목록에 추가합니다.
-			let mention = data;
-	      	console.log(mention);
-			//댓글 목록 - 보여지는 최대 3개
+			let mention = data.MentionList;
+			let mentionLikeList = data.MentionLikeList;
+
+			//댓글 목록
 			let table = "";
 			table += "<div class='board_reply_cont_show'>";
 			//<!-- 댓글이 목록이 들어가는 곳 -->
-			for(let j = 0; j < ((mention.length>3) ? 3 : mention.length); j++) {
-				table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-							"<div class='board_reply_ment'>"+mention[j].ment+"</div>";
-						if(mention[j].user_no==loginUser_no){
-							table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
-						}
-				table += "</div>";
-			}
-			table += "</div>"; //reply_cont end
-
-			
-			//댓글 목록 - 숨어있는 전체목록
-			table += "<div class='board_reply_cont_total'>";
-			//<!-- 댓글이 목록이 들어가는 곳 -->
 			for(let j = 0; j < mention.length; j++) {
 				table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-							"<div class='board_reply_ment'>"+mention[j].ment+"</div>";
+							"<div class='board_reply_ment'>"+mention[j].ment+
+							
+								//댓글 좋아요 버튼
+								"<a class='mention_like_wrap' href='javascript:' onclick='click_like_mention("+mention[j].mention_no+", this)'>";
+								
+								if(mentionLikeList.find(element => element == mention[j].mention_no)!=null){
+									table += "<i class='fa fa-heart' aria-hidden='true'></i>";
+								}else{
+									table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+								}
+
+								table += "</a>" + "<span>" + mention[j].likeCount + "</span>" + //좋아요 end
+							
+							"</div>";
 						if(mention[j].user_no==loginUser_no){
 							table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
 						}
 				table += "</div>";
 			}
 			table += "</div>"; //reply_cont end
-
-			table += "<input type='button' value='전체댓글 보기' onclick='open_ment_modal(this)'>";
 
 			//<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
 			table += "<div class='board_reply_write'>";
-					if(loginUser_no!=""){
-						table += "<div class='reply_write_user'>"+
-									"<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
-								"</div>"+
-								"<div class='reply_write_ment'>"+
-									"<input class='reply_write_ment' id='"+no+"'>"+
-									"<button type='button' class='reply_write_insert' onclick='addMention("+no+")'>댓글입력</button>"+
-								"</div>";
-					}else{
-						table += "<div><h2>로그인이 필요합니다.</h2></div>";
-					}
-				table += "</div>"+	//reply_write end
+				if(loginUser_no!=""){
+					table += "<div class='reply_write_user'>"+
+								"<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
+							"</div>"+
+							"<div class='reply_write_ment'>"+
+								"<input class='reply_write_ment'>"+
+								"<button type='button' class='reply_write_insert' onclick='addMention("+no+", this)'>댓글입력</button>"+
+							"</div>";
+				}else{
+					table += "<div><h2>로그인이 필요합니다.</h2></div>";
+				}
+			table += "</div>"+	//reply_write end
 
 
 
@@ -302,7 +293,7 @@ function addList(){
 	}
 
 	let keyword = replace_keyword($('#search_keyword').val());
-	let category = replace_keyword($('#board_category').val());
+	let category = replace_keyword($('#camping_category').val());
 
 	$.ajax({
         type: "get",
@@ -329,8 +320,6 @@ function addList(){
             let mention = mentionList[no];
             let files = board.photo_files;
             let folders = board.photo_folder;
-
-			console.log(likeList.find(element => element == no));
 
 			table += "<div class='board_content'>" +
 				"<input class='board_no' type='hidden' value='"+no+"'>" +
@@ -383,6 +372,7 @@ function addList(){
 				//게시글 본문
 				"<div class='board_main_wrap'>" +
 					"<div class='board_main_photo'>" +
+						//슬릭 적용
 						"<div class='board_main_files'>";
 								if(files.length==0){
 									table += "<div class='board_file_slick'><img src='/finproj/resources/images/board/default/default.jpg'></div>";
@@ -417,15 +407,16 @@ function addList(){
 							}
 							
 					table += "</a>" + 
-						"<span>" + board.likeCount + "</span>" +
+							"<span>" + board.likeCount + "</span>" +
 						"</div>" +
-					"</div>" +
-					"<div class='"+no+"board_reply_wrap'>";
+					"</div>"; //main_cont end
 
-					//댓글 목록 - 보여지는 최대 3개
-					table += "<div class='board_reply_cont_show'>";
+
+					//댓글 목록
+					table += "<div class='"+no+"board_reply_wrap reply_wrap'>" +
+								"<div class='board_reply_cont_show'>";
 					//<!-- 댓글이 목록이 들어가는 곳 -->
-					for(let j = 0; j < ((mention.length>3) ? 3 : mention.length); j++) {
+					for(let j = 0; j < mention.length; j++) {
 						table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'>"+
 										"<div class='board_reply_user'>"+mention[j].nickname+"</div>"+
 										"<div class='board_reply_ment'>"+mention[j].ment+
@@ -433,7 +424,7 @@ function addList(){
 											//댓글 좋아요 버튼
 											"<a class='mention_like_wrap' href='javascript:' onclick='click_like_mention("+mention[j].mention_no+", this)'>";
 											if(loginUser_no != ''){
-												if(mentionLikeList.find(element => element == no)!=null){
+												if(mentionLikeList.find(element => element == mention[j].mention_no)!=null){
 													table += "<i class='fa fa-heart' aria-hidden='true'></i>";
 												}else{
 													table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
@@ -441,7 +432,7 @@ function addList(){
 											}else{
 												table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
 											}
-										table += "</a>" + "<span>" + mention[j].likeCount + "</span>" +
+										table += "</a>" + "<span>" + mention[j].likeCount + "</span>" + //좋아요 end
 										"</div>";
 								if(mention[j].user_no==loginUser_no){
 									table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
@@ -450,22 +441,6 @@ function addList(){
 					}
 					table += "</div>"; //reply_cont end
 
-					
-					//댓글 목록 - 숨어있는 전체목록
-					table += "<div class='board_reply_cont_total'>";
-					//<!-- 댓글이 목록이 들어가는 곳 -->
-					for(let j = 0; j < mention.length; j++) {
-						table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-									"<div class='board_reply_ment'>"+mention[j].ment+"</div>";
-								if(mention[j].user_no==loginUser_no){
-									table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
-								}
-						table += "</div>";
-					}
-					table += "</div>"; //reply_cont end
-
-					table += "<input type='button' value='전체댓글 보기' onclick='open_ment_modal(this)'>";
-
 					//<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
 						table += "<div class='board_reply_write'>";
 								if(loginUser!=''){
@@ -473,8 +448,8 @@ function addList(){
 												"<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
 											"</div>"+
 											"<div class='reply_write_ment'>"+
-												"<input class='reply_write_ment' id='"+no+"'>"+
-												"<button type='button' class='reply_write_insert' onclick='addMention("+no+")'>댓글입력</button>"+
+												"<input class='reply_write_ment'>"+
+												"<button type='button' class='reply_write_insert' onclick='addMention("+no+", this)'>댓글입력</button>"+
 											"</div>";
 								}else{
 									table += "<div><h2>로그인이 필요합니다.</h2></div>";

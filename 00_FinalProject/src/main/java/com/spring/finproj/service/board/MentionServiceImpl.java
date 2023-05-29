@@ -1,7 +1,8 @@
 package com.spring.finproj.service.board;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 
 import com.spring.finproj.model.board.MentionDAO;
 import com.spring.finproj.model.board.MentionDTO;
+import com.spring.finproj.model.user.UserDTO;
 
 @Service
 public class MentionServiceImpl implements MentionService{
@@ -27,12 +29,23 @@ public class MentionServiceImpl implements MentionService{
 	}
 	
 	@Override
-	public List<MentionDTO> addMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception {
+	public Map<String, Object> addMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception {
+		Map<String, Object> mapList = new HashMap<String, Object>();
 		
-		List<MentionDTO> list = new ArrayList<MentionDTO>();
-		list = mentionDAO.getMentionList(cm_no);
+		List<MentionDTO> list = mentionDAO.getMentionList(cm_no);
 		
-		return list;
+		for(MentionDTO m : list) {
+			m.setLikeCount(mentionDAO.getMentionLikeCount(m.getMention_no()));
+		}
+		
+		int login_user_no = ((UserDTO)request.getSession().getAttribute("LoginUser")).getUser_no();
+		
+		List<Integer> mentionLikeList = mentionDAO.getMentionLikeList(login_user_no);
+		
+		mapList.put("MentionList", list);
+		mapList.put("MentionLikeList", mentionLikeList);
+		
+		return mapList;
 	}
 
 	@Override

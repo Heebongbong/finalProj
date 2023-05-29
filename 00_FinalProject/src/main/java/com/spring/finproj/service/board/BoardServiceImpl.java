@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 				list = boardDAO.getBoardList();
 			}else {
 				if(keyword.startsWith("%23")) {
-					key = keyword+= category;
+					key = keyword += category;
 					
 					StringTokenizer st = new StringTokenizer(key, "%23");
 					List<String> hashList = new ArrayList<String>();
@@ -61,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
 					
 					list = boardDAO.getBoardHashKeyList(hashList);
 				}else {
-					key = keyword+= category;
+					key = keyword += category;
 					list = boardDAO.getBoardList(key);
 				}
 			}
