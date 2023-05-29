@@ -120,17 +120,17 @@ public class UserServiceImpl implements UserService {
 
 		System.out.println("=====================================================");
 		System.out.println(sdto);
-		
+
 		sdto.isAuthen();
 		dto.isProfile_type();
-		
+
 		if (dto.getPwd().equals("")) {
 			dto.setPwd(sdto.getPwd());
 			System.out.println("기존 비밀번호 세팅");
 		}
-		
+
 		System.out.println(dto.getPwd());
-		
+
 		if (!dto.getPhone().equals("")) {
 			dto.setAuthen(true);
 		}
@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
 			}
 
 		} else { // 기존 이미지 세팅
-			if(dto.getProfile() == null) {
+			if (dto.getProfile() == null) {
 				System.out.println("프로필 수정 없어서 파일 정보 없음~");
 				dto.setProfile(sdto.getProfile());
 			}
@@ -200,10 +200,10 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateUserContent(dto);
 
 	}
-	
+
 	@Override
 	public int updatePwd(UserDTO dto) {
-			
+
 		return userDao.updateUserPwd(dto);
 	}
 
@@ -222,10 +222,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String getPhoneCheck(String phone, String type) {
 		Map<String, String> map = new HashMap<String, String>();
-		
+
 		map.put("phone", phone);
 		map.put("type", type);
-		
+
 		String check = "";
 		System.out.println(userDao.getPhoneCheck(map));
 		if (userDao.getPhoneCheck(map) == null) {
@@ -233,11 +233,11 @@ public class UserServiceImpl implements UserService {
 		}
 		return check;
 	}
-	
+
 	@Override
 	public String getEmailCheck(String email) {
 		String check = "";
-		System.out.println("서비스 > "+email);
+		System.out.println("서비스 > " + email);
 		System.out.println(userDao.getEmailCheck(email));
 		if (userDao.getEmailCheck(email) == null) {
 			check = "true";
@@ -268,35 +268,34 @@ public class UserServiceImpl implements UserService {
 		return check;
 	}
 
-	
 	@Override
 	public String sendSMSSite(String phone, HttpSession session) {
-		
+
 		String check = "";
 		String res = userDao.checkTypeAndPhone(phone);
-		System.out.println("user_no === "+res);
-		if(res != null) {
-			
+		System.out.println("user_no === " + res);
+		if (res != null) {
+
 			/*
 			 * SendSMSAPI send = new SendSMSAPI();
 			 * 
 			 * String code = send.sendSMS(phone);
 			 */
-			
+
 			String code = "123";
-			
-			
+
 			if (code != null) {
 				session.setAttribute("code", code);
 				System.out.println("코드생성 및 발신 성공~");
 				check = res;
 			}
-		}else {
+		} else {
 			System.out.println("미등록 유저");
 		}
 
 		return check;
 	}
+
 	@Override
 	public String checkSMS(String input_code, HttpSession session) {
 
@@ -324,99 +323,139 @@ public class UserServiceImpl implements UserService {
 		}
 		return check;
 	}
-	
+
 	@Override
-	public int deleteUser(String check_pwd, HttpSession session) throws Exception {
-		
+	public int deleteUser(String check_pwd, HttpSession session, HttpServletResponse response) throws Exception {
+
 		UserDTO dto = (UserDTO) session.getAttribute("LoginUser");
+		UserSessionDTO sdto = userDao.getUserSession(dto.getUser_no());
+		String sessionID = sdto.getSessionID();
 		
 		int check = -1;
 		int res = -1;
 		
-		System.out.println(dto);
-		System.out.println(check_pwd);
-		if (check_pwd.equals(dto.getPwd())) {
+		if (check_pwd.equals(dto.getPwd()) && dto.getType().equals("S")) {
 			// 쿼리문 type = D 로 변경
 			userDao.deleteUser(dto.getUser_no());
-			UserSessionDTO sdto = userDao.getUserSession(dto.getUser_no());
 			userDao.deleteUserSessionContent(dto.getUser_no());
-			String sessionID = sdto.getSessionID();
-			 
-				if(dto.getType().equals("K")) {
-					deleteKakaorUser(sessionID);
-				}else if(dto.getType().equals("N")) {
-					deleteNaverUser(sessionID);
-				}else if(dto.getType().equals("G")) {
-					deleteGoogleUser(sessionID);
-				}
-		}
-
-		if(res ==1) {
-			check = 1;
+			res = 1;
 		}
 		
+		if(check_pwd.equals("")) {
+			if (dto.getType().equals("K")) {
+				deleteKakaorUser(sessionID);
+			} else if (dto.getType().equals("N")) {
+				deleteNaverUser(sessionID);
+			}
+			
+			userDao.deleteUser(dto.getUser_no());
+			userDao.deleteUserSessionContent(dto.getUser_no());
+			
+			res = 1;
+		}
+		
+		
+		
+		if (res == 1) {
+			check = 1;
+			
+			Cookie a_t = new Cookie("AccessToken", null);
+	        a_t.setMaxAge(0);
+	        a_t.setPath("/");
+	        response.addCookie(a_t);
+	        Cookie j_t = new Cookie("JSESSIONID", null);
+	        a_t.setMaxAge(0);
+	        a_t.setPath("/");
+	        response.addCookie(j_t);
+	        
+			session.invalidate();
+		}
+
 		return check;
 	}
-	
+
 	private void deleteKakaorUser(String sessionID) throws Exception {
-		// TODO Auto-generated method stub
 		StringBuilder urlBuilder = new StringBuilder("https://kapi.kakao.com/v1/user/unlink");
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-        conn.setRequestProperty("Authorization", "Bearer "+ sessionID);
-        System.out.println("delete code: " + conn.getResponseCode());
-        BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
-        //sb.toString();
+		URL url = new URL(urlBuilder.toString());
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		conn.setRequestProperty("Authorization", "Bearer " + sessionID);
+		System.out.println("delete code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		} else {
+			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		}
+
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+			sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
+		// sb.toString();
 	}
 
 	private void deleteNaverUser(String sessionID) throws Exception {
 
 		StringBuilder urlBuilder = new StringBuilder("https://nid.naver.com/oauth2.0/token");
-        urlBuilder.append("?" + URLEncoder.encode("grant_type","UTF-8") + "=" + URLEncoder.encode("delete", "UTF-8")); 
-        urlBuilder.append("&" + URLEncoder.encode("client_id","UTF-8") + "=" + URLEncoder.encode("2fzdhIRlmXgPi9uo_5Xi", "UTF-8")); 
-        urlBuilder.append("&" + URLEncoder.encode("client_secret","UTF-8") + "=" + URLEncoder.encode("nPmw0vdmyR", "UTF-8")); 
-        urlBuilder.append("&" + URLEncoder.encode("access_token","UTF-8") + "=" + URLEncoder.encode(sessionID, "UTF-8")); 
-        urlBuilder.append("&" + URLEncoder.encode("service_provider","UTF-8") + "=" + URLEncoder.encode("NAVER", "UTF-8")); 
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-        System.out.println("delete code: " + conn.getResponseCode());
-        BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
+		urlBuilder.append("?" + URLEncoder.encode("grant_type", "UTF-8") + "=" + URLEncoder.encode("delete", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("client_id", "UTF-8") + "="
+				+ URLEncoder.encode("2fzdhIRlmXgPi9uo_5Xi", "UTF-8"));
+		urlBuilder.append(
+				"&" + URLEncoder.encode("client_secret", "UTF-8") + "=" + URLEncoder.encode("nPmw0vdmyR", "UTF-8"));
+		urlBuilder
+				.append("&" + URLEncoder.encode("access_token", "UTF-8") + "=" + URLEncoder.encode(sessionID, "UTF-8"));
+		urlBuilder.append(
+				"&" + URLEncoder.encode("service_provider", "UTF-8") + "=" + URLEncoder.encode("NAVER", "UTF-8"));
+		URL url = new URL(urlBuilder.toString());
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		System.out.println("delete code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		} else {
+			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		}
+
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+			sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
 
 	}
 	
-	private void deleteGoogleUser(String sessionID) {
-		// TODO Auto-generated method stub
-		
+
+	private void deleteGoogleUser(String sessionID) throws Exception {
+
+		String urlBuilder = "https://oauth2.googleapis.com/revoke?token="+sessionID;
+		URL url = new URL(urlBuilder);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+		System.out.println("delete code: " + conn.getResponseCode());
+		BufferedReader rd;
+		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		} else {
+			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		}
+
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = rd.readLine()) != null) {
+			sb.append(line);
+		}
+		rd.close();
+		conn.disconnect();
 	}
 
 	@Override
@@ -444,7 +483,6 @@ public class UserServiceImpl implements UserService {
 
 	// 로그인 토큰 관련 메서드 ===========================
 	private String refreshProfile(String sessionID, String type) throws IOException {
-		// TODO Auto-generated method stub
 		String profile = null;
 		String curl = null;
 

@@ -47,7 +47,7 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public int deleteUserContent(int user_no) {
 		// TODO Auto-generated method stub
-		return sqlSession.delete("user_delete", user_no);
+		return sqlSession.update("user_delete", user_no);
 	}
 	
 	@Override

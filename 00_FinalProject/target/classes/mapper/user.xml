@@ -83,7 +83,7 @@
 			where p.phone = #{phone} and u.type = 'S'
 	</select>
 	
-	<delete id="user_delete" parameterType="int">
-		DELETE FROM user WHERE user_no = #{user_no}
-	</delete>
+	<update id="user_delete" parameterType="int">
+		UPDATE user SET type = 'D' WHERE user_no = #{user_no}
+	</update>
 </mapper>
