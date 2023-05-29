@@ -1,16 +1,9 @@
 package com.spring.finproj.service.handler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -57,8 +50,6 @@ public class CrawlingRoad {
 				dto.setName(name.text());
 				dto.setAddress(addr.text());
 				dto.setInfo(info);
-				System.out.println(a_no);
-				System.out.println(dto.toString());
 				
 				list.add(dto);
 			}
@@ -84,42 +75,5 @@ public class CrawlingRoad {
 			info += li.text() + "<br>";
 		}
 		return info;
-	}
-
-	private void getXY(String text, DriveRoadDTO dto) throws IOException {
-		// TODO Auto-generated method stub
-		
-		StringBuilder urlBuilder = new StringBuilder("https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode");
-        urlBuilder.append("?" + URLEncoder.encode("query","UTF-8") + "=" + URLEncoder.encode(text, "UTF-8"));
-        
-		// 1. 장치에 요청할 URI를 입력한다.
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection con = (HttpURLConnection)url.openConnection();
-
-        con.setRequestProperty("Content-Type", "application/json");
-
-        // 2. Method 타입을 정의하고 API를 전송한다.
-        con.setRequestMethod("GET");
-        con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", "4sqz6l4y8y");
-        con.setRequestProperty("X-NCP-APIGW-API-KEY", "bMoniLVncq0fF2RmptqmnYjnkVvJgfP0C9vDvbrh");
-        
-        con.getResponseCode();
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-        
-        JSONObject jo = new JSONObject(response.toString());
-        JSONArray jo2 = jo.getJSONObject("route").getJSONArray("traoptimal");
-        JSONObject jo3 = jo2.getJSONObject(0);
-        JSONArray jo4 = jo3.getJSONArray("path");
-        
-		jo4.toString();
-		
 	}
 }

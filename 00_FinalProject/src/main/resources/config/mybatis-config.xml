@@ -14,8 +14,6 @@
 	 	<typeAlias type="com.spring.finproj.model.board.MarketDAO" alias="marketDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.drive.DriveDAO" alias="driveDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.drive.DriveRoadDTO" alias="driveRoadDTO"/>
-	 	<typeAlias type="com.spring.finproj.model.weather.WeatherDAO" alias="weatherDAO"/>
-	 	<typeAlias type="com.spring.finproj.model.weather.WeatherDTO" alias="weatherDTO"/>
 	 	<typeAlias type="com.spring.finproj.model.chat.ChatDAO" alias="chatDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.chat.ChatDTO" alias="chatDTO"/>
 	 	<typeAlias type="com.spring.finproj.model.chat.FaqDTO" alias="faqDTO"/>

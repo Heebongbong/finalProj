@@ -210,6 +210,7 @@ public class MarketServiceImpl implements MarketService{
 		
 		if (files.length == 0) {
 			Properties prop = new Properties();
+			@SuppressWarnings("deprecation")
 			FileInputStream fis = new FileInputStream(
 					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 			prop.load(new InputStreamReader(fis));

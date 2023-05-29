@@ -1,5 +1,6 @@
 package com.spring.finproj.model.drive;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,5 +22,11 @@ public class DriveDAOImpl implements DriveDAO{
 	public void insertRoadXY(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		sqlSession.insert("road_insert_xy", map);
+	}
+
+	@Override
+	public List<DriveRoadDTO> getRoadXY() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("road_get_list");
 	}
 }

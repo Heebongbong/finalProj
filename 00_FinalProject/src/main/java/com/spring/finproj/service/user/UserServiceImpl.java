@@ -346,6 +346,8 @@ public class UserServiceImpl implements UserService {
 				deleteKakaorUser(sessionID);
 			} else if (dto.getType().equals("N")) {
 				deleteNaverUser(sessionID);
+			}else if(dto.getType().equals("G")) {
+				deleteGoogleUser(sessionID);
 			}
 			
 			userDao.deleteUser(dto.getUser_no());

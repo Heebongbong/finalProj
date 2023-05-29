@@ -1,6 +1,7 @@
 package com.spring.finproj.controller.drive;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,10 @@ public class DriveController {
 	
 	@ResponseBody
 	@RequestMapping("/content")
-	public String driveContent(@RequestParam double xDri,@RequestParam double yDri) throws Exception {
+	public Map<String, Object> driveContent(@RequestParam double xDri,@RequestParam double yDri,
+			@RequestParam(required = false) double xStart, @RequestParam(required = false) double yStart) throws Exception {
 
-		return driveService.getPathSerch(xDri, yDri);
+		return driveService.getPathSerch(xDri, yDri, xStart, yStart);
 	}
 	
 	@RequestMapping("/load/insert")

@@ -99,9 +99,6 @@ public class WeatherServiceImpl implements WeatherService{
         map.put("bastime", baseTime);
         map.put("category", nowCategory);
         map.put("obsrValue", nowObsrValue);
-
-        
-        
         
         JSONObject jo2 = new JSONObject(sb2);
         JSONArray ja2 = jo2.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
@@ -123,8 +120,6 @@ public class WeatherServiceImpl implements WeatherService{
         map2.put("fcstTime", fcstTime);
         map2.put("fcstCategory", fcstCategory);
         map2.put("fcstValue", fcstValue);
-        
-        
         
         model.addAttribute("str", map);
         model.addAttribute("str2", map2);
