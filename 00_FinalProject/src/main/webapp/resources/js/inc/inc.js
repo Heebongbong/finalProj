@@ -43,6 +43,16 @@ function open_footer(event){
 	}, 5000);
 }
 
+function delete_move(type){
+	if(type=='S'){
+		location.href=ctxPath + '/user/delete';
+	}else{
+		if(confirm('정말로 삭제하시겠습니까')){
+			location.href=ctxPath + '/user/deleteOk';
+		}
+	}
+}
+
 
 // login function
 

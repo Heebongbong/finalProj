@@ -101,7 +101,7 @@ function declaration(){
 }
 
 function cm_modify(cm_no){ //게시글 수정
-	location.href=ctxPath+"/board/update?cm_no="+cm_no;
+	location.href=ctxPath+"/market/update?cm_no="+cm_no;
 }
 
 function cm_delete(cm_no, user_no){ //게시글 삭제
@@ -146,24 +146,49 @@ function marketAddList(){
 				  "<input class='board_no' type='hidden' value='"+no+"'>" +
   
 				  //게시글 헤더
-				  "<div class='board_user_wrap'>" +
-					  "<div class='board_user_prof'>" +
-						  "<img src='"+ board.profile +"'>" +
-						  "<span>'"+ board.nickname +"'</span>" +
-					  "</div>" +
-					  "<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
-						  "<a class='board_detail_btn' href='javascript:'>***</a>" +
-					  "</div>" +
-  
-					  //게시글 상세 메뉴 모달창
-					  "<div class='detail_modal_overlay'>" +
-						  "<div class='detail_modal_window'>"+
-							  "<a href='javascript:cm_declaration("+no+",\""+board.nickname+"\")'>게시글 신고</a>"+
-							  "<a href='javascript:cm_modify("+no+")'>게시글 수정</a>"+
-							  "<a href='javascript:cm_delete("+no+","+board.user_no+")'>게시글 삭제</a>"+
-						  "</div>"+
-					  "</div>" +
-				  "</div>" +
+				"<div class='board_user_wrap'>" +
+					"<div class='board_user_prof'>" +
+						"<img src='"+ board.profile +"' class='board_user_prof_img' onclick='open_user_modal(this)'>" +
+						"<span>'"+ board.nickname +"'</span>" +
+					"</div>" +
+
+					//유저 프로필 모달창
+					"<div class='user_modal_overlay'>" +
+						"<div class='user_modal_window'>" +
+							"<div class='user_modal_title'>" +
+								"<img src='"+ board.profile +"'>" +
+								"<div>"+board.nickname+"</div>" ;
+								if(board.type=='S'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/logo.png'>";
+								}else if(board.type=='G'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/google_logo.png'>";
+								}else if(board.type=='N'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/naver_logo.jpg'>";
+								}else if(board.type=='K'){
+									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/kakao_logo.png'>";
+								}
+						table += "</div>" +
+							"<div class='user_modal_body'>" +
+								"<a href='javascript:chat_board("+board.user_no+")'>유저와 채팅하기</a>" +
+								"<a href=''>유저 게시글 보기</a>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+
+					//게시글 상세메뉴 버튼
+					"<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
+						"<a class='board_detail_btn' href='javascript:'>***</a>" +
+					"</div>" +
+
+					//게시글 상세 메뉴 모달창
+					"<div class='detail_modal_overlay'>" +
+						"<div class='detail_modal_window'>"+
+							"<a href='javascript:cm_declaration("+no+",\""+board.nickname+"\")'>게시글 신고</a>"+
+							"<a href='javascript:cm_modify("+no+")'>게시글 수정</a>"+
+							"<a href='javascript:cm_delete("+no+","+board.user_no+")'>게시글 삭제</a>"+
+						"</div>"+
+					"</div>" +
+				"</div>" +
 				  //게시글 제목+가격
 				    "<div class='board_market_title'>" +
 					 	"<p>"+board.title+"</p>" +

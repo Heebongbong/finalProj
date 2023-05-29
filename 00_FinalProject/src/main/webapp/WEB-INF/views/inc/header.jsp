@@ -75,7 +75,7 @@
 				<p>${loginUser.getNickname() }</p>
 				<input type="button" value="로그아웃" onclick="location.href='${ctxPath }/login/logout'">
 				<button onclick="location.href='${ctxPath }/user/mypage'">마이페이지</button>
-				<button onclick="location.href='${ctxPath }/user/delete'">회원탈퇴</button>
+				<button onclick="delete_move('${loginUser.getType()}')">회원탈퇴</button>
 			</div>
 			<div>
 				<p>내 게시물</p>

@@ -10,6 +10,9 @@ public interface MarketDAO {
 	public List<BoardDTO> getMarketList(List<String> hashList);
 	public int insertBoardContent(BoardDTO dto);
 	public int insertMarketContent(BoardDTO dto);
+	public int updateBoardContent(BoardDTO dto);
+	public int updateMarketContent(BoardDTO dto);
+	public BoardDTO getMarketContent(int cm_no);
 	public int getCmMax();
 	public List<BoardDTO> getMarketList(int cm_no);
 	public List<BoardDTO> getMarketHashKeyMap(Map<String, Object> map);
