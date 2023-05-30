@@ -28,5 +28,9 @@ public interface BoardDAO {
 	public int getBoardLikeCount(int cm_no);
 	public int deleteBoardLike(Map<String, Integer> keyMap);
 	public int insertBoardLike(Map<String, Integer> keyMap);
+	public List<BoardDTO> getBoardUserList(int user_no);
+	public List<BoardDTO> getBoardUserList(Map<String, Integer> map);
+	public List<BoardDTO> getBoardUserLikeList(int user_no);
+	public List<BoardDTO> getBoardUserLikeList(Map<String, Integer> map);
 	
 }

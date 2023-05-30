@@ -2,36 +2,36 @@
  * 
  */
 $(document).ready(function(){
-	
-	$(".index_camping_list").slick({
+
+	addList();
+
+	$(".board_main_files").not('.slick-initialized').slick({
 		dots: true,
-		dotsClass : "slick-dots", 
 		infinite: true,
 		speed: 1000,
 		slidesToShow: 1,
+		slidesToScroll: 1,
 		adaptiveHeight: true,
-		autoplay: true,
-		autoplaySpeed: 4000,
-		arrows: false
-	});
-
-	boardAddList();
-	
-	//게시판 추가
-	$('body').on("mousewheel",function(event){
-		if(($(window).scrollTop()+$(window).innerHeight())>=$(document).height()){
-			if(event.originalEvent.deltaY>0){
-				boardAddList();
-			}
-		}
+		arrows: false,
+		draggable: true
 	});
 	
-	//상세 모달창 닫기
+	//게시글 추가
+	$('body').on("mousewheel", function(event) {
+	  if (($(window).scrollTop() + $(window).innerHeight()) >= $(document).height() - 1) {
+	    if (event.originalEvent.deltaY > 0) {
+	      addList();
+	    }
+	  }
+	});
+	
+	//게시판 상세메뉴 모달창 닫기
 	$('body').on('click', function(event){
 		if($(event.target).parents('.detail_modal_overlay').length < 1&&event.target.className!='board_detail_btn'){
 			$('.detail_modal_overlay').hide();
 		}
 	});
+	
 	//유저프로필정보 닫기
 	$('body').on('click', function(event){
 		if($(event.target).parents('.user_modal_overlay').length < 1&&event.target.className!='board_user_prof_img'){
@@ -41,7 +41,7 @@ $(document).ready(function(){
 
 });
 
-//상세메뉴 오픈
+// 게시판 상세메뉴 오픈
 function open_board_detail(self){
 	$(self).next().show();
 }
@@ -51,7 +51,7 @@ function open_user_modal(self){
 	$(self).parent().next().show();
 }
 
-//신고창 오픈
+//신고 모달창 오픈
 function cm_declaration(cm_no, nickname){ 
 	if(loginUser_no==''){
 		alert("로그인이 필요합니다.");
@@ -62,12 +62,12 @@ function cm_declaration(cm_no, nickname){
 	}
 }
 
-//신고창 닫기
+//신고 모달창 닫기
 function close_declaration(){
 	$('.declaration_modal_overlay').hide();
 }
 
-//신고
+//신고하기 ajax
 function declaration(){
 	if(loginUser_no==''){
 		alert("로그인이 필요합니다.");
@@ -101,11 +101,13 @@ function declaration(){
 	}
 }
 
-function cm_modify(cm_no){ //게시글 수정
+//게시글 수정
+function cm_modify(cm_no){ 
 	location.href=ctxPath+"/board/update?cm_no="+cm_no;
 }
 
-function cm_delete(cm_no, user_no){ //게시글 삭제
+//게시글 삭제
+function cm_delete(cm_no, user_no){ 
 	if(user_no==loginUser_no){
 		location.href=ctxPath+'/board/delete?cm_no='+cm_no;
 	}else{
@@ -199,77 +201,77 @@ function click_like_mention(mention_no, self){
 
 function addMention(no, self){
 	
-	// 해당 버튼에 대한 AJAX 요청을 보냅니다.
-	$.ajax({
-	  type: 'get',
-	  url: ctxPath + '/board/addmention',
-	  data: {
-		cm_no: no,
-		user_no: loginUser_no,
-		ment: $(self).prev().val()
-	  },
-	  dataType: 'json',
-	  contentType: 'application/json; charset=UTF-8;',
-	  success: function(data) {
-		  // 댓글 수신 영역 초기화
-		  $("."+no+"board_reply_wrap").html("");
-		  // 받아온 댓글 데이터를 처리하고 해당 댓글을 목록에 추가합니다.
-		  let mention = data.MentionList;
-		  let mentionLikeList = data.MentionLikeList;
+	  // 해당 버튼에 대한 AJAX 요청을 보냅니다.
+	  $.ajax({
+	    type: 'get',
+	    url: ctxPath + '/board/addmention',
+	    data: {
+	      cm_no: no,
+	      user_no: loginUser_no,
+	      ment: $(self).prev().val()
+	    },
+	    dataType: 'json',
+	    contentType: 'application/json; charset=UTF-8;',
+	    success: function(data) {
+			// 댓글 수신 영역 초기화
+			$("."+no+"board_reply_wrap").html("");
+	    	// 받아온 댓글 데이터를 처리하고 해당 댓글을 목록에 추가합니다.
+			let mention = data.MentionList;
+			let mentionLikeList = data.MentionLikeList;
 
-		  //댓글 목록
-		  let table = "";
-		  table += "<div class='board_reply_cont_show'>";
-		  //<!-- 댓글이 목록이 들어가는 곳 -->
-		  for(let j = 0; j < mention.length; j++) {
-			  table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-						  "<div class='board_reply_ment'>"+mention[j].ment+
-						  
-							  //댓글 좋아요 버튼
-							  "<a class='mention_like_wrap' href='javascript:' onclick='click_like_mention("+mention[j].mention_no+", this)'>";
-							  
-							  if(mentionLikeList.find(element => element == mention[j].mention_no)!=null){
-								  table += "<i class='fa fa-heart' aria-hidden='true'></i>";
-							  }else{
-								  table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
-							  }
+			//댓글 목록
+			let table = "";
+			table += "<div class='board_reply_cont_show'>";
+			//<!-- 댓글이 목록이 들어가는 곳 -->
+			for(let j = 0; j < mention.length; j++) {
+				table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
+							"<div class='board_reply_ment'>"+mention[j].ment+
+							
+								//댓글 좋아요 버튼
+								"<a class='mention_like_wrap' href='javascript:' onclick='click_like_mention("+mention[j].mention_no+", this)'>";
+								
+								if(mentionLikeList.find(element => element == mention[j].mention_no)!=null){
+									table += "<i class='fa fa-heart' aria-hidden='true'></i>";
+								}else{
+									table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
+								}
 
-							  table += "</a>" + "<span>" + mention[j].likeCount + "</span>" + //좋아요 end
-						  
-						  "</div>";
-					  if(mention[j].user_no==loginUser_no){
-						  table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
-					  }
-			  table += "</div>";
-		  }
-		  table += "</div>"; //reply_cont end
+								table += "</a>" + "<span>" + mention[j].likeCount + "</span>" + //좋아요 end
+							
+							"</div>";
+						if(mention[j].user_no==loginUser_no){
+							table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
+						}
+				table += "</div>";
+			}
+			table += "</div>"; //reply_cont end
 
-		  //<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
-		  table += "<div class='board_reply_write'>";
-			  if(loginUser_no!=""){
-				  table += "<div class='reply_write_user'>"+
-							  "<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
-						  "</div>"+
-						  "<div class='reply_write_ment'>"+
-							  "<input class='reply_write_ment'>"+
-							  "<button type='button' class='reply_write_insert' onclick='addMention("+no+", this)'>댓글입력</button>"+
-						  "</div>";
-			  }else{
-				  table += "<div><h2>로그인이 필요합니다.</h2></div>";
-			  }
-		  table += "</div>"+	//reply_write end
+			//<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
+			table += "<div class='board_reply_write'>";
+				if(loginUser_no!=""){
+					table += "<div class='reply_write_user'>"+
+								"<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
+							"</div>"+
+							"<div class='reply_write_ment'>"+
+								"<input class='reply_write_ment'>"+
+								"<button type='button' class='reply_write_insert' onclick='addMention("+no+", this)'>댓글입력</button>"+
+							"</div>";
+				}else{
+					table += "<div><h2>로그인이 필요합니다.</h2></div>";
+				}
+			table += "</div>"+	//reply_write end
 
 
 
-		  $("."+no+"board_reply_wrap").append(table);
-	  },
-	  error: function() {
-		alert('댓글 로딩 중 오류');
-	  }
-  });
+			$("."+no+"board_reply_wrap").append(table);
+	    },
+	    error: function() {
+	      alert('댓글 로딩 중 오류');
+	    }
+	});
 }
 
-function boardAddList(){
+function addList(){
 	let cm_no = $('.board_no:last').val();
 	if(cm_no==null){
 		cm_no = 0;
@@ -277,10 +279,10 @@ function boardAddList(){
 
 	$.ajax({
         type: "get",
-        url: ctxPath + "/board/addlist",
-        data: {
-          cm_no: cm_no
-        },
+        url: ctxPath + "/board/userboard/likelist",
+		data: {
+			cm_no: cm_no
+		  },
         dataType: "json",
         contentType: "application/json; charset=UTF-8;",
         async: false,
@@ -290,8 +292,6 @@ function boardAddList(){
 		  let likeList = data.LikeList;
 		  let mentionLikeList = data.MentionLikeList;
 		  
-		  console.log(data);
-
           let table = "";
           
           for (let i = 0; i < boardList.length; i++) {
@@ -347,11 +347,20 @@ function boardAddList(){
 							"<a href='javascript:cm_delete("+no+","+board.user_no+")'>게시글 삭제</a>"+
 						"</div>"+
 					"</div>" +
-				"</div>" +
+				"</div>" ;
+
+				// 마켓일 경우 게시글 제목+가격
+				if(board.title!=null){
+			table += "<div class='board_market_title'>" +
+						"<p>"+board.title+"</p>" +
+						"<p>"+board.price+"</p>" +
+					"</div>" ;
+				}
 
 				//게시글 본문
-				"<div class='board_main_wrap'>" +
+		table += "<div class='board_main_wrap'>" +
 					"<div class='board_main_photo'>" +
+						//슬릭 적용
 						"<div class='board_main_files'>";
 								if(files.length==0){
 									table += "<div class='board_file_slick'><img src='/finproj/resources/images/board/default/default.jpg'></div>";
@@ -386,7 +395,7 @@ function boardAddList(){
 							}
 							
 					table += "</a>" + 
-						"<span>" + board.likeCount + "</span>" +
+							"<span>" + board.likeCount + "</span>" +
 						"</div>" +
 					"</div>"; //main_cont end
 
@@ -443,15 +452,14 @@ function boardAddList(){
 			"</div>"; //board_content end
           }
           // Add the generated table HTML to the list_main element
-          $('.index_board_wrap').append(table);
+          $('.list_main').append(table);
         },
         error: function() {
           alert('게시물 로딩 중 오류');
         }
-    });
+      });
 }
 
-//댓글 삭제
 function delete_ment(no){
 	console.log("mention_no >>> "+no);
 	

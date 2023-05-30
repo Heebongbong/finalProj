@@ -47,6 +47,12 @@ public class LoginServiceImpl implements LoginService{
 				sessionDto.setExpiresTime(ext.toString());
 				
 				userDAO.insertUserSession(sessionDto);
+
+				//쿠키 등록
+				Cookie re_a_t = new Cookie("AccessToken", jSessionId);
+				re_a_t.setMaxAge(60*60*24*7);
+				re_a_t.setPath("/");
+				response.addCookie(re_a_t);
 				
 				//세션 등록 (쿠키는 기존 id사용)
 				session.setAttribute("LoginUser", dto);

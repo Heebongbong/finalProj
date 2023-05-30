@@ -115,21 +115,6 @@ function cm_delete(cm_no, user_no){
 	}
 }
 
-//키워드 url인코딩
-function replace_keyword(key){
-	key= key.replace(/\#/g,"%23");
-	return key;
-}
-
-//카테고리 클릭시 url 요청
-function move_search_cate(key){
-	let keyword = $('#search_keyword').val();
-	let category = key;
-	keyword = replace_keyword(keyword);
-	category= replace_keyword(category);
-	location.href=ctxPath+"/board/list?keyword="+keyword+"&category="+category;
-}
-
 //게시글 좋아요 
 function click_like_board(cm_no, self){
 	if(loginUser_no!=''){
@@ -288,25 +273,16 @@ function addMention(no, self){
 
 function addList(){
 	let cm_no = $('.board_no:last').val();
-	let keyword = $('#search_keyword').val();
-	let category = $('#board_category').val();
 	if(cm_no==null){
 		cm_no = 0;
-	}
-	if($('#search_keyword').val()!=null){
-		keyword = replace_keyword(keyword);
-	}
-	if($('#board_category').val()!=null){
-		category = replace_keyword(category);
 	}
 
 	$.ajax({
         type: "get",
-        url: ctxPath + "/board/addlist",
+        url: ctxPath + "/board/userboard/list",
         data: {
           cm_no: cm_no,
-		  keyword: keyword,
-		  category: category
+		  user_no: $('#board_user_no').val()
         },
         dataType: "json",
         contentType: "application/json; charset=UTF-8;",
@@ -372,10 +348,18 @@ function addList(){
 							"<a href='javascript:cm_delete("+no+","+board.user_no+")'>게시글 삭제</a>"+
 						"</div>"+
 					"</div>" +
-				"</div>" +
+				"</div>" ;
+
+				// 마켓일 경우 게시글 제목+가격
+				if(board.title!=null){
+			table += "<div class='board_market_title'>" +
+						"<p>"+board.title+"</p>" +
+						"<p>"+board.price+"</p>" +
+					"</div>" ;
+				}
 
 				//게시글 본문
-				"<div class='board_main_wrap'>" +
+		table += "<div class='board_main_wrap'>" +
 					"<div class='board_main_photo'>" +
 						//슬릭 적용
 						"<div class='board_main_files'>";

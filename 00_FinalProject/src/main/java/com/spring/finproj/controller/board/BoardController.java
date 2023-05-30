@@ -52,8 +52,6 @@ public class BoardController {
     public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
-    	System.out.println(dto);
-    	
     	int check = boardService.writeBoard(dto, files, request);
     	
     	if(check>0) {
@@ -150,6 +148,23 @@ public class BoardController {
     public int boardLikeMentionManage(int check, int mention_no, HttpSession session) {
     	int re = boardService.manageMentionLike(check, mention_no, session);
     	return re;
+    }
+    
+    @RequestMapping("/userboard/list")
+    @ResponseBody
+    public Map<String , Object> boardUserList(HttpServletRequest request, 
+    		@RequestParam(required = false) int cm_no, 
+    		int user_no) throws Exception{
+    	
+    	return boardService.getBoardUserList(request, cm_no, user_no);
+    }
+    
+    @RequestMapping("/userboard/likelist")
+    @ResponseBody
+    public Map<String , Object> boardUserLikeList(HttpServletRequest request, 
+    		@RequestParam(required = false) int cm_no) throws Exception{
+    	
+    	return boardService.getBoardUserLikeList(request, cm_no);
     }
     
 }
