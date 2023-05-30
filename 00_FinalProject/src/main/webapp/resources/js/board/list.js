@@ -288,13 +288,18 @@ function addMention(no, self){
 
 function addList(){
 	let cm_no = $('.board_no:last').val();
-	if(cm_no==null){
-		cm_no = 0;
-	}
-
-	let keyword = replace_keyword($('#search_keyword').val());
-	let category = replace_keyword($('#camping_category').val());
-
+   let keyword = $('#search_keyword').val();
+   let category = $('#board_category').val();
+   if(cm_no==null){
+      cm_no = 0;
+   }
+   if($('#search_keyword').val()!=null){
+      keyword = replace_keyword(keyword);
+   }
+   if($('#board_category').val()!=null){
+      category = replace_keyword(category);
+   }
+   
 	$.ajax({
         type: "get",
         url: ctxPath + "/board/addlist",

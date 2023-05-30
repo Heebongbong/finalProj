@@ -124,6 +124,8 @@
 				      			<c:when test="${item2 eq 'PTY' && str2['fcstValue'][loop.index] eq '5'}">빗방울</c:when>
 				      			<c:when test="${item2 eq 'PTY' && str2['fcstValue'][loop.index] eq '6'}">빗방울눈날림</c:when>
 				      			<c:when test="${item2 eq 'PTY' && str2['fcstValue'][loop.index] eq '7'}">눈날림</c:when>
+
+				      			<c:when test="${item2 eq 'LGT' && str2['fcstValue'][loop.index] ne '0'}">낙뢰있음</c:when>
 				      			
 				      			<c:otherwise>${str2['fcstValue'][loop.index]}</c:otherwise>
 				      		</c:choose>
