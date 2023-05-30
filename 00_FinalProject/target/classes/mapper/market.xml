@@ -82,7 +82,7 @@
 	</insert>
 	
 	<update id="market_update_board" parameterType="boardDTO">
-    	update community set hashtag = #{hashtag}, content = #{content}, update_time = now()
+    	update community set hashtag = #{hashtag}, content = #{content}, update_time = now(), photo_folder = #{photo_folder}
 		where cm_no = #{cm_no}
 	</update>
 	

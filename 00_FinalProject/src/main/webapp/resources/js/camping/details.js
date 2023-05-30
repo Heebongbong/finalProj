@@ -105,8 +105,6 @@ function declaration(){
 	if(loginUser_no==''){
 		alert("로그인이 필요합니다.");
 	}else{
-
-		console.log($('.decl_modal_text').val());
 		$.ajax({
 			type: "post",
 			url: ctxPath + "/index/declaration",
@@ -117,7 +115,6 @@ function declaration(){
 			dataType: "text",
 			async: false,
 			success: function(data) {
-				console.log(data);
 				if(data>0){
 					alert('신고접수가 완료되었습니다.');
 					close_declaration();
@@ -135,8 +132,12 @@ function declaration(){
 }
 
 //게시글 수정
-function cm_modify(cm_no){ 
-	location.href=ctxPath+"/board/update?cm_no="+cm_no;
+function cm_modify(cm_no, user_no){
+	if(loginUser_no==user_no){
+		location.href=ctxPath+"/board/update?cm_no="+cm_no;
+	}else{
+		alert('본인의 게시글만 수정 가능합니다.');
+	}
 }
 
 //게시글 삭제
@@ -321,7 +322,6 @@ function campingReviewList(){
         contentType: "application/json; charset=UTF-8;",
         async: false,
         success: function(data) {
-            console.log(data);
             let boardList = data.BoardList;
             let mentionList = data.MentionList;
             let likeList = data.LikeList;
@@ -335,6 +335,8 @@ function campingReviewList(){
                 let mention = mentionList[no];
                 let files = board.photo_files;
                 let folders = board.photo_folder;
+				let content = board.content.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
                 table += "<div class='board_content'>" +
                     "<input class='board_no' type='hidden' value='"+no+"'>" +
 
@@ -403,7 +405,7 @@ function campingReviewList(){
 
                     "<div class='board_main_cont'>" +
 
-                        "<div class='board_main_text'>" + board.content + 
+                        "<div class='board_main_text'>" + content + 
 
 							"<div class='board_like_wrap'>" +
 								"<a href='javascript:' onclick='click_like_board("+no+", this)'>";
@@ -485,29 +487,23 @@ function campingReviewList(){
 
 //댓글 삭제
 function delete_ment(no){
-	console.log("mention_no >>> "+no);
-	
-	  // 해당 버튼에 대한 AJAX 요청을 보냅니다.
-	  $.ajax({
-	    type: 'get',
-	    url: ctxPath + '/board/deletemention',
-	    data: {
-	      mention_no: no
-	    },
-	    dataType: 'text',
-	    success: function(data) {
+	// 해당 버튼에 대한 AJAX 요청을 보냅니다.
+	$.ajax({
+		type: 'get',
+		url: ctxPath + '/board/deletemention',
+		data: {
+			mention_no: no
+		},
+		dataType: 'text',
+		success: function(data) {
 			let check = data;
-			console.log("ckkkkk"+check);
-
 			if(check == "1"){
-					// no 다 넣어주기 $("."+no+"board_reply_wrap").html("");
-				console.log(2);
+				// no 다 넣어주기 $("."+no+"board_reply_wrap").html("");
 				$("#"+no).html("");
 			}
-
 		},
-	    error: function() {
-	      alert('댓글 로딩 중 오류');
-	    }
+		error: function() {
+			alert('댓글 로딩 중 오류');
+		}
 	});
 }

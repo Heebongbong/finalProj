@@ -18,6 +18,7 @@
 			<div>
 				<select id="subject" onchange="loc_hash()">
 					<option value="서울" <c:if test="${hash.get('서울') == 1 }">selected</c:if>>서울</option>
+					<option value="인천" <c:if test="${hash.get('인천') == 1 }">selected</c:if>>인천</option>
 					<option value="경기" <c:if test="${hash.get('경기') == 1 }">selected</c:if>>경기</option>
 					<option value="강원" <c:if test="${hash.get('강원') == 1 }">selected</c:if>>강원</option>
 					<option value="충청" <c:if test="${hash.get('충청') == 1 }">selected</c:if>>충청</option>
@@ -33,15 +34,15 @@
 			<input type="text" name="price" placeholder="가격 : " value="${dto.getPrice() }">
 		</div>
 		<div class="form-group" align="left">
-			<label for="subject">파일:</label>
-			<input type="file" class="form-control-file border" name="files" multiple="multiple">
+			<label for="upfile">/ 파일 추가 버튼 수정 /</label>
+			<input type="file" style="display: none" id="upfile" class="form-control-file border" name="upfile" multiple="multiple">
 		</div>
 		<div class="form-group" align="left">
-           		<label for="file">존재하는 사진 파일</label>
+           		<span>존재하는 사진 파일</span>
            		<div class="row">
 	          		<c:forEach var="file" items="${files}">
 	          			<div class='upload_photo_file col-4' >
-	          				<input type="checkbox" name=${file }>
+	          				<input type="checkbox" name="deletefile" value="${file }">
 	          				<img src="/finproj/resources/images/board/${dto.getPhoto_folder()}/${file }">
 	          			</div>
 	          		</c:forEach>

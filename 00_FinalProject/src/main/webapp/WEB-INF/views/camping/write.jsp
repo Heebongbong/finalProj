@@ -12,6 +12,7 @@
 	        <input type="checkbox" id="life" onclick="cate_hash(this)" class="category" name="category" value="일상"><label for="review">일상</label>
 			<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" name="category" value="요리"><label for="food">요리</label>
 			<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" name="category" value="장비"><label for="equipment">장비</label>
+			<input type="checkbox" id="review" class="category" name="category" readonly="readonly" checked="checked" value="리뷰"><label for="review">리뷰</label>
         </div>
         <div class="form-group" align="left">
             <label for="content">내용:</label>
@@ -23,9 +24,7 @@
             <input type="file" class="form-control-file border" name="upfile" multiple="multiple">
         </div>
         <div>
-
            	<input type="text" class="hashtag" name="hashtag" value="">
-
         </div>
         <div>
            	<button type="submit" class="btn btn-primary">글작성</button>
