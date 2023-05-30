@@ -42,14 +42,16 @@ public class UserServiceImpl implements UserService {
 	public int insertUserContent(UserDTO dto, HttpServletRequest request, HttpServletResponse response,
 			HttpSession session, MultipartFile mfile) throws Exception {
 
-		session.removeAttribute("code");
-
+		//sms인증 후 코드 삭제 처리
+		if(session.getAttribute("code")!=null) {
+			session.removeAttribute("code");
+		}
+		
 		dto.setType("S");
-
-		String originalFileName = mfile.getOriginalFilename();
-
-		if (!originalFileName.isEmpty()) {
-
+		
+		if(!mfile.isEmpty()) {
+			String originalFileName = mfile.getOriginalFilename();
+			
 			// 절대경로 가져오기
 			Properties prop = new Properties();
 			FileInputStream fis = new FileInputStream(
@@ -119,9 +121,6 @@ public class UserServiceImpl implements UserService {
 
 		UserDTO sdto = (UserDTO) session.getAttribute("LoginUser");
 
-		System.out.println("=====================================================");
-		System.out.println(sdto);
-
 		sdto.isAuthen();
 		dto.isProfile_type();
 
@@ -130,19 +129,15 @@ public class UserServiceImpl implements UserService {
 			System.out.println("기존 비밀번호 세팅");
 		}
 
-		System.out.println(dto.getPwd());
-
 		if (!dto.getPhone().equals("")) {
 			dto.setAuthen(true);
 		}
-		System.out.println(dto);
-		System.out.println("=====================================================");
 
 		// 프로필 값비교 & 저장
-		String originalFileName = mfile.getOriginalFilename();
+		
 
-		if (!originalFileName.isEmpty()) {
-
+		if (!mfile.isEmpty()) {
+			String originalFileName = mfile.getOriginalFilename();
 			// 절대경로 가져오기
 			Properties prop = new Properties();
 			@SuppressWarnings("deprecation")
@@ -169,11 +164,8 @@ public class UserServiceImpl implements UserService {
 
 			String profile_src = "/finproj/resources/images/profile/" + type + "_" + email_id + "/" + today + "/"
 					+ saveFileName;
-			System.out.println(profile_src);
-			System.out.println(sdto.getProfile());
 
 			if (sdto.getProfile() != profile_src) {
-				System.out.println("프로필 불일치~");
 				dto.setProfile(profile_src);
 
 				File folder1 = new File(saveFolder);
@@ -467,7 +459,6 @@ public class UserServiceImpl implements UserService {
 		UserDTO dto = (UserDTO) session.getAttribute("LoginUser");
 
 		UserSessionDTO sdto = userDao.getUserSession(dto.getUser_no());
-		System.out.println(sdto);
 
 		if (dto.getType().equals("N")) {
 			sdto = naverTokenRefresh(sdto);
@@ -537,12 +528,9 @@ public class UserServiceImpl implements UserService {
 	private UserSessionDTO kakaoTokenRefresh(UserSessionDTO se_dto) throws Exception {
 
 		StringBuilder urlBuilder = new StringBuilder("https://kauth.kakao.com/oauth/token");
-		urlBuilder.append(
-				"?" + URLEncoder.encode("grant_type", "UTF-8") + "=" + URLEncoder.encode("refresh_token", "UTF-8"));
-		urlBuilder.append("&" + URLEncoder.encode("client_id", "UTF-8") + "="
-				+ URLEncoder.encode("98777fbdb2c9b1364e02210caf720b42", "UTF-8"));
-		urlBuilder.append("&" + URLEncoder.encode("refresh_token", "UTF-8") + "="
-				+ URLEncoder.encode(se_dto.getRefreshToken(), "UTF-8"));
+		urlBuilder.append("?" + URLEncoder.encode("grant_type", "UTF-8") + "=" + URLEncoder.encode("refresh_token", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("client_id", "UTF-8") + "=" + URLEncoder.encode("98777fbdb2c9b1364e02210caf720b42", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("refresh_token", "UTF-8") + "=" + URLEncoder.encode(se_dto.getRefreshToken(), "UTF-8"));
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("POST");

@@ -31,7 +31,6 @@
 				<c:if test="${loginUser.type eq 'K'|| loginUser.type eq 'N'}">
 					<input type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
 				</c:if>
-				
 				<c:if test="${loginUser.authen }">
 					<p>인증 회원</p>
 					<p class="text">전화번호 변경</p>

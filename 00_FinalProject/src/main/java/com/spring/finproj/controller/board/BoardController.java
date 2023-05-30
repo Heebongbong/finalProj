@@ -49,7 +49,7 @@ public class BoardController {
     }
     
     @RequestMapping("/writeform")
-    public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
+    public String write(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
     	int check = boardService.writeBoard(dto, files, request);
@@ -78,6 +78,7 @@ public class BoardController {
     @ResponseBody
     public String update(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
     		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile) throws Exception {
+    	
     	int check = boardService.updateBoard(dto, files, request, deletefile);
     	
     	if(check>0) {

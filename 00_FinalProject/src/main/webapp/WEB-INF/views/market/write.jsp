@@ -30,8 +30,8 @@
 			<input type="text" name="price" placeholder="가격 : ">
 		</div>
 		<div class="form-group" align="left">
-			<label for="subject">파일:</label>
-			<input type="file" class="form-control-file border" name="files" multiple="multiple">
+			<label for="files">파일:</label>
+			<input type="file" id="files" class="form-control-file border" name="files" multiple="multiple">
 		</div>
 		<div>
 			<input type="text" name="hashtag" class="hashtag" value="#서울">

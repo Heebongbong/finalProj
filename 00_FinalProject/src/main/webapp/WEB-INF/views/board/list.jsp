@@ -24,6 +24,9 @@
 			<a href="${ctxPath }/market/list">중고거래</a>
 		</li>
 	</ul>
+	<div class="market_write">
+		<a href="javascript:" onclick="move_write_page(${loginUser.isAuthen() })"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+	</div>
 	<input type="hidden" value="${Category }" id="board_category">
 	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">
