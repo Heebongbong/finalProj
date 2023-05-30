@@ -78,8 +78,8 @@
 				<button onclick="delete_move('${loginUser.getType()}')">회원탈퇴</button>
 			</div>
 			<div>
-				<p>내 게시물</p>
-				<p>내가 좋아요한 게시물</p>
+				<a href="${ctxPath }/user/userboard?user_no=${loginUser.getUser_no() }">내 게시물</a>
+				<a href="${ctxPath }/user/likeboard">내가 좋아요한 게시물</a>
 			</div>
 			
 		</div>

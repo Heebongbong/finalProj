@@ -1,20 +1,5 @@
 @charset "UTF-8";
 
-.list_wrap {
-   display: flex;
-   justify-content: center;
-   width: 80%;
-   padding: 10px;
-}
-
-.list_navi{
-   display: flex;
-   justify-content: center;
-}
-.list_navi_li{
-   margin: 10px 50px;
-}
-
 /* decl_modal css */
 
 .declaration_modal_overlay{

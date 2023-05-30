@@ -366,7 +366,7 @@ function campingReviewList(){
 						table += "</div>" +
 							"<div class='user_modal_body'>" +
 								"<a href='javascript:chat_board("+board.user_no+")'>유저와 채팅하기</a>" +
-								"<a href=''>유저 게시글 보기</a>" +
+								"<a href='"+ctxPath+"/user/userboard?user_no="+board.user_no+"'>유저 게시글 보기</a>" +
 							"</div>" +
 						"</div>" +
 					"</div>" +
@@ -396,7 +396,7 @@ function campingReviewList(){
                                     }
                         table += "</div>" + //files end
                             "<div class='board_main_hashtag'>" +	//hashtag
-                                "<p>'" + board.hashtag + "'</p>" +
+                                "<p>" + board.hashtag + "</p>" +
                             "</div>" + //hasgtag end
                         "</div>" + //board_main_photo end
 
