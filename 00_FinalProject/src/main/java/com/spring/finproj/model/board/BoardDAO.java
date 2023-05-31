@@ -11,10 +11,15 @@ public interface BoardDAO {
 	public int insertBoardContent(BoardDTO dto);
 	public int updateBoardContent(BoardDTO dto);
 	public int deleteBoardContent(int cm_no);
+
+	//추가 CRUD
+	public int insertReviewCont(BoardDTO boardDTO);
+	
 	public int deleteAccuserContent(int cm_no);
 	public int deleteAlarmContent(int cm_no);
 	public int deleteMentionContent(int cm_no);
 	public int deleteRecommandContent(int cm_no);
+	public int deleteReview(int cm_no);
 	
 	//부가기능
 	public List<BoardDTO> getBoardList(String keyword);
