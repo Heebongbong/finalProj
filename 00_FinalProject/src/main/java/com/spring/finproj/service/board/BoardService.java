@@ -19,4 +19,6 @@ public interface BoardService {
 	public int deleteBoardCont(int cm_no, HttpServletRequest request) throws Exception;
 	public int manageBoardLike(int check, int cm_no, HttpSession session);
 	public int manageMentionLike(int check, int mention_no, HttpSession session);
+	public Map<String, Object> getBoardUserList(HttpServletRequest request, int cm_no, int user_no) throws Exception;
+	public Map<String, Object> getBoardUserLikeList(HttpServletRequest request, int cm_no) throws Exception;
 }

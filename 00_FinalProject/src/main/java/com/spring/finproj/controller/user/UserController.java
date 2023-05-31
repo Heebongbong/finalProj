@@ -154,4 +154,15 @@ public class UserController {
 		}
 	}
 
+    @RequestMapping("/userboard")
+    public String boardUserPage(Model model, int user_no) {
+    	userService.getBoardUserCont(user_no, model);
+    	return "user.userboard";
+    }
+    
+    @RequestMapping("/likeboard")
+    public String boardLikePage() {
+    	return "user.likeboard";
+    }
+
 }

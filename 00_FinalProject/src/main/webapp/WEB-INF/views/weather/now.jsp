@@ -64,6 +64,7 @@
 			      			<c:when test="${item eq 'WSD' && (str['obsrValue'][loop.index] >= 9 && str['obsrValue'][loop.index] < 14)}">${str['obsrValue'][loop.index]}(강한바람)</c:when>
 			      			<c:when test="${item eq 'WSD' && str['obsrValue'][loop.index] > 14}">${str['obsrValue'][loop.index]}(매우강한바람)</c:when>
 			      			<c:when test="${item eq 'WSD' && str['obsrValue'][loop.index] > 14}">${str['obsrValue'][loop.index]}(매우강한바람)</c:when>
+			      			<c:when test="${item eq 'WSD' && str['obsrValue'][loop.index] > 14}">${str['obsrValue'][loop.index]}(매우강한바람)</c:when>
 			      			
 			      			
 			      			<c:otherwise>${str['obsrValue'][loop.index]}</c:otherwise>
@@ -133,6 +134,40 @@
 			      	<%-- </c:if> --%>
 			    </tr>
 		 	</c:forEach>
+		</table>
+		
+		
+		<table>
+			<tr>
+				<th colspan="3">전체날씨</th>
+			</tr>
+		  	<tr>
+			  	<c:forEach var="item2" items="${str2['fcstCategory']}" varStatus="loop" begin="0" end="5">
+			  		<c:choose>
+						<c:when test="${str2['fcstTime'][loop.index].endsWith('00')}">
+					    	<td> ${str2['fcstTime'][loop.index].substring(0, str2['fcstTime'][loop.index].length() - 2)}시 </td>
+						</c:when>
+						<c:otherwise>
+							<td> ${str2['fcstTime'][loop.index]}시 </td>
+						</c:otherwise>
+					</c:choose>
+			  	</c:forEach>
+		  	</tr>
+		  	<tr>
+		  		<c:forEach var="item2" items="${str2['fcstCategory']}" varStatus="loop" begin="6" end="11">
+			  		<c:choose>
+						<c:when test="${str2['fcstTime'][loop.index].endsWith('00')}">
+					    	<td> ${str2['fcstTime'][loop.index].substring(0, str2['fcstTime'][loop.index].length() - 2)}시 </td>
+						</c:when>
+						<c:otherwise>
+							<td> ${str2['fcstTime'][loop.index]}시 </td>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+		  	</tr>	
+				<td>카테고리</td>
+				<td>측정값</td>
+		 	</tr>
 		</table>
 	</div>
 	

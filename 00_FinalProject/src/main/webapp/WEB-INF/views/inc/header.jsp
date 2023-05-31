@@ -26,9 +26,10 @@
 	</ul>
 	<div class="user_menu_wrap">
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
+		<a href="${ctxPath }/admin/admin">관리자페이지</a>
 		<div class="user_menu_head">
 			로그인 헤더<a href="javascript:close_user_menu()">X</a>
-		</div>	
+		</div>
 		<div class="user_menu_body">
 			<form action="${ctxPath }/login/site" method="post">
 				<div class="user_menu_body_inp">
@@ -78,8 +79,8 @@
 				<button onclick="delete_move('${loginUser.getType()}')">회원탈퇴</button>
 			</div>
 			<div>
-				<p>내 게시물</p>
-				<p>내가 좋아요한 게시물</p>
+				<a href="${ctxPath }/user/userboard?user_no=${loginUser.getUser_no() }">내 게시물</a>
+				<a href="${ctxPath }/user/likeboard">내가 좋아요한 게시물</a>
 			</div>
 			
 		</div>

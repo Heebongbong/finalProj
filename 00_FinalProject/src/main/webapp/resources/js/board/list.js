@@ -288,6 +288,7 @@ function addMention(no, self){
 
 function addList(){
 	let cm_no = $('.board_no:last').val();
+
    let keyword = $('#search_keyword').val();
    let category = $('#board_category').val();
    if(cm_no==null){
@@ -300,6 +301,7 @@ function addList(){
       category = replace_keyword(category);
    }
    
+
 	$.ajax({
         type: "get",
         url: ctxPath + "/board/addlist",
@@ -354,14 +356,15 @@ function addList(){
 						table += "</div>" +
 							"<div class='user_modal_body'>" +
 								"<a href='javascript:chat_board("+board.user_no+")'>유저와 채팅하기</a>" +
-								"<a href=''>유저 게시글 보기</a>" +
+								"<a href='"+ctxPath+"/user/userboard?user_no="+board.user_no+"'>유저 게시글 보기</a>" +
 							"</div>" +
 						"</div>" +
 					"</div>" +
 
 					//게시글 상세메뉴 버튼
 					"<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
-						"<a class='board_detail_btn' href='javascript:'>***</a>" +
+						"<a class='board_detail_btn' href='javascript:'>
+						</a>" +
 					"</div>" +
 
 					//게시글 상세 메뉴 모달창
@@ -388,7 +391,7 @@ function addList(){
 								}
 					table += "</div>" + //files end
 						"<div class='board_main_hashtag'>" +	//hashtag
-							"<p>'" + board.hashtag + "'</p>" +
+							"<p>" + board.hashtag + "</p>" +
 						"</div>" + //hasgtag end
 					"</div>" + //board_main_photo end
 

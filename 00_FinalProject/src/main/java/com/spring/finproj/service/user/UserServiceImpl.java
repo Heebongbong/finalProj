@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.finproj.model.user.UserDAO;
@@ -614,5 +615,12 @@ public class UserServiceImpl implements UserService {
 
 		userDao.updateUserSession(se_dto);
 		return se_dto;
+	}
+
+	@Override
+	public void getBoardUserCont(int user_no, Model model) {
+		// TODO Auto-generated method stub
+		UserDTO user = userDao.getUserContent(user_no);
+		model.addAttribute("User_cont", user);
 	}
 }

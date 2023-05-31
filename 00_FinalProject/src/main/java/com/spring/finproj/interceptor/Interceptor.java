@@ -82,6 +82,12 @@ public class Interceptor implements HandlerInterceptor{
 						
 						dto.setProfile(user.getProfile());
 						
+						//쿠키 등록
+						Cookie re_a_t = new Cookie("AccessToken", se_dto.getSessionID());
+						re_a_t.setMaxAge(60*60*24*7);
+						re_a_t.setPath("/");
+						response.addCookie(re_a_t);
+						
 						session.setAttribute("LoginUser", dto);
 						session.setMaxInactiveInterval(60*60*6);
 					}else if(type.equals("N")) {
@@ -95,6 +101,12 @@ public class Interceptor implements HandlerInterceptor{
 						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
 						
 						dto.setProfile(user.getProfile());
+
+						//쿠키 등록
+						Cookie re_a_t = new Cookie("AccessToken", se_dto.getSessionID());
+						re_a_t.setMaxAge(60*60*24*7);
+						re_a_t.setPath("/");
+						response.addCookie(re_a_t);
 						
 						session.setAttribute("LoginUser", dto);
 						session.setMaxInactiveInterval(60*60);
@@ -109,6 +121,12 @@ public class Interceptor implements HandlerInterceptor{
 						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
 						
 						dto.setProfile(user.getProfile());
+
+						//쿠키 등록
+						Cookie re_a_t = new Cookie("AccessToken", se_dto.getSessionID());
+						re_a_t.setMaxAge(60*60*24*7);
+						re_a_t.setPath("/");
+						response.addCookie(re_a_t);
 						
 						session.setAttribute("LoginUser", dto);
 						session.setMaxInactiveInterval(60*60);
@@ -117,6 +135,12 @@ public class Interceptor implements HandlerInterceptor{
 						nowTime += (60*60*6);
 						se_dto.setExpiresTime(nowTime.toString());
 						userDAO.updateUserSession(se_dto);
+
+						//쿠키 등록
+						Cookie re_a_t = new Cookie("AccessToken", se_dto.getSessionID());
+						re_a_t.setMaxAge(60*60*24*7);
+						re_a_t.setPath("/");
+						response.addCookie(re_a_t);
 						
 						session.setAttribute("LoginUser", user);
 						session.setMaxInactiveInterval(60*60*6);

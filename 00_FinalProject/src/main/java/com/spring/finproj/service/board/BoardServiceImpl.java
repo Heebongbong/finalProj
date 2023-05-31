@@ -438,4 +438,99 @@ public class BoardServiceImpl implements BoardService {
 			return -1;
 		}
 	}
+
+	@Override
+	public Map<String, Object> getBoardUserList(HttpServletRequest request, int cm_no, int user_no) throws Exception {
+		Map<String, Object> boardTotal = new HashMap<String, Object>();
+		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
+		
+		List<BoardDTO> list = null;
+		
+		if(cm_no == 0) {
+			list = boardDAO.getBoardUserList(user_no);
+		}else {
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			map.put("user_no", user_no);
+			map.put("cm_no", cm_no);
+			list = boardDAO.getBoardUserList(map);
+		}
+
+		for (BoardDTO d : list) {
+			d.setPhoto_files(request);
+			
+			d.setLikeCount(boardDAO.getBoardLikeCount(d.getCm_no()));
+			
+			//<cm_no, List<mention>> 댓글 맵리스트
+			List<MentionDTO> list2 = mentionDAO.getMentionList(d.getCm_no());
+			
+			for(MentionDTO m : list2) {
+				m.setLikeCount(mentionDAO.getMentionLikeCount(m.getMention_no()));
+			}
+			
+			mapList2.put(d.getCm_no(), list2);
+		}
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("LoginUser")!=null) {
+			int login_user_no = ((UserDTO)session.getAttribute("LoginUser")).getUser_no();
+			List<Integer> userLikeList = boardDAO.getBoardLikeList(login_user_no);
+			
+			boardTotal.put("LikeList", userLikeList);
+			
+			List<Integer> mentionLikeList = mentionDAO.getMentionLikeList(login_user_no);
+			
+			boardTotal.put("MentionLikeList", mentionLikeList);
+		}
+
+		boardTotal.put("BoardList", list);
+		boardTotal.put("MentionList", mapList2);
+
+		return boardTotal;
+	}
+
+	@Override
+	public Map<String, Object> getBoardUserLikeList(HttpServletRequest request, int cm_no) throws Exception {
+		Map<String, Object> boardTotal = new HashMap<String, Object>();
+		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
+		
+		HttpSession session = request.getSession();
+		UserDTO user = (UserDTO)session.getAttribute("LoginUser");
+		int user_no = user.getUser_no();
+			
+		List<BoardDTO> list = null;
+		
+		if(cm_no == 0) {
+			list = boardDAO.getBoardUserLikeList(user_no);
+		}else {
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			map.put("user_no", user_no);
+			map.put("cm_no", cm_no);
+			list = boardDAO.getBoardUserLikeList(map);
+		}
+
+		for (BoardDTO d : list) {
+			d.setPhoto_files(request);
+			
+			d.setLikeCount(boardDAO.getBoardLikeCount(d.getCm_no()));
+			
+			//<cm_no, List<mention>> 댓글 맵리스트
+			List<MentionDTO> list2 = mentionDAO.getMentionList(d.getCm_no());
+			
+			for(MentionDTO m : list2) {
+				m.setLikeCount(mentionDAO.getMentionLikeCount(m.getMention_no()));
+			}
+			
+			mapList2.put(d.getCm_no(), list2);
+		}
+		
+		List<Integer> userLikeList = boardDAO.getBoardLikeList(user_no);
+		List<Integer> mentionLikeList = mentionDAO.getMentionLikeList(user_no);
+		
+		boardTotal.put("LikeList", userLikeList);
+		boardTotal.put("MentionLikeList", mentionLikeList);
+		boardTotal.put("BoardList", list);
+		boardTotal.put("MentionList", mapList2);
+
+		return boardTotal;
+	}
 }
