@@ -135,10 +135,16 @@ public class BoardServiceImpl implements BoardService {
 	@SuppressWarnings("deprecation")
 	@Override
 	public int writeBoard(BoardDTO boardDTO, MultipartFile[] files,
-			HttpServletRequest request) throws Exception {
+			HttpServletRequest request, String[] category) throws Exception {
 
-		
 		UserDTO user = (UserDTO) request.getSession().getAttribute("LoginUser");
+		
+		String hashtags = "";
+		for(String s : category) {
+			hashtags += s;
+		}
+		
+		boardDTO.setHashtag(boardDTO.getHashtag()+hashtags);
 		
 		boardDTO.setEmail(user.getEmail());
 		boardDTO.setUser_no(user.getUser_no());
@@ -193,6 +199,12 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		int re = boardDAO.insertBoardContent(boardDTO);
+		
+		System.out.println(boardDTO.getContent_id());
+		if(boardDTO.getContent_id() != 0) {
+			re = boardDAO.insertReviewCont(boardDTO);
+		}
+		
 		return re;
 	}
 
@@ -264,6 +276,10 @@ public class BoardServiceImpl implements BoardService {
 			boardDAO.deleteAlarmContent(cm_no);
 			boardDAO.deleteRecommandContent(cm_no);
 			
+			if(dto.getContent_id()!=0) {
+				boardDAO.deleteReview(cm_no);
+			}
+			
 			List<MentionDTO> menList = mentionDAO.getMentionList(cm_no);
 			
 			int men_re = boardDAO.deleteMentionContent(cm_no);
@@ -278,10 +294,15 @@ public class BoardServiceImpl implements BoardService {
 	@SuppressWarnings("deprecation")
 	@Override
 	public int updateBoard(BoardDTO dto, MultipartFile[] files,
-			HttpServletRequest request, String[] deletefile) throws Exception {
+			HttpServletRequest request, String[] deletefile, String category) throws Exception {
 		
 		//본 게시글 dto
 		BoardDTO db_dto = boardDAO.getBoardContent(dto.getCm_no());
+		
+		//review 존재시 해쉬태그 추가
+		if(category!=null) {
+			dto.setHashtag(dto.getHashtag()+category);
+		}
 
 		//dto photofolder setting
 		dto.setPhoto_folder(db_dto.getPhoto_folder());

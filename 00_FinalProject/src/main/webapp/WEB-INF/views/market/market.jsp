@@ -89,7 +89,7 @@
 		<a href="javascript:" onclick="move_market_write_page(${loginUser.isAuthen() })"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 	</div>
 	<div class="market_declaration_check">
-		<a href="javascript:" onclick="fraud_check_window()"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+		<a href="javascript:" onclick="fraud_check_window()"><i class="fa fa-search-minus" aria-hidden="true"></i></a>
 	</div>
 	<form class="market_search" action="" method="get">
 		<input type="text" value="${Keyword }" id="market_keyword" placeholder="검색어를 입력하세요." name="keyword"><input type="submit" value="검색">

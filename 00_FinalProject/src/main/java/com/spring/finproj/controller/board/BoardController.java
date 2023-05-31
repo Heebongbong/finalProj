@@ -1,6 +1,5 @@
 package com.spring.finproj.controller.board;
 
-import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.Map;
 
@@ -50,10 +49,11 @@ public class BoardController {
     }
     
     @RequestMapping("/writeform")
+    
     public String write(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
-    		HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	
-    	int check = boardService.writeBoard(dto, files, request);
+    		HttpServletRequest request, HttpServletResponse response, String[] category) throws Exception {
+  
+    	int check = boardService.writeBoard(dto, files, request, category);
     	
     	if(check>0) {
 			return "redirect:/board/list";
@@ -78,9 +78,10 @@ public class BoardController {
     @RequestMapping("/updateform")
     @ResponseBody
     public String update(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
-    		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile) throws Exception {
+    		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile,
+    		@RequestParam(required = false) String category) throws Exception {
     	
-    	int check = boardService.updateBoard(dto, files, request, deletefile);
+    	int check = boardService.updateBoard(dto, files, request, deletefile, category);
     	
     	if(check>0) {
 			return "<script>location.href='/finproj/board/list'</script>";

@@ -13,34 +13,18 @@ import com.spring.finproj.service.camping.CampingService;
 
 
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
-   
-	@Autowired
-	private CampingService campingService;
 	
-	@RequestMapping(value ="/admin")
+	@RequestMapping(value = {"/admin", "/admin/chat"})
 	public String adminNavi() {
 		return "admin.admin";
 	}
-	
-	@RequestMapping("/camping")
+	@RequestMapping("/admin/camping")
 	public String adminCampingNavi() {
 		return "admin.camping";
 	}
-	@RequestMapping("/accuse")
-	public String adminAccuseNavi() {
-		return "admin.accuse";
-	}
-	@RequestMapping("/waypoint")
+	@RequestMapping("/admin/waypoint")
 	public String adminWaypointNavi() {
 		return "admin.waypoint";
 	}
-	@RequestMapping("/chat")
-	public String adminChatNavi() {
-		return "admin.chat";
-	}
-	
-    
-    
 }

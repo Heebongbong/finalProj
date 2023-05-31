@@ -84,6 +84,17 @@ function open_user_modal(self){
 	$(self).parent().next().show();
 }
 
+//리뷰작성 이동
+function review_write_move(content_id, authen){
+	if(authen){
+		location.href=ctxPath+'/camping/write?content_id='+content_id;
+	}else{
+		if(confirm('글 작성을 위해 유저 인증이 필요합니다. 이동하시겠습니까.')){
+			location.href=ctxPath+'/user/mypage';
+		}
+	}
+}
+
 //신고 모달창 오픈
 function cm_declaration(cm_no, nickname){ 
 	if(loginUser_no==''){
@@ -343,36 +354,37 @@ function campingReviewList(){
                     //게시글 헤더
                     "<div class='board_user_wrap'>" +
                         "<div class='board_user_prof'>" +
-                            "<img src='"+ board.profile +"'>" +
+                            "<img src='"+ board.profile +"' class='board_user_prof_img' onclick='open_user_modal(this)'>" +
                             "<span>'"+ board.nickname +"'</span>" +
-                        "</div>" +
-                        "<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
-                            "<a class='board_detail_btn' href='javascript:'>***</a>" +
                         "</div>" +
 
 							//유저 프로필 모달창
 						"<div class='user_modal_overlay'>" +
-						"<div class='user_modal_window'>" +
-							"<div class='user_modal_title'>" +
-								"<img src='"+ board.profile +"'>" +
-								"<div>"+board.nickname+"</div>" ;
-								if(board.type=='S'){
-									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/logo.png'>";
-								}else if(board.type=='G'){
-									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/google_logo.png'>";
-								}else if(board.type=='N'){
-									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/naver_logo.jpg'>";
-								}else if(board.type=='K'){
-									table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/kakao_logo.png'>";
-								}
-						table += "</div>" +
-							"<div class='user_modal_body'>" +
-								"<a href='javascript:chat_board("+board.user_no+")'>유저와 채팅하기</a>" +
-								"<a href='"+ctxPath+"/user/userboard?user_no="+board.user_no+"'>유저 게시글 보기</a>" +
+							"<div class='user_modal_window'>" +
+								"<div class='user_modal_title'>" +
+									"<img src='"+ board.profile +"'>" +
+									"<div>"+board.nickname+"</div>" ;
+									if(board.type=='S'){
+										table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/logo.png'>";
+									}else if(board.type=='G'){
+										table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/google_logo.png'>";
+									}else if(board.type=='N'){
+										table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/naver_logo.jpg'>";
+									}else if(board.type=='K'){
+										table += "<img class='user_modal_logo' src='"+ctxPath+"/resources/images/logo/kakao_logo.png'>";
+									}
+							table += "</div>" +
+								"<div class='user_modal_body'>" +
+									"<a href='javascript:chat_board("+board.user_no+")'>유저와 채팅하기</a>" +
+									"<a href='"+ctxPath+"/user/userboard?user_no="+board.user_no+"'>유저 게시글 보기</a>" +
+								"</div>" +
 							"</div>" +
 						"</div>" +
-					"</div>" +
-
+						
+						//상세 메뉴 버튼
+						"<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
+                            "<a class='board_detail_btn' href='javascript:'>***</a>" +
+                        "</div>" +
 
 							//게시글 상세 메뉴 모달창
 						"<div class='detail_modal_overlay'>" +

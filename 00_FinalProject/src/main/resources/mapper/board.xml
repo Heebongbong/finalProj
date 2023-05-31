@@ -113,9 +113,13 @@
    	<delete id="board_market_delete" parameterType="int">
    		delete from market where cm_no = #{cm_no}
    	</delete>
+   	<delete id="board_review_delete" parameterType="int">
+   		delete from review where cm_no = #{cm_no}
+   	</delete>
     
     <select id="board_cont" resultType="boardDTO" parameterType="int">
-    	select * from community a 
+    	select * from 
+    		(select e.*, f.content_id from community e left outer join review f on e.cm_no = f.cm_no) a
 			join (select c.user_no, c.email, c.type, d.nickname, d.profile 
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no 
@@ -172,10 +176,12 @@
 			on a.user_no = b.user_no where cm_no < #{cm_no} order by cm_no desc Limit 5
 		]]>
   	</select>
-  	
   	<select id="accuse_list" resultType="boardDTO">
   		SELECT a.*, b.content
 		FROM accuse a
 		JOIN community b ON a.cm_no = b.cm_no;
   	</select>
+	<insert id="review_insert" parameterType="boardDTO">
+		insert into review values(#{cm_no}, #{content_id})
+	</insert>  	
 </mapper>

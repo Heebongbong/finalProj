@@ -26,7 +26,6 @@
 	</ul>
 	<div class="user_menu_wrap">
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
-		<a href="${ctxPath }/admin/admin">관리자페이지</a>
 		<div class="user_menu_head">
 			로그인 헤더<a href="javascript:close_user_menu()">X</a>
 		</div>

@@ -365,8 +365,7 @@ function addList(){
 
 					//게시글 상세메뉴 버튼
 					"<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
-						"<a class='board_detail_btn' href='javascript:'>
-						</a>" +
+						"<a class='board_detail_btn' href='javascript:'>***</a>" +
 					"</div>" +
 
 					//게시글 상세 메뉴 모달창

@@ -35,16 +35,10 @@ public class CampingController {
 		return "camping.details";
 	}
 	
-	@RequestMapping("/admin/insert")
-	public String campingInsertList() throws IOException {
-		campingService.insertCampingListSetDB();
-		return "admin.camping";
-	}
-
-	@RequestMapping("/admin/delete")
-	public String campingDeleteList() throws IOException {
-		campingService.CampingListDeleteDB();
-		return "admin.camping";
+	// 관리자
+	@RequestMapping("/admin/update")
+	public void campingUpdateList() throws IOException {
+		campingService.updateCampingListSetDB();
 	}
 	
 	@RequestMapping("/addlist")
@@ -59,9 +53,9 @@ public class CampingController {
 		return campingService.getCampingReviewList(content_id, request, cm_no);
 	}
 	
-	@RequestMapping("/review/write")
-    public String reviewWrite() {
-        return "camping.write";
+	@RequestMapping("/write")
+    public String reviewWrite(int content_id, Model model) {
+		model.addAttribute("Content_id", content_id);
+        return "board.write";
     }
-    
 }

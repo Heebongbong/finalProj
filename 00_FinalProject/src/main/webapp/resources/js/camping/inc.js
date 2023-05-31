@@ -4,5 +4,5 @@
  
  function locSearch() {
 		let locs = $('#locs').val();
-		location.href='${ctxPath}/camping/camping?keyword='+locs;
+		location.href=ctxPath+'/camping/camping?keyword='+locs;
 	}

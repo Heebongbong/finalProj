@@ -10,9 +10,13 @@
 	<form onsubmit="return check()" id="updateform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/updateform">
 		<div class="form-group" align="left">
 			<span>해시태그</span>
-			<input type="checkbox" id="life" onclick="cate_hash(this)" class="category" name="category" value="일상" <c:if test="${hash.get('일상') == 1 }">checked</c:if>><label for="life">일상</label>
-			<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" name="category" value="요리" <c:if test="${hash.get('요리') == 1 }">checked</c:if>><label for="food">요리</label>
-			<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" name="category" value="장비" <c:if test="${hash.get('장비') == 1 }">checked</c:if>><label for="equipment">장비</label>
+			<input type="checkbox" id="life" onclick="cate_hash(this)" class="category" value="일상" <c:if test="${hash.get('일상') == 1 }">checked</c:if>><label for="life">일상</label>
+			<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" value="요리" <c:if test="${hash.get('요리') == 1 }">checked</c:if>><label for="food">요리</label>
+			<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" value="장비" <c:if test="${hash.get('장비') == 1 }">checked</c:if>><label for="equipment">장비</label>
+			<c:if test="${hash.get('리뷰') == 1 }">
+				<input type="checkbox" id="review" class="category" disabled="disabled" checked="checked"><label for="review">리뷰</label>
+				<input type="hidden" value="#리뷰" name="category" readonly="readonly">
+			</c:if>
 		</div>
 		<div class="form-group" align="left">
 			<textarea class="form-control" rows="15" id="content" name="content">${dto.getContent() }</textarea>
@@ -33,7 +37,7 @@
 			</div>
 		</div>
 		<div>
-			<input type="text" class="hashtag" name="hashtag" value="${dto.getHashtag() }">
+			<input type="text" class="hashtag" name="hashtag" value="<c:forEach items="${hash }" var="item"><c:if test="${item.getKey() != '리뷰' }">#${item.getKey() }</c:if></c:forEach>">
 		</div>
 		<div>
 			<input type="hidden" name="cm_no" value="${dto.getCm_no() }">

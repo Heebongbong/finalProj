@@ -5,7 +5,6 @@
 <div id="camping_wrap">
 	<div>캠핑장 리스트 관리</div>
     
-    <button onclick="insertCampingList()">DB추가</button>
-    <button onclick="deleteCampingList()">DB삭제</button>
+    <button onclick="updateCampingList()">DB업데이트</button>
     
 </div>
