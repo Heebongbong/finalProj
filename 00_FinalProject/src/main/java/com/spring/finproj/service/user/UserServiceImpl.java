@@ -10,7 +10,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.finproj.model.camping.CampingDTO;
 import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
 import com.spring.finproj.model.user.UserSessionDTO;
@@ -57,8 +55,7 @@ public class UserServiceImpl implements UserService {
 			
 			// 절대경로 가져오기
 			Properties prop = new Properties();
-			FileInputStream fis = new FileInputStream(
-					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+			FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 			prop.load(new InputStreamReader(fis));
 			fis.close();
 
