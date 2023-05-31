@@ -29,7 +29,6 @@ public class UserController {
 
 	@RequestMapping("/mypage")
 	public String userMypage() throws Exception {
-
 		return "user.mypage";
 	}
 
@@ -55,7 +54,7 @@ public class UserController {
 
 	@RequestMapping("/joinOk")
 	public String userJoinOk(UserDTO dto, HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			@RequestParam("upfile") MultipartFile multipartFile, Model model) throws Exception {
+			@RequestParam(value = "upfile", required = false) MultipartFile multipartFile, Model model) throws Exception {
 
 		int check = userService.insertUserContent(dto, request, response, session, multipartFile);
 
@@ -153,5 +152,16 @@ public class UserController {
 			return "error/error";
 		}
 	}
+
+    @RequestMapping("/userboard")
+    public String boardUserPage(Model model, int user_no) {
+    	userService.getBoardUserCont(user_no, model);
+    	return "user.userboard";
+    }
+    
+    @RequestMapping("/likeboard")
+    public String boardLikePage() {
+    	return "user.likeboard";
+    }
 
 }

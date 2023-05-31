@@ -1,7 +1,6 @@
 package com.spring.finproj.controller.board;
 
 import java.net.URLDecoder;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,12 +49,11 @@ public class BoardController {
     }
     
     @RequestMapping("/writeform")
-    public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	
-    	System.out.println(dto);
-    	
-    	int check = boardService.writeBoard(dto, files, request);
+    
+    public String write(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
+    		HttpServletRequest request, HttpServletResponse response, String[] category) throws Exception {
+  
+    	int check = boardService.writeBoard(dto, files, request, category);
     	
     	if(check>0) {
 			return "redirect:/board/list";
@@ -80,8 +78,10 @@ public class BoardController {
     @RequestMapping("/updateform")
     @ResponseBody
     public String update(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
-    		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile) throws Exception {
-    	int check = boardService.updateBoard(dto, files, request, deletefile);
+    		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile,
+    		@RequestParam(required = false) String category) throws Exception {
+    	
+    	int check = boardService.updateBoard(dto, files, request, deletefile, category);
     	
     	if(check>0) {
 			return "<script>location.href='/finproj/board/list'</script>";
@@ -100,8 +100,7 @@ public class BoardController {
     		@RequestParam(required = false) int cm_no, 
     		@RequestParam(required = false) String keyword,
     		@RequestParam(required = false) String category) throws Exception{
-    	System.out.println(keyword);
-    	System.out.println(category);
+    	
     	if(!(keyword==null||keyword=="")) {
     		keyword = URLDecoder.decode(keyword, "UTF-8");
     	}
@@ -113,10 +112,12 @@ public class BoardController {
     
     @RequestMapping("/addmention")
     @ResponseBody
-    public List<MentionDTO> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
+    public Map<String, Object> addmentionRequest(MentionDTO dto, HttpServletRequest request, Model model) throws Exception {
+    	
     	mentionService.getMentionInsert(dto);
     	
-    	List<MentionDTO> list = mentionService.addMentionlist(request, model, dto.getCm_no());
+    	Map<String, Object> list = mentionService.addMentionlist(request, model, dto.getCm_no());
+    	
     	return list;
     }
     
@@ -150,6 +151,23 @@ public class BoardController {
     public int boardLikeMentionManage(int check, int mention_no, HttpSession session) {
     	int re = boardService.manageMentionLike(check, mention_no, session);
     	return re;
+    }
+    
+    @RequestMapping("/userboard/list")
+    @ResponseBody
+    public Map<String , Object> boardUserList(HttpServletRequest request, 
+    		@RequestParam(required = false) int cm_no, 
+    		int user_no) throws Exception{
+    	
+    	return boardService.getBoardUserList(request, cm_no, user_no);
+    }
+    
+    @RequestMapping("/userboard/likelist")
+    @ResponseBody
+    public Map<String , Object> boardUserLikeList(HttpServletRequest request, 
+    		@RequestParam(required = false) int cm_no) throws Exception{
+    	
+    	return boardService.getBoardUserLikeList(request, cm_no);
     }
     
 }

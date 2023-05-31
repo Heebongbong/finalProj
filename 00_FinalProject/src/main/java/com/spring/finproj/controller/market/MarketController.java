@@ -1,5 +1,6 @@
 package com.spring.finproj.controller.market;
 
+import java.net.URLDecoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,19 @@ public class MarketController {
 	private MarketService marketService;
 	
 	@RequestMapping("/list")
-	public String marketList() throws Exception {
+	public String marketList(Model model, @RequestParam(required = false) String category,
+			@RequestParam(required = false) String keyword) throws Exception {
+		
+		if(!(keyword==null||keyword=="")) {
+    		keyword = URLDecoder.decode(keyword, "UTF-8");
+    	}
+    	if(!(category==null||category=="")) {
+    		category = URLDecoder.decode(category, "UTF-8");
+    	}
+    	
+    	model.addAttribute("Keyword", keyword);
+		model.addAttribute("Category", category);
+		
 		return "market.market";
 	}
 	
@@ -32,8 +45,17 @@ public class MarketController {
 	@ResponseBody
 	public Map<String , Object> marketAddList(HttpServletRequest request, 
     		@RequestParam(defaultValue = "0") int cm_no, 
-    		@RequestParam(required = false) String keyword) throws Exception{
-    	return marketService.getMarketList(keyword, request, cm_no);
+    		@RequestParam(required = false) String keyword,
+    		@RequestParam(required = false) String category) throws Exception{
+
+		if(!(keyword==null||keyword=="")) {
+    		keyword = URLDecoder.decode(keyword, "UTF-8");
+    	}
+    	if(!(category==null||category=="")) {
+    		category = URLDecoder.decode(category, "UTF-8");
+    	}
+    	
+    	return marketService.getMarketList(keyword, category, request, cm_no);
     }
 	
 	@RequestMapping("/write")
@@ -68,8 +90,10 @@ public class MarketController {
     
     @RequestMapping("/updateform")
     public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	int check = marketService.updateMarketCont(dto, files, session, request);
+    		@RequestParam(value = "deletefile", required = false) String[] deletefile, HttpSession session,
+    		HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	
+    	int check = marketService.updateMarketCont(dto, files, session, request, deletefile);
     	
     	if(check>0) {
 			return "redirect:/market/list";
@@ -81,5 +105,10 @@ public class MarketController {
 					+ "</script>");
 			return null;
 		}
+    }
+    
+    @RequestMapping("/security")
+    public String marketSecurity() {
+    	return "market/security";
     }
 }

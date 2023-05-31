@@ -6,26 +6,24 @@
 <div class="board_wrap">
 	<h2>게시글 작성</h2>
 	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/review/writeform">
-	 	<input type="hidden" name="user_no" value="${loginUser.user_no }">
+	 	<input type="hidden" name="user_no" value="${Content_id }">
         <div class="form-group" align="left">
 			<span>해시태그</span>
-	        <input type="checkbox" id="life" onclick="cate_hash(this)" class="category" name="category" value="일상"><label for="review">일상</label>
+	        <input type="checkbox" id="life" onclick="cate_hash(this)" class="category" name="category" value="일상"><label for="life">일상</label>
 			<input type="checkbox" id="food" onclick="cate_hash(this)" class="category" name="category" value="요리"><label for="food">요리</label>
 			<input type="checkbox" id="equipment" onclick="cate_hash(this)" class="category" name="category" value="장비"><label for="equipment">장비</label>
+			<input type="checkbox" id="review" class="category" name="category" readonly="readonly" checked="checked" value="리뷰"><label for="review">리뷰</label>
         </div>
         <div class="form-group" align="left">
-            <label for="content">내용:</label>
             <!-- 캠핑장 정보 -->
-            <textarea class="form-control" rows="15" id="content" name="content"></textarea>
+            <textarea class="form-control" rows="15" id="content" name="content" placeholder="내용"></textarea>
         </div>
         <div class="form-group" align="left">
-        	<label for="subject">파일:</label>
-            <input type="file" class="form-control-file border" name="upfile" multiple="multiple">
+        	<label for="upfile">/ 파일 입력 버튼 /</label>
+            <input type="file" id="upfile" class="form-control-file border" name="upfile" multiple="multiple">
         </div>
         <div>
-
-           	<input type="text" class="hashtag" name="hashtag" value="">
-
+           	<input type="text" class="hashtag" name="hashtag" value="#">
         </div>
         <div>
            	<button type="submit" class="btn btn-primary">글작성</button>

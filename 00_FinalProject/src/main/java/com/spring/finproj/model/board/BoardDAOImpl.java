@@ -121,4 +121,34 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.insert("board_like_insert", keyMap);
 	}
+	@Override
+	public List<BoardDTO> getBoardUserList(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board_user_list", user_no);
+	}
+	@Override
+	public List<BoardDTO> getBoardUserList(Map<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board_user_list_map", map);
+	}
+	@Override
+	public List<BoardDTO> getBoardUserLikeList(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board_user_like_list", user_no);
+	}
+	@Override
+	public List<BoardDTO> getBoardUserLikeList(Map<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board_user_like_list_map", map);
+	}
+	@Override
+	public int insertReviewCont(BoardDTO boardDTO) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("review_insert", boardDTO);
+	}
+	@Override
+	public int deleteReview(int cm_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("board_review_delete", cm_no);
+	}
 }

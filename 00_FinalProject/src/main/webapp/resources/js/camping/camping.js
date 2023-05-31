@@ -7,7 +7,6 @@ $(document).ready(function(){
     $('body').on("mousewheel",function(event){
 		if(($(window).scrollTop()+$(window).innerHeight())>=$(document).height()-1){
 			if(event.originalEvent.deltaY>0){
-				console.log(22);
 				campingAddList();
 			}
 		}
@@ -32,8 +31,6 @@ function campingAddList(){
 		contentType : "application/json; charset=UTF-8;",
 		async:false,
 		success: function(data){
-			console.log("마지막 id:"+$('.camping_list_wrap').find('.content_id:last').val());
-			console.log(data);
 			let table = "";
 			
 			for (let i = 0; i < data.length; i++) {

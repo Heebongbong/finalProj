@@ -2,11 +2,15 @@
  * 
  */
  $(document).ready(function(){
+
+	//푸터메뉴 오픈
 	$('body').on("mousewheel",function(event){
 		if($('#footer').css('display')=='none'){
 			open_footer(event);
 		}
 	});
+
+	//유저 헤더메뉴 닫기
 	$('body').on('click', function(event){
 		if($(event.target).parents('.user_menu_wrap').length < 1&&event.target.className!='user_menu_wrap'){
 			close_user_menu();
@@ -17,19 +21,21 @@
 	const faqList = null;
  });
  
- 
+ //유저 헤더 열기
 function open_user_menu(){
 	$('.user_menu_wrap').animate({
 		width: 'show'
  	}, 400);
 }
  
+//유저 헤더 닫기
 function close_user_menu(){
 	$('.user_menu_wrap').animate({
 		width: 'hide'
 	}, 400);
 }
 
+//푸터 열기
 function open_footer(event){
 	if(event.originalEvent.deltaY>0){
 		$('#footer').animate({
@@ -43,6 +49,7 @@ function open_footer(event){
 	}, 5000);
 }
 
+//유저탈퇴버튼 임시
 function delete_move(type){
 	if(type=='S'){
 		location.href=ctxPath + '/user/delete';
@@ -53,9 +60,35 @@ function delete_move(type){
 	}
 }
 
+//글쓰기 오픈 & 사기번호 조회 오픈
+function fraud_check_window(){
+	window.open(ctxPath+"/market/security", "사기번호 조회",
+	"titlebar=0,height=700,width=1000,top=50,left=200,status=0,scrollbars=0,location=0,resizable=0,menubar=0,toolbar=0"
+	, "");
+}
+
+function move_write_page(bool){
+	if(bool){
+		location.href=ctxPath+'/board/write';
+	}else{
+		if(confirm('글 작성을 위해 유저 인증이 필요합니다. 이동하시겠습니까.')){
+			location.href=ctxPath+'/user/mypage';
+		}
+	}
+}
+
+function move_market_write_page(bool){
+	if(bool){
+		location.href=ctxPath+'/market/write';
+	}else{
+		if(confirm('글 작성을 위해 유저 인증이 필요합니다. 이동하시겠습니까.')){
+			location.href=ctxPath+'/user/mypage';
+		}
+	}
+}
+
 
 // login function
-
 function loginWithKakao() {
 	Kakao.Auth.authorize({redirectUri: reUrl+"finproj/login/kakao"});
 }
@@ -69,7 +102,6 @@ function loginWithGoogle() {
 
 //chat window manage
 function open_room_out(self){
-	console.log($(self).children("button"));
 	$(self).children("button").show();
 	setTimeout(function(){
 		$(self).children("button").hide();
@@ -87,7 +119,6 @@ function chat_room_out(room_no, self){
 			dataType : "text",
 			async:false,
 			success: function(data){
-				console.log(data);
 				if(data>0){
 					$(self).parent().remove();
 				}else{
@@ -124,7 +155,6 @@ function close_chat(){
 
 function chat_board(no){
 	if(open_chat()){
-		console.log(123123);
 		$.ajax({
 			type: "get",
 			url: ctxPath+"/chat/board",
@@ -134,7 +164,6 @@ function chat_board(no){
 			dataType : "text",
 			async:false,
 			success: function(data){
-				console.log(data);
 				if(data==0){
 					alert('채팅방 등록 중 오류');
 				}else{
@@ -178,7 +207,7 @@ function chat_start(no){
 			console.log($('.chat_send'));
 			$('#chat_receipt').val(no);
 			$('.chat_cont').append(table);
-			$('.chat_send').attr('onclick', 'send_chat('+data[0].chat_room_no+')');
+			$('.chat_send').attr('onclick', 'send_chat('+data[0].chat_room_no+', '+loginUser_authen+', '+no+')');
 
 			connect_chat();
 		},
@@ -221,15 +250,30 @@ function connect_chat() {
 	ws.onerror = function (err) { console.log('Error:', err); };
 }
  
-function send_chat(room_no){
+function send_chat(room_no, authen, receiv_no){
 	let receiveId = $('#chat_receipt').val();
 	let msg = $('.chat_msg').val();
-	console.log(msg);
 	//evt.preventDefault();
-	if (socket.readyState !== 1 ) return;
-	socket.send(room_no+"," + receiveId + "," + msg);
-	$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
-	$('.chat_msg').val("");
+	if(receiv_no!=1){
+		if(authen){
+			if (socket.readyState !== 1 ) return;
+			socket.send(room_no+"," + receiveId + "," + msg);
+			$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
+			$('.chat_msg').val("");
+		}else{
+			if(confirm('글 작성을 위해 유저 인증이 필요합니다. 이동하시겠습니까.')){
+				location.href=ctxPath+'/user/mypage';
+			}
+		}
+	}else{
+		if (socket.readyState !== 1 ) return;
+		socket.send(room_no+"," + receiveId + "," + msg);
+		$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
+		$('.chat_msg').val("");
+	}
+	
+
+	
 }
 
 function chat_admin(){

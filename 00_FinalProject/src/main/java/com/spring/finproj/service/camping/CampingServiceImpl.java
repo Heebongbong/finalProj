@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,11 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.spring.finproj.model.board.BoardDAO;
 import com.spring.finproj.model.board.BoardDTO;
 import com.spring.finproj.model.board.MentionDAO;
 import com.spring.finproj.model.board.MentionDTO;
 import com.spring.finproj.model.camping.CampingDAO;
 import com.spring.finproj.model.camping.CampingDTO;
+import com.spring.finproj.model.user.UserDTO;
 
 @Service
 public class CampingServiceImpl implements CampingService{
@@ -30,6 +33,8 @@ public class CampingServiceImpl implements CampingService{
 	private CampingDAO campingDAO;
 	@Autowired
 	private MentionDAO mentionDAO;
+	@Autowired
+	private BoardDAO boardDAO;
 
 	@Override
 	public void insertCampingListSetDB() throws IOException {
@@ -171,12 +176,28 @@ public class CampingServiceImpl implements CampingService{
 		for(BoardDTO b : reviewList) {
 			b.setPhoto_files(request);
 			
-			List<MentionDTO> m_list = mentionDAO.getMentionList(b.getCm_no());
-			m_map.put(b.getCm_no(), m_list);
+			b.setLikeCount(boardDAO.getBoardLikeCount(b.getCm_no()));
 			
-			System.out.println("댓글 리스트"+m_map);
+			List<MentionDTO> m_list = mentionDAO.getMentionList(b.getCm_no());
+			
+			for(MentionDTO m : m_list) {
+				m.setLikeCount(mentionDAO.getMentionLikeCount(m.getMention_no()));
+			}
+			
+			m_map.put(b.getCm_no(), m_list);
 		}
 		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("LoginUser")!=null) {
+			int login_user_no = ((UserDTO)session.getAttribute("LoginUser")).getUser_no();
+			List<Integer> userLikeList = boardDAO.getBoardLikeList(login_user_no);
+			
+			fin_List.put("LikeList", userLikeList);
+			
+			List<Integer> mentionLikeList = mentionDAO.getMentionLikeList(login_user_no);
+			
+			fin_List.put("MentionLikeList", mentionLikeList);
+		}
 		
 		fin_List.put("BoardList", reviewList);
 		fin_List.put("MentionList", m_map);

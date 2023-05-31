@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.finproj.model.board.BoardDTO;
 import com.spring.finproj.model.camping.CampingDTO;
 import com.spring.finproj.service.camping.CampingService;
 
@@ -53,9 +56,9 @@ public class CampingController {
 		return campingService.getCampingReviewList(content_id, request, cm_no);
 	}
 	
-	@RequestMapping("/review/write")
-    public String reviewWrite() {
-        return "camping.write";
+	@RequestMapping("/write")
+    public String reviewWrite(int content_id, Model model) {
+		model.addAttribute("Content_id", content_id);
+        return "board.write";
     }
-    
 }

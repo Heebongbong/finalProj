@@ -9,15 +9,16 @@
 	<form onsubmit="return check()" id="updateform" method="post" enctype="multipart/form-data" action="${ctxPath }/market/updateform">
 		<div class="form-group" align="left">
 			<div>
-				<input type="checkbox" value="#텐트#타프" id="cate_tent" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('텐트') == 1 || hash.get('타프') == 1 }">checked</c:if>><label for="cate_tent">텐트/타프</label>
-				<input type="checkbox" value="#테이블#체어" id="cate_table" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('테이블') == 1 || hash.get('체어') == 1 }">checked</c:if>><label for="cate_table">테이블/체어</label>
-				<input type="checkbox" value="#취사#수납" id="cate_cooking" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('취사') == 1 || hash.get('수납') == 1 }">checked</c:if>><label for="cate_cooking">취사/수납</label>
-				<input type="checkbox" value="#랜턴#조명" id="cate_lantern" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('랜턴') == 1 || hash.get('조명') == 1 }">checked</c:if>><label for="cate_lantern">랜턴/조명</label>
-				<input type="checkbox" value="#소품#기타" id="cate_etc" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('소품') == 1 || hash.get('기타') == 1 }">checked</c:if>><label for="cate_etc">소품/기타</label>
+				<input type="checkbox" value="#텐트#타프" id="cate_tent" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('텐트') == 1 || hash.get('타프') == 1 }">checked</c:if>><label for="cate_tent">텐트/타프</label>
+				<input type="checkbox" value="#테이블#체어" id="cate_table" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('테이블') == 1 || hash.get('체어') == 1 }">checked</c:if>><label for="cate_table">테이블/체어</label>
+				<input type="checkbox" value="#취사#수납" id="cate_cooking" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('취사') == 1 || hash.get('수납') == 1 }">checked</c:if>><label for="cate_cooking">취사/수납</label>
+				<input type="checkbox" value="#랜턴#조명" id="cate_lantern" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('랜턴') == 1 || hash.get('조명') == 1 }">checked</c:if>><label for="cate_lantern">랜턴/조명</label>
+				<input type="checkbox" value="#소품#기타" id="cate_etc" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('소품') == 1 || hash.get('기타') == 1 }">checked</c:if>><label for="cate_etc">소품/기타</label>
 			</div>
 			<div>
 				<select id="subject" onchange="loc_hash()">
 					<option value="서울" <c:if test="${hash.get('서울') == 1 }">selected</c:if>>서울</option>
+					<option value="인천" <c:if test="${hash.get('인천') == 1 }">selected</c:if>>인천</option>
 					<option value="경기" <c:if test="${hash.get('경기') == 1 }">selected</c:if>>경기</option>
 					<option value="강원" <c:if test="${hash.get('강원') == 1 }">selected</c:if>>강원</option>
 					<option value="충청" <c:if test="${hash.get('충청') == 1 }">selected</c:if>>충청</option>
@@ -33,15 +34,15 @@
 			<input type="text" name="price" placeholder="가격 : " value="${dto.getPrice() }">
 		</div>
 		<div class="form-group" align="left">
-			<label for="subject">파일:</label>
-			<input type="file" class="form-control-file border" name="files" multiple="multiple">
+			<label for="upfile">/ 파일 추가 버튼 수정 /</label>
+			<input type="file" style="display: none" id="upfile" class="form-control-file border" name="upfile" multiple="multiple">
 		</div>
 		<div class="form-group" align="left">
-           		<label for="file">존재하는 사진 파일</label>
+           		<span>존재하는 사진 파일</span>
            		<div class="row">
 	          		<c:forEach var="file" items="${files}">
 	          			<div class='upload_photo_file col-4' >
-	          				<input type="checkbox" name=${file }>
+	          				<input type="checkbox" name="deletefile" value="${file }">
 	          				<img src="/finproj/resources/images/board/${dto.getPhoto_folder()}/${file }">
 	          			</div>
 	          		</c:forEach>

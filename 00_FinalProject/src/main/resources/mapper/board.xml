@@ -113,10 +113,13 @@
    	<delete id="board_market_delete" parameterType="int">
    		delete from market where cm_no = #{cm_no}
    	</delete>
+   	<delete id="board_review_delete" parameterType="int">
+   		delete from review where cm_no = #{cm_no}
+   	</delete>
     
     <select id="board_cont" resultType="boardDTO" parameterType="int">
     	select * from 
-		(select * from community  where cm_no not in (select cm_no from market))a 
+    		(select e.*, f.content_id from community e left outer join review f on e.cm_no = f.cm_no) a
 			join (select c.user_no, c.email, c.type, d.nickname, d.profile 
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no 
@@ -141,4 +144,39 @@
   	<insert id="board_like_insert" parameterType="map">
   		insert into recommand values(#{cm_no}, #{user_no})
   	</insert>
+  	
+  	<select id="board_user_list" resultType="boardDTO" parameterType="int">
+  		select * from 
+		community a join (select c.user_no, c.email, c.type, d.nickname, d.profile 
+			from user c join user_profile d on c.user_no = d.user_no where c.user_no = #{user_no}) b 
+		on a.user_no = b.user_no order by cm_no desc Limit 5
+  	</select>
+  	<select id="board_user_list_map" resultType="boardDTO" parameterType="map">
+  		<![CDATA[
+	  		select * from 
+			community a join (select c.user_no, c.email, c.type, d.nickname, d.profile 
+				from user c join user_profile d on c.user_no = d.user_no where c.user_no = #{user_no}) b 
+			on a.user_no = b.user_no where cm_no < #{cm_no} order by cm_no desc Limit 5
+		]]>
+  	</select>
+  	
+  	<select id="board_user_like_list" resultType="boardDTO" parameterType="int">
+  		select * from 
+		(select * from community where cm_no in(select cm_no from recommand where user_no = #{user_no})) a
+		join (select c.user_no, c.email, c.type, d.nickname, d.profile 
+			from user c join user_profile d on c.user_no = d.user_no) b 
+		on a.user_no = b.user_no order by cm_no desc Limit 5
+  	</select>
+  	<select id="board_user_like_list_map" resultType="boardDTO" parameterType="map">
+  		<![CDATA[
+	  		select * from 
+			(select * from community where cm_no in(select cm_no from recommand where user_no = #{user_no})) a
+			join (select c.user_no, c.email, c.type, d.nickname, d.profile 
+				from user c join user_profile d on c.user_no = d.user_no) b 
+			on a.user_no = b.user_no where cm_no < #{cm_no} order by cm_no desc Limit 5
+		]]>
+  	</select>
+	<insert id="review_insert" parameterType="boardDTO">
+		insert into review values(#{cm_no}, #{content_id})
+	</insert>  	
 </mapper>

@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 				list = boardDAO.getBoardList();
 			}else {
 				if(keyword.startsWith("%23")) {
-					key = keyword+= category;
+					key = keyword += category;
 					
 					StringTokenizer st = new StringTokenizer(key, "%23");
 					List<String> hashList = new ArrayList<String>();
@@ -61,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
 					
 					list = boardDAO.getBoardHashKeyList(hashList);
 				}else {
-					key = keyword+= category;
+					key = keyword += category;
 					list = boardDAO.getBoardList(key);
 				}
 			}
@@ -134,14 +134,26 @@ public class BoardServiceImpl implements BoardService {
 	@SuppressWarnings("deprecation")
 	@Override
 	public int writeBoard(BoardDTO boardDTO, MultipartFile[] files,
-			HttpServletRequest request) throws Exception {
+			HttpServletRequest request, String[] category) throws Exception {
 
-		String hashtag = boardDTO.getHashtag();
+		UserDTO user = (UserDTO) request.getSession().getAttribute("LoginUser");
 		
-		boardDTO.setHashtag(hashtag);
-		boardDTO.setUser_no(boardDTO.getUser_no());
-
-		if (files.length == 0) {
+		String hashtags = "";
+		for(String s : category) {
+			hashtags += s;
+		}
+		
+		boardDTO.setHashtag(boardDTO.getHashtag()+hashtags);
+		
+		boardDTO.setEmail(user.getEmail());
+		boardDTO.setUser_no(user.getUser_no());
+		boardDTO.setType(user.getType());
+		
+		int file_check = 0;
+		for (MultipartFile ms : files) {
+			if(!ms.isEmpty()) file_check = 1;
+		}
+		if (file_check == 1) {
 			Properties prop = new Properties();
 			FileInputStream fis = new FileInputStream(
 					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
@@ -181,10 +193,17 @@ public class BoardServiceImpl implements BoardService {
 					mfile.transferTo(new File(folder2, saveFileName));
 				}
 			}
-			boardDTO.setPhoto_folder(boardFolder);
+			
+			boardDTO.setPhoto_folder(boardFolder + "/" + today);
 		}
 
 		int re = boardDAO.insertBoardContent(boardDTO);
+		
+		System.out.println(boardDTO.getContent_id());
+		if(boardDTO.getContent_id() != 0) {
+			re = boardDAO.insertReviewCont(boardDTO);
+		}
+		
 		return re;
 	}
 
@@ -256,6 +275,10 @@ public class BoardServiceImpl implements BoardService {
 			boardDAO.deleteAlarmContent(cm_no);
 			boardDAO.deleteRecommandContent(cm_no);
 			
+			if(dto.getContent_id()!=0) {
+				boardDAO.deleteReview(cm_no);
+			}
+			
 			List<MentionDTO> menList = mentionDAO.getMentionList(cm_no);
 			
 			int men_re = boardDAO.deleteMentionContent(cm_no);
@@ -266,16 +289,19 @@ public class BoardServiceImpl implements BoardService {
 		
 		return re;
 	}
-		
-		
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public int updateBoard(BoardDTO dto, MultipartFile[] files,
-			HttpServletRequest request, String[] deletefile) throws Exception {
+			HttpServletRequest request, String[] deletefile, String category) throws Exception {
 		
 		//본 게시글 dto
 		BoardDTO db_dto = boardDAO.getBoardContent(dto.getCm_no());
-		db_dto.setPhoto_files(request);
+		
+		//review 존재시 해쉬태그 추가
+		if(category!=null) {
+			dto.setHashtag(dto.getHashtag()+category);
+		}
 
 		//dto photofolder setting
 		dto.setPhoto_folder(db_dto.getPhoto_folder());
@@ -289,7 +315,11 @@ public class BoardServiceImpl implements BoardService {
 		
 		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board";
 		
-		if (files.length != 0) { //파일 저장 필요
+		int file_check = 0;
+		for (MultipartFile ms : files) {
+			if(!ms.isEmpty()) file_check = 1;
+		}
+		if (file_check == 1) {
 			
 			if(db_dto.getPhoto_folder()==null) { //폴더 없음, 생성 필요
 				LocalDateTime nowDate = LocalDateTime.now();
@@ -327,7 +357,7 @@ public class BoardServiceImpl implements BoardService {
 					}
 				}
 				//dto 객체에 폴더명 세팅
-				dto.setPhoto_folder(boardFolder);
+				dto.setPhoto_folder(boardFolder +"/"+ today);
 			
 			}else { //폴더 존재 , 파일 저장필요
 				String realFolder = saveFolder + "\\" + db_dto.getPhoto_folder();
@@ -347,7 +377,7 @@ public class BoardServiceImpl implements BoardService {
 		} //file 저장 end
 		
 		//삭제요청 파일 처리
-		if(deletefile.length>0) {
+		if(deletefile!=null) {
 			String realFolder = saveFolder + "\\" + db_dto.getPhoto_folder();
 			for(String f : deletefile) {
 				File d_f = new File(realFolder+"\\"+f);
@@ -437,5 +467,100 @@ public class BoardServiceImpl implements BoardService {
 		}else {
 			return -1;
 		}
+	}
+
+	@Override
+	public Map<String, Object> getBoardUserList(HttpServletRequest request, int cm_no, int user_no) throws Exception {
+		Map<String, Object> boardTotal = new HashMap<String, Object>();
+		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
+		
+		List<BoardDTO> list = null;
+		
+		if(cm_no == 0) {
+			list = boardDAO.getBoardUserList(user_no);
+		}else {
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			map.put("user_no", user_no);
+			map.put("cm_no", cm_no);
+			list = boardDAO.getBoardUserList(map);
+		}
+
+		for (BoardDTO d : list) {
+			d.setPhoto_files(request);
+			
+			d.setLikeCount(boardDAO.getBoardLikeCount(d.getCm_no()));
+			
+			//<cm_no, List<mention>> 댓글 맵리스트
+			List<MentionDTO> list2 = mentionDAO.getMentionList(d.getCm_no());
+			
+			for(MentionDTO m : list2) {
+				m.setLikeCount(mentionDAO.getMentionLikeCount(m.getMention_no()));
+			}
+			
+			mapList2.put(d.getCm_no(), list2);
+		}
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("LoginUser")!=null) {
+			int login_user_no = ((UserDTO)session.getAttribute("LoginUser")).getUser_no();
+			List<Integer> userLikeList = boardDAO.getBoardLikeList(login_user_no);
+			
+			boardTotal.put("LikeList", userLikeList);
+			
+			List<Integer> mentionLikeList = mentionDAO.getMentionLikeList(login_user_no);
+			
+			boardTotal.put("MentionLikeList", mentionLikeList);
+		}
+
+		boardTotal.put("BoardList", list);
+		boardTotal.put("MentionList", mapList2);
+
+		return boardTotal;
+	}
+
+	@Override
+	public Map<String, Object> getBoardUserLikeList(HttpServletRequest request, int cm_no) throws Exception {
+		Map<String, Object> boardTotal = new HashMap<String, Object>();
+		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
+		
+		HttpSession session = request.getSession();
+		UserDTO user = (UserDTO)session.getAttribute("LoginUser");
+		int user_no = user.getUser_no();
+			
+		List<BoardDTO> list = null;
+		
+		if(cm_no == 0) {
+			list = boardDAO.getBoardUserLikeList(user_no);
+		}else {
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			map.put("user_no", user_no);
+			map.put("cm_no", cm_no);
+			list = boardDAO.getBoardUserLikeList(map);
+		}
+
+		for (BoardDTO d : list) {
+			d.setPhoto_files(request);
+			
+			d.setLikeCount(boardDAO.getBoardLikeCount(d.getCm_no()));
+			
+			//<cm_no, List<mention>> 댓글 맵리스트
+			List<MentionDTO> list2 = mentionDAO.getMentionList(d.getCm_no());
+			
+			for(MentionDTO m : list2) {
+				m.setLikeCount(mentionDAO.getMentionLikeCount(m.getMention_no()));
+			}
+			
+			mapList2.put(d.getCm_no(), list2);
+		}
+		
+		List<Integer> userLikeList = boardDAO.getBoardLikeList(user_no);
+		List<Integer> mentionLikeList = mentionDAO.getMentionLikeList(user_no);
+		
+		boardTotal.put("LikeList", userLikeList);
+		boardTotal.put("MentionLikeList", mentionLikeList);
+		boardTotal.put("BoardList", list);
+		boardTotal.put("MentionList", mapList2);
+
+		return boardTotal;
 	}
 }
