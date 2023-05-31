@@ -51,8 +51,7 @@ public class UserServiceImpl implements UserService {
 
 			// 절대경로 가져오기
 			Properties prop = new Properties();
-			FileInputStream fis = new FileInputStream(
-					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+			FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
 			prop.load(new InputStreamReader(fis));
 			fis.close();
 
