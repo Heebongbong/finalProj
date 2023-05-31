@@ -112,8 +112,6 @@ public class WeatherServiceImpl implements WeatherService{
         	fcstTime.add(ja2.getJSONObject(i).getString("fcstTime"));
         	fcstCategory.add(ja2.getJSONObject(i).getString("category"));
         	fcstValue.add((Object)ja2.getJSONObject(i).get("fcstValue"));
-        	
-        	System.out.println("리슽:"+fcstCategory);
         }
         
         Map<String, Object> map2 = new HashMap<String, Object>();

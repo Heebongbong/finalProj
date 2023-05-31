@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -609,5 +610,19 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		UserDTO user = userDao.getUserContent(user_no);
 		model.addAttribute("User_cont", user);
+	}
+
+	// 관리자
+	@Override
+	public void getUserList(Model model) {
+		List<UserDTO> list = userDao.getUserList();
+		model.addAttribute("userList", list);
+	}
+
+	@Override
+	public void userDelete(int user_no) {
+		// TODO Auto-generated method stub
+		userDao.deleteUser(user_no);
+		
 	}
 }

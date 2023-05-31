@@ -26,5 +26,10 @@ public interface UserService {
 	public String sendSMSSite(String phone, HttpSession session);
 	public int deleteUser(String check_pwd, HttpSession session, HttpServletResponse response) throws Exception;
 	public void getBoardUserCont(int user_no, Model model);
+	
+	
+	//관리자
+	public void getUserList(Model model);
+	public void userDelete(int user_no);
 
 }

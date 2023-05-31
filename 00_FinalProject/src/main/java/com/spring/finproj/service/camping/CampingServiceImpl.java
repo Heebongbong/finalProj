@@ -37,7 +37,12 @@ public class CampingServiceImpl implements CampingService{
 	private BoardDAO boardDAO;
 
 	@Override
-	public void insertCampingListSetDB() throws IOException {
+	public void updateCampingListSetDB() throws IOException {
+		
+		//db삭제
+		campingDAO.deleteCampingList();
+		
+		//db추가
 		for(int j=1;j<=350;j++) {
 			String curl = "https://apis.data.go.kr/B551011/GoCamping/basedList?numOfRows=10&pageNo="+j+"&MobileOS=WIN&MobileApp=Camping&serviceKey=phamApqtKDIobE2PYsYGQbaOjZ1ubeYuzGHHRypOTUlsk%2FvIKv7BlDfoboSoBl%2BSgdrQXDuV13Xr3a4InxJjdA%3D%3D&_type=json";
 			
@@ -104,6 +109,7 @@ public class CampingServiceImpl implements CampingService{
 	        int re = campingDAO.insertCampingList(list);
 	        
 	        System.out.println(j+" 번째 리스트 작업 ["+re+"] 행 추가");
+	        
 	        
 		}
 	}
@@ -204,4 +210,6 @@ public class CampingServiceImpl implements CampingService{
 		
 		return fin_List;
 	}
+	
+
 }

@@ -1,0 +1,53 @@
+html, body, #container, #content {
+	height:100%;
+}
+
+#container {
+	width: 1000px;
+    margin: auto;
+}
+
+#content {
+	display: flex;
+}
+
+#side {
+	height: 100%; 
+	background: #42515e;
+}
+
+#side a {
+	color : #939ba3;
+	text-decoration-line: none;
+}
+
+#side a:hover {
+	color : white;
+	text-decoration-line: none;
+}
+
+#body {
+	padding-top: 30px;
+	margin: 0 auto;
+}
+
+#header a {
+	color: white;
+	text-decoration-line: none;
+	vertical-align: middle
+}
+
+#header {
+	background: #1e2a34;
+	color: white;
+ 	padding : 16px; 
+	font-size: 25px;
+}
+
+.camping_side_ul {
+	list-style-type: none;
+	padding: 26px;
+	font-size: 20px;
+	line-height: 150px;
+	text-align: center;
+}

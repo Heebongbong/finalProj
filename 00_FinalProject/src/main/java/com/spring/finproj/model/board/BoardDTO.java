@@ -23,6 +23,9 @@ public class BoardDTO {
 	private String hashtag;
 	private String photo_folder;
 	
+	//accuse
+	private String reason;
+	
 	//like count
 	private int likeCount;
 	

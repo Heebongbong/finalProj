@@ -14,6 +14,7 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -562,5 +563,15 @@ public class BoardServiceImpl implements BoardService {
 		boardTotal.put("MentionList", mapList2);
 
 		return boardTotal;
+	}
+	
+	
+	// 관리자
+	@Override
+	public void getAccuseList(Model model) {
+		List<BoardDTO> list = boardDAO.getAccuseList();
+		
+		model.addAttribute("accuseList", list);
+		System.out.println("신고명단"+ list);
 	}
 }

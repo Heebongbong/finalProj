@@ -84,4 +84,9 @@ public class CampingDAOImpl implements CampingDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("camping_review_list_map", keyList);
 	}
+
+	@Override
+	public int deleteCampingList() {
+	    return sqlSession.delete("camping_delete_list");
+	}
 }

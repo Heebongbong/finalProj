@@ -170,4 +170,16 @@ public class BoardController {
     	return boardService.getBoardUserLikeList(request, cm_no);
     }
     
+    // 관리자
+    @RequestMapping("/accuse")
+    public String accuseList(Model model) {
+    	boardService.getAccuseList(model);
+    	return "admin.accuse";
+    }
+
+    @RequestMapping("/admin/delete")
+    public void deleteBoardCont(int cm_no, HttpServletRequest request) throws Exception {
+    	boardService.deleteBoardCont(cm_no, request);
+    }
+    
 }
