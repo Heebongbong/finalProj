@@ -32,6 +32,11 @@
 			#{item.firstImageUrl})
 		</foreach>
 	</insert>
+	
+	<delete id="camping_delete_list">
+		delete from camping
+	</delete>
+	
 	<select id="camping_list_loc" resultType="campingDTO" parameterType="String">
 		<choose>
 			<when test="(loc =='서울' || loc =='경기'|| loc =='강원'|| loc =='경북'|| loc =='경남'|| loc =='충북'|| loc =='충남'

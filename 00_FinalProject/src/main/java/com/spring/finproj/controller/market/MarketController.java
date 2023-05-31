@@ -90,8 +90,10 @@ public class MarketController {
     
     @RequestMapping("/updateform")
     public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
-    		HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	int check = marketService.updateMarketCont(dto, files, session, request);
+    		@RequestParam(value = "deletefile", required = false) String[] deletefile, HttpSession session,
+    		HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	
+    	int check = marketService.updateMarketCont(dto, files, session, request, deletefile);
     	
     	if(check>0) {
 			return "redirect:/market/list";
@@ -107,6 +109,6 @@ public class MarketController {
     
     @RequestMapping("/security")
     public String marketSecurity() {
-    	return "market.security";
+    	return "market/security";
     }
 }

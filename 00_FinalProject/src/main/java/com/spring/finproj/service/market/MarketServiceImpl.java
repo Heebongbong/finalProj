@@ -43,8 +43,6 @@ public class MarketServiceImpl implements MarketService{
 		Map<Integer, List<MentionDTO>> mapList2 = new HashMap<Integer, List<MentionDTO>>();
 		List<BoardDTO> list = null;
 		String key;
-		System.out.println("key"+keyword);
-		System.out.println("cm"+cm_no);
 
 		if(cm_no == 0) {
 			if((keyword==null || keyword=="") && (category==""||category==null)) {
@@ -146,7 +144,11 @@ public class MarketServiceImpl implements MarketService{
 		dto.setHashtag(dto.getHashtag()+hashtags);
 		dto.setUser_no(user.getUser_no());
         
-		if(files!=null) {
+		int file_check = 0;
+		for (MultipartFile ms : files) {
+			if(!ms.isEmpty()) file_check = 1;
+		}
+		if (file_check == 1) {
 			Properties prop = new Properties();
 			@SuppressWarnings("deprecation")
 			FileInputStream fis = new FileInputStream(request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
@@ -214,15 +216,11 @@ public class MarketServiceImpl implements MarketService{
 				if(dto.getPhoto_folder() != null) {
 					dto.setPhoto_files(request);
 					file = dto.getPhoto_files();
-					System.out.println(file);
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			System.out.println(mapp);
-			System.out.println(dto);
 			
 			hash.put("Files", file);
 			hash.put("BoardDTO", dto);
@@ -237,58 +235,95 @@ public class MarketServiceImpl implements MarketService{
 
 	@Override
 	public int updateMarketCont(BoardDTO boardDTO, MultipartFile[] files, HttpSession session,
-			HttpServletRequest request) throws Exception {
-
-		boardDTO.setHashtag(boardDTO.getHashtag());
+			HttpServletRequest request, String[] deletefile) throws Exception {
 		
-		System.out.println(1);
+		//본 게시글 dto
+		BoardDTO db_dto = boardDAO.getBoardContent(boardDTO.getCm_no());
+
+		//dto photofolder setting
+		boardDTO.setPhoto_folder(db_dto.getPhoto_folder());
 		
-		if (files.length == 0) {
-			Properties prop = new Properties();
-			@SuppressWarnings("deprecation")
-			FileInputStream fis = new FileInputStream(
-					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
-			prop.load(new InputStreamReader(fis));
-			fis.close();
+		Properties prop = new Properties();
+		@SuppressWarnings("deprecation")
+		FileInputStream fis = new FileInputStream(
+				request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
+		prop.load(new InputStreamReader(fis));
+		fis.close();
+		
+		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board\\";
+
+		
+		int file_check = 0;
+		for (MultipartFile ms : files) {
+			if(!ms.isEmpty()) file_check = 1;
+		}
+		if (file_check == 1) {
 			
-			LocalDateTime nowDate = LocalDateTime.now();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
-			String today = nowDate.format(formatter);
-
-			// type + 이메일 아이디
-			String type = boardDTO.getType();
-
-			StringTokenizer st1 = new StringTokenizer(boardDTO.getEmail(), "@", true);
-			String email_id = st1.nextToken();
-			String boardFolder = type + "_" + email_id;
-			String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board\\" + boardFolder;
-
-			File folder = new File(saveFolder);
-			if (!folder.exists()) {
-				folder.mkdirs();
-			}
+			if(db_dto.getPhoto_folder()==null) {
 			
-			saveFolder += "\\" + today;
-			File folder2 = new File(saveFolder);
-			if (!folder2.exists()) {
-				folder2.mkdirs();
-			}
-
-			for (MultipartFile mfile : files) {
-
-				String originalFileName = mfile.getOriginalFilename();
-
-				// UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
-				if (!originalFileName.isEmpty()) {
-					String saveFileName = UUID.randomUUID().toString()
-							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-					mfile.transferTo(new File(folder, saveFileName));
+				LocalDateTime nowDate = LocalDateTime.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
+				String today = nowDate.format(formatter);
+	
+				// type + 이메일 아이디
+				String type = boardDTO.getType();
+	
+				StringTokenizer st1 = new StringTokenizer(boardDTO.getEmail(), "@", true);
+				String email_id = st1.nextToken();
+				String boardFolder = type + "_" + email_id;
+				String realFolder = saveFolder + "\\" + boardFolder;
+				
+				File folder = new File(realFolder);
+				if (!folder.exists()) {
+					folder.mkdirs();
+				}
+				
+				realFolder += "\\" + today;
+				File folder2 = new File(realFolder);
+				if (!folder2.exists()) {
+					folder2.mkdirs();
+				}
+	
+				for (MultipartFile mfile : files) {
+	
+					String originalFileName = mfile.getOriginalFilename();
+	
+					// UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
+					if (!originalFileName.isEmpty()) {
+						String saveFileName = UUID.randomUUID().toString()
+								+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+						mfile.transferTo(new File(folder2, saveFileName));
+					}
+				}
+				boardDTO.setPhoto_folder(boardFolder+ "/" + today);
+			}else { //폴더 존재 , 파일 저장필요
+				String realFolder = saveFolder + "\\" + db_dto.getPhoto_folder();
+				
+				for (MultipartFile mfile : files) {
+	
+					String originalFileName = mfile.getOriginalFilename();
+	
+					// UUID.randomName을 이용하여 랜덤한 고유 식별자 생성
+					if (!originalFileName.isEmpty()) {
+						String saveFileName = UUID.randomUUID().toString()
+								+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+						mfile.transferTo(new File(realFolder, saveFileName));
+					}
 				}
 			}
-			boardDTO.setPhoto_folder(boardFolder);
+		}//file 저장
+		
+		//삭제처리 필요 파일
+		if(deletefile!=null) {
+			String realFolder = saveFolder + "\\" + db_dto.getPhoto_folder();
+			for(String f : deletefile) {
+				File d_f = new File(realFolder+"\\"+f);
+				d_f.delete();
+			}
 		}
-		System.out.println(3);
+		
 		int re = marketDAO.updateBoardContent(boardDTO);
+		
 		if(re>0) {
 			re = marketDAO.updateMarketContent(boardDTO);
 		}

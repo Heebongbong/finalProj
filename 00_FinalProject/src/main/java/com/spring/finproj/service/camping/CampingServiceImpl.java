@@ -105,6 +105,7 @@ public class CampingServiceImpl implements CampingService{
 	        
 	        System.out.println(j+" 번째 리스트 작업 ["+re+"] 행 추가");
 	        
+	        
 		}
 	}
 
@@ -203,5 +204,11 @@ public class CampingServiceImpl implements CampingService{
 		fin_List.put("MentionList", m_map);
 		
 		return fin_List;
+	}
+
+	//관리자 페이지용
+	@Override
+	public void CampingListDeleteDB() {
+		campingDAO.deleteCampingList();
 	}
 }

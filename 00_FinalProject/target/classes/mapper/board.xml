@@ -115,8 +115,7 @@
    	</delete>
     
     <select id="board_cont" resultType="boardDTO" parameterType="int">
-    	select * from 
-		(select * from community  where cm_no not in (select cm_no from market))a 
+    	select * from community a 
 			join (select c.user_no, c.email, c.type, d.nickname, d.profile 
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no 
@@ -172,5 +171,11 @@
 				from user c join user_profile d on c.user_no = d.user_no) b 
 			on a.user_no = b.user_no where cm_no < #{cm_no} order by cm_no desc Limit 5
 		]]>
+  	</select>
+  	
+  	<select id="accuse_list" resultType="boardDTO">
+  		SELECT a.*, b.content
+		FROM accuse a
+		JOIN community b ON a.cm_no = b.cm_no;
   	</select>
 </mapper>

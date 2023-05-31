@@ -14,6 +14,7 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,12 +137,18 @@ public class BoardServiceImpl implements BoardService {
 	public int writeBoard(BoardDTO boardDTO, MultipartFile[] files,
 			HttpServletRequest request) throws Exception {
 
-		String hashtag = boardDTO.getHashtag();
 		
-		boardDTO.setHashtag(hashtag);
-		boardDTO.setUser_no(boardDTO.getUser_no());
-
-		if (files.length == 0) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("LoginUser");
+		
+		boardDTO.setEmail(user.getEmail());
+		boardDTO.setUser_no(user.getUser_no());
+		boardDTO.setType(user.getType());
+		
+		int file_check = 0;
+		for (MultipartFile ms : files) {
+			if(!ms.isEmpty()) file_check = 1;
+		}
+		if (file_check == 1) {
 			Properties prop = new Properties();
 			FileInputStream fis = new FileInputStream(
 					request.getRealPath("WEB-INF\\classes\\properties\\filepath.properties"));
@@ -181,7 +188,8 @@ public class BoardServiceImpl implements BoardService {
 					mfile.transferTo(new File(folder2, saveFileName));
 				}
 			}
-			boardDTO.setPhoto_folder(boardFolder);
+			
+			boardDTO.setPhoto_folder(boardFolder + "/" + today);
 		}
 
 		int re = boardDAO.insertBoardContent(boardDTO);
@@ -266,8 +274,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		return re;
 	}
-		
-		
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public int updateBoard(BoardDTO dto, MultipartFile[] files,
@@ -275,7 +282,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		//본 게시글 dto
 		BoardDTO db_dto = boardDAO.getBoardContent(dto.getCm_no());
-		db_dto.setPhoto_files(request);
 
 		//dto photofolder setting
 		dto.setPhoto_folder(db_dto.getPhoto_folder());
@@ -289,7 +295,11 @@ public class BoardServiceImpl implements BoardService {
 		
 		String saveFolder = prop.getProperty(System.getenv("USERPROFILE").substring(3)) + "\\board";
 		
-		if (files.length != 0) { //파일 저장 필요
+		int file_check = 0;
+		for (MultipartFile ms : files) {
+			if(!ms.isEmpty()) file_check = 1;
+		}
+		if (file_check == 1) {
 			
 			if(db_dto.getPhoto_folder()==null) { //폴더 없음, 생성 필요
 				LocalDateTime nowDate = LocalDateTime.now();
@@ -327,7 +337,7 @@ public class BoardServiceImpl implements BoardService {
 					}
 				}
 				//dto 객체에 폴더명 세팅
-				dto.setPhoto_folder(boardFolder);
+				dto.setPhoto_folder(boardFolder +"/"+ today);
 			
 			}else { //폴더 존재 , 파일 저장필요
 				String realFolder = saveFolder + "\\" + db_dto.getPhoto_folder();
@@ -347,7 +357,7 @@ public class BoardServiceImpl implements BoardService {
 		} //file 저장 end
 		
 		//삭제요청 파일 처리
-		if(deletefile.length>0) {
+		if(deletefile!=null) {
 			String realFolder = saveFolder + "\\" + db_dto.getPhoto_folder();
 			for(String f : deletefile) {
 				File d_f = new File(realFolder+"\\"+f);
@@ -532,5 +542,15 @@ public class BoardServiceImpl implements BoardService {
 		boardTotal.put("MentionList", mapList2);
 
 		return boardTotal;
+	}
+	
+	
+	// 관리자
+	@Override
+	public void getAccuseList(Model model) {
+		List<BoardDTO> list = boardDAO.getAccuseList();
+		
+		model.addAttribute("accuseList", list);
+		System.out.println("신고명단"+ list);
 	}
 }

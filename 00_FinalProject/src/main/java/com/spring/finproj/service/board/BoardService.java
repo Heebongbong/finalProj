@@ -1,5 +1,6 @@
 package com.spring.finproj.service.board;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,4 +22,7 @@ public interface BoardService {
 	public int manageMentionLike(int check, int mention_no, HttpSession session);
 	public Map<String, Object> getBoardUserList(HttpServletRequest request, int cm_no, int user_no) throws Exception;
 	public Map<String, Object> getBoardUserLikeList(HttpServletRequest request, int cm_no) throws Exception;
+	
+	//관리자
+	public void getAccuseList(Model model);
 }

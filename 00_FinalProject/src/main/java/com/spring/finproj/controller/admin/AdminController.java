@@ -25,9 +25,20 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/camping")
-	public String campingContent(Model model, @RequestParam(required = false) String keyword, @RequestParam(required = false) String keyword2) throws Exception {
-		campingService.getCampingList(model, keyword, keyword2);
+	public String adminCampingNavi() {
 		return "admin.camping";
+	}
+	@RequestMapping("/accuse")
+	public String adminAccuseNavi() {
+		return "admin.accuse";
+	}
+	@RequestMapping("/waypoint")
+	public String adminWaypointNavi() {
+		return "admin.waypoint";
+	}
+	@RequestMapping("/chat")
+	public String adminChatNavi() {
+		return "admin.chat";
 	}
 	
     

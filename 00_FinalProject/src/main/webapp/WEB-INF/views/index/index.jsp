@@ -30,7 +30,9 @@
 	<div class="banner">
 		<img alt="" src="${ctxPath }/resources/images/banner/${banner_num }.jpg">
 	</div>
-	
+	<div class="market_write">
+		<a href="javascript:" onclick="move_write_page(${loginUser.isAuthen() })"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+	</div>
 	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">
 		<div class="declaration_modal_window">

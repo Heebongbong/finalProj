@@ -23,13 +23,15 @@ public class BoardDTO {
 	private String hashtag;
 	private String photo_folder;
 	
+	//accuse
+	private String reason;
+	
 	//like count
 	private int likeCount;
 	
 	//market
 	private String title;
 	private int price;
-	private int index;
 	
 	//user
 	private String email;

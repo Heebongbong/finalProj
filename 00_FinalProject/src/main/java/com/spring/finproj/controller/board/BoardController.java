@@ -1,5 +1,6 @@
 package com.spring.finproj.controller.board;
 
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class BoardController {
     }
     
     @RequestMapping("/writeform")
-    public String write(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
+    public String write(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
     	int check = boardService.writeBoard(dto, files, request);
@@ -78,6 +79,7 @@ public class BoardController {
     @ResponseBody
     public String update(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
     		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile) throws Exception {
+    	
     	int check = boardService.updateBoard(dto, files, request, deletefile);
     	
     	if(check>0) {
@@ -165,6 +167,18 @@ public class BoardController {
     		@RequestParam(required = false) int cm_no) throws Exception{
     	
     	return boardService.getBoardUserLikeList(request, cm_no);
+    }
+    
+    // 관리자
+    @RequestMapping("/accuse")
+    public String accuseList(Model model) {
+    	boardService.getAccuseList(model);
+    	return "admin.accuse";
+    }
+
+    @RequestMapping("/admin/delete")
+    public void deleteBoardCont(int cm_no, HttpServletRequest request) throws Exception {
+    	boardService.deleteBoardCont(cm_no, request);
     }
     
 }

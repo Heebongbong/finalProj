@@ -33,4 +33,7 @@ public interface BoardDAO {
 	public List<BoardDTO> getBoardUserLikeList(int user_no);
 	public List<BoardDTO> getBoardUserLikeList(Map<String, Integer> map);
 	
+	// 관리자
+	public List<BoardDTO> getAccuseList();
+	
 }

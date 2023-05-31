@@ -35,10 +35,16 @@ public class CampingController {
 		return "camping.details";
 	}
 	
-	@RequestMapping("/list/insert")
+	@RequestMapping("/admin/insert")
 	public String campingInsertList() throws IOException {
 		campingService.insertCampingListSetDB();
-		return "redirect:/index";
+		return "admin.camping";
+	}
+
+	@RequestMapping("/admin/delete")
+	public String campingDeleteList() throws IOException {
+		campingService.CampingListDeleteDB();
+		return "admin.camping";
 	}
 	
 	@RequestMapping("/addlist")

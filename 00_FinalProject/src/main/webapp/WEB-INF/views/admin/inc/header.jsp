@@ -5,5 +5,6 @@
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <div id="header">
-	
+	<a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png" width="50px" height="50px"></a>
+	관리자페이지
 </div>
