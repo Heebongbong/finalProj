@@ -6,9 +6,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+	html, body{
+		overflow: hidden;
+	}
 	#security_wrap{
-		width: 100vw;
-		height: 100vh;
+		width: 600px;
+		margin: 100px auto;
+	}
+	iframe{
+		border: none;
+		width: 1000px;
+		height: 1000px;
+		overflow: hidden;
 	}
 </style>
 </head>

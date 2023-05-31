@@ -9,11 +9,11 @@
 	<form onsubmit="return check()" id="updateform" method="post" enctype="multipart/form-data" action="${ctxPath }/market/updateform">
 		<div class="form-group" align="left">
 			<div>
-				<input type="checkbox" value="#텐트#타프" id="cate_tent" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('텐트') == 1 || hash.get('타프') == 1 }">checked</c:if>><label for="cate_tent">텐트/타프</label>
-				<input type="checkbox" value="#테이블#체어" id="cate_table" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('테이블') == 1 || hash.get('체어') == 1 }">checked</c:if>><label for="cate_table">테이블/체어</label>
-				<input type="checkbox" value="#취사#수납" id="cate_cooking" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('취사') == 1 || hash.get('수납') == 1 }">checked</c:if>><label for="cate_cooking">취사/수납</label>
-				<input type="checkbox" value="#랜턴#조명" id="cate_lantern" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('랜턴') == 1 || hash.get('조명') == 1 }">checked</c:if>><label for="cate_lantern">랜턴/조명</label>
-				<input type="checkbox" value="#소품#기타" id="cate_etc" name="category" onclick="cate_hash(this)" <c:if test="${hash.get('소품') == 1 || hash.get('기타') == 1 }">checked</c:if>><label for="cate_etc">소품/기타</label>
+				<input type="checkbox" value="#텐트#타프" id="cate_tent" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('텐트') == 1 || hash.get('타프') == 1 }">checked</c:if>><label for="cate_tent">텐트/타프</label>
+				<input type="checkbox" value="#테이블#체어" id="cate_table" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('테이블') == 1 || hash.get('체어') == 1 }">checked</c:if>><label for="cate_table">테이블/체어</label>
+				<input type="checkbox" value="#취사#수납" id="cate_cooking" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('취사') == 1 || hash.get('수납') == 1 }">checked</c:if>><label for="cate_cooking">취사/수납</label>
+				<input type="checkbox" value="#랜턴#조명" id="cate_lantern" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('랜턴') == 1 || hash.get('조명') == 1 }">checked</c:if>><label for="cate_lantern">랜턴/조명</label>
+				<input type="checkbox" value="#소품#기타" id="cate_etc" class="category" onclick="cate_hash(this)" <c:if test="${hash.get('소품') == 1 || hash.get('기타') == 1 }">checked</c:if>><label for="cate_etc">소품/기타</label>
 			</div>
 			<div>
 				<select id="subject" onchange="loc_hash()">

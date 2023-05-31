@@ -26,6 +26,9 @@ public class BoardDTO {
 	//like count
 	private int likeCount;
 	
+	//review
+	private int content_id;
+	
 	//market
 	private String title;
 	private int price;

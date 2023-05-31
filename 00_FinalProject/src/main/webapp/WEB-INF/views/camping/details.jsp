@@ -4,6 +4,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
+<c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <c:set var="dto" value="${Content }" />
 <script type="text/javascript">
 	const campName = '${dto.getFacltNm() }';
@@ -16,7 +17,10 @@
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
 <div id="map_wrap">
-<input type="hidden" value="${dto.getContent_id() }" id="hidden_content_id">
+	<input type="hidden" value="${dto.getContent_id() }" id="hidden_content_id">
+	<div>
+		<input type="button" value="리뷰작성" onclick="review_write_move(${dto.getContent_id() }, ${loginUser.isAuthen() })">
+	</div>
 	<div id="camping_details_wrap">
 		<div id="camping_details_img">
 			<div id="map" style="width:400px; height: 50%;"></div>
