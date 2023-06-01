@@ -62,7 +62,7 @@ public class LoginController {
 			return "redirect:/index";
 		}else {
 			if(session.getAttribute("LoginUser")==null) {
-				loginService.loginNaver(code, state, session, response);
+				loginService.loginNaver(code, state, request, session, response);
 			}
 			return "redirect:/index";
 		}

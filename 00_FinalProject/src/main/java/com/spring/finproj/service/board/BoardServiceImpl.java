@@ -600,4 +600,26 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("accuseList", list);
 		System.out.println("신고명단"+ list);
 	}
+
+	@Override
+	public int alarmUserCheck(HttpSession session) {
+		int user_no = ((UserDTO)session.getAttribute("LoginUser")).getUser_no();
+		
+		int re = boardDAO.updateAlarmUserCheck(user_no);
+		
+		return re;
+	}
+
+	@Override
+	public int alarmUserDelete(HttpSession session, int field) {
+		int user_no = ((UserDTO)session.getAttribute("LoginUser")).getUser_no();
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("user_no", user_no);
+		map.put("field", field);
+		
+		int re = boardDAO.deleteAlarmUserField(map);
+		
+		return re;
+	}
 }
