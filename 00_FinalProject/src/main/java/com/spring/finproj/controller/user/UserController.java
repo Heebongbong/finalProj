@@ -163,5 +163,17 @@ public class UserController {
     public String boardLikePage() {
     	return "user.likeboard";
     }
+    
+    //관리자
+    @RequestMapping("/admin")
+    public String userList(Model model) {
+    	userService.getUserList(model);
+    	return "admin.user";
+    }
+    @RequestMapping("/admin/delete")
+    public String userDelete(int user_no) {
+    	userService.userDelete(user_no);
+    	return "admin.user";
+    }
 
 }

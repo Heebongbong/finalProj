@@ -29,4 +29,5 @@ public interface UserDAO {
 	public String checkTypeAndPhone(String phone); // return user_no
 	public int deleteUser(int user_no);
 	public int deleteUserProfile(int user_no);
+	
 }

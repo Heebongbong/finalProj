@@ -53,7 +53,7 @@
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
 		<div class="user_menu_head">
 			로그인 헤더<a href="javascript:close_user_menu()">X</a>
-		</div>	
+		</div>
 		<div class="user_menu_body">
 			<form action="${ctxPath }/login/site" method="post">
 				<div class="user_menu_body_inp">

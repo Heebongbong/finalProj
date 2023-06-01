@@ -103,7 +103,7 @@
 				<input type="hidden" class="decl_cm_no" value="">
 			</div>
 			<div class="decl_modal_body">
-				<textarea rows="" cols="" class="decl_modal_text"></textarea>
+<!-- 				<textarea rows="" cols="" class="decl_modal_text"></textarea> -->
 			</div>
 			<div class="decl_modal_btn">
 				<input type="button" value="신고하기" onclick="declaration()">

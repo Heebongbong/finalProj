@@ -64,7 +64,7 @@ public class UserDAOImpl implements UserDAO{
 
 	@Override
 	public int deleteUser(int user_no) {
-		return sqlSession.delete("user_delete", user_no);
+		return sqlSession.update("user_delete", user_no);
 	}
 	
 	@Override

@@ -5,7 +5,7 @@
   $(document).ready(function(){
     let lat;
     let lng;
-    console.log(serv_lat);
+    
     if(serv_lat!=''){
         lat = serv_lat;
         lng = serv_lng;
@@ -13,8 +13,7 @@
         lat = 37.567944413725904;
         lng = 126.9831230334937;
     }
-    console.log(lat);
-    console.log(lng);
+    
 	let mapOptions = {
 	    center: new naver.maps.LatLng(lat, lng),
 	    zoom: 18

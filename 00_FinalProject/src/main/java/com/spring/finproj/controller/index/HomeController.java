@@ -47,14 +47,11 @@ public class HomeController {
 		return boardService.declaration(cm_no, reason, session);
 	}
 
-	@RequestMapping(value = "/weatherNavi")
-	public String weatherNavi() {
-		return "weather.weather";
-	}
 
 	@RequestMapping(value = "/driveNavi")
 	public String driveNavi(Model model, HttpServletRequest request) throws Exception {
 		driveService.getGeoLocation(model, request);
 		return "drive.drive";
 	}
+	
 }

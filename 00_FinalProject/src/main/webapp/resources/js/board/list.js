@@ -289,17 +289,19 @@ function addMention(no, self){
 
 function addList(){
 	let cm_no = $('.board_no:last').val();
-	let keyword = $('#search_keyword').val();
-	let category = $('#board_category').val();
-	if(cm_no==null){
-		cm_no = 0;
-	}
-	if($('#search_keyword').val()!=null){
-		keyword = replace_keyword(keyword);
-	}
-	if($('#board_category').val()!=null){
-		category = replace_keyword(category);
-	}
+
+   let keyword = $('#search_keyword').val();
+   let category = $('#board_category').val();
+   if(cm_no==null){
+      cm_no = 0;
+   }
+   if($('#search_keyword').val()!=null){
+      keyword = replace_keyword(keyword);
+   }
+   if($('#board_category').val()!=null){
+      category = replace_keyword(category);
+   }
+   
 
 	$.ajax({
         type: "get",

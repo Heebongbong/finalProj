@@ -176,6 +176,11 @@
 			on a.user_no = b.user_no where cm_no < #{cm_no} order by cm_no desc Limit 5
 		]]>
   	</select>
+  	<select id="accuse_list" resultType="boardDTO">
+  		SELECT a.*, b.content
+		FROM accuse a
+		JOIN community b ON a.cm_no = b.cm_no;
+  	</select>
 	<insert id="review_insert" parameterType="boardDTO">
 		insert into review values(#{cm_no}, #{content_id})
 	</insert>  	

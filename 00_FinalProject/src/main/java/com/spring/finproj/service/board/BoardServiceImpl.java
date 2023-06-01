@@ -590,4 +590,14 @@ public class BoardServiceImpl implements BoardService {
 
 		return boardTotal;
 	}
+	
+	
+	// 관리자
+	@Override
+	public void getAccuseList(Model model) {
+		List<BoardDTO> list = boardDAO.getAccuseList();
+		
+		model.addAttribute("accuseList", list);
+		System.out.println("신고명단"+ list);
+	}
 }

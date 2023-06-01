@@ -141,6 +141,14 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board_user_like_list_map", map);
 	}
+	
+	// 관리자
+	@Override
+	public List<BoardDTO> getAccuseList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("accuse_list");
+	}
+		
 	@Override
 	public int insertReviewCont(BoardDTO boardDTO) {
 		// TODO Auto-generated method stub
