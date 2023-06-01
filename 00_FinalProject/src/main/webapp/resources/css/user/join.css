@@ -5,12 +5,70 @@
 }
 
 #mypage_wrap {
-	text-align: center;
-	padding-top: 60px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 
 #previewImg {
 	width: 150px;
 	height: 150px;
 	border-radius: 50%;
+}
+
+
+#mypage_container_center {
+	width: 35%;
+}
+
+.text_part {
+    margin: 5%;
+}
+
+#title {
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    margin: 10%;
+}
+
+
+.noWhitespace {
+    width: 100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+    height: 2em;
+    font-size: 1.1em;
+}
+
+.text_part_box {
+	line-height: 1.5em;
+    margin-bottom: 2em;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 3em;
+}
+
+.profile_part p {
+	text-align: center;
+	margin-bottom: 1em;
+}
+
+.text {
+   	text-align: left;
+}
+
+.profile_box {
+    display: flex;
+}
+
+.profile_box_button {
+    width: 40%;
+    margin: 2%;
 }

@@ -14,41 +14,61 @@
 	const loginEmail = '${loginUser.email}';
 </script>
 <div id="mypage_wrap">
-	<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data" novalidate>
-		<div class="text_part">
-			<p class="text">이메일</p>
-			<input name="email" class="noWhitespace">
-			<p class="emailError">&nbsp;</p>
-			
-			<p class="text">닉네임</p>
-			<input name="nickname" class="noWhitespace">
-			<p class="nicknameError">&nbsp;</p>
-			
-			<p class="text">비밀번호</p>
-			<input type="password" id="pwd" name="pwd" class="noWhitespace">
-			<p class="pwdError">&nbsp;</p>
-			
-			<p class="text">비밀번호 확인</p>
-			<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
-			<p class="pwd_reError">&nbsp;</p>
-			
-			<div class="profile_part">
-				<p>프로필 사진 (선택)</p>
+	<div class="mypage_container_side"></div>
+		<div id="mypage_container_center">
+			<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data" novalidate>
+				
+				<div id="title">회원가입</div>
+				
+				<div class="text_part">
+					<div class="text_part_box">
+						<p class="text">이메일</p>
+						<input name="email" class="noWhitespace">
+						<p class="emailError">&nbsp;</p>
+					</div>
+					<div class="text_part_box">
+						<p class="text">닉네임</p>
+						<input name="nickname" class="noWhitespace">
+						<p class="nicknameError">&nbsp;</p>
+					</div>
+					<div class="text_part_box">
+						<p class="text">비밀번호</p>
+						<input type="password" id="pwd" name="pwd" class="noWhitespace">
+						<p class="pwdError">&nbsp;</p>
+						</div>
+					<div class="text_part_box">
+						<p class="text">비밀번호 확인</p>
+						<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
+						<p class="pwd_reError">&nbsp;</p>
+					</div>
+				</div>	
+				
+					
+				
 				<div class="profile">
+					<p>선택 항목</p>
 					<img id="previewImg" src="../resources/images/profile/default/default_profile.png"/>
 				</div>
 				<div>
-					<input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
+					<label for="profileInput"> / 파일선택 /</label>
+					<input style="display: none;" type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
 				</div>
+				
 				<p class="text">전화번호(선택)</p>
-				<input name="phone" class="noWhitespace" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)">
-				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
+				<div class="profile_box">
+					<input name="phone" class="noWhitespace" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)">
+					<button type="button" id="sendBtn" class="profile_box_button" onclick="sendSMS()">인증번호발송</button>
+				</div>	
 				<p class="phoneError">&nbsp;</p>
-				<input name="code" id="input_code" class="noWhitespace">
-				<button type="button" onclick="checkCode()">인증하기</button>
+				
+				<div class="profile_box">
+					<input name="code" id="input_code" class="noWhitespace">
+					<button type="button" class="profile_box_button" onclick="checkCode()">인증하기</button>
+				</div>
 				<p class="codeError">&nbsp;</p>
-			</div>
+				
+				<button type="submit">가입하기</button>
+			</form>
 		</div>
-		<button type="submit">가입하기</button>
-	</form>
+	<div class="mypage_container_side"></div>
 </div>

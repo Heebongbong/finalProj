@@ -177,9 +177,18 @@
 		]]>
   	</select>
   	<select id="accuse_list" resultType="boardDTO">
-  		SELECT a.*, b.content
+  		SELECT c.cm_no, c.user_no, c.content, us.email, u.nickname, c.hashtag, m.title, m.price, a.reason
+		FROM community c
+		LEFT JOIN market m ON c.cm_no = m.cm_no
+		JOIN user_profile u ON c.user_no = u.user_no
+		JOIN accuse a ON c.cm_no = a.cm_no
+		JOIN user us ON c.user_no = us.user_no;
+  	</select>
+  	<select id="accused_list" resultType="boardDTO">
+  		SELECT a.cm_no, u.nickname, us.email
 		FROM accuse a
-		JOIN community b ON a.cm_no = b.cm_no;
+		JOIN user_profile u ON a.user_no = u.user_no
+		JOIN user us ON a.user_no = us.user_no;
   	</select>
 	<insert id="review_insert" parameterType="boardDTO">
 		insert into review values(#{cm_no}, #{content_id})

@@ -40,5 +40,6 @@ public interface BoardDAO {
 	
 	// 관리자
 	public List<BoardDTO> getAccuseList();
+	public List<BoardDTO> getAccusedList();
 	
 }
