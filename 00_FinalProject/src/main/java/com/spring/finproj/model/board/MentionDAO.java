@@ -7,7 +7,6 @@ public interface MentionDAO {
 
 	//CRUD
 	public List<MentionDTO> getMentionList(int cm_no);
-	public MentionDTO getMentionOne(MentionDTO dto);
 	public int insertMentionContent(MentionDTO dto);
 	public int updateMentionContent(MentionDTO dto);
 	public int deleteMentionContent(int mention_no);
@@ -16,5 +15,5 @@ public interface MentionDAO {
 	public int deleteMentionLike(Map<String, Integer> keyMap);
 	public int insertMentionLike(Map<String, Integer> keyMap);
 	public int deleteMentionLikeList(List<MentionDTO> menList);
-	
+	public int getMentionCommNo(int mention_no);
 }

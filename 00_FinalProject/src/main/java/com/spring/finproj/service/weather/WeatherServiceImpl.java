@@ -8,8 +8,7 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.json.JSONArray;
@@ -17,6 +16,8 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.spring.finproj.model.weather.WeatherCateVO;
+import com.spring.finproj.model.weather.WeatherVO;
 import com.spring.finproj.service.handler.WeatherAPI;
 
 @Service
@@ -72,56 +73,75 @@ public class WeatherServiceImpl implements WeatherService{
 	}
 	
 	@Override
-	public void getNowWeather(Model model, String locX, String locY) throws Exception {
+	public void getNowWeather(Model model, String locX, String locY, String lat, String lng, String address) throws Exception {
 		
         WeatherAPI wapi = new WeatherAPI();
         
-        String sb1 = wapi.nowWeatherAPI("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst",
-        		locX, locY, "00");
+        //초단기실황 조회
+//        String sb1 = wapi.nowWeatherAPI("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst",
+//        		locX, locY, "00");
+        
+        //초단기 예보 조회
         String sb2 = wapi.nowWeatherAPI("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst",
-        		locX, locY, "30");
-        System.out.println("현재실황: "+sb1);
+        		locX, locY, "45");
         System.out.println("날씨예보: "+sb2);
         
-        JSONObject jo = new JSONObject(sb1);
-        JSONArray ja = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
-        String baseTime = ja.getJSONObject(0).getString("baseTime");
+        JSONObject jo = new JSONObject(sb2);
         
-        ArrayList<String> nowCategory = new ArrayList<String>();
-        ArrayList<Double> nowObsrValue = new ArrayList<Double>();
+        List<WeatherVO> wl = new ArrayList<WeatherVO>();
+        
+        for(int i=0;i<6;i++) {
+        	WeatherVO wv = new WeatherVO();
+        	WeatherCateVO wc = new WeatherCateVO();
+        	wv.setCategory(wc);
+        	wl.add(wv);
+        }
+       
+        JSONArray ja = jo.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
         
         for(int i=0; i<ja.length(); i++) {
-        	nowCategory.add(ja.getJSONObject(i).getString("category"));
-        	nowObsrValue.add(ja.getJSONObject(i).getDouble("obsrValue"));
-        }
-        
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("bastime", baseTime);
-        map.put("category", nowCategory);
-        map.put("obsrValue", nowObsrValue);
-        
-        JSONObject jo2 = new JSONObject(sb2);
-        JSONArray ja2 = jo2.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONArray("item");
-        //String fcstTime = ja2.getJSONObject(0).getString("fcstTime");
-        
-        ArrayList<String> fcstTime = new ArrayList<String>();
-        ArrayList<String> fcstCategory = new ArrayList<String>();
-        ArrayList<Object> fcstValue = new ArrayList<Object>();
-        
-        for(int i=0; i<ja2.length(); i++) {
-        	fcstTime.add(ja2.getJSONObject(i).getString("fcstTime"));
-        	fcstCategory.add(ja2.getJSONObject(i).getString("category"));
-        	fcstValue.add((Object)ja2.getJSONObject(i).get("fcstValue"));
+        	JSONObject j = ja.getJSONObject(i);
         	
-        	System.out.println("리슽:"+fcstCategory);
+        	int a = i%6;
+        	
+        	wl.get(a).setBaseDate(j.getString("baseDate"));
+        	wl.get(a).setBaseTime(j.getString("baseTime"));
+        	wl.get(a).setFcstDate(j.getString("fcstDate"));
+        	wl.get(a).setFcstTime(j.getString("fcstTime"));
+        	wl.get(a).setNx(j.getInt("nx"));
+        	wl.get(a).setNy(j.getInt("ny"));
+        	String c = j.getString("category");
+        	
+        	if(c.equalsIgnoreCase("LGT")) {
+        		wl.get(a).getCategory().setLgt(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("PTY")) {
+        		wl.get(a).getCategory().setPty(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("RN1")) {
+        		wl.get(a).getCategory().setRn1(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("SKY")) {
+        		wl.get(a).getCategory().setSky(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("T1H")) {
+        		wl.get(a).getCategory().setT1h(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("REH")) {
+        		wl.get(a).getCategory().setReh(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("UUU")) {
+        		wl.get(a).getCategory().setUuu(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("VVV")) {
+        		wl.get(a).getCategory().setVvv(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("VEC")) {
+        		wl.get(a).getCategory().setVec(j.getString("fcstValue"));
+        	}else if(c.equalsIgnoreCase("WSD")) {
+        		wl.get(a).getCategory().setWsd(j.getString("fcstValue"));
+        	}
         }
         
-        Map<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("fcstTime", fcstTime);
-        map2.put("fcstCategory", fcstCategory);
-        map2.put("fcstValue", fcstValue);
+        if(address!=null) {
+			model.addAttribute("Addr", address);
+			model.addAttribute("Lat", lat);
+			model.addAttribute("Lng", lng);
+		}
         
-        model.addAttribute("str", map);
-        model.addAttribute("str2", map2);
+        model.addAttribute("List", wl);
+        
 	}
 }

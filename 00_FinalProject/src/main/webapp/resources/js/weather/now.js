@@ -1,6 +1,36 @@
 /**
  * 
  */
+
+  $(document).ready(function(){
+    let lat;
+    let lng;
+    console.log(serv_lat);
+    if(serv_lat!=''){
+        lat = serv_lat;
+        lng = serv_lng;
+    }else{
+        lat = 37.567944413725904;
+        lng = 126.9831230334937;
+    }
+    console.log(lat);
+    console.log(lng);
+	let mapOptions = {
+	    center: new naver.maps.LatLng(lat, lng),
+	    zoom: 18
+	};
+	
+	let map = new naver.maps.Map('map', mapOptions);
+	
+	let marker = new naver.maps.Marker({
+	    position: new naver.maps.LatLng(lat, lng),
+	    map: map
+	});
+	
+	naver.maps.Event.addListener(map, 'click', function(e) {
+	    marker.setPosition(e.latlng);
+	});
+});
  
  	 //<!--
     //
@@ -87,33 +117,31 @@
     }
     
 	function moveWeather() {
-		/* // 버튼을 click했을때
-		let mapContainer = $('#map');
-		let mapOption = {
-		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨
-		    }
-		// 지도를 생성합니다    
-		let map = new kakao.maps.Map(mapContainer, mapOption);  */
+        let addr = $('.address').val();
+
+        if(addr !== ''){
+			
+			naver.maps.Service.geocode({
+		        query: addr
+		    }, function(status, response) {
+		        if (status !== naver.maps.Service.Status.OK) {
+		            return alert('Something wrong!');
+		        }
 		
-		// 주소-좌표 변환 객체를 생성합니다
-		let geocoder = new kakao.maps.services.Geocoder();
-		
-		// 주소로 좌표를 검색합니다
-		geocoder.addressSearch($('.address').val(), function(result, status) {
-	
-		    // 정상적으로 검색이 완료됐으면 
-		     if (status === kakao.maps.services.Status.OK) {
-		        let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-		        
-		        // 추출한 좌표를 통해 도로명 주소 추출
-		        let lat = result[0].y;
-		        let lng = result[0].x;
-		        
-		        let rs = dfs_xy_conv("toXY", lat, lng);
-		       
-		        location.href=ctxPath+"/weather/now?locX="+rs.x+"&locY="+rs.y;
-		       
-		    } 
-		});  
+				let result = response.v2, // 검색 결과의 컨테이너
+					items = result.addresses; // 검색 결과의 배열
+					
+                let lng = items[0].x;
+                let lat = items[0].y;
+                let ad = items[0].roadAddress;
+                
+                let rs = dfs_xy_conv("toXY", lat, lng);
+                console.log(rs.x, "/", rs.y);
+                    
+                location.href=ctxPath+"/weather/now?locX="+rs.x+"&locY="+rs.y+"&address="+ad+"&lat="+lat+"&lng="+lng;
+				
+			});
+		}else{
+            alert('주소를 입력하세요.');
+        } 
 	}

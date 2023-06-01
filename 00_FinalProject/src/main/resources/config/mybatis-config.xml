@@ -17,5 +17,8 @@
 	 	<typeAlias type="com.spring.finproj.model.chat.ChatDAO" alias="chatDAO"/>
 	 	<typeAlias type="com.spring.finproj.model.chat.ChatDTO" alias="chatDTO"/>
 	 	<typeAlias type="com.spring.finproj.model.chat.FaqDTO" alias="faqDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.alarm.AlarmDTO" alias="alarmDTO"/>
+	 	<typeAlias type="com.spring.finproj.model.board.MentionDAO" alias="mentionDAO"/>
+	 	<typeAlias type="com.spring.finproj.model.board.MentionDTO" alias="mentionDTO"/>
 	</typeAliases>
  </configuration>

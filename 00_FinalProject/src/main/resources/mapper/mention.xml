@@ -4,17 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <!-- namespace 명은 패키지를 포함한 DAO 인터페이스, mapper를 구분하는 식별자로 사용 -->
-<mapper namespace="com.spring.finproj.model.board.MentionDAO">
-	<select id="mention_list" resultType="com.spring.finproj.model.board.MentionDTO">
+<mapper namespace="mentionDAO">
+	<select id="mention_list" resultType="mentionDTO">
 		select a.*, b.nickname from 
 		mention a
 		join user_profile b
 		on a.user_no = b.user_no
 		where cm_no = #{cm_no} order by mention_no
-	</select>
-	
-	<select id="mention_one" resultType="com.spring.finproj.model.board.MentionDTO">		
-		select * from mention where cm_no = #{cm_no} and ()
 	</select>
 	
 	<insert id="mention_insert" parameterType="boardDTO">
@@ -47,4 +43,7 @@
     		delete from re_mention where mention_no = #{item.mention_no}
     	</foreach>
     </delete>
+    <select id="mention_cont_comm_no" resultType="int" parameterType="int">
+    	select cm_no from mention where mention_no = #{mention_no}
+    </select>
 </mapper>
