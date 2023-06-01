@@ -54,4 +54,24 @@ public class HomeController {
 		return "drive.drive";
 	}
 	
+	@RequestMapping("/alarm/check/delete")
+	@ResponseBody
+	public int alarmCheckDelete(HttpSession session) {
+		int result =0;
+		
+		result = boardService.alarmUserCheck(session);
+		
+		return result;
+	}
+	
+	@RequestMapping("/alarm/delete/list")
+	@ResponseBody
+	public int alarmListDeleteUser(HttpSession session, int field) {
+		int result =0;
+		
+		result = boardService.alarmUserDelete(session, field);
+		
+		return result;
+	}
+	
 }

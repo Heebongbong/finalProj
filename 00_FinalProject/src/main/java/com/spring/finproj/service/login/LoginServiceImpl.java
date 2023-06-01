@@ -197,12 +197,16 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public void loginNaver(String code, String state, HttpSession session, HttpServletResponse response) throws Exception {
+	public void loginNaver(String code, String state, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
 
+		StringBuffer ctxUrl = request.getRequestURL();
+		String reUrl = ctxUrl.substring(0, ctxUrl.indexOf("finproj"));
+		
 		StringBuilder urlBuilder = new StringBuilder("https://nid.naver.com/oauth2.0/token");
 		urlBuilder.append("?" + URLEncoder.encode("grant_type","UTF-8") + "=" + URLEncoder.encode("authorization_code", "UTF-8"));
 		urlBuilder.append("&" + URLEncoder.encode("client_id","UTF-8") + "=" + URLEncoder.encode("2fzdhIRlmXgPi9uo_5Xi", "UTF-8")); 
 		urlBuilder.append("&" + URLEncoder.encode("client_secret","UTF-8") + "=" + URLEncoder.encode("nPmw0vdmyR", "UTF-8")); 
+		urlBuilder.append("&" + URLEncoder.encode("redirect_uri","UTF-8") + "=" + URLEncoder.encode(reUrl+"finproj/login/naver", "UTF-8")); 
 		urlBuilder.append("&" + URLEncoder.encode("code","UTF-8") + "=" + URLEncoder.encode(code, "UTF-8")); 
 		urlBuilder.append("&" + URLEncoder.encode("state","UTF-8") + "=" + URLEncoder.encode(state, "UTF-8")); 
 		URL url = new URL(urlBuilder.toString());
@@ -226,7 +230,6 @@ public class LoginServiceImpl implements LoginService{
 		conn.disconnect();
 		
 		JSONObject jo = new JSONObject(sb.toString());
-		
 		String a_token = jo.getString("access_token");
 		String r_token = jo.getString("refresh_token");
 		
@@ -299,7 +302,7 @@ public class LoginServiceImpl implements LoginService{
         
         JSONObject jo = new JSONObject(sb.toString());
         JSONObject jo2 = jo.getJSONObject("response");
-
+        
         if(jo2.has("email")) {
         	dto.setEmail(jo2.getString("email"));
         }else {
