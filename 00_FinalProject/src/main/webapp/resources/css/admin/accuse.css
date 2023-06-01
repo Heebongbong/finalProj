@@ -1,0 +1,31 @@
+.accuse_info_wrap {
+	display: flex;
+	flex-wrap: wrap;
+	line-height: 2em;
+	
+	display: grid;
+    grid-template-columns: repeat(11, 1fr);
+}
+
+.accuse_info_wrap_th {
+	font-weight: bold;
+	background-color: lightgray;
+	vertical-align: middle;
+}
+
+.accuse_info_wrap_td {
+	white-space: nowrap; 
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border: 1px;
+}
+
+.accuse_info_wrap_td:hover {
+	white-space: normal;
+	overflow: visible;
+}
+
+
+
+
+
