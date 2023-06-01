@@ -21,6 +21,8 @@ public interface BoardService {
 	public int manageMentionLike(int check, int mention_no, HttpSession session);
 	public Map<String, Object> getBoardUserList(HttpServletRequest request, int cm_no, int user_no) throws Exception;
 	public Map<String, Object> getBoardUserLikeList(HttpServletRequest request, int cm_no) throws Exception;
+	public int alarmUserCheck(HttpSession session);
+	public int alarmUserDelete(HttpSession session, int field);
 	
 	//관리자
 	public void getAccuseList(Model model);

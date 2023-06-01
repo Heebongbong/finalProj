@@ -116,7 +116,6 @@
    	<delete id="board_review_delete" parameterType="int">
    		delete from review where cm_no = #{cm_no}
    	</delete>
-    
     <select id="board_cont" resultType="boardDTO" parameterType="int">
     	select * from 
     		(select e.*, f.content_id from community e left outer join review f on e.cm_no = f.cm_no) a
@@ -183,5 +182,11 @@
   	</select>
 	<insert id="review_insert" parameterType="boardDTO">
 		insert into review values(#{cm_no}, #{content_id})
-	</insert>  	
+	</insert>
+	<update id="alarm_user_check" parameterType="int">
+		update alarm set alarm.check = 0 where user_no = #{user_no}
+	</update>
+	<delete id="alarm_user_delete" parameterType="map">
+		delete from alarm where user_no = #{user_no} and field = #{field}
+	</delete>
 </mapper>
