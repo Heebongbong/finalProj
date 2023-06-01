@@ -16,6 +16,13 @@
 			close_user_menu();
 		}
 	});
+
+	//유저 알람 모달창 닫기
+	$('body').on('click', function(event){
+		if($(event.target).parents('.alarm_modal_overlay').length < 1&&event.target.className!='alarm_icon'){
+			$('.alarm_modal_overlay').hide();
+		}
+	});
 	
 	const socket = null;
 	const faqList = null;
@@ -59,6 +66,26 @@ function delete_move(type){
 		}
 	}
 }
+
+//알람 모달창 오픈
+function alarm_modal(){
+	$('.alarm_modal_overlay').css('display', 'flex');
+
+	$.ajax({
+		type: "get",
+		url: ctxPath+"/chat/alarm/delete",
+		dataType : "text",
+		async:false,
+		success: function(data){
+			
+		},
+		error: function(){
+			alert('채팅방 퇴장 중 오류');
+		}
+	});
+
+}
+
 
 //글쓰기 오픈 & 사기번호 조회 오픈
 function fraud_check_window(){
@@ -257,7 +284,7 @@ function send_chat(room_no, authen, receiv_no){
 	if(receiv_no!=1){
 		if(authen){
 			if (socket.readyState !== 1 ) return;
-			socket.send(room_no+"," + receiveId + "," + msg);
+			socket.send(room_no + "," + receiv_no + "," + receiveId + "," + msg);
 			$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
 			$('.chat_msg').val("");
 		}else{
@@ -271,9 +298,6 @@ function send_chat(room_no, authen, receiv_no){
 		$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
 		$('.chat_msg').val("");
 	}
-	
-
-	
 }
 
 function chat_admin(){

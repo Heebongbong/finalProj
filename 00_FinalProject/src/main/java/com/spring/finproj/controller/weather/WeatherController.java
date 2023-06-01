@@ -17,9 +17,14 @@ public class WeatherController {
 	@RequestMapping("/now")
 	public String nowWeather(Model model, 
 			@RequestParam(defaultValue = "127")String locX, 
-			@RequestParam(defaultValue = "60")String locY) throws Exception {
+			@RequestParam(defaultValue = "60")String locY,
+			@RequestParam(required = false)String address,
+			@RequestParam(required = false)String lat,
+			@RequestParam(required = false)String lng) throws Exception {
+		System.out.println(locX);
+		System.out.println(locY);
+		weatherService.getNowWeather(model, locX, locY, lat, lng, address);
 		
-		weatherService.getNowWeather(model, locX, locY);
 		return "weather.now";
 	}
 	

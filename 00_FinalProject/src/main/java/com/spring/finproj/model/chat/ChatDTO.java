@@ -16,5 +16,8 @@ public class ChatDTO {
 	private int send_user;
 	private int exit_user;
 	private String created;
+	
+	//상대방 유저 정보
 	private String nickname;
+	private String profile;
 }

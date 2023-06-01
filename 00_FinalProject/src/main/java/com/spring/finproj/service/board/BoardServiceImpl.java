@@ -14,7 +14,6 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.finproj.model.alarm.AlarmDTO;
 import com.spring.finproj.model.board.BoardDAO;
 import com.spring.finproj.model.board.BoardDTO;
 import com.spring.finproj.model.board.MentionDAO;
 import com.spring.finproj.model.board.MentionDTO;
+import com.spring.finproj.model.chat.ChatDAO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Service
@@ -34,6 +35,8 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDAO boardDAO;
 	@Autowired
 	private MentionDAO mentionDAO;
+	@Autowired
+	private ChatDAO chatDAO;
 
 	@Override
 	public Map<String, Object> getBoardAddList(HttpServletRequest request, int cm_no,
@@ -200,7 +203,6 @@ public class BoardServiceImpl implements BoardService {
 
 		int re = boardDAO.insertBoardContent(boardDTO);
 		
-		System.out.println(boardDTO.getContent_id());
 		if(boardDTO.getContent_id() != 0) {
 			re = boardDAO.insertReviewCont(boardDTO);
 		}
@@ -430,6 +432,8 @@ public class BoardServiceImpl implements BoardService {
 		Map<String, Integer> keyMap = new HashMap<String, Integer>();
 		int re;
 		
+		BoardDTO b = boardDAO.getBoardContent(cm_no);
+		
 		keyMap.put("cm_no", cm_no);
 		keyMap.put("user_no", user.getUser_no());
 		
@@ -438,6 +442,14 @@ public class BoardServiceImpl implements BoardService {
 			
 		}else {// unlike -> like
 			re = boardDAO.insertBoardLike(keyMap);
+			
+			AlarmDTO a = new AlarmDTO();
+			a.setUser_no(b.getUser_no());
+			a.setField(1);
+			a.setCheck(true);
+			
+			chatDAO.insertAlarm(a);
+			
 		}
 		
 		if(re>0) {
@@ -445,6 +457,8 @@ public class BoardServiceImpl implements BoardService {
 		}else {
 			return -1;
 		}
+		
+		
 	}
 
 	@Override
@@ -452,6 +466,10 @@ public class BoardServiceImpl implements BoardService {
 		UserDTO user = (UserDTO) session.getAttribute("LoginUser");
 		Map<String, Integer> keyMap = new HashMap<String, Integer>();
 		int re;
+		
+		int cm_no = mentionDAO.getMentionCommNo(mention_no);
+		
+		BoardDTO b = boardDAO.getBoardContent(cm_no);
 		
 		keyMap.put("mention_no", mention_no);
 		keyMap.put("user_no", user.getUser_no());
@@ -461,6 +479,14 @@ public class BoardServiceImpl implements BoardService {
 			
 		}else {// unlike -> like
 			re = mentionDAO.insertMentionLike(keyMap);
+			
+			AlarmDTO a = new AlarmDTO();
+			a.setUser_no(b.getUser_no());
+			a.setField(2);
+			a.setCheck(true);
+			
+			chatDAO.insertAlarm(a);
+			
 		}
 		
 		if(re>0) {

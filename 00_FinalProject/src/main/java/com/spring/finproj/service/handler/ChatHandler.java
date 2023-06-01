@@ -13,6 +13,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.spring.finproj.model.alarm.AlarmDTO;
 import com.spring.finproj.model.chat.ChatDAO;
 import com.spring.finproj.model.chat.ChatDTO;
 import com.spring.finproj.model.user.UserDTO;
@@ -53,10 +54,13 @@ public class ChatHandler extends TextWebSocketHandler {
 		String msg = message.getPayload();
 		if(StringUtils.isNotEmpty(msg)) {
 			String[] strs = msg.split(",");
-			if (strs != null && strs.length == 3) {
-				String room_no = strs[0];
-				String receiveUserId = strs[1];
-				String content = strs[2];
+			String receiv_no = null;
+			String room_no = null;
+			if (strs != null && strs.length == 4) {
+				room_no = strs[0];
+				receiv_no = strs[1];
+				String receiveUserId = strs[2];
+				String content = strs[3];
 				
 				System.out.println(room_no+"/"+receiveUserId+"/"+content);
 				System.out.println("최종맵리스트"+userSessions);
@@ -88,6 +92,14 @@ public class ChatHandler extends TextWebSocketHandler {
 					}
 				}
 			}
+			
+			AlarmDTO a = new AlarmDTO();
+			a.setUser_no(Integer.parseInt(receiv_no));
+			a.setField(4);
+			a.setCheck(true);
+			
+			chatDAO.insertAlarm(a);
+			
 		}
     }
 

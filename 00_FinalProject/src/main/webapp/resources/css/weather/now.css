@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.weather_wrap{
+	margin-top: 20px;	
+}
+.weather_info_wrap{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+.weather_cate_info{
+	width: 20%;
+}

@@ -4,6 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
+<c:set value="${AlarmList }" var="alarmList"/>
 <div id="header">
 	<ul class="login_navi">
 		<li><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
@@ -20,10 +21,34 @@
 		</c:if>
 		<c:if test="${!empty loginUser }"><!-- 로그인시 -->
 			<li class="user_menu_profile">
+				<c:if test="${alarmList.get('total') == 0 }">
+					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+				</c:if>
+				<c:if test="${alarmList.get('total') != 0 }">
+					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><i class="fa fa-bell" aria-hidden="true"></i></a>
+				</c:if>
 				<a href="javascript:open_user_menu()"><img src="${loginUser.profile }"></a>
 			</li>
+			<div class="alarm_modal_overlay">
+				<div class="alarm_modal_window">
+					<p><b>알림</b></p>
+					<c:if test="${alarmList.get('board_like') != 0 }">
+						<p>누군가 회원님의 게시글에 좋아요를 눌렀습니다.(${alarmList.get('board_like') })</p>
+					</c:if>
+					<c:if test="${alarmList.get('ment_like') != 0 }">
+						<p>누군가 회원님의 댓글에 좋아요를 눌렀습니다.(${alarmList.get('ment_like') })</p>
+					</c:if>
+					<c:if test="${alarmList.get('ment_ins') != 0 }">
+						<p>누군가 회원님의 게시글에 댓글을 달았습니다.(${alarmList.get('ment_ins') })</p>
+					</c:if>
+					<c:if test="${alarmList.get('chat_on') != 0 }">
+						<p>누군가 회원님께 채팅을 신청했습니다.(${alarmList.get('chat_on') })</p>
+					</c:if>
+				</div>
+			</div>
 		</c:if>
 	</ul>
+	
 	<div class="user_menu_wrap">
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
 		<div class="user_menu_head">

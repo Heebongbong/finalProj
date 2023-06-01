@@ -19,12 +19,6 @@ public class MentionDAOImpl implements MentionDAO{
 	}
 
 	@Override
-	public MentionDTO getMentionOne(MentionDTO dto) {
-		// TODO Auto-generated method stub
-		return this.sqlSession.selectOne("mention_one", dto);
-	}
-
-	@Override
 	public int insertMentionContent(MentionDTO dto) {
 		return this.sqlSession.insert("mention_insert", dto);
 	}
@@ -67,5 +61,11 @@ public class MentionDAOImpl implements MentionDAO{
 	public int deleteMentionLikeList(List<MentionDTO> menList) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("mention_like_list_delete", menList);
+	}
+
+	@Override
+	public int getMentionCommNo(int mention_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mention_cont_comm_no", mention_no);
 	}
 }

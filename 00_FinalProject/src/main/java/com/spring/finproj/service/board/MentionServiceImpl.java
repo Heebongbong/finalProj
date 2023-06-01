@@ -10,14 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.spring.finproj.model.alarm.AlarmDTO;
+import com.spring.finproj.model.board.BoardDAO;
+import com.spring.finproj.model.board.BoardDTO;
 import com.spring.finproj.model.board.MentionDAO;
 import com.spring.finproj.model.board.MentionDTO;
+import com.spring.finproj.model.chat.ChatDAO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Service
 public class MentionServiceImpl implements MentionService{
 	@Autowired
+	private BoardDAO boardDAO;
+	@Autowired
 	private MentionDAO mentionDAO;
+	@Autowired
+	private ChatDAO chatDAO;
 	
 	@Override
 	public void getMentionlist(HttpServletRequest request, Model model, int cm_no) throws Exception {
@@ -51,6 +59,15 @@ public class MentionServiceImpl implements MentionService{
 	@Override
 	public int getMentionInsert(MentionDTO dto) throws Exception {
 		
+		BoardDTO d =boardDAO.getBoardContent(dto.getCm_no());
+		
+		AlarmDTO a = new AlarmDTO();
+		a.setUser_no(d.getUser_no());
+		a.setField(3);
+		a.setCheck(true);
+
+		chatDAO.insertAlarm(a);
+		
 		return this.mentionDAO.insertMentionContent(dto);
 		
 	}
@@ -59,12 +76,6 @@ public class MentionServiceImpl implements MentionService{
 	public int getMentionDelete(int mention_no) throws Exception {
 
 		return this.mentionDAO.deleteMentionContent(mention_no);
-		
-	}
-
-	@Override
-	public void update(MentionDTO dto) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 

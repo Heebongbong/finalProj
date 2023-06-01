@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.finproj.model.alarm.AlarmDTO;
+
 @Repository
 public class ChatDAOImpl implements ChatDAO{
 	@Autowired
@@ -57,6 +59,18 @@ public class ChatDAOImpl implements ChatDAO{
 	public int deleteChatList(int chat_room_no) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("chat_list_delete", chat_room_no);
+	}
+
+	@Override
+	public int insertAlarm(AlarmDTO a) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("alarm_insert", a);
+	}
+
+	@Override
+	public List<AlarmDTO> getAlarmList(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("alarm_list", user_no);
 	}
 	
 }

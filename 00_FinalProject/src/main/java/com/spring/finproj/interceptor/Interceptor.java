@@ -8,7 +8,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.finproj.model.alarm.AlarmDTO;
 import com.spring.finproj.model.chat.ChatDAO;
 import com.spring.finproj.model.chat.ChatDTO;
 import com.spring.finproj.model.user.UserDAO;
@@ -354,6 +357,42 @@ public class Interceptor implements HandlerInterceptor{
 				}
 			}
 			request.setAttribute("ChatRoomList", list);
+			
+			Map<String, Integer> al_list = new HashMap<String, Integer>();
+			
+			List<AlarmDTO> a_list = chatDAO.getAlarmList(user.getUser_no());
+			
+			int b_l=0;
+			int m_l=0;
+			int m_i=0;
+			int c_o=0;
+			
+			for(AlarmDTO a : a_list) {
+				switch(a.getField()) {
+					case 1 : 
+						b_l++;
+						break;
+					case 2 : 
+						m_l++;
+						break;
+					case 3 : 
+						m_i++;
+						break;
+					case 4 : 
+						c_o++;
+						break;
+					default :
+						break;
+				}
+			}
+			int total = b_l+m_l+m_i+c_o;
+			al_list.put("board_like", b_l);
+			al_list.put("ment_like", m_l);
+			al_list.put("ment_ins", m_i);
+			al_list.put("chat_on", c_o);
+			al_list.put("total", total);
+			
+			request.setAttribute("AlarmList", al_list);
 		}
 	}
 

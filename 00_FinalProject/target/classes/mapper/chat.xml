@@ -5,7 +5,7 @@
 
 <mapper namespace="chatDAO">
 	<select id="chat_list" parameterType="chatDTO" resultType="chatDTO">
-		select *, (select nickname from user_profile where user_no = #{user_no2}) nickname 
+		select *, (select nickname, profile from user_profile where user_no = #{user_no2}) nickname 
 		from chat_room a join chat b on a.chat_room_no = b.chat_room_no 
 		where (user_no1 = #{user_no1} or user_no2 = #{user_no1})
 		and (user_no1 = #{user_no2} or user_no2 = #{user_no2})
@@ -43,5 +43,14 @@
 	</delete>
 	<select id="chat_room_get_cont" parameterType="int" resultType="chatDTO">
 		select * from chat_room where chat_room_no = #{chat_room_no}
+	</select>
+	<insert id="alarm_insert" parameterType="alarmDTO">
+		<selectKey keyProperty="alarm_no" resultType="int" order="BEFORE">
+			select max(alarm_no) from alarm
+		</selectKey>
+		insert into alarm values(#{alarm_no}+1, #{user_no}, #{field}, #{check})
+	</insert>
+	<select id="alarm_list" parameterType="int" resultType="alarmDTO">
+		select * from alarm where user_no = #{user_no}
 	</select>
 </mapper>

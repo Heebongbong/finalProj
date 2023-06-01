@@ -44,8 +44,8 @@ function openwindows() {
 				let result = response.v2, // 검색 결과의 컨테이너
 					items = result.addresses; // 검색 결과의 배열
 					
-				let xStart = items[0].x;
-				let yStart = items[0].y;
+				xStart = items[0].x;
+				yStart = items[0].y;
 				
 			});
 		}
