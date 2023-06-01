@@ -596,9 +596,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void getAccuseList(Model model) {
 		List<BoardDTO> list = boardDAO.getAccuseList();
+		List<BoardDTO> accusedList = boardDAO.getAccusedList();
+		
 		
 		model.addAttribute("accuseList", list);
-		System.out.println("신고명단"+ list);
+		model.addAttribute("accusedList", accusedList);
+		System.out.println("리스트"+ list);
+		System.out.println("당한사람"+ accusedList);
 	}
 
 	@Override

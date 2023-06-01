@@ -137,4 +137,10 @@ public class UserDAOImpl implements UserDAO{
 		sqlSession.update("user_update_session", se_dto);
 	}
 	
+	// 관리자
+	@Override
+	public int deleteUserAdmin(int user_no) {
+		return sqlSession.update("user_delete_admin", user_no);
+	}
+
 }

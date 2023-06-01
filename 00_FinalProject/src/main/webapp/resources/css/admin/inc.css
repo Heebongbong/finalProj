@@ -8,10 +8,12 @@ html, body, #container, #content {
 }
 
 #content {
+	width: 100%;
 	display: flex;
 }
 
 #side {
+	width: 15%;
 	height: 100%; 
 	background: #42515e;
 }
@@ -27,8 +29,9 @@ html, body, #container, #content {
 }
 
 #body {
-	padding-top: 30px;
-	margin: 0 auto;
+	width: 95%;
+	padding: 30px;
+    text-align: center;
 }
 
 #header a {
