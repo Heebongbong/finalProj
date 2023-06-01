@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.finproj.model.alarm.AlarmCountVO;
 import com.spring.finproj.model.alarm.AlarmDTO;
 import com.spring.finproj.model.chat.ChatDAO;
 import com.spring.finproj.model.chat.ChatDTO;
@@ -347,50 +348,57 @@ public class Interceptor implements HandlerInterceptor{
 			UserDTO user = (UserDTO) s.getAttribute("LoginUser");
 			List<ChatDTO> list = chatDAO.getChatRoomList(user.getUser_no());
 			
-			for(ChatDTO d : list) {
-				if(d.getUser_no1()!=user.getUser_no()) {
-					UserDTO ex = userDAO.getUserContent(d.getUser_no1());
-					d.setNickname(ex.getNickname());
-				}else {
-					UserDTO ex = userDAO.getUserContent(d.getUser_no2());
-					d.setNickname(ex.getNickname());
-				}
-			}
 			request.setAttribute("ChatRoomList", list);
 			
-			Map<String, Integer> al_list = new HashMap<String, Integer>();
+			Map<String, Object> al_list = new HashMap<String, Object>();
 			
 			List<AlarmDTO> a_list = chatDAO.getAlarmList(user.getUser_no());
 			
-			int b_l=0;
-			int m_l=0;
-			int m_i=0;
-			int c_o=0;
+			String[] db = {"board_like", "ment_like", "ment_ins", "chat_on"};
+			
+			int total = 0;
+			
+			for(int i=0;i<4;i++) {
+				AlarmCountVO v = new AlarmCountVO();
+				al_list.put(db[i], v);
+			}
 			
 			for(AlarmDTO a : a_list) {
 				switch(a.getField()) {
 					case 1 : 
-						b_l++;
+						if(a.isCheck()) {
+							((AlarmCountVO)al_list.get(db[0])).setCheckCount();
+						}
+						((AlarmCountVO)al_list.get(db[0])).setTotalCount();
+						total++;
 						break;
 					case 2 : 
-						m_l++;
+						if(a.isCheck()) {
+							((AlarmCountVO)al_list.get(db[1])).setCheckCount();
+						}
+						((AlarmCountVO)al_list.get(db[1])).setTotalCount();
+						total++;
 						break;
 					case 3 : 
-						m_i++;
+						if(a.isCheck()) {
+							((AlarmCountVO)al_list.get(db[2])).setCheckCount();
+						}
+						((AlarmCountVO)al_list.get(db[2])).setTotalCount();
+						total++;
 						break;
 					case 4 : 
-						c_o++;
+						if(a.isCheck()) {
+							((AlarmCountVO)al_list.get(db[3])).setCheckCount();
+						}
+						((AlarmCountVO)al_list.get(db[3])).setTotalCount();
+						total++;
 						break;
 					default :
 						break;
 				}
 			}
-			int total = b_l+m_l+m_i+c_o;
-			al_list.put("board_like", b_l);
-			al_list.put("ment_like", m_l);
-			al_list.put("ment_ins", m_i);
-			al_list.put("chat_on", c_o);
-			al_list.put("total", total);
+			
+			al_list.put("new_check", total);
 			
 			request.setAttribute("AlarmList", al_list);
 		}

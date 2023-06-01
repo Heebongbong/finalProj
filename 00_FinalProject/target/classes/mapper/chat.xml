@@ -5,21 +5,36 @@
 
 <mapper namespace="chatDAO">
 	<select id="chat_list" parameterType="chatDTO" resultType="chatDTO">
-		select *, (select nickname, profile from user_profile where user_no = #{user_no2}) nickname 
+		select *, (select nickname from user_profile where user_no = #{user_no2}) nickname,
+		(select profile from user_profile where user_no = #{user_no2}) profile
 		from chat_room a join chat b on a.chat_room_no = b.chat_room_no 
 		where (user_no1 = #{user_no1} or user_no2 = #{user_no1})
 		and (user_no1 = #{user_no2} or user_no2 = #{user_no2})
 	</select>
 	<select id="chat_room_list" parameterType="int" resultType="chatDTO">
-		select * from chat_room 
+		<!-- select * from chat_room 
 		where (user_no1 = #{user_no} or user_no2 = #{user_no}) 
-		and not exit_user = #{user_no}
+		and not exit_user = #{user_no} -->
+		SELECT cr.*,
+	       CASE WHEN up1.user_no = #{user_no}
+	            THEN up2.nickname
+	            ELSE up1.nickname
+	       END AS nickname,
+	       CASE WHEN up1.user_no = #{user_no}
+	            THEN up2.profile
+	            ELSE up1.profile
+	       END profile
+		FROM chat_room cr
+		JOIN user_profile up1 ON cr.user_no1 = up1.user_no
+		JOIN user_profile up2 ON cr.user_no2 = up2.user_no
+		WHERE up1.user_no = #{user_no}
+		   OR up2.user_no = #{user_no};
 	</select>
 	<insert id="chat_room_insert" parameterType="chatDTO">
 		<selectKey keyProperty="chat_room_no" resultType="int" order="BEFORE">
 			select max(chat_room_no) from chat_room
 		</selectKey>
-		insert into chat_room values(#{chat_room_no}+1, #{user_no1}, #{user_no2}, 0, default)
+		insert into chat_room values(#{chat_room_no}+1, #{user_no1}, #{user_no2}, 0)
 	</insert>
 	<insert id="chat_insert" parameterType="chatDTO">
 		<selectKey keyProperty="chat_no" resultType="int" order="BEFORE">
@@ -30,7 +45,6 @@
 	<select id="faq_list" resultType="faqDTO">
 		select * from faq a join faq_category b on a.faq_cate_no = b.faq_cate_no
 	</select>
-	
 	<select id="chat_room_content" parameterType="chatDTO" resultType="chatDTO">
 		select * from chat_room where (user_no1 = #{user_no1} or user_no2 = #{user_no1})
 		and (user_no1 = #{user_no2} or user_no2 = #{user_no2})

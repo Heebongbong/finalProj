@@ -141,7 +141,6 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board_user_like_list_map", map);
 	}
-	
 	@Override
 	public int insertReviewCont(BoardDTO boardDTO) {
 		// TODO Auto-generated method stub
@@ -152,7 +151,16 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board_review_delete", cm_no);
 	}
-	
+	@Override
+	public int updateAlarmUserCheck(int user_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("alarm_user_check", user_no);
+	}
+	@Override
+	public int deleteAlarmUserField(Map<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("alarm_user_delete", map);
+	}
 	
 	// 관리자
 	@Override

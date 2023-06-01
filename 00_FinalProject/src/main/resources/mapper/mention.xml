@@ -12,7 +12,6 @@
 		on a.user_no = b.user_no
 		where cm_no = #{cm_no} order by mention_no
 	</select>
-	
 	<insert id="mention_insert" parameterType="boardDTO">
 	<selectKey keyProperty="mention_no" resultType="int" order="BEFORE">
 		select max(mention_no) from mention

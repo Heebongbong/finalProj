@@ -1,6 +1,7 @@
 /**
  * 
  */
+
  $(document).ready(function(){
 
 	//푸터메뉴 오픈
@@ -23,10 +24,10 @@
 			$('.alarm_modal_overlay').hide();
 		}
 	});
-	
-	const socket = null;
-	const faqList = null;
  });
+
+ let faqList = null;
+ let socket = null;
  
  //유저 헤더 열기
 function open_user_menu(){
@@ -34,7 +35,7 @@ function open_user_menu(){
 		width: 'show'
  	}, 400);
 }
- 
+
 //유저 헤더 닫기
 function close_user_menu(){
 	$('.user_menu_wrap').animate({
@@ -71,19 +72,42 @@ function delete_move(type){
 function alarm_modal(){
 	$('.alarm_modal_overlay').css('display', 'flex');
 
+	//알람 DB에서 읽음 체크 update
 	$.ajax({
 		type: "get",
-		url: ctxPath+"/chat/alarm/delete",
+		url: ctxPath+"/alarm/check/delete",
 		dataType : "text",
 		async:false,
 		success: function(data){
-			
+			console.log(data);
 		},
 		error: function(){
-			alert('채팅방 퇴장 중 오류');
+			alert('알람 읽음 처리 중 오류');
 		}
 	});
+}
 
+function alarm_move_href(field){
+	//알람 DB에서 데이터 삭제 및 게시글 리스트 이동
+	$.ajax({
+		type: "get",
+		url: ctxPath+"/alarm/delete/list",
+		data: {
+			field: field
+		},
+		dataType : "text",
+		async:false,
+		success: function(data){
+			if(field!=4){
+				if(data>0){
+					location.href=ctxPath+"/user/userboard?user_no="+loginUser_no;
+				}
+			}
+		},
+		error: function(){
+			alert('알람 읽음 처리 중 오류');
+		}
+	});
 }
 
 
@@ -158,8 +182,6 @@ function chat_room_out(room_no, self){
 		});
 	}
 }
-
-
 
 //chating js
 function open_chat(){
@@ -245,7 +267,6 @@ function chat_start(no){
 }
 
 
-
 function connect_chat() {
 	
 	let ws = new WebSocket("ws://192.168.140.38:8787/finproj/chating");
@@ -276,7 +297,7 @@ function connect_chat() {
 	
 	ws.onerror = function (err) { console.log('Error:', err); };
 }
- 
+	
 function send_chat(room_no, authen, receiv_no){
 	let receiveId = $('#chat_receipt').val();
 	let msg = $('.chat_msg').val();
@@ -311,9 +332,9 @@ function chat_admin(){
 				+"<input type='button' value='F A Q' onclick='faq_start()' style='width: 150px;'>"
 				+"</span></p>";
 	$('.chat_cont').append(table);
-
-	
 }
+
+
 
 function faq_start(){
 	$.ajax({

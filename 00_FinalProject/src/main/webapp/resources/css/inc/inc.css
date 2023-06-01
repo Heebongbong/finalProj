@@ -203,7 +203,7 @@ a:hover{
     bottom: 20px;
     z-index: 5;
     background-color: white;
-    width: 600px;
+    width: 700px;
     height: 600px;
     display: none;
 }
@@ -211,7 +211,7 @@ a:hover{
 .chat_list{
 	display: flex;
 	flex-direction: column;
-	width: 200px;
+	width: 300px;
 	height: 100%;
 	padding: 20px 15px;
 }
@@ -221,6 +221,10 @@ a:hover{
 	margin: 5px auto;
 	position: relative;
 	width: 100%;
+}
+.chat_list_img{
+	width: 50px;
+	height: 50px;
 }
 .chat_room_out{
 	width: 15px;
