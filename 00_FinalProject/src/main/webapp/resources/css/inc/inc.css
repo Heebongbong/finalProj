@@ -60,14 +60,9 @@ a:hover{
 }
 
 
-div{
-	border: 1px solid gray;
-}
-
-
 #container{
-	width: 1000px;
-	margin: 50px auto;
+	width: 800px;
+	margin: 100px auto;
 	padding: 0;
 }
 #header{
