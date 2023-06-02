@@ -30,4 +30,8 @@ public interface UserDAO {
 	public int deleteUser(int user_no);
 	public int deleteUserProfile(int user_no);
 	
+	//관리자
+	public int deleteUserAdmin(int user_no);
+	
+	
 }

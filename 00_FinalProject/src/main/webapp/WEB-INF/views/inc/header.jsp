@@ -21,10 +21,10 @@
 		</c:if>
 		<c:if test="${!empty loginUser }"><!-- 로그인시 -->
 			<li class="user_menu_profile">
-				<c:if test="${alarmList.get('total') == 0 }">
+				<c:if test="${alarmList.get('new_check') == 0 }">
 					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
 				</c:if>
-				<c:if test="${alarmList.get('total') != 0 }">
+				<c:if test="${alarmList.get('new_check') != 0 }">
 					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><i class="fa fa-bell" aria-hidden="true"></i></a>
 				</c:if>
 				<a href="javascript:open_user_menu()"><img src="${loginUser.profile }"></a>
@@ -32,17 +32,17 @@
 			<div class="alarm_modal_overlay">
 				<div class="alarm_modal_window">
 					<p><b>알림</b></p>
-					<c:if test="${alarmList.get('board_like') != 0 }">
-						<p>누군가 회원님의 게시글에 좋아요를 눌렀습니다.(${alarmList.get('board_like') })</p>
+					<c:if test="${alarmList.get('board_like').getTotalCount() != 0 }">
+						<p><a href="javascript:alarm_move_href(1)">누군가 회원님의 게시글에 좋아요를 눌렀습니다.<br>(새로운 알림 : ${alarmList.get('board_like').getCheckCount() })</a></p>
 					</c:if>
-					<c:if test="${alarmList.get('ment_like') != 0 }">
-						<p>누군가 회원님의 댓글에 좋아요를 눌렀습니다.(${alarmList.get('ment_like') })</p>
+					<c:if test="${alarmList.get('ment_like').getTotalCount() != 0 }">
+						<p><a href="javascript:alarm_move_href(2)">누군가 회원님의 댓글에 좋아요를 눌렀습니다.<br>(새로운 알림 : ${alarmList.get('ment_like').getCheckCount() })</a></p>
 					</c:if>
-					<c:if test="${alarmList.get('ment_ins') != 0 }">
-						<p>누군가 회원님의 게시글에 댓글을 달았습니다.(${alarmList.get('ment_ins') })</p>
+					<c:if test="${alarmList.get('ment_ins').getTotalCount() != 0 }">
+						<p><a href="javascript:alarm_move_href(3)">누군가 회원님의 게시글에 댓글을 달았습니다.<br>(새로운 알림 : ${alarmList.get('ment_ins').getCheckCount() })</a></p>
 					</c:if>
-					<c:if test="${alarmList.get('chat_on') != 0 }">
-						<p>누군가 회원님께 채팅을 신청했습니다.(${alarmList.get('chat_on') })</p>
+					<c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
+						<p><a href="javascript:alarm_move_href(4)">누군가 회원님께 채팅을 신청했습니다.<br>(새로운 알림 : ${alarmList.get('chat_on').getCheckCount() })</a></p>
 					</c:if>
 				</div>
 			</div>

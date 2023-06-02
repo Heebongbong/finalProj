@@ -46,7 +46,4 @@ public class ChatController {
 	public int chatRoomOut(int chat_room_no) {
 		return chatService.deleteChatRoom(chat_room_no); 
 	}
-	
-	//@RequestMapping("/alarm/delete")
-	//public String 
 }

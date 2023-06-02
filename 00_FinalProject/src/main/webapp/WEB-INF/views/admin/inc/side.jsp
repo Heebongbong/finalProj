@@ -8,13 +8,13 @@
 			<a href="${ctxPath }/admin/camping">캠핑</a>
 		</li>
 		<li>
-			<a href="${ctxPath }/user/admin">유저정보</a>
+			<a href="${ctxPath }/user/admin">유저</a>
 		</li>
 		<li>
 			<a href="${ctxPath }/board/accuse">신고</a>
 		</li>
 		<li>
-			<a href="${ctxPath }/admin/waypoint">웨이포인트</a>
+			<a href="${ctxPath }/admin/waypoint">웨이</a>
 		</li>
 		
 		
