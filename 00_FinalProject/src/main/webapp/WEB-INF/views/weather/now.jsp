@@ -59,6 +59,7 @@
 						</div>
 						<div class="weather_cate_info">
 							풍향 : ${cate.vec } deg
+							<i class="fa fa-arrow-up" aria-hidden="true" style="transform: rotate(${cate.vec}deg)"></i>
 						</div>
 						<div class="weather_cate_info">
 							풍속 : ${cate.wsd } m/s
