@@ -14,7 +14,7 @@
        		 <c:forEach items="${campingList}" var="dto">
 				<div class="index_camping_content">
 					<div class="camping_img">
-						<img style="width: 800px; height: 400px;" alt="" src="${dto.firstImageUrl }" />
+						<img alt="" src="${dto.firstImageUrl }" />
 					</div>
 					<div class="camping_name">
 					 	<span class="promotion_font">${dto.facltNm}</span>

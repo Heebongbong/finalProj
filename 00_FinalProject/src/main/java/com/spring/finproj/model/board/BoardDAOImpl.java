@@ -141,7 +141,6 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board_user_like_list_map", map);
 	}
-		
 	@Override
 	public int insertReviewCont(BoardDTO boardDTO) {
 		// TODO Auto-generated method stub
@@ -168,5 +167,10 @@ public class BoardDAOImpl implements BoardDAO{
 	public List<BoardDTO> getAccuseList() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("accuse_list");
+	}
+	@Override
+	public List<BoardDTO> getAccusedList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("accused_list");
 	}
 }

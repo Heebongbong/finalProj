@@ -618,11 +618,10 @@ public class UserServiceImpl implements UserService {
 		List<UserDTO> list = userDao.getUserList();
 		model.addAttribute("userList", list);
 	}
-
 	@Override
 	public void userDelete(int user_no) {
 		// TODO Auto-generated method stub
-		userDao.deleteUser(user_no);
+		userDao.deleteUserAdmin(user_no);
 		
 	}
 }

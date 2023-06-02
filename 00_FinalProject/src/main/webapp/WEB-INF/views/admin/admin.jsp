@@ -3,11 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <div id="admin_wrap">
-	<div id="admin_search_wrap">
-		<div class="admin_list_wrap">
-			<div class="admin_list_info">
-				
-			</div>
+	<h2>관리자채팅</h2>
+	<div class="admin_list_wrap">
+		<div class="admin_list_info">
+			
 		</div>
 	</div>
 </div>
