@@ -1,15 +1,12 @@
 @charset "EUC-KR";
-#content{
-	height: 500px;
-}
 
-.index_camping_list{
-	height: 500px;
-}
+/* 배너 및 캠핑장 슬릭 사진 */
 .index_camping_content{
 	text-align: center;
 }
 .camping_img img{
+	width: 100%;
+	height: 400px;
 	margin: auto;
 }
 .camping_name,
@@ -64,6 +61,12 @@
 	text-align: center;
 }
 
+/* 게시글 시작 */
+.index_board_wrap{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
 
 /* board_main css */
 .board_content{

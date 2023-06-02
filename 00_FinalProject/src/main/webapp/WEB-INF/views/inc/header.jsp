@@ -5,29 +5,40 @@
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <c:set value="${AlarmList }" var="alarmList"/>
+<c:set value="${ChatRoomList }" var="chatRoomList"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+<script type="text/javascript">
+	let loginUser_authen = '${loginUser.isAuthen() }';
+</script>
 <div id="header">
 	<ul class="login_navi">
-		<li><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
-		<li>
+		<li class="login_navi_logo_li"><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
+		<li class="login_navi_search_li">
 			<form action="${ctxPath }/board/list" method="post">
-				<input type="text" id="search_keyword" placeholder="검색창" name="keyword" value="<c:if test="${!empty Keyword }">${Keyword }</c:if>">
-				<input type="submit" value="검색">
+				<input type="text" id="search_keyword" placeholder="검색어를 입력하세요" name="keyword" value="<c:if test="${!empty Keyword }">${Keyword }</c:if>">
+				<button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 			</form>
 		</li>
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
-			<li class="user_menu_profile">
-				<a href="javascript:open_user_menu()"><img src="${ctxPath }/resources/images/logo/logo.png"></a>
+			<li class="user_menu_profile_non">
+				<a href="javascript:open_user_menu()"><i class="fa fa-bars" aria-hidden="true"></i></a>
 			</li>
 		</c:if>
 		<c:if test="${!empty loginUser }"><!-- 로그인시 -->
 			<li class="user_menu_profile">
 				<c:if test="${alarmList.get('new_check') == 0 }">
-					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><img src="${ctxPath }/resources/images/icon/alarm.png"></a>
 				</c:if>
 				<c:if test="${alarmList.get('new_check') != 0 }">
-					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><i class="fa fa-bell" aria-hidden="true"></i></a>
+					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><img src="${ctxPath }/resources/images/icon/alarm_o.png"></a>
 				</c:if>
-				<a href="javascript:open_user_menu()"><img src="${loginUser.profile }"></a>
+				<c:if test="${alarmList.get('chat_on').getTotalCount() == 0 }">
+					<a class="chat_open" href="javascript:open_chat(0)"><img src="${ctxPath }/resources/images/icon/chat_icon.png" alt=""></a>
+				</c:if>
+				<c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
+					<a class="chat_open" href="javascript:open_chat(1)"><img src="${ctxPath }/resources/images/icon/chat_o" alt=""></a>
+				</c:if>
+				<a href="javascript:open_user_menu()"><img class="user_menu_prof_img" src="${loginUser.profile }"></a>
 			</li>
 			<div class="alarm_modal_overlay">
 				<div class="alarm_modal_window">
@@ -42,31 +53,67 @@
 						<p><a href="javascript:alarm_move_href(3)">누군가 회원님의 게시글에 댓글을 달았습니다.<br>(새로운 알림 : ${alarmList.get('ment_ins').getCheckCount() })</a></p>
 					</c:if>
 					<c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(4)">누군가 회원님께 채팅을 신청했습니다.<br>(새로운 알림 : ${alarmList.get('chat_on').getCheckCount() })</a></p>
+						<p><a href="javascript:alarm_move_href(4)">채팅이 도착했습니다.<br>(새로운 알림 : ${alarmList.get('chat_on').getCheckCount() })</a></p>
 					</c:if>
 				</div>
 			</div>
 		</c:if>
 	</ul>
 	
+	<!-- chat manage  -->
+	<div class="chat_wrap">
+		<div class="chat_list">
+			<p class="chat_list_p"><a href="javascript:chat_admin()">Admin</a></p>
+			<c:forEach items="${chatRoomList }" var="room">
+			<c:if test="${room.user_no1 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
+				<p class="chat_list_p" onmouseover="open_room_out(this)">
+					<a href="javascript:chat_start(${room.user_no2 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
+					<button onclick="chat_room_out(${room.chat_room_no})" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+				</p>
+			</c:if>
+			<c:if test="${room.user_no2 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
+				<p class="chat_list_p" onmouseover="open_room_out(this)">
+					<a href="javascript:chat_start(${room.user_no1 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
+					<button onclick="chat_room_out(${room.chat_room_no}, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+				</p>
+			</c:if>
+			</c:forEach>
+		</div>
+		<div class="chat_main">
+			<div class="chat_title">
+				<h2>채팅 창</h2>
+				<span class="chat_close" onclick="close_chat()">x</span>
+			</div>
+			<div class="chat_cont">
+			
+			</div>
+			
+			<div class="chat_btn">
+				<input type="hidden" id="chat_receipt" value="">
+				<input type="text" class="chat_msg" placeholder="Message">
+				<input type="button" class="chat_send" value="Send" onclick="">
+			</div>
+		</div>
+	</div>
+	
 	<div class="user_menu_wrap">
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
-		<div class="user_menu_head">
-			로그인 헤더<a href="javascript:close_user_menu()">X</a>
-		</div>
 		<div class="user_menu_body">
 			<form action="${ctxPath }/login/site" method="post">
 				<div class="user_menu_body_inp">
-					<input name="email" placeholder="Email을 입력하세요">
-					<input name="pwd" placeholder="비밀번호를 입력하세요." type="password">
-				</div>
-				<div class="user_menu_body_btn">
-					<input type="submit" value="로그인">
-					<input type="button" onclick="location.href='${ctxPath}/user/join'" value="회원가입">
-					<div>
-						<a href="${ctxPath }/user/forget">비밀번호 찾기</a>
+					<div class="user_menu_body_inp_cont">
+						<label for="user_menu_email_inp">이메일</label>
+						<input id="user_menu_email_inp" name="email" placeholder="Email을 입력하세요">
+					</div>
+					<div class="user_menu_body_inp_cont">
+						<label for="user_menu_pwd_inp">비밀번호</label>
+						<input id="user_menu_pwd_inp" name="pwd" placeholder="비밀번호를 입력하세요." type="password">
+					</div>
+					<div class="user_join_search">
+						<a href='${ctxPath}/user/join'>회원가입</a>&nbsp;|&nbsp;<a href="${ctxPath }/user/forget">비밀번호 찾기</a>
 					</div>
 				</div>
+				<input class="user_login_btn" type="submit" value="로그인">
 			</form>
 			<div class="user_menu_body_sns">
 				<%
@@ -75,41 +122,39 @@
 				%>
 				<script type="text/javascript"> const reUrl = '<%=reUrl %>';</script>
 				<a class="naver_login_btn" href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=2fzdhIRlmXgPi9uo_5Xi&redirect_uri=http%3A%2F%2Flocalhost%3A8787%2Ffinproj%2Flogin%2Fnaver&state=a83abeaf-9d9d-4bdb-a4f1-d3af1fe30cf1">
-					<img style="width: 50px; height: 50px;" alt="" src="${ctxPath }/resources/images/logo/naver_logo.jpg">
+					<img alt="" src="${ctxPath }/resources/images/logo/naver_logo.jpg">
 				</a>
 				<a class="kakao_login_btn" href="javascript:loginWithKakao()">
-					<img style="width: 50px; height: 50px;" alt="" src="${ctxPath }/resources/images/logo/kakao_logo.png">
+					<img alt="" src="${ctxPath }/resources/images/logo/kakao_logo.png">
 				</a>
 				<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
 				<script>Kakao.init('78f087e4814e7f60f4ee016cae934876');</script>
 				
 				<a class="google_login_btn" href="javascript:loginWithGoogle()">
-					<img style="width: 50px; height: 50px;" alt="" src="${ctxPath }/resources/images/logo/google_logo.png">
+					<img alt="" src="${ctxPath }/resources/images/logo/google_logo.png">
 				</a>
-				
-				
 			</div>
 		</div>
 		</c:if>
 		
+		<!-- 로그인 시 -->
 		<c:if test="${!empty loginUser }">
-		<div class="user_menu_head"> <!-- 로그인시 -->
-			<div>
-				<a href="javascript:close_user_menu()">X</a>
-				<p><img alt="" src="${loginUser.getProfile() }"></p>
-				<p>${loginUser.getNickname() }</p>
-				<input type="button" value="로그아웃" onclick="location.href='${ctxPath }/login/logout'">
-				<button onclick="location.href='${ctxPath }/user/mypage'">마이페이지</button>
-				<button onclick="delete_move('${loginUser.getType()}')">회원탈퇴</button>
+		<div class="user_menu_body">
+			<p class="user_menu_logon_cont">
+				<img alt="" src="${loginUser.getProfile() }">
+			</p>
+			<p class="user_menu_logon_cont">
+				<span style="font-weight: bold;">닉네임</span>
+				<span>${loginUser.getNickname() }</span>
+			</p>
+			<div class="user_menu_logon_cont">
+				<a href="${ctxPath }/login/logout">로그아웃</a>
+				<a href="${ctxPath }/user/mypage">마이페이지</a>
 			</div>
-			<div>
+			<div class="user_menu_logon_cont">
 				<a href="${ctxPath }/user/userboard?user_no=${loginUser.getUser_no() }">내 게시물</a>
 				<a href="${ctxPath }/user/likeboard">내가 좋아요한 게시물</a>
 			</div>
-			
-		</div>
-		<div class="user_menu_body">
-			<div></div>
 		</div>
 		</c:if>
 		

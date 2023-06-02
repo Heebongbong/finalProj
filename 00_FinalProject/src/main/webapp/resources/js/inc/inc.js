@@ -32,14 +32,14 @@
  //유저 헤더 열기
 function open_user_menu(){
 	$('.user_menu_wrap').animate({
-		width: 'show'
+		height: 'show'
  	}, 400);
 }
 
 //유저 헤더 닫기
 function close_user_menu(){
 	$('.user_menu_wrap').animate({
-		width: 'hide'
+		height: 'hide'
 	}, 400);
 }
 
@@ -184,14 +184,11 @@ function chat_room_out(room_no, self){
 }
 
 //chating js
-function open_chat(){
-	if(loginUser==''){
-		alert('로그인이 필요합니다.');
-		return false;
-	}else{
-		$('.chat_wrap').css('display', 'flex');
-		return true;
+function open_chat(i){
+	if(i==1){
+		alarm_move_href(4);
 	}
+	$('.chat_wrap').css('display', 'flex');
 }
 
 function close_chat(){
