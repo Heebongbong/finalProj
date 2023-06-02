@@ -14,11 +14,10 @@
 	const loginEmail = '${loginUser.email}';
 </script>
 <div id="mypage_wrap">
-	<div class="mypage_container_side"></div>
 		<div id="mypage_container_center">
 			<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data" novalidate>
 				
-				<div id="title">회원가입</div>
+				<div id="title">회원 가입</div>
 				
 				<div class="text_part">
 					<div class="text_part_box">
@@ -48,27 +47,31 @@
 				<div class="profile">
 					<p>선택 항목</p>
 					<img id="previewImg" src="../resources/images/profile/default/default_profile.png"/>
-				</div>
-				<div>
-					<label for="profileInput"> / 파일선택 /</label>
-					<input style="display: none;" type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
+					<div>
+						<label for="profileInput"> / 파일선택 /</label>
+						<input style="display: none;" type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
+					</div>
 				</div>
 				
-				<p class="text">전화번호(선택)</p>
-				<div class="profile_box">
-					<input name="phone" class="noWhitespace" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)">
-					<button type="button" id="sendBtn" class="profile_box_button" onclick="sendSMS()">인증번호발송</button>
-				</div>	
-				<p class="phoneError">&nbsp;</p>
-				
-				<div class="profile_box">
-					<input name="code" id="input_code" class="noWhitespace">
-					<button type="button" class="profile_box_button" onclick="checkCode()">인증하기</button>
+				<div class="authen_part">
+					
+					<p class="text">전화번호<span>(선택)</span></p>
+					<div class="profile_box">
+						<input name="phone" class="noWhitespace" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)">
+						<button type="button" id="sendBtn" class="profile_box_button" onclick="sendSMS()">인증번호발송</button>
+					</div>	
+					<p class="phoneError">&nbsp;</p>
+					
+					<div class="profile_box">
+						<input name="code" id="input_code" class="noWhitespace">
+						<button type="button" class="profile_box_button" onclick="checkCode()">인증하기</button>
+					</div>
+					<p class="codeError">&nbsp;</p>
 				</div>
-				<p class="codeError">&nbsp;</p>
 				
-				<button type="submit">가입하기</button>
+				<div class="join">
+					<button type="submit">가입하기</button>
+				</div>
 			</form>
 		</div>
-	<div class="mypage_container_side"></div>
 </div>
