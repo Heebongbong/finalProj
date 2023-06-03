@@ -14,64 +14,64 @@
 	const loginEmail = '${loginUser.email}';
 </script>
 <div id="mypage_wrap">
-		<div id="mypage_container_center">
-			<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data" novalidate>
+	<div id="mypage_container_center">
+		<form id="joinForm" action="${ctxPath }/user/joinOk" method="post" enctype="multipart/form-data" novalidate>
+			
+			<div id="title">회원 가입</div>
+			
+			<div class="text_part">
+				<div class="text_part_box">
+					<p class="text">이메일</p>
+					<input name="email" class="noWhitespace">
+					<p class="emailError">&nbsp;</p>
+				</div>
+				<div class="text_part_box">
+					<p class="text">닉네임</p>
+					<input name="nickname" class="noWhitespace">
+					<p class="nicknameError">&nbsp;</p>
+				</div>
+				<div class="text_part_box">
+					<p class="text">비밀번호</p>
+					<input type="password" id="pwd" name="pwd" class="noWhitespace">
+					<p class="pwdError">&nbsp;</p>
+					</div>
+				<div class="text_part_box">
+					<p class="text">비밀번호 확인</p>
+					<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
+					<p class="pwd_reError">&nbsp;</p>
+				</div>
+			</div>	
+			
 				
-				<div id="title">회원 가입</div>
+			
+			<div class="profile">
+				<p class="text_choice">선택 항목</p>
 				
-				<div class="text_part">
-					<div class="text_part_box">
-						<p class="text">이메일</p>
-						<input name="email" class="noWhitespace">
-						<p class="emailError">&nbsp;</p>
-					</div>
-					<div class="text_part_box">
-						<p class="text">닉네임</p>
-						<input name="nickname" class="noWhitespace">
-						<p class="nicknameError">&nbsp;</p>
-					</div>
-					<div class="text_part_box">
-						<p class="text">비밀번호</p>
-						<input type="password" id="pwd" name="pwd" class="noWhitespace">
-						<p class="pwdError">&nbsp;</p>
-						</div>
-					<div class="text_part_box">
-						<p class="text">비밀번호 확인</p>
-						<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
-						<p class="pwd_reError">&nbsp;</p>
-					</div>
+				<div>
+					<label for="profileInput"><img id="previewImg" src="../resources/images/profile/default/default_profile.png"/></label>
+					<input style="display: none;" type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
+				</div>
+			</div>
+			
+			<div class="authen_part">
+				
+				<p class="text">전화번호<span>(선택)</span></p>
+				<div class="profile_box">
+					<input name="phone" class="noWhitespace" id="input_phone" placeholder="숫자만 입력">
+					<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
 				</div>	
+				<p class="phoneError">&nbsp;</p>
 				
-					
-				
-				<div class="profile">
-					<p>선택 항목</p>
-					<img id="previewImg" src="../resources/images/profile/default/default_profile.png"/>
-					<div>
-						<label for="profileInput"> / 파일선택 /</label>
-						<input style="display: none;" type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
-					</div>
+				<div class="profile_box">
+					<input name="code" id="input_code" class="noWhitespace">
+					<button type="button" onclick="checkCode()">인증하기</button>
 				</div>
-				
-				<div class="authen_part">
-					
-					<p class="text">전화번호<span>(선택)</span></p>
-					<div class="profile_box">
-						<input name="phone" class="noWhitespace" id="input_phone" placeholder="휴대폰 번호(-없이 숫자만 입력)">
-						<button type="button" id="sendBtn" class="profile_box_button" onclick="sendSMS()">인증번호발송</button>
-					</div>	
-					<p class="phoneError">&nbsp;</p>
-					
-					<div class="profile_box">
-						<input name="code" id="input_code" class="noWhitespace">
-						<button type="button" class="profile_box_button" onclick="checkCode()">인증하기</button>
-					</div>
-					<p class="codeError">&nbsp;</p>
-				</div>
-				
-				<div class="join">
-					<button type="submit">가입하기</button>
-				</div>
-			</form>
-		</div>
+				<p class="codeError">&nbsp;</p>
+			</div>
+			
+			<div class="join">
+				<button type="submit">가입하기</button>
+			</div>
+		</form>
+	</div>
 </div>
