@@ -101,9 +101,6 @@
    	<delete id="board_accuser_delete" parameterType="int">
    		delete from accuse where cm_no = #{cm_no}
    	</delete>
-   	<delete id="board_alarm_delete" parameterType="int">
-   		delete from alarm where cm_no = #{cm_no}
-   	</delete>
    	<delete id="board_mention_delete" parameterType="int">
    		delete from mention where cm_no = #{cm_no}
    	</delete>

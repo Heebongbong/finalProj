@@ -13,21 +13,66 @@
 
 	//유저 헤더메뉴 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.user_menu_wrap').length < 1&&event.target.className!='user_menu_wrap'){
+		if($(event.target).parents('.user_menu_wrap').length < 1 &&event.target.className!='user_menu_wrap'){
 			close_user_menu();
 		}
 	});
 
 	//유저 알람 모달창 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.alarm_modal_overlay').length < 1&&event.target.className!='alarm_icon'){
+		if($(event.target).parents('.alarm_modal_overlay').length < 1 &&event.target.className!='alarm_icon'){
 			$('.alarm_modal_overlay').hide();
+		}
+	});
+
+	//푸터 플러스버튼 닫기
+	$('body').on('click', function(event){
+		if($(event.target).parents('.top_write_navi').length < 1 ){
+			close_footer_write();
 		}
 	});
  });
 
  let faqList = null;
  let socket = null;
+
+//top_move
+function top_move_func(){
+	$('html').stop().animate({
+		scrollTop:'0'
+	}, 300);
+}
+ 
+//푸터 플러스버튼 오픈
+function open_footer_write(){
+	$('.top_move_icon').hide();
+	if($('.write_plus_navi').css('display')!='flex'){
+		$('.comm_write_icon').animate({
+			bottom: "+=50"
+		},100);
+		$('.market_write_icon').animate({
+			bottom: "+=50",
+			right: '+=50'
+		},200);
+		$('.review_write_icon').animate({
+			right: '+=50',
+			bottom: '+=2'
+		},300);
+	}
+	$('.write_plus_navi').css('display', 'flex');
+}
+
+//푸터 플러스버튼 닫기
+function close_footer_write(){
+	$('.top_move_icon').css('display', 'flex');
+	$('.write_plus_navi').hide();
+	$('.review_write_icon').css('bottom','-90px');
+	$('.review_write_icon').css('right','0');
+	$('.market_write_icon').css('bottom','-90px');
+	$('.market_write_icon').css('right','0');
+	$('.comm_write_icon').css('bottom','-90px');
+	$('.comm_write_icon').css('right','0');
+}
  
  //유저 헤더 열기
 function open_user_menu(){
@@ -54,7 +99,15 @@ function open_footer(event){
 		$('#footer').animate({
 			height: 'hide'
 		}, 400);
+		$('.top_write_navi').animate({
+			bottom: "10"
+		},400);
 	}, 5000);
+	if($('#footer').css('display')=='block'){
+		$('.top_write_navi').animate({
+			bottom: "+=90"
+		},400);
+	}
 }
 
 //유저탈퇴버튼 임시
