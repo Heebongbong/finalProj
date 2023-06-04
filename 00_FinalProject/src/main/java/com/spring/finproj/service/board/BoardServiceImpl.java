@@ -275,7 +275,6 @@ public class BoardServiceImpl implements BoardService {
 		int re = boardDAO.deleteBoardContent(cm_no);
 		if(re>0) {
 			boardDAO.deleteAccuserContent(cm_no);
-			boardDAO.deleteAlarmContent(cm_no);
 			boardDAO.deleteRecommandContent(cm_no);
 			
 			if(dto.getContent_id()!=0) {

@@ -19,7 +19,7 @@ $(document).ready(function(){
 	
 	//게시판 추가
 	$('body').on("mousewheel",function(event){
-		if(($(window).scrollTop()+$(window).innerHeight())>=$(document).height()){
+		if(($(window).scrollTop()+$(window).innerHeight()) >= $(document).height()-1){
 			if(event.originalEvent.deltaY>0){
 				boardAddList();
 			}
@@ -28,21 +28,31 @@ $(document).ready(function(){
 	
 	//상세 모달창 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.detail_modal_overlay').length < 1&&event.target.className!='board_detail_btn'){
+		if($(event.target).parents('.detail_modal_overlay').length < 1 &&event.target.className!='board_detail_btn'){
 			$('.detail_modal_overlay').hide();
 		}
 	});
 	//유저프로필정보 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.user_modal_overlay').length < 1&&event.target.className!='board_user_prof_img'){
+		if($(event.target).parents('.user_modal_overlay').length < 1 &&event.target.className!='board_user_prof_img'){
 			$('.user_modal_overlay').hide();
 		}
 	});
-
 });
 
+//댓글 삭제버튼 보이기
+function open_reply_delete_btn(self){
+	console.log($(self).find('.board_reply_delete'));
+	let btn = $(self).find('.board_reply_delete');
+	btn.css('display','block');
+	let set_reply_btn = setTimeout(function(){
+		btn.hide();
+	}, 3000);
+}
+
 //상세메뉴 오픈
-function open_board_detail(self){
+function open_board_detail(self, event){
+	event.stopPropagation();
 	$(self).next().show();
 }
 
@@ -218,9 +228,9 @@ function addMention(no, self){
 		  let mention = data.MentionList;
 		  let mentionLikeList = data.MentionLikeList;
 
+		  let table = "";
 		 //댓글 목록
-		 table += "<div class='"+no+"board_reply_wrap reply_wrap'>" +
-		 "<div class='board_reply_cont_show'>";
+		 table += "<div class='board_reply_cont_show'>";
 			//<!-- 댓글이 목록이 들어가는 곳 -->
 			for(let j = 0; j < mention.length; j++) {
 			table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'>"+
@@ -264,62 +274,7 @@ function addMention(no, self){
 					}else{
 						table += "<div><h2>로그인이 필요합니다.</h2></div>";
 					}
-				table += "</div>"+	//reply_write end
-
-			"</div>"+	// reply wrap end
-
-
-
-
-		 
-		 /*
-		 
-		  //댓글 목록
-		  let table = "";
-		  table += "<div class='board_reply_cont_show'>";
-		  //<!-- 댓글이 목록이 들어가는 곳 -->
-		  for(let j = 0; j < mention.length; j++) {
-			  table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'><div class='board_reply_user'>"+mention[j].nickname+"</div>"+
-						  "<div class='board_reply_ment'>"+mention[j].ment+
-						  
-							  //댓글 좋아요 버튼
-							  "<a class='mention_like_wrap' href='javascript:' onclick='click_like_mention("+mention[j].mention_no+", this)'>";
-							  
-							  if(mentionLikeList.find(element => element == mention[j].mention_no)!=null){
-								  table += "<i class='fa fa-heart' aria-hidden='true'></i>";
-							  }else{
-								  table += "<i class='fa fa-heart-o' aria-hidden='true'></i>";
-							  }
-
-							  table += "</a>" + "<span>" + mention[j].likeCount + "</span>" + //좋아요 end
-						  
-						  "</div>";
-					  if(mention[j].user_no==loginUser_no){
-						  table += "<input class='board_reply_delete' type='button' value='삭제' onclick='delete_ment("+mention[j].mention_no+")'>";
-					  }
-			  table += "</div>";
-		  }
-		  table += "</div>"; //reply_cont end
-
-		  //<!-- 댓글 작성 => 로그인한 상태여야만 댓글작성 칸이 나온다. -->
-		  table += "<div class='board_reply_write'>";
-			  if(loginUser_no!=""){
-				  table += "<div class='reply_write_user'>"+
-							  "<img class='board_reply_write_prof' src='"+loginUser_profile+"' />"+
-						  "</div>"+
-						  "<div class='reply_write_ment'>"+
-							  "<input class='reply_write_ment'>"+
-							  "<button type='button' class='reply_write_insert' onclick='addMention("+no+", this)'>댓글입력</button>"+
-						  "</div>";
-			  }else{
-				  table += "<div><h2>로그인이 필요합니다.</h2></div>";
-			  }
-		  table += "</div>"+	//reply_write end
-
-		  */
-
-
-
+				table += "</div>";	//reply_write end
 		  $("."+no+"board_reply_wrap").append(table);
 	  },
 	  error: function() {
@@ -394,8 +349,8 @@ function boardAddList(){
 					"</div>" +
 
 					//게시글 상세메뉴 버튼
-					"<div class='board_detail_btn' onclick='open_board_detail(this)'>" +
-						"<a class='board_detail_btn' href='javascript:'>***</a>" +
+					"<div class='board_detail_btn' onclick='open_board_detail(this, event)'>" +
+						"<a class='board_detail_btn' href='javascript:'><i class='fa fa-ellipsis-h' aria-hidden='true'></i></a>" +
 					"</div>" +
 
 					//게시글 상세 메뉴 모달창
@@ -465,7 +420,7 @@ function boardAddList(){
 								"<div class='board_reply_cont_show'>";
 					//<!-- 댓글이 목록이 들어가는 곳 -->
 					for(let j = 0; j < mention.length; j++) {
-						table +=  "<div class='board_reply_ment_cont' id='"+mention[j].mention_no+"'>"+
+						table +=  "<div class='board_reply_ment_cont' onmouseover='open_reply_delete_btn(this)' id='"+mention[j].mention_no+"'>"+
 										"<div class='board_reply_user'><img src='"+mention[j].profile+"'><span>"+mention[j].nickname+"</sapn></div>"+
 										"<div class='board_reply_cont_text'>" +
 											"<div class='board_reply_ment'>"+mention[j].ment+"</div>" +
@@ -539,7 +494,7 @@ function delete_ment(no){
 
 			if(check == "1"){
 					// no 다 넣어주기 $("."+no+"board_reply_wrap").html("");
-				$("#"+no).html("");
+				$("#"+no).remove();
 			}
 
 		},

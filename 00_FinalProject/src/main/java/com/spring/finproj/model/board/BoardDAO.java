@@ -16,7 +16,6 @@ public interface BoardDAO {
 	public int insertReviewCont(BoardDTO boardDTO);
 	
 	public int deleteAccuserContent(int cm_no);
-	public int deleteAlarmContent(int cm_no);
 	public int deleteMentionContent(int cm_no);
 	public int deleteRecommandContent(int cm_no);
 	public int deleteReview(int cm_no);

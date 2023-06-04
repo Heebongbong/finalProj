@@ -14,13 +14,10 @@
        		 <c:forEach items="${campingList}" var="dto">
 				<div class="index_camping_content">
 					<div class="camping_img">
-						<img alt="" src="${dto.firstImageUrl }" />
+						<img alt="${dto.getFacltNm() } 캠핑장 대표 사진" src="${dto.firstImageUrl }" />
 					</div>
 					<div class="camping_name">
-					 	<span class="promotion_font">${dto.facltNm}</span>
-					</div>
-					<div class="camping_info">
-					 	<span class="promotion_font">${dto.lineIntro}</span>
+						<a onclick="location.href='${ctxPath }/camping/details?content_id=${dto.getContent_id() }'" href="javascript:">${dto.getFacltNm() }</a>
 					</div>
 				</div>
 			</c:forEach>
@@ -29,9 +26,6 @@
 	<c:if test="${empty campingList }"><h2>캠핑 조회 중 오류</h2></c:if>
 	<div class="banner">
 		<img alt="" src="${ctxPath }/resources/images/banner/${banner_num }.jpg">
-	</div>
-	<div class="market_write">
-		<a href="javascript:" onclick="move_write_page(${loginUser.isAuthen() })"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 	</div>
 	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">
@@ -58,8 +52,9 @@
 			slidesToShow: 1,
 			slidesToScroll: 1,
 			adaptiveHeight: true,
-			arrows: false,
-			draggable: true
+			arrows: true,
+			draggable: true,
+			nextArrow: "<img class='slick_arrows' src='${ctxPath }/resources/images/icon/slick_arrow.png'>"
 		});
 	});
 </script>
