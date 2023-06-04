@@ -85,9 +85,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="market_write">
-		<a href="javascript:" onclick="move_market_write_page(${loginUser.isAuthen() })"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-	</div>
 	<div class="market_declaration_check">
 		<a href="javascript:" onclick="fraud_check_window()"><i class="fa fa-search-minus" aria-hidden="true"></i></a>
 	</div>
@@ -103,7 +100,7 @@
 				<input type="hidden" class="decl_cm_no" value="">
 			</div>
 			<div class="decl_modal_body">
-<!-- 				<textarea rows="" cols="" class="decl_modal_text"></textarea> -->
+ 				<textarea rows="" cols="" class="decl_modal_text"></textarea>
 			</div>
 			<div class="decl_modal_btn">
 				<input type="button" value="신고하기" onclick="declaration()">

@@ -31,19 +31,24 @@
 			</li>
 			<div class="alarm_modal_overlay">
 				<div class="alarm_modal_window">
-					<p><b>알림</b></p>
 					<c:if test="${alarmList.get('board_like').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(1)">누군가 회원님의 게시글에 좋아요를 눌렀습니다.<br>(새로운 알림 : ${alarmList.get('board_like').getCheckCount() })</a></p>
+						<p><a href="javascript:alarm_move_href(1)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_b_like_icon.png">당신의 게시물을 ${alarmList.get('board_like').getCheckCount() }명이 더 좋아해요.</a></p>
 					</c:if>
 					<c:if test="${alarmList.get('ment_like').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(2)">누군가 회원님의 댓글에 좋아요를 눌렀습니다.<br>(새로운 알림 : ${alarmList.get('ment_like').getCheckCount() })</a></p>
+						<p><a href="javascript:alarm_move_href(2)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_m_like_icon.png">당신의 댓글을 ${alarmList.get('ment_like').getCheckCount() }명이 더 좋아해요.</a></p>
 					</c:if>
 					<c:if test="${alarmList.get('ment_ins').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(3)">누군가 회원님의 게시글에 댓글을 달았습니다.<br>(새로운 알림 : ${alarmList.get('ment_ins').getCheckCount() })</a></p>
+						<p><a href="javascript:alarm_move_href(3)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_ment_icon.png">게시물에 새로운 댓글이 ${alarmList.get('ment_ins').getCheckCount() }개 달렸어요!</a></p>
 					</c:if>
+<<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
 					<c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
 						<p><a href="javascript:alarm_move_href(4)">누군가 회원님께 채팅을 신청했습니다.<br>(새로운 알림 : ${alarmList.get('chat_on').getCheckCount() })</a></p>
 					</c:if>
+=======
+					<%-- <c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
+						<p><a href="javascript:alarm_move_href(4)"> ${alarmList.get('chat_on').getCheckCount() }</a></p>
+					</c:if> --%>
+>>>>>>> f4c1c2a LHY index -v2.0
 				</div>
 			</div>
 		</c:if>

@@ -9,7 +9,7 @@
 		<c:forEach items="${CampingList }" var="dto">
 		<div class="camping_list_wrap">
 			<div class="camping_list_img">
-				<img src="${dto.getFirstImageUrl() }" alt="캠핑장 대표 이미지" class="camping_image">
+				<img onclick="location.href='${ctxPath }/camping/details?content_id=${dto.getContent_id() }'" src="${dto.getFirstImageUrl() }" alt="캠핑장 대표 이미지" class="camping_image">
 			</div>
 			<div class="camping_list_info">
 				<input type="hidden" value="${dto.getContent_id() }" class="content_id">

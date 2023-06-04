@@ -18,6 +18,7 @@
 		<li><a href="${ctxPath }/market/list">중고거래</a></li>
 	</ul>
 </div>
+<<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
 <div class="chat_open" onclick="open_chat($())"><i class="fa fa-commenting" aria-hidden="true"></i></div>	
 <div class="chat_wrap">
 	<div class="chat_list">
@@ -52,4 +53,14 @@
 			<input type="button" class="chat_send" value="Send" onclick="">
 		</div>
 	</div>
+=======
+<div class="top_write_navi">
+	<div class="write_plus_navi">
+		<img class="review_write_icon" onclick="move_write_page(${loginUser.isAuthen() })" alt="" src="${ctxPath }/resources/images/icon/review_write.png">
+		<img class="market_write_icon" onclick="move_market_write_page(${loginUser.isAuthen() })" alt="" src="${ctxPath }/resources/images/icon/market_write.png">
+		<img class="comm_write_icon" alt="" src="${ctxPath }/resources/images/icon/comm_write.png">
+	</div>
+	<img class="top_move_icon" alt="" src="${ctxPath }/resources/images/icon/top_icon(2).png" onclick="top_move_func()">
+	<img class="plus_write_icon" alt="" src="${ctxPath }/resources/images/icon/plus_icon.png" onclick="open_footer_write()">
+>>>>>>> f4c1c2a LHY index -v2.0
 </div>
