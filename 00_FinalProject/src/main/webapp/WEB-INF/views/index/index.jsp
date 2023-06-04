@@ -52,7 +52,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".board_main_files").slick({
-			dots: true,
+			dots: false,
 			infinite: true,
 			speed: 1000,
 			slidesToShow: 1,
