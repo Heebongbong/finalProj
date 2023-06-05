@@ -11,7 +11,7 @@
 	let serv_lng = '${lng }';
 </script>
 <div id="weather_wrap">
-	<div id="map" style="width: 500px; height: 400px;"></div>
+	<div id="map" style="width: 700px; height: 400px;"></div>
 	<div id="weather_search">
 		<input type="text" placeholder="지역명 입력" class="address" value="${Addr }">
 		<input type="button" value="날씨 보기" onclick="moveWeather()">
