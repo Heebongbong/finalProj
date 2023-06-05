@@ -6,12 +6,15 @@
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set var="dto" value="${content }"/>
 <div class="drop_wrap">
-	<h2>회원 탈퇴</h2>
 	<form id="forgetForm" action="${ctxPath }/user/deleteOk" method="post">
-		<div>
-			<p>비밀번호 입력</p>
-			<input type="password" name="check_pwd" id="check_pwd">
+	<div id="title">회원 탈퇴</div>
+		<div class="text_part">
+			<p class="text">비밀번호 입력</p>
+			<input type="password" name="check_pwd" id="check_pwd" class="noWhitespace">
 		</div>
-		<button type="submit" id="submitBtn" class="noWhitespace">탈퇴하기</button>
+		
+		<div class="delete">
+			<button type="submit" id="submitBtn">탈퇴하기</button>
+		</div>
 	</form>
 </div>
