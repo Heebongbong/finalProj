@@ -12,3 +12,12 @@
 		<li><a class="navi_footer_a" href="${ctxPath }/market/list"><img alt="" src="${ctxPath }/resources/images/icon/market_icon.png"><span>중고거래</span></a></li>
 	</ul>
 </div>
+<div class="top_write_navi">
+	<div class="write_plus_navi">
+		<img class="review_write_icon" onclick="move_write_page(${loginUser.isAuthen() })" alt="" src="${ctxPath }/resources/images/icon/review_write.png">
+		<img class="market_write_icon" onclick="move_market_write_page(${loginUser.isAuthen() })" alt="" src="${ctxPath }/resources/images/icon/market_write.png">
+		<img class="comm_write_icon" alt="" src="${ctxPath }/resources/images/icon/comm_write.png">
+	</div>
+	<img class="top_move_icon" alt="" src="${ctxPath }/resources/images/icon/top_icon(2).png" onclick="top_move_func()">
+	<img class="plus_write_icon" alt="" src="${ctxPath }/resources/images/icon/plus_icon.png" onclick="open_footer_write()">
+</div>
