@@ -13,41 +13,90 @@
 	const loginType = '${loginUser.type}';
 </script>
 <div id="mypage_wrap">
-	<form id="mypageForm" action="${ctxPath }/user/mypageOk" method="post" enctype="multipart/form-data" novalidate>
-		<input type="hidden" name="user_no" value="${loginUser.user_no}">
-		<input type="hidden" name="profile_type" id="profile_type" value="${loginUser.profile_type}">
-		<input type="hidden" name="phone" id="phone" value="${loginUser.phone}">
-		<input type="hidden" name="type" value="${loginUser.type }">
-		<input type="hidden" name="profile" id="profile_hidden" value="${loginUser.profile }">
-		<div class="text_part">
-			<div class="profile_part">
-				<div class="profile">
-				<p>프로필 사진</p>
-					<img id="previewImg" src="${loginUser.profile }"/>
+	<div id="mypage_container_center">
+		<form id="mypageForm" action="${ctxPath }/user/mypageOk" method="post" enctype="multipart/form-data" novalidate>
+			<input type="hidden" name="user_no" value="${loginUser.user_no}">
+			<input type="hidden" name="profile_type" id="profile_type" value="${loginUser.profile_type}">
+			<input type="hidden" name="phone" id="phone" value="${loginUser.phone}">
+			<input type="hidden" name="type" value="${loginUser.type }">
+			<input type="hidden" name="profile" id="profile_hidden" value="${loginUser.profile }">
+			<div class="text_part">
+				<div class="profile_part">
+				
+					<div id="title">내 정보 변경</div>
+					
+					<div class="profile">
+						
+						<div>
+							<label for="profileInput"> <img id="previewImg" src="${loginUser.profile }"/> </label>
+							<input style="display: none;" type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
+						</div>
+						<c:if test="${loginUser.type eq 'K'|| loginUser.type eq 'N'}">
+							<input type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
+						</c:if>
+						<c:if test="${loginUser.authen }">
+							<p class="text">인증 회원</p>
+						</c:if>
+						<c:if test="${!loginUser.authen }">
+							<p class="text">비인증 회원</p>
+						</c:if>
+					</div>
+					
+					<c:if test="${loginUser.authen }">
+						<p class="text">전화번호 변경</p>
+					</c:if>
+					<c:if test="${!loginUser.authen }">
+						<p class="text">전화번호 등록</p>
+					</c:if>
+					
+					<div class="authen_box">
+						<input name="input_phone" class="noWhitespace" id="input_phone" value="${loginUser.phone }" placeholder="숫자만입력">
+						<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
+					</div>
+					<p class="input_phoneError">&nbsp;</p>
+					
+					
+					<p class="text">전화번호 확인</p>
+					<div class="authen_box">
+						<input name="code" id="input_code" class="noWhitespace">
+						<button type="button" id="checkBtn" onclick="checkCode()">인증하기</button>
+					</div>
+					<p class="codeError">&nbsp;</p>
 				</div>
-				<div>
-					<input type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
+				
+				<div class="text_part_box">
+					<p class="text">이메일</p>
+					<input name="email" class="noWhitespace" value="${loginUser.email }" readonly>
+					<p class="emailError">&nbsp;</p>
 				</div>
-				<c:if test="${loginUser.type eq 'K'|| loginUser.type eq 'N'}">
-					<input type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
-				</c:if>
-				<c:if test="${loginUser.authen }">
-					<p>인증 회원</p>
-					<p class="text">전화번호 변경</p>
-				</c:if>
-				<c:if test="${!loginUser.authen }">
-					<p>비인증 회원</p>
-					<p class="text">전화번호 등록</p>
-				</c:if>
-				<input name="input_phone" class="noWhitespace" id="input_phone" value="${loginUser.phone }" placeholder="휴대폰 번호(-없이 숫자만 입력)">
-				<button type="button" id="sendBtn" onclick="sendSMS()">인증번호발송</button>
-				<p class="input_phoneError">&nbsp;</p>
-				<p class="text">전화번호 확인</p>
-				<input name="code" id="input_code" class="noWhitespace">
-				<button type="button" id="checkBtn" onclick="checkCode()">인증하기</button>
-				<p class="codeError">&nbsp;</p>
+				
+				<div class="text_part_box">
+					<p class="text">닉네임</p>
+					<input name="nickname" class="noWhitespace" value="${loginUser.nickname }">
+					<p class="nicknameError">&nbsp;</p>
+				</div>
+				
+				<p class="text">비밀번호</p>
+				<div class="authen_box">
+					<input type="password" name="pwd_check" id="check_pwd" class="noWhitespace">
+					<button type="button" onclick="checkPwd()">비밀번호 확인</button>
+				</div>
+				<p class="pwd_checkError">&nbsp;</p>
+				
+				<div class="text_part_box">
+					<p class="text">새 비밀번호</p>
+					<input type="password" id="pwd" name="pwd" class="noWhitespace">
+					<p class="pwdError">&nbsp;</p>
+				</div>
+				
+				<div class="text_part_box">
+					<p class="text">새 비밀번호 확인</p>
+					<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
+					<p class="pwd_reError">&nbsp;</p>
+				</div>
 			</div>
 			
+<<<<<<< HEAD
 			<p class="text">이메일</p>
 			<input name="email" class="noWhitespace" value="${loginUser.email }" readonly>
 			<p class="emailError">&nbsp;</p>
@@ -71,4 +120,11 @@
 		</div>
 		<button type="submit" id="submitBtn">수정하기</button>
 	</form>
+=======
+			<div class="modify">
+				<button type="submit" id="submitBtn">수정하기</button>
+			</div>
+		</form>
+	</div>
+>>>>>>> branch 'master' of https://github.com/Heebongbong/finalProj.git
 </div>

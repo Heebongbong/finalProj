@@ -1,18 +1,79 @@
 @charset "UTF-8";
 
-.inp_drive{
-	display: flex;
-	flex-direction: column;
+div#drive_main_wrap {
+   width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
-#drive_road_view{
-	display: flex;
-	justify-content: space-around;
+
+.inp_drive {
+    width: 65%;
+    margin: 0 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.drive_road_img{
-	display: flex;
-	flex-direction: column;
-	text-align: center;
+
+#drive_road_view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 10%;
 }
-.drive_road_info{
-	text-align: center;
+
+::placeholder {
+    font-size: 14px;
+    color: #9d9d9d;
+}
+
+.text {
+    text-align: center;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+hr {
+    width: 80%;
+    border-color: #DCDCDC;
+}
+
+img {
+	width: 100%;
+	margin: 20px 0;
+}
+
+.drive_road_info {
+    margin-bottom: 30px;
+}
+
+
+input[id$="drive"] {
+	border: none;
+	background-color: #f1f1f1;
+	padding-left: 10px;
+	height: 36px;
+ 	width: 100%;
+}
+
+input#search {
+    text-align: center;
+    font-size: 14px;
+    height: 36px;
+    color: #9d9d9d;
+    font-weight: bold;
+    width: 60%;
+    background-color: white;
+    border: 1px solid #9d9d9d;
+	margin: 5px 0;
+}
+
+input#drive {
+    margin: 10px 0;
+}
+
+span {
+    font-size: 10px;
+    color: #9d9d9d;
+    margin-bottom: 10px;
 }

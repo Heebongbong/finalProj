@@ -1,0 +1,68 @@
+.drop_wrap{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+#forgetForm{
+	width: 36%;
+	margin: 5% 0;
+}
+
+#title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.text {
+	font-size: 12px;
+	text-align: left;
+	color: #9d9d9d;
+}
+
+.text_part {
+    margin: 15% 10%;
+}
+
+.text_part_box {
+    margin-bottom: 1.5em;
+}
+
+button {
+    background-color: white;
+    border: 1px solid #9d9d9d;
+    color: #9d9d9d;
+}
+
+.noWhitespace {
+    width: 100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+    height: 26px;
+    font-size: 15px;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    border-color: #a9a9a9;
+}
+
+.delete {
+    display: flex;
+    justify-content: center;
+}
+
+.delete button {
+    font-size: 14px;
+    width: 100%;
+    height: 30px;
+    color : #9d9d9d;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.delete button:hover {
+	background-color: #6fcf97;
+	color: white;
+}

@@ -146,6 +146,7 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board_review_delete", cm_no);
 	}
+
 	@Override
 	public int updateAlarmUserCheck(int user_no) {
 		// TODO Auto-generated method stub

@@ -181,6 +181,7 @@ a:hover{
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
+
 }
 .alarm_modal_window img{
 	width: 23px;
@@ -199,6 +200,24 @@ a:hover{
 	justify-content: flex-start;
 	width: 100%;
 }
+.alarm_modal_window img{
+	width: 23px;
+	height: 23px;
+	margin-right: 10px;
+}
+.alarm_modal_window p{
+	border-bottom: 1px solid #c4c4c4;
+	height: 40px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+.alarm_modal_window p a{
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
+}
+
 
 
 /* user_menu */
@@ -396,7 +415,6 @@ a:hover{
 	text-align: right;
 }
 
-
 /*  */
 #content{
 	width: 85%;
@@ -492,3 +510,5 @@ a:hover{
 .review_write_icon:hover{
 	content: url('/finproj/resources/images/icon/review_write_hover.png');
 }
+>>>>>>> refs/remotes/origin/master
+
