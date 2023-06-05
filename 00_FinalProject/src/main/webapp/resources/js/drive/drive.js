@@ -154,11 +154,9 @@ function openwindows() {
 						naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
 					}
 				    
-				    let table = "<div class='drive_road_img'>" +
+				    let table = "<div class='text'>" + wp.name + "</div>" +
+								"<div class='drive_road_img'>" +
 						    		"<img src='"+wp.img+"'/>" +
-						    		"<span>" +
-						    			wp.name +
-						    		"</span>" +
 					    		"</div>" +
 					    		"<div class='drive_road_info'>" +
 					    			wp.info +
