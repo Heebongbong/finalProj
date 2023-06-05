@@ -19,6 +19,7 @@
 	</ul>
 </div>
 <<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
+<<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
 <div class="chat_open" onclick="open_chat($())"><i class="fa fa-commenting" aria-hidden="true"></i></div>	
 <div class="chat_wrap">
 	<div class="chat_list">
@@ -53,14 +54,45 @@
 			<input type="button" class="chat_send" value="Send" onclick="">
 		</div>
 	</div>
-=======
 <div class="top_write_navi">
 	<div class="write_plus_navi">
 		<img class="review_write_icon" onclick="move_write_page(${loginUser.isAuthen() })" alt="" src="${ctxPath }/resources/images/icon/review_write.png">
 		<img class="market_write_icon" onclick="move_market_write_page(${loginUser.isAuthen() })" alt="" src="${ctxPath }/resources/images/icon/market_write.png">
 		<img class="comm_write_icon" alt="" src="${ctxPath }/resources/images/icon/comm_write.png">
+<div class="chat_open" onclick="open_chat($())"><i class="fa fa-commenting" aria-hidden="true"></i></div>	
+<div class="chat_wrap">
+	<div class="chat_list">
+		<p class="chat_list_p"><a href="javascript:chat_admin()">Admin</a></p>
+		<c:forEach items="${chatRoomList }" var="room">
+		<c:if test="${room.user_no1 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
+			<p class="chat_list_p" onmouseover="open_room_out(this)">
+				<a href="javascript:chat_start(${room.user_no2 })"><img alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png">${room.nickname }</a>
+				<button onclick="chat_room_out(${room.chat_room_no})" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+			</p>
+		</c:if>
+		<c:if test="${room.user_no2 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
+			<p class="chat_list_p" onmouseover="open_room_out(this)">
+				<a href="javascript:chat_start(${room.user_no1 })">${room.nickname }</a>
+				<button onclick="chat_room_out(${room.chat_room_no}, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+			</p>
+		</c:if>
+		</c:forEach>
 	</div>
 	<img class="top_move_icon" alt="" src="${ctxPath }/resources/images/icon/top_icon(2).png" onclick="top_move_func()">
 	<img class="plus_write_icon" alt="" src="${ctxPath }/resources/images/icon/plus_icon.png" onclick="open_footer_write()">
->>>>>>> f4c1c2a LHY index -v2.0
+	<div class="chat_main">
+		<div class="chat_title">
+			<h2>채팅 창</h2>
+			<span class="chat_close" onclick="close_chat()">x</span>
+		</div>
+		<div class="chat_cont">
+			
+		</div>
+		
+		<div class="chat_btn">
+			<input type="hidden" id="chat_receipt" value="">
+			<input type="text" class="chat_msg" placeholder="Message">
+			<input type="button" class="chat_send" value="Send" onclick="">
+		</div>
+	</div>
 </div>
