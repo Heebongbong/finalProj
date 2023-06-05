@@ -59,9 +59,13 @@ a:hover{
 	color: lightblue;
 }
 
+<<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
+=======
+
+>>>>>>> 762d090 LHY 0601
 #container{
-	width: 1000px;
-	margin: 50px auto;
+	width: 800px;
+	margin: 100px auto;
 	padding: 0;
 }
 #header{
