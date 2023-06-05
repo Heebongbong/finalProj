@@ -65,12 +65,6 @@ public class CampingDAOImpl implements CampingDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("camping_list_loc", map);
 	}
-
-	@Override
-	public List<CampingDTO> getCampingAddList(Map<String, String> map) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("camping_list_add", map);
-	}
 	
 	//캠핑 리뷰 리스트 Map타입 파라메터 오버로드
 	@Override
@@ -88,5 +82,23 @@ public class CampingDAOImpl implements CampingDAO{
 	@Override
 	public int deleteCampingList() {
 	    return sqlSession.delete("camping_delete_list");
+	}
+
+	@Override
+	public List<CampingDTO> getCampingAddList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("camping_list_all");
+	}
+
+	@Override
+	public List<CampingDTO> getCampingAddList(int content_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("camping_addlist_all", content_id);
+	}
+
+	@Override
+	public List<CampingDTO> getCampingAddList(Map<String, Object> keyList) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("camping_list_add", keyList);
 	}
 }

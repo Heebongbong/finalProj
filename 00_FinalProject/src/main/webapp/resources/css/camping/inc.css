@@ -5,17 +5,42 @@
 	flex-direction: column;
 }
 
-.camping_side_ul{
+#camping_wrap {
 	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-}
-.camping_side_ul li{
-	width: 19%;
-	text-align: center;
+	justify-content: center;
 }
 
-.camping_list_wrap, #camping_details_wrap {
+.camping_side_ul{
+	font-family: 'Source Sans Pro', sans-serif;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-around;
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 30px;
+}
+
+.camping_side_ul li {
+	height: 30px;
+	width: 19%;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.camping_side_ul a {
+	line-height: 30px;
+}
+
+.camping_side_ul li:hover {
+	background: #6FCF97;
+}
+
+.camping_side_ul li:hover a {
+	background: #6FCF97;
+	color: #FFFFFF;
+}
+
+#camping_details_wrap {
 	display: flex;
 }
 
@@ -25,7 +50,6 @@
 
 .camping_list_info {
 	border: none;
-	padding: 5px;
 	line-height: 1.4;
 }
 
@@ -39,5 +63,35 @@
 
 .side_search {
 	display: flex;
-	justify-content: flex-end;
+	margin-bottom: 10%;
+	position: relative;
+	background-color: white;
+	border-bottom: 1px solid black;
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 40px;
+}
+
+.search_camp {
+	border: none;
+	outline: none;
+}
+
+.side_search button{
+	position: absolute;
+	border: none;
+	background-color: transparent;
+	right: 0;
+}
+
+.camping_list_wrap {
+	width: 600px;
+	display: flex;
+	flex-direction: column;
+}
+
+.camping_list_wrap img {
+	width: 600px;
+	height: auto;
 }
