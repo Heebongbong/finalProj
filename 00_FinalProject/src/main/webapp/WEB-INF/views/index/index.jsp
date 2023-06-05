@@ -14,11 +14,7 @@
        		 <c:forEach items="${campingList}" var="dto">
 				<div class="index_camping_content">
 					<div class="camping_img">
-<<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
-						<img style="width: 800px; height: 400px;" alt="" src="${dto.firstImageUrl }" />
-=======
 						<img alt="${dto.getFacltNm() } 캠핑장 대표 사진" src="${dto.firstImageUrl }" />
->>>>>>> f4c1c2a LHY index -v2.0
 					</div>
 					<div class="camping_name">
 						<a onclick="location.href='${ctxPath }/camping/details?content_id=${dto.getContent_id() }'" href="javascript:">${dto.getFacltNm() }</a>
