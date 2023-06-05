@@ -1,16 +1,35 @@
 @charset "UTF-8";
 
 .weather_wrap{
-	margin-top: 20px;	
+	margin-top: 12px;
+	display: flex;
+    justify-content: space-evenly;	
 }
 .weather_info_wrap{
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
+	padding-left: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
 }
 .weather_cate_info{
-	width: 20%;
+	display: flex;
+    width: 16%;
+    align-items: center;
+    justify-content: center;
 }
+
+.weather_index_wrap {
+	padding-left: 10%;
+    padding-right: 7%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.day_style {
+	width: 30%;
+}
+
 
 #map {
     position: relative;
