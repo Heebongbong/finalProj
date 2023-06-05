@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 	//게시글 추가
     $('body').on("mousewheel",function(event){
-		if(($(window).scrollTop()+$(window).innerHeight())>=$(document).height()){
+		if(($(window).scrollTop()+$(window).innerHeight()) >= $(document).height()-1){
 			if(event.originalEvent.deltaY>0){
 				marketAddList();
 			}

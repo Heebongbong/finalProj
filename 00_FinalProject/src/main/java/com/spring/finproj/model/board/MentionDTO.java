@@ -10,6 +10,7 @@ public class MentionDTO {
 	private String ment;
 	private String created;
 	private String nickname;
+	private String profile;
 	
 	private int likeCount;
 }

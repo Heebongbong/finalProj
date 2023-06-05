@@ -28,7 +28,6 @@
 	<div id="container">
 		<tiles:insertAttribute name="header"/>
 		<div id="content">
-			<tiles:insertAttribute name="side"/>
 			<tiles:insertAttribute name="body"/>
 		</div>
 		<tiles:insertAttribute name="footer"/>

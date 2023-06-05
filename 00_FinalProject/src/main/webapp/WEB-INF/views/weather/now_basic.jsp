@@ -10,7 +10,7 @@
 		<input type="button" value="날씨 보기" onclick="moveWeather()">
 	</div>
 	
-	<div id="map" style="width: 500px; height: 400px; display: none"></div>
+	<div id="map" style="width: 700px; height: 400px; display: none"></div>
 		
 	
 	

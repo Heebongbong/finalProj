@@ -87,11 +87,6 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.delete("board_accuser_delete", cm_no);
 	}
 	@Override
-	public int deleteAlarmContent(int cm_no) {
-		// TODO Auto-generated method stub
-		return sqlSession.delete("board_alarm_delete", cm_no);
-	}
-	@Override
 	public int deleteMentionContent(int cm_no) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board_mention_delete", cm_no);
@@ -151,6 +146,7 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board_review_delete", cm_no);
 	}
+
 	@Override
 	public int updateAlarmUserCheck(int user_no) {
 		// TODO Auto-generated method stub

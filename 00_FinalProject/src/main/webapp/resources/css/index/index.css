@@ -9,10 +9,13 @@
 	height: 400px;
 	margin: auto;
 }
-.camping_name,
-.camping_info{
-	text-align: center;
+.camping_name{
+	margin: 10px auto;
 }
+.camping_name a{
+	cursor: pointer;
+}
+
 .banner img{
 	width: 100%;
 }
@@ -81,15 +84,19 @@
 .board_user_wrap{
 	display: flex;
 	justify-content: space-between;
-	height: 50px;
+	align-items: center;
+	height: 65px;
 }
 .board_user_prof{
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
+	width: 25%;
+	align-items: center;
 }
 .board_user_prof img{
 	width: 50px;
 	height: 50px;
+	border-radius: 50%;
 }
 
 /* user_modal css */
@@ -135,58 +142,86 @@
 .detail_modal_overlay{
 	display: none;
 	position: absolute;
-	right: 0;
-	top: 0;
+	right: -10px;
+	top: 40px;
 	background-color: white;
 	width: 100px;
-	height: 150px;
+	height: 75px;
 	z-index: 1;
 }
 .detail_modal_window{
 	display: flex;
 	padding: 5px;
 	flex-direction: column;
-	height: 100%;
+	height: 75px;
 	justify-content: space-around;
+}
+.detail_modal_window a{
+	height: 25px;
+    width: 95px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+    line-height: 2;
+}
+.detail_modal_window a:nth-child(odd){
+	background-color: #E8E8E8
 }
 
 /* 본문 css */
 .board_main_wrap{
 	display: flex;
 	justify-content: flex-start;
+	flex-direction: column;
 }
 .board_main_photo{
 	display: flex;
-	width: 40%;
+	width: 100%;
 	flex-direction: column;
 	justify-content: space-between;
+}
+.board_main_photo > div{
+	margin-bottom: 15px;
 }
 .board_main_files {
 	width: 100%;
 }
 .board_main_files img{
-	width: 350px;
-	height: 350px;
+	width: 100%;
 }
-
+/* 좋아요, 작성일 */
+.board_like_date_wrap{
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+}
+/* hashTag */
+.board_main_hashtag{
+	text-align: right;
+	background-color: #f0f0f0;
+}
+/* 게시판 본문 */
 .board_main_cont{
 	display: flex;
 	flex-direction: column;
 	width: 100%;
    justify-content: space-between;
 }
-
+.slick_arrows{
+	width: 10px !important;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    cursor: pointer;
+}
+.slick_arrows:hover{
+	filter: opacity(0.5) drop-shadow(0 0 0 #6FCF97);
+}
 .board_main_text{
-   height: 150px;
-   position: relative;
+	margin-top: 10px;
+	margin-bottom: 30px;
 }
-
-.board_like_wrap{
-	position: absolute;
-	right: 2px;
-	top: 2px;
-}
-
 .reply_wrap{
 	display: flex;
 	height: 100%;
@@ -204,19 +239,63 @@
 	display: flex;
 	position: relative;
 	justify-content: flex-start;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.board_reply_user{
+	width: 30%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.board_reply_user img{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+}
+.board_reply_cont_text{
+	width: 100%;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+.board_reply_date_delete_wrap{
+	display: flex;
+	font-size: 0.8em;
+	justify-content: space-between;
+	width: 50px;
 }
 .board_reply_delete{
-	position: absolute;
-	right: 0px;
+	display: none;
 }
-
-.board_reply_write_prof{
-	width: 50px;
-	height: 50px;
+.mention_like_wrap{
+	width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
+.fa-heart{
+	color: #6FCF97;
+}
 .board_reply_write{
 	display: flex;
 	justify-content: flex-start;
 }
-
+.reply_write_ment{
+	width: 100%;
+	border-bottom: 1px solid black;
+	position: relative;
+}
+.reply_write_ment_inp{
+	border: none;
+	width: 100%;
+}
+.reply_write_insert{
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.reply_write_insert img:hover{
+	content: url('/finproj/resources/images/icon/m_send_hover.png');
+}
