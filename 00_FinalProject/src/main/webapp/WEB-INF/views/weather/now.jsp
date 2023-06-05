@@ -40,7 +40,7 @@
 				      			<c:when test="${cate.pty eq '3'}">눈</c:when>
 				      			<c:when test="${cate.pty eq '5'}">빗방울</c:when>
 				      			<c:when test="${cate.pty eq '6'}">빗방울눈날림</c:when>
-				      			<c:when test="${cate.pty eq '7'}">눈날림</c:when>
+				      			<c:when test="${cate.pty eq '7'}">눈날림</c:when>	
 				      		</c:choose>
 						</div>
 						<div class="weather_cate_info">
@@ -59,6 +59,7 @@
 						</div>
 						<div class="weather_cate_info">
 							풍향 : ${cate.vec } deg
+							<i class="fa fa-arrow-up" aria-hidden="true" style="transform: rotate(${cate.vec}deg)"></i>
 						</div>
 						<div class="weather_cate_info">
 							풍속 : ${cate.wsd } m/s

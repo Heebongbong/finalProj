@@ -51,7 +51,7 @@
 			<p class="text">이메일</p>
 			<input name="email" class="noWhitespace" value="${loginUser.email }" readonly>
 			<p class="emailError">&nbsp;</p>
-			
+			 
 			<p class="text">닉네임</p>
 			<input name="nickname" class="noWhitespace" value="${loginUser.nickname }">
 			<p class="nicknameError">&nbsp;</p>
