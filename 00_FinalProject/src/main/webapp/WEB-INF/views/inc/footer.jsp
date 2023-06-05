@@ -18,8 +18,6 @@
 		<li><a href="${ctxPath }/market/list">중고거래</a></li>
 	</ul>
 </div>
-<<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
-<<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
 <div class="chat_open" onclick="open_chat($())"><i class="fa fa-commenting" aria-hidden="true"></i></div>	
 <div class="chat_wrap">
 	<div class="chat_list">

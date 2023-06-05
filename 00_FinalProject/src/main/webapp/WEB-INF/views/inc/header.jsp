@@ -40,15 +40,9 @@
 					<c:if test="${alarmList.get('ment_ins').getTotalCount() != 0 }">
 						<p><a href="javascript:alarm_move_href(3)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_ment_icon.png">게시물에 새로운 댓글이 ${alarmList.get('ment_ins').getCheckCount() }개 달렸어요!</a></p>
 					</c:if>
-<<<<<<< Upstream, based on branch 'NJH' of https://github.com/Heebongbong/finalProj.git
 					<c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
 						<p><a href="javascript:alarm_move_href(4)">누군가 회원님께 채팅을 신청했습니다.<br>(새로운 알림 : ${alarmList.get('chat_on').getCheckCount() })</a></p>
 					</c:if>
-=======
-					<%-- <c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(4)"> ${alarmList.get('chat_on').getCheckCount() }</a></p>
-					</c:if> --%>
->>>>>>> f4c1c2a LHY index -v2.0
 				</div>
 			</div>
 		</c:if>
