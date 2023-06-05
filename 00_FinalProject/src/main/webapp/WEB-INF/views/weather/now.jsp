@@ -40,7 +40,7 @@
 				      			<c:when test="${cate.pty eq '3'}">눈</c:when>
 				      			<c:when test="${cate.pty eq '5'}">빗방울</c:when>
 				      			<c:when test="${cate.pty eq '6'}">빗방울눈날림</c:when>
-				      			<c:when test="${cate.pty eq '7'}">눈날림</c:when>
+				      			<c:when test="${cate.pty eq '7'}">눈날림</c:when>	
 				      		</c:choose>
 						</div>
 						<div class="weather_cate_info">
