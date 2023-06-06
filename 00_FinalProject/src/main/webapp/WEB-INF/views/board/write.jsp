@@ -4,7 +4,7 @@
 <c:set value="${sessionScope.LoginUser }" var="loginUser" />
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <div class="board_wrap">
-	<h2>게시글 작성</h2>
+	<div id="title">커뮤니티 글쓰기</div>
 	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/writeform">
         <div class="form-group" align="left">
 			<span>해시태그</span>

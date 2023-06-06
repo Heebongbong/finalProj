@@ -92,6 +92,7 @@
 	<update id="user_delete_admin" parameterType="int">
 		UPDATE user SET type = 'B' WHERE user_no = #{user_no}
 	</update>
+
 	
 	
 </mapper>

@@ -26,4 +26,5 @@ public interface BoardService {
 	
 	//관리자
 	public void getAccuseList(Model model);
+	public void deleteAcuuseCont(int cm_no, int user_no);
 }

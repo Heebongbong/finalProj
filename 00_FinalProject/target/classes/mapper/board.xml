@@ -195,4 +195,8 @@
 	<delete id="alarm_user_delete" parameterType="map">
 		delete from alarm where user_no = #{user_no} and field = #{field}
 	</delete>
+	
+	<delete id="delete_accuse_cont" parameterType="map">
+		delete from accuse where cm_no = {cm_no} and user_no = {user_no}
+	</delete>
 </mapper>

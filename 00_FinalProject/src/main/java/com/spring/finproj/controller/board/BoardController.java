@@ -178,8 +178,15 @@ public class BoardController {
     }
 
     @RequestMapping("/admin/delete")
-    public void deleteBoardCont(int cm_no, HttpServletRequest request) throws Exception {
+    public String deleteBoardCont(int cm_no, HttpServletRequest request) throws Exception {
     	boardService.deleteBoardCont(cm_no, request);
+    	return "redirect:/board/accuse";
+    }
+
+    @RequestMapping("/admin/deleteAccuse")
+    public String deleteAcuuseCont(int cm_no, int user_no) {
+    	boardService.deleteAcuuseCont(cm_no, user_no);
+    	return "redirect:/board/accuse";
     }
     
 }
