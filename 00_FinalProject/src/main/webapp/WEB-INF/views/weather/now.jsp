@@ -11,7 +11,7 @@
 	let serv_lng = '${lng }';
 </script>
 <div id="weather_wrap">
-	<div id="map" style="width: 500px; height: 400px;"></div>
+	<div id="map" style="width: 700px; height: 400px;"></div>
 	<div id="weather_search">
 		<input type="text" placeholder="지역명 입력" class="address" value="${Addr }">
 		<input type="button" value="날씨 보기" onclick="moveWeather()">
@@ -40,7 +40,7 @@
 				      			<c:when test="${cate.pty eq '3'}">눈</c:when>
 				      			<c:when test="${cate.pty eq '5'}">빗방울</c:when>
 				      			<c:when test="${cate.pty eq '6'}">빗방울눈날림</c:when>
-				      			<c:when test="${cate.pty eq '7'}">눈날림</c:when>
+				      			<c:when test="${cate.pty eq '7'}">눈날림</c:when>	
 				      		</c:choose>
 						</div>
 						<div class="weather_cate_info">

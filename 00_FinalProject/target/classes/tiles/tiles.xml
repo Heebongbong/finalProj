@@ -21,18 +21,6 @@
 		<put-attribute name="side" value="/WEB-INF/views/weather/inc/side.jsp" />
     	<put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
 	</definition>
-	
-	<definition name="camping_set" template="/WEB-INF/views/camping/inc/layout.jsp">
- 		<put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
-		<put-attribute name="inc_css" value="/resources/css/camping/inc.css" />
-		<put-attribute name="base_css" value="/resources/css/inc/inc.css" />
-		<put-attribute name="inc_js" value="/resources/js/camping/inc.js" />
-		<put-attribute name="base_js" value="/resources/js/inc/inc.js" />
-		<put-attribute name="side" value="/WEB-INF/views/camping/inc/side.jsp" />
-    	<put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
-	</definition>
-
-
 
 
 	<definition name="admin_set" template="/WEB-INF/views/admin/inc/layout.jsp">
@@ -52,14 +40,6 @@
 	</definition>
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	<definition name="weather.*" extends="weather_set">
 		<put-attribute name="title" value="Camping HomePage" />
 		<put-attribute name="css" value="/resources/css/weather/{1}.css" />
@@ -67,14 +47,6 @@
 		<put-attribute name="body" value="/WEB-INF/views/weather/{1}.jsp" />
 	</definition>
 
-	
-	<definition name="camping.*" extends="camping_set">
-		<put-attribute name="title" value="Camping {1}" />
-		<put-attribute name="css" value="/resources/css/camping/{1}.css" />
-		<put-attribute name="js" value="/resources/js/camping/{1}.js" />
-		<put-attribute name="body" value="/WEB-INF/views/camping/{1}.jsp" />
-	</definition>
-	
 	<definition name="*.*" extends="default_set">
 		<put-attribute name="title" value="Camping HomePage" />
 		<put-attribute name="css" value="/resources/css/{1}/{2}.css" />

@@ -1,7 +1,8 @@
 @charset "UTF-8";
 
 .text {
-	font-size: 1em;
+	font-size: 12px;
+	text-align: left;
 }
 
 #mypage_wrap {
@@ -10,26 +11,26 @@
 	justify-content: center;
 }
 
+#mypage_container_center {
+	width: 36%;
+	margin: 5% 0;
+}
+
 #previewImg {
-	width: 150px;
-	height: 150px;
+	width: 70px;
+	height: 70px;
 	border-radius: 50%;
 }
 
 
-#mypage_container_center {
-	width: 35%;
-}
-
-.text_part {
-    margin: 5%;
+.text_part, .authen_part {
+    margin: 40px 10% 30px 10%;
 }
 
 #title {
     text-align: center;
-    font-size: large;
+    font-size: 16px;
     font-weight: bold;
-    margin: 10%;
 }
 
 
@@ -39,20 +40,22 @@
     border-left: none;
     border-right: none;
     outline: none;
-    height: 2em;
-    font-size: 1.1em;
+    height: 26px;
+    font-size: 15px;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    border-color: #a9a9a9;
 }
 
 .text_part_box {
-	line-height: 1.5em;
-    margin-bottom: 2em;
+    margin-bottom: 1.5em;
 }
 
 .profile {
     display: flex;
     flex-direction: column;
     align-items: center;
-    line-height: 3em;
+    line-height: 32px;
 }
 
 .profile_part p {
@@ -60,15 +63,61 @@
 	margin-bottom: 1em;
 }
 
-.text {
-   	text-align: left;
-}
-
 .profile_box {
     display: flex;
+    align-items: baseline;
 }
 
-.profile_box_button {
-    width: 40%;
-    margin: 2%;
+.profile_box button {
+    width: 60%;
+    height : 20px;
+    font-size: 9px;
+    margin-left: 2px;
+    color : #9d9d9d;
+}
+
+[class$="Error"] {
+  color: #c7c7c7 !important;
+  font-size: 10px;	
+}
+
+p {
+	color : #9d9d9d;
+} 
+
+::placeholder {
+    font-size: 9px;
+    color: #9d9d9d;
+}
+ 
+.join {
+    display: flex;
+    justify-content: center;
+}
+
+.join button {
+    font-size: 14px;
+    width: 100%;
+    height: 30px;
+    color : #9d9d9d;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.join button:hover {
+	background-color: #6fcf97;
+	color: white;
+}
+
+span, .profile label {
+    font-size: 9px;
+}
+
+button {
+    background-color: white;
+    border: 1px solid #9d9d9d;
+}
+
+.text_choice {
+	font-size: 12px;
 }

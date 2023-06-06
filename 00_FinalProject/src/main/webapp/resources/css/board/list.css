@@ -11,21 +11,24 @@
    display: flex;
    justify-content: center;
 }
-.list_navi a{
+.list_navi_li{
+	display: flex;
+	justify-content: center;
+    height: 3rem;
+    color: black;
+	width: 25%;
+}
+.list_navi_li a{
 	font-weight: bold;
     color: black;
     width: 100%;
-    display: block;
+    display: flex;
     height: 100%;
+    align-items: center;
+    justify-content: center;
 }
 .list_navi a:hover{
 	color: #6FCF97;
-}
-.list_navi_li{
-	width: 25%;
-	height: 35px;
-	text-align: center;
-	line-height: 2;
 }
 .list_navi_li-active{
 	background-color: #6FCF97;
