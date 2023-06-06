@@ -9,21 +9,34 @@
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
 <div id="user_board_wrap">
-	<h2>${user_cont.nickname }의 게시글</h2>
+	<div class="user_board_profile">
+		<img class="user_profile_img" alt="" src="${user_cont.profile }">
+		<div class="user_board_name_id">
+			<span class="user_profile_nickname">
+				${user_cont.nickname }
+			</span>
+			<span class="user_profile_email">
+				${user_cont.email }
+			</span>
+		</div>
+		<c:if test="${loginUser.user_no == user_cont.user_no }">
+			<a href="${ctxPath }/user/mypage">마이페이지</a>
+		</c:if>
+		<c:if test="${loginUser.user_no != user_cont.user_no }">
+			<img class="user_profile_chat_plus" onclick="chat_board(${user_cont.user_no })" alt="" src="${ctxPath }/resources/images/icon/chat_plus_icon.png">
+		</c:if>
+	</div>
 	<input type="hidden" id="board_user_no" value="${user_cont.user_no }">
 	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">
-		<div class="declaration_modal_window">
-			<div class="decl_modal_header">
-				<p class="decl_nickname"></p><span class="decl_modal_close" onclick="close_declaration()">X</span>
-				<input type="hidden" class="decl_cm_no" value="">
-			</div>
-			<div class="decl_modal_body">
-				<textarea rows="" cols="" class="decl_modal_text"></textarea>
-			</div>
-			<div class="decl_modal_btn">
-				<input type="button" value="신고하기" onclick="declaration()">
-			</div>
+		<div class="decl_modal_header">
+			<p>신고하기</p><span class="decl_modal_close" onclick="close_declaration()">X</span>
+			<input type="hidden" class="decl_cm_no" value="">
+			<input type="hidden" class="decl_nickname" value="">
+		</div>
+		<div class="decl_modal_body">
+			<textarea rows="" cols="" class="decl_modal_text"></textarea>
+			<input class="decl_modal_btn" type="button" value="제출하기" onclick="declaration()">
 		</div>
 	</div>
 	<div class="list_main">

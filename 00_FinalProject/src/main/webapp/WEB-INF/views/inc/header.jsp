@@ -98,7 +98,7 @@
 	<div class="user_menu_wrap">
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
 		<div class="user_menu_body">
-			<form action="${ctxPath }/login/site" method="post">
+			<form action="${ctxPath }/login/site" method="post" onsubmit="return check_login_inp()">
 				<div class="user_menu_body_inp">
 					<div class="user_menu_body_inp_cont">
 						<label for="user_menu_email_inp">이메일</label>
