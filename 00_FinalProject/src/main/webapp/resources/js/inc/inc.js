@@ -193,6 +193,18 @@ function move_market_write_page(bool){
 
 
 // login function
+function check_login_inp(){
+	if($('#user_menu_email_inp').val()==''){
+		alert('Email을 입력하세요');
+		$('#user_menu_email_inp').focus();
+		return false;
+	}else if($('#user_menu_pwd_inp').val()==''){
+		alert('비밀번호를 입력하세요');
+		$('#user_menu_pwd_inp').focus();
+		return false;
+	}
+}
+
 function loginWithKakao() {
 	Kakao.Auth.authorize({redirectUri: reUrl+"finproj/login/kakao"});
 }
@@ -253,29 +265,31 @@ function close_chat(){
 }
 
 function chat_board(no){
-	if(open_chat()){
-		$.ajax({
-			type: "get",
-			url: ctxPath+"/chat/board",
-			data: {
-				user_no: no,
-			},
-			dataType : "text",
-			async:false,
-			success: function(data){
-				if(data==0){
-					alert('채팅방 등록 중 오류');
-				}else{
-					let table = "<p><a href='javascript:chat_start("+no+")'>"+data+"</a></p>";
-					$('.chat_list').append(table);
-					chat_start(no);
+	if(loginUser_no!=no){
+		if(open_chat()){
+			$.ajax({
+				type: "get",
+				url: ctxPath+"/chat/board",
+				data: {
+					user_no: no,
+				},
+				dataType : "text",
+				async:false,
+				success: function(data){
+					if(data==0){
+						alert('채팅방 등록 중 오류');
+					}else{
+						let table = "<p><a href='javascript:chat_start("+no+")'>"+data+"</a></p>";
+						$('.chat_list').append(table);
+						chat_start(no);
+					}
+				},
+				error: function(){
+					alert('채팅상대 검색 중 오류');
 				}
-			},
-			error: function(){
-				alert('채팅상대 검색 중 오류');
-			}
-		});
-	};
+			});
+		}
+	}
 }
 
 function chat_start(no){
@@ -331,11 +345,15 @@ function connect_chat() {
 		let sm = event.data;
 		let sl = sm.split(',');
 		/* "보내는 이 : " + sl[0]);
-		"받는 이 : " + sl[1]);
-		"내용: " + sl[2]); */
+		보내는 유저 넘버 : + sl[1]
+		"받는 이 : " + sl[2]);
+		"내용: " + sl[3]); */
 		
-		let table = "<p style='width:100%;' class='chat_sendU'>"+sl[0]+" : "+sl[2]+"</p>";
-		$('.chat_cont').append(table);
+		let table = "<p style='width:100%;' class='chat_sendU'>"+sl[0]+" : "+sl[3]+"</p>";
+		
+		if(sl[1]==$('#chat_receipt').val()){
+			$('.chat_cont').append(table);
+		}
 		
 		console.log("ReceiveMessage:" + event.data+'\n');
 	};

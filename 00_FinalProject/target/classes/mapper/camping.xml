@@ -37,19 +37,41 @@
 		delete from camping
 	</delete>
 	
-	<select id="camping_list_loc" resultType="campingDTO" parameterType="String">
+	<select id="camping_list_loc" resultType="campingDTO" parameterType="map">
 		<choose>
-			<when test="(loc =='서울' || loc =='경기'|| loc =='강원'|| loc =='경북'|| loc =='경남'|| loc =='충북'|| loc =='충남'
-					|| loc =='전북'|| loc =='전남'|| loc =='제주'|| loc =='광주'|| loc =='대전'|| loc =='대구'|| loc =='울산'
-					|| loc2 =='인천'|| loc2 =='경상북도'|| loc2 =='경상남도'|| loc2 =='충청북도'|| loc2 =='충청남도'
-					|| loc2 =='전라북도'|| loc2 =='전라남도'|| loc2 =='세종'|| loc2 =='부산')">
-				select * from camping where not firstImageUrl = '' and (addr1 like concat('%',#{loc},'%')
-			           					 or addr1 like concat('%',#{loc2},'%')) order by content_id desc Limit 5
+			<when test="(loc1 =='경상' || loc1 =='충청'|| loc1 =='전라')">
+				SELECT * FROM camping WHERE NOT firstImageUrl = '' 
+					AND (addr1 LIKE CONCAT('%',#{loc1},'%') OR addr1 LIKE CONCAT('%',#{loc2},'%') 
+					OR addr1 LIKE CONCAT('%',#{loc3},'%') OR addr1 LIKE CONCAT('%',#{loc4},'%') 
+					OR addr1 like CONCAT('%',#{loc5},'%')) ORDER BY content_id DESC Limit 5
 			</when>
 			<otherwise>
-				select * from camping where not firstImageUrl = '' and (facltNm like concat('%',#{loc},'%')) order by content_id desc Limit 5
+				SELECT * FROM camping WHERE NOT firstImageUrl = '' 
+					AND (addr1 LIKE CONCAT('%',#{loc1},'%')) order by content_id DESC Limit 5
 			</otherwise>
 		</choose>
+	</select>
+	
+	<select id="camping_list_add" resultType="campingDTO" parameterType="map">
+		select * from camping where not firstImageUrl = ''
+		
+		<if test="keyword!=''">
+			and facltNm like concat('%', #{keyword}, '%')
+		</if>
+		
+		<if test="content_id!=0">
+			<![CDATA[
+				 and content_id < #{content_id}
+			]]>
+		</if>
+		
+		<if test="category.size!=0">
+			<foreach collection="category" item="item" separator="or" open="and (" close=")">
+				addr1 like concat('%', #{item}, '%')
+			</foreach>
+		</if>
+		
+		 order by content_id desc Limit 5
 	</select>
 
 	<select id="camping_cont" resultType="campingDTO" parameterType="int">
@@ -57,34 +79,16 @@
 	</select>
 	
 	<select id="camping_list_random" resultType="campingDTO">
-		select * from camping where not firstImageUrl = '' and not lineIntro = '' Order by rand() Limit 10 
+		select * from camping where not firstImageUrl = '' Order by rand() Limit 10
 	</select>
 	
-	<select id="camping_list_add" resultType="campingDTO" parameterType="map">
-		<choose>
-			<when test="(loc =='서울' || loc =='경기'|| loc =='강원'|| loc =='경북'|| loc =='경남'|| loc =='충북'|| loc =='충남'
-					|| loc =='전북'|| loc =='전남'|| loc =='제주'|| loc =='광주'|| loc =='대전'|| loc =='대구'|| loc =='울산'
-					|| loc2 =='인천'|| loc2 =='경상북도'|| loc2 =='경상남도'|| loc2 =='충청북도'|| loc2 =='충청남도'
-					|| loc2 =='전라북도'|| loc2 =='전라남도'|| loc2 =='세종'|| loc2 =='부산')">
-				<![CDATA[
-					select * from camping 
-					where not firstImageUrl = '' and 
-					(addr1 like concat('%',#{loc},'%') or 
-					addr1 like concat('%',#{loc2},'%')) and 
-					content_id < #{content_id} 
-					order by content_id desc Limit 5
-				]]>
-			</when>
-			<otherwise>
-				<![CDATA[
-					select * from camping 
-					where not firstImageUrl = '' and 
-					(facltNm like concat('%',#{loc},'%')) and 
-					content_id < #{content_id} 
-					order by content_id desc Limit 5
-				]]>
-			</otherwise>
-		</choose>
+	<select id="camping_list_all" resultType="campingDTO">
+		select * from camping where not firstImageUrl = '' Order by content_id desc Limit 5
+	</select>
+	<select id="camping_addlist_all" resultType="campingDTO" parameterType="int">
+	<![CDATA[
+		select * from camping where not firstImageUrl = '' and content_id < #{content_id} Order by content_id desc Limit 5
+	]]>
 	</select>
 	
 	<select id="camping_review_list" resultType="boardDTO" parameterType="int">

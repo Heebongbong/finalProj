@@ -29,35 +29,16 @@
 	</div>
 	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">
-		<div class="declaration_modal_window">
-			<div class="decl_modal_header">
-				<p class="decl_nickname"></p><span class="decl_modal_close" onclick="close_declaration()">X</span>
-				<input type="hidden" class="decl_cm_no" value="">
-			</div>
-			<div class="decl_modal_body">
-				<textarea rows="" cols="" class="decl_modal_text"></textarea>
-			</div>
-			<div class="decl_modal_btn">
-				<input type="button" value="신고하기" onclick="declaration()">
-			</div>
+		<div class="decl_modal_header">
+			<p>신고하기</p><span class="decl_modal_close" onclick="close_declaration()">X</span>
+			<input type="hidden" class="decl_cm_no" value="">
+			<input type="hidden" class="decl_nickname" value="">
+		</div>
+		<div class="decl_modal_body">
+			<textarea rows="" cols="" class="decl_modal_text"></textarea>
+			<input class="decl_modal_btn" type="button" value="제출하기" onkeydown="if( event.keyCode == 13 ){declaration();}" onclick="declaration()">
 		</div>
 	</div>
-	<!-- 슬릭 추가적용 -->
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".board_main_files").slick({
-			dots: false,
-			infinite: true,
-			speed: 1000,
-			slidesToShow: 1,
-			slidesToScroll: 1,
-			adaptiveHeight: true,
-			arrows: true,
-			draggable: true,
-			nextArrow: "<img class='slick_arrows' src='${ctxPath }/resources/images/icon/slick_arrow.png'>"
-		});
-	});
-</script>
 	<div class="index_board_wrap">
 		
 	</div>

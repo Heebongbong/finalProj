@@ -35,7 +35,7 @@ public class MarketController {
     		category = URLDecoder.decode(category, "UTF-8");
     	}
     	
-    	model.addAttribute("Keyword", keyword);
+    	model.addAttribute("M_Keyword", keyword);
 		model.addAttribute("Category", category);
 		
 		return "market.market";

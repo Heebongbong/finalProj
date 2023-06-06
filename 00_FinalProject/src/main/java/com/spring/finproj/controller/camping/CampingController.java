@@ -23,8 +23,13 @@ public class CampingController {
 	private CampingService campingService;
 	
 	@RequestMapping("/camping")
-	public String campingContent(Model model, @RequestParam(required = false) String keyword, @RequestParam(required = false) String keyword2) throws Exception {
-		campingService.getCampingList(model, keyword, keyword2);
+	public String campingContent(Model model, 
+			@RequestParam(required = false) String keyword,
+			@RequestParam(required = false) String category) throws Exception {
+		//campingService.getCampingList(model, keyword, category);
+		
+		model.addAttribute("Category", category);
+		model.addAttribute("C_Keyword", keyword);
 		return "camping.camping";
 	}
 
@@ -43,8 +48,11 @@ public class CampingController {
 	
 	@RequestMapping("/addlist")
 	@ResponseBody
-	public List<CampingDTO> campingAddList(int content_id, String keyword, String keyword2){
-		return campingService.getCampingAddList(content_id, keyword, keyword2);
+	public List<CampingDTO> campingAddList(int content_id,
+			@RequestParam(required = false) String keyword,
+			@RequestParam(required = false) String category){
+		
+		return campingService.getCampingAddList(content_id, keyword, category);
 	}
 	
 	@RequestMapping("/review")
