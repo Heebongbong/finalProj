@@ -126,7 +126,6 @@ public class MarketServiceImpl implements MarketService{
 		
 		marketTotal.put("BoardList", list);
 		marketTotal.put("MentionList", mapList2);
-		marketTotal.put("keyword", keyword);
 		
 		return marketTotal;
 	}

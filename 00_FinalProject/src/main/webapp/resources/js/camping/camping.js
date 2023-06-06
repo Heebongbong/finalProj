@@ -4,6 +4,7 @@
  
 
 $(document).ready(function(){
+
   campingAddList();  
 	
 	$('body').on("mousewheel",function(event){
@@ -13,50 +14,22 @@ $(document).ready(function(){
 			}
 		}
 	});
-
-	// let hiddenKeyword = document.getElementById('hidden_keyword').value;
-	// let campingSideUl = document.querySelector('.camping_side_ul');
-	// let campingSideLinks = campingSideUl.getElementsByTagName('a');
-	
-	// for (let i = 0; i < campingSideLinks.length; i++) {
-	// 	let link = campingSideLinks[i];
-	
-	// 	if (link.getAttribute('href').includes(`keyword=${hiddenKeyword}`)) {
-	// 		link.style.background = '#6FCF97';
-	// 		link.style.color = '#FFFFFF';
-	// 		link.parentNode.style.background = '#6FCF97';
-	// 	}
-	// }
-
 });
-
-// function locSearch() {
-// 	let locs = $('#locs').val();
-// 	location.href=ctxPath+'/camping/camping?keyword='+locs;
-// }
-
-//키워드 url인코딩
-function replace_keyword(key){
-	key= key.replace(/\#/g,"%23");
-	return key;
-}
 
 //카테고리 클릭시 url 요청
 function locSearch(cate){
 	let keyword = $('#locs').val();
 	let category = cate;
-	keyword = replace_keyword(keyword);
-	category= replace_keyword(category);
+	console.log(cate);
+	console.log(category);
+	if(category==null){
+		category = $('#hidden_category').val();
+	}
+	 
 	location.href=ctxPath+"/camping/camping?keyword="+keyword+"&category="+category;
 }
 
-
-
-
-
 function campingAddList(){
-	console.log($('.content_id:last').val());
-	console.log($('#hidden_keyword').val());
 	let content_id = $('.content_id:last').val();
 	
 	if(content_id==null||content_id==''){
@@ -67,14 +40,15 @@ function campingAddList(){
 		type: "get",
 		url: ctxPath+"/camping/addlist",
 		data: {
-					content_id: content_id,
-					keyword: $('#locs').val(),
-					category: $('#hidden_category').val()
-					},
+			content_id: content_id,
+			keyword: $('#locs').val(),
+			category: $('#hidden_category').val()
+		},
 		dataType : "json",
 		contentType : "application/json; charset=UTF-8;",
 		async:false,
 		success: function(data){
+			console.log(data);
 			let table = "";
 			
 			for (let i = 0; i < data.length; i++) {

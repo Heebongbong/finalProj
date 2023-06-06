@@ -128,6 +128,7 @@ a:hover{
 	border: none;
 	background-color: transparent;
 	right: 0;
+	cursor: pointer;
 }
 .user_menu_profile_non{
 	width: 100px;
@@ -262,6 +263,9 @@ a:hover{
 	border: none;
 	border-bottom: 1px solid black;
 }
+.user_menu_body_inp input::placeholder{
+	font-size: 13px;
+}
 .user_menu_body_inp_cont{
 	display: flex;
 	flex-direction: column;
@@ -285,12 +289,12 @@ a:hover{
 }
 .user_menu_body_sns{
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	width: 100%
 }
 .user_menu_body_sns a{
-	width: 50px;
-	height: 50px;
+	width: 38px;
+	height: 38px;
 }
 .user_menu_body_sns img{
 	width: 100%;
@@ -468,14 +472,16 @@ a:hover{
 	font-size: 30px;
 }
 
+/* top_write navi css */
 .top_write_navi{
-	position: fixed;
+	position: sticky;
 	bottom: 10px;
-	right: 85px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	height: 85px;
+	width: 37px;
+	margin-left: 92%;
 }
 .write_plus_navi{
 	display: none;

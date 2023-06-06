@@ -3,6 +3,7 @@ package com.spring.finproj.model.camping;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.mapping.ParameterMapping;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,23 @@ public class CampingDAOImpl implements CampingDAO{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	private String getSql(String id, Map<String, Object> param) throws Exception{
+	    String sql = sqlSession.getConfiguration().getMappedStatement(id).getBoundSql(param).getSql();
+	    List<ParameterMapping> paramMap = sqlSession.getConfiguration().getMappedStatement(id)
+	                                                .getBoundSql(param).getParameterMappings();
+	    for (ParameterMapping par : paramMap) {
+	    	System.out.println(par.toString());
+	        String parameter = null;
+	        System.out.println(par.getProperty());
+	        parameter = param.get(par.getProperty()).toString();
+	        if(parameter == null)
+	            sql = sql.replaceFirst("\\?", "NULL");
+	        else
+	            sql = sql.replaceFirst("\\?", "'" + parameter + "'");
+	    }
+	    return sql;
+	}
 
 	//CRUD
 	@Override
@@ -99,6 +117,14 @@ public class CampingDAOImpl implements CampingDAO{
 	@Override
 	public List<CampingDTO> getCampingAddList(Map<String, Object> keyList) {
 		// TODO Auto-generated method stub
+		
+		try {
+			String sql = getSql("camping_list_add", keyList);
+			System.out.println(sql);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return sqlSession.selectList("camping_list_add", keyList);
 	}
 }

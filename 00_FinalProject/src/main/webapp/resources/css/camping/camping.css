@@ -1,63 +1,25 @@
 @charset "UTF-8";
 
-.camp_head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 5px;
-}
-
-.camp_title a {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: black;
-}
-
-.camp_addr {
-  font-size: .95em;
-  color: #7E7E7E;
-  font-weight: bold;
-}
-
-.camp_tag {
-  display: flex;
-  justify-content: end;
-  margin-bottom: 30px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #E6E6E6;
-  color: #AFAFAF;
-  font-size: .95em;
-}
-
-/* #content{
-	display: flex;
-	flex-direction: column;
-} */
-
-#camping_wrap {
-	display: flex;
-	justify-content: center;
-}
-
 .camping_side_ul{
-	font-family: 'Source Sans Pro', sans-serif;
 	display: flex;
-	align-items: flex-end;
 	justify-content: space-around;
-	font-size: 1em;
 	font-weight: bold;
-	margin-top: 30px;
+
+	align-items: flex-end;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 1em;
 }
 
 .camping_side_ul li {
 	height: 30px;
 	width: 19%;
 	text-align: center;
-	box-sizing: border-box;
 }
 
 .camping_side_ul a {
 	line-height: 30px;
+	width: 100%;
+	height: 100%;
 }
 
 .camping_side_ul li:hover {
@@ -123,4 +85,33 @@
 .camping_list_wrap img {
 	width: 600px;
 	height: auto;
+}
+
+.camp_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.camp_title a {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: black;
+}
+
+.camp_addr {
+  font-size: .95em;
+  color: #7E7E7E;
+  font-weight: bold;
+}
+
+.camp_tag {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #E6E6E6;
+  color: #AFAFAF;
+  font-size: .95em;
 }

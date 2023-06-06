@@ -27,8 +27,9 @@ public class CampingController {
 			@RequestParam(required = false) String keyword,
 			@RequestParam(required = false) String category) throws Exception {
 		//campingService.getCampingList(model, keyword, category);
+		
 		model.addAttribute("Category", category);
-		model.addAttribute("Keyword", keyword);
+		model.addAttribute("C_Keyword", keyword);
 		return "camping.camping";
 	}
 
@@ -50,6 +51,7 @@ public class CampingController {
 	public List<CampingDTO> campingAddList(int content_id,
 			@RequestParam(required = false) String keyword,
 			@RequestParam(required = false) String category){
+		
 		return campingService.getCampingAddList(content_id, keyword, category);
 	}
 	
