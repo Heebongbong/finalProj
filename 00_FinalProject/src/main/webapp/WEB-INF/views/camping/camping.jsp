@@ -36,8 +36,8 @@
 			
 	</div>
 
-<input type="hidden" value="${Category }" id="hidden_category">
 	<div id="camping_search_wrap">
+		<input type="hidden" value="${Category }" id="hidden_category">
 		<%-- <c:forEach items="${CampingList }" var="dto">
 			<div class="camping_list_wrap">
 				<div class="camping_list_img">
@@ -60,8 +60,5 @@
 				</div>
 			</div>
 		</c:forEach> --%>
-	<input type="hidden" value="${Category }" id="hidden_category">
-	<div id="camping_search_wrap">
-
 	</div>
 </div>

@@ -1,5 +1,97 @@
 @charset "UTF-8";
 
+/* camping_details 본문 */
+hr {
+	background:#D6D6D6;
+	height:1px;
+	border:0;
+	margin-bottom: 30px;
+}
+
+#camping_details_wrap {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;	
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#camping_details_img img {
+	width: 600px;
+	height: auto;
+	margin-bottom: 30px;
+}
+
+#camping_details {
+	text-align: center;
+}
+
+
+.camp_induty {
+	font-size: .85em;
+	color: #4D4D4D;
+	margin-bottom: 8px;
+}
+
+.camp_facltNm {
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.camp_lctCl {
+	font-size: .93em;
+	color: #4D4D4D;
+	margin-bottom: 30px;
+}
+
+.camp_addr1 {
+	font-size: 1em;
+	color: #4D4D4D;
+	margin-bottom: 10px;
+}
+
+.camp_tel {
+	font-size: .9em;
+	color: #4D4D4D;
+	margin-bottom: 30px;
+}
+
+.camp_homepage {
+	font-size: .9em;
+	color: #9d9d9d;
+	margin-bottom: 30px;
+}
+
+.camp_lineIntro {
+	font-size: 1.1em;
+	color: #4D4D4D;
+	margin-bottom: 30px;
+	font-weight: bold;
+	text-align: left;
+}
+
+.camp_intro {
+	font-size: .9em;
+	color: #4D4D4D;
+	margin-bottom: 30px;
+	text-align: left;
+}
+
+.camp_tag {
+	font-size: .9em;
+	color: #9d9d9d;
+	margin-bottom: 30px;
+	text-align: left;
+}
+
+
+
+
+
+
 
 /* decl_modal css */
 

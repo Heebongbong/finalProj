@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="${ctxPath }/resources/images/logo/logo.png" rel="shortcut icon" type="image/x-icon">
+<link href="https://fonts.cdnfonts.com/css/source-sans-pro" rel="stylesheet">
 <title><tiles:getAsString name="title"/></title>
 <script type="text/javascript">
 	const ctxPath = '${ctxPath }';
