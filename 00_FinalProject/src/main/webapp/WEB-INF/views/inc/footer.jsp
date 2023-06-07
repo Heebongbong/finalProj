@@ -11,7 +11,12 @@
 		<img class="comm_write_icon" onclick="move_write_page(${loginUser.isAuthen() })" alt="" src="${ctxPath }/resources/images/icon/comm_write.png">
 	</div>
 	<img class="top_move_icon" alt="" src="${ctxPath }/resources/images/icon/top_icon(2).png" onclick="top_move_func()">
-	<img class="plus_write_icon" alt="" src="${ctxPath }/resources/images/icon/plus_icon.png" onclick="open_footer_write()">
+	<c:if test="${empty camp_dto }">	
+		<img class="plus_write_icon plus_write_icon_pl" alt="" src="${ctxPath }/resources/images/icon/plus_icon.png" onclick="open_footer_write()">
+	</c:if>
+	<c:if test="${!empty camp_dto }">
+		<img class="plus_write_icon plus_write_icon_pen" alt="" src="${ctxPath }/resources/images/icon/pencil_icon.png" onclick="review_write_move(${camp_dto.getContent_id() }, ${loginUser.isAuthen() })">
+	</c:if>
 </div>
 <div id="footer">
 	<ul class="move_navi">

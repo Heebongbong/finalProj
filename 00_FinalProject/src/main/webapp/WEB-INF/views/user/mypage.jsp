@@ -95,7 +95,6 @@
 					<p class="pwd_reError">&nbsp;</p>
 				</div>
 			</div>
-			
 			<div class="modify">
 				<button type="submit" id="submitBtn">수정하기</button>
 			</div>

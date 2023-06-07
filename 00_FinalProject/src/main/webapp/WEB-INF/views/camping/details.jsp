@@ -1,25 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-
-                
+<c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
+<c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <c:set var="camp_dto" value="${Content }" />
 <script type="text/javascript">
-	const campName = '${dto.getFacltNm() }';
-	const campLineIntro = '${dto.getLineIntro() }';
+	const campName = '${camp_dto.getFacltNm() }';
+	const campLineIntro = '${camp_dto.getLineIntro() }';
 </script>
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick.css">
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
 
 <div id="camping_details_wrap">
-	<input type="hidden" value="${dto.getContent_id() }" id="hidden_content_id">
+	<input type="hidden" value="${camp_dto.getContent_id() }" id="hidden_content_id">
 	
 		<div id="camping_details_img">
-			<img alt="" src="${dto.getFirstImageUrl() }">
+			<img alt="" src="${camp_dto.getFirstImageUrl() }">
 		</div>
 		
 		<!-- 신고 모달창 -->
@@ -55,8 +51,6 @@
 			</div>
 			<hr>
 		</div>
-				<input type="button" value="리뷰작성" onclick="review_write_move(${camp_dto.getContent_id() }, ${loginUser.isAuthen() })">
-		
 	<div class="camping_review_wrap">
 	</div>
 </div>

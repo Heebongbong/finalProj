@@ -1,8 +1,11 @@
 @charset "UTF-8";
+html{
+	height: 100vh;
+}
 
 #container{
 	width: 800px;
-	margin: 100px auto;
+	margin: 100px auto 0 auto;
 	background-color: white;
 	position: relative;
 }
@@ -14,6 +17,7 @@
 	z-index: 1;
 	height: 78px;
 	border-top: 1px solid black;
+	position: fixed;
 }
 
 #weather_footer .move_navi{

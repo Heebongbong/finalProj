@@ -306,22 +306,28 @@ function chat_start(no){
 		async:false,
 		success: function(data){
 			console.log(data);
+			let chat_list = data.ChatList;
+			let send_user = data.Send_user;
 			let table = "";
 
-			$(data).each(function(){
+			$(chat_list).each(function(){
 				if(this.send_user == no){
-					table += "<p style='width:100%;' class='chat_sendU'>"+this.nickname+" : "+this.chat_cont+"</p>";
+					table += "<div class='chat_sendU'><p>"+this.chat_cont+"</p><span class='chat_date_time'>"+this.created.substring(11, 16)+"</span></div>";
 					
 				}else{
-					table += "<p style='width:100%;' class='chat_loginU'>"+this.chat_cont+"</p>"
+					table += "<div class='chat_loginU'><span class='chat_date_time'>"+this.created.substring(11, 16)+"</span><p>"+this.chat_cont+"</p></div>"
 				}
 				
 			});
 			console.log($('.chat_send'));
 			$('#chat_receipt').val(no);
 			$('.chat_cont').append(table);
-			$('.chat_send').attr('onclick', 'send_chat('+data[0].chat_room_no+', '+loginUser_authen+', '+no+')');
+			$('.chat_send').attr('onclick', 'send_chat('+chat_list[0].chat_room_no+', '+loginUser_authen+', '+no+')');
+			$('.chat_msg').attr('onkeydown', 'if( event.keyCode == 13 ){send_chat('+chat_list[0].chat_room_no+', '+loginUser_authen+', '+no+');}');
 
+			$('.chat_title_nick_send').text(send_user.nickname);
+			$('.chat_title_img_send').attr('src', send_user.profile);
+			
 			connect_chat();
 		},
 		error: function(){
@@ -393,12 +399,14 @@ function chat_admin(){
 	$('.chat_cont').html("");
 	$('.chat_msg').val("");
 
-	let table = "<p style='width:100%;' class='chat_sendU'>Chat Bot : <span>"
-				+"안녕하세요. Campion 챗봇입니다.<br>"
-				+"궁금하신 사항을 물어보세요.<br>"
-				+"<input type='button' value='관리자와 채팅하기' onclick='chat_start(1)' style='width: 150px;'><br>"
-				+"<input type='button' value='F A Q' onclick='faq_start()' style='width: 150px;'>"
-				+"</span></p>";
+	let table = "<p class='chat_admin_mess'>"
+				+"안녕하세요.<br>Campion 챗봇입니다.<br>"
+				+"궁금하신 사항을<br>물어보세요.<br>"
+				+"<span>"
+				+"<input type='button' value='관리자와 채팅하기' onclick='chat_start(1)'><br>"
+				+"<input type='button' value='F A Q' onclick='faq_start()'>"
+				+"</span>"
+				+"</p>";
 	$('.chat_cont').append(table);
 }
 
@@ -422,21 +430,22 @@ function faq_start(){
 }
 
 function faq_cont(cate_no){
-	let table = "챗봇 : <br>"+faqList[cate_no][0].name+"을 선택하셨습니다.<br>";
+	let table = "<p class='chat_admin_mess_u'>"+faqList[cate_no][0].name+"<p>";
 				
 	for(let i = 0; i<faqList[cate_no].length;i++){
 		let d = faqList[cate_no][i];
-		table += "<p>" + d.content + "</p>";
+		table += "<p class='chat_admin_mess'>" + d.content + "</p>";
 	}
-	table += "<p style='text-align:right'><input type='button' value='카테고리로' onclick='faq_cate()'></p>";
+	table += "<p class='chat_admin_mess'><span style='margin:0;'><input type='button' value='카테고리로' onclick='faq_cate()'></span></p>";
 	$('.chat_cont').append(table);
 	
 }
 
 function faq_cate(){
-	let table = "챗봇 : <br><t>문의하실 카테고리를 선택하세요.<br>";
+	let table = "<p class='chat_admin_mess'>문의하실 카테고리를 선택하세요.";
 	for(let i=1;i<=5;i++){
-		table += "<p style='text-align:center; width:130px;'><input type='button' value='"+faqList[i][0].name+"' onclick='faq_cont("+faqList[i][0].faq_cate_no+")'></p>";
+		table += "<span><input type='button' value='"+faqList[i][0].name+"' onclick='faq_cont("+faqList[i][0].faq_cate_no+")'></span>";
 	}
+	table += "</p>";
 	$('.chat_cont').append(table);
 }

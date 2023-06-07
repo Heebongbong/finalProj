@@ -61,36 +61,38 @@
 	
 	<!-- chat manage  -->
 	<div class="chat_wrap">
-		<div class="chat_list">
-			<p class="chat_list_p"><a href="javascript:chat_admin()">Admin</a></p>
-			<c:forEach items="${chatRoomList }" var="room">
-			<c:if test="${room.user_no1 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
-				<p class="chat_list_p" onmouseover="open_room_out(this)">
-					<a href="javascript:chat_start(${room.user_no2 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
-					<button onclick="chat_room_out(${room.chat_room_no})" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
-				</p>
-			</c:if>
-			<c:if test="${room.user_no2 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
-				<p class="chat_list_p" onmouseover="open_room_out(this)">
-					<a href="javascript:chat_start(${room.user_no1 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
-					<button onclick="chat_room_out(${room.chat_room_no}, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
-				</p>
-			</c:if>
-			</c:forEach>
+		<div class="chat_title">
+			<p class="chat_title_p chat_title_p_user"><a href="javascript:"><img class="chat_title_img" alt="" src="${loginUser.profile }">${loginUser.nickname }</a><button onclick="close_chat()">나가기</button></p>
+			<p class="chat_title_p chat_title_p_send"><a href="javascript:"><img class="chat_title_img chat_title_img_send" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png"><span class="chat_title_nick_send"></span></a></p>			
 		</div>
-		<div class="chat_main">
-			<div class="chat_title">
-				<h2>채팅 창</h2>
-				<span class="chat_close" onclick="close_chat()">x</span>
+		<div class="chat_list_main">
+			<div class="chat_list">
+				<p class="chat_list_p"><a href="javascript:chat_admin()"><img class="chat_list_img" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png">Admin</a></p>
+				<c:forEach items="${chatRoomList }" var="room">
+				<c:if test="${room.user_no1 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
+					<p class="chat_list_p" onmouseover="open_room_out(this)">
+						<a href="javascript:chat_start(${room.user_no2 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
+						<button onclick="chat_room_out(${room.chat_room_no})" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+					</p>
+				</c:if>
+				<c:if test="${room.user_no2 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
+					<p class="chat_list_p" onmouseover="open_room_out(this)">
+						<a href="javascript:chat_start(${room.user_no1 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
+						<button onclick="chat_room_out(${room.chat_room_no}, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+					</p>
+				</c:if>
+				</c:forEach>
 			</div>
-			<div class="chat_cont">
-			
-			</div>
-			
-			<div class="chat_btn">
-				<input type="hidden" id="chat_receipt" value="">
-				<input type="text" class="chat_msg" placeholder="Message">
-				<input type="button" class="chat_send" value="Send" onclick="">
+			<div class="chat_main">
+				<div class="chat_cont">
+				
+				</div>
+				
+				<div class="chat_btn">
+					<input type="hidden" id="chat_receipt" value="">
+					<input type="text" onkeydown="" class="chat_msg" placeholder="Message" >
+					<Button class="chat_send" onclick=""><img class="chat_list_img" alt="" src="${ctxPath }/resources/images/icon/m_send_icon.png"></Button>
+				</div>
 			</div>
 		</div>
 	</div>
