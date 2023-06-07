@@ -117,8 +117,6 @@ public class CampingDAOImpl implements CampingDAO{
 	@Override
 	public List<CampingDTO> getCampingAddList(Map<String, Object> keyList) {
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
-=======
 		
 		try {
 			String sql = getSql("camping_list_add", keyList);
@@ -127,7 +125,6 @@ public class CampingDAOImpl implements CampingDAO{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
->>>>>>> refs/remotes/origin/master
 		return sqlSession.selectList("camping_list_add", keyList);
 	}
 }
