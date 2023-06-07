@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set value="${List }" var="list"/>
 <c:set value="${Lat }" var="lat"/>
@@ -33,7 +33,9 @@
 			<c:forEach items="${list }" var="dto">
 			<c:set value="${dto.getCategory() }" var="cate"/>
 				<div class="weather_wrap">
-					<h4>${dto.getFcstTime() }</h4>
+					<c:set var="fcstTime" value="${dto.getFcstTime()}" />
+					<c:set var="substringTime" value="${fn:substring(fcstTime,0,2)}" />
+					<h4>${substringTime}:00</h4>
 					<div class="weather_info_wrap">
 						<div class="weather_cate_info">
 						  <c:choose>
