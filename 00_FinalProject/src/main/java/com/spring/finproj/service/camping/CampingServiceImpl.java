@@ -156,6 +156,19 @@ public class CampingServiceImpl implements CampingService {
 	public List<CampingDTO> getCampingAddList(int content_id, String keyword, String category) {
 		List<CampingDTO> list;
 		List<String> cateList = null;
+<<<<<<< HEAD
+		if(category!=""||category!=null) {
+			cateList = new ArrayList<String>();
+			if (category.equals("경상") || category.equals("충청") || category.equals("전라")) {
+				cateList.add(category);
+				cateList.add(category + "남도");
+				cateList.add(category + "북도");
+				cateList.add(category.charAt(0)+"북");
+				cateList.add(category.charAt(0)+"남");
+			}else {
+				cateList.add(category);
+			}
+=======
 		
 
 		System.out.println(category);
@@ -193,9 +206,62 @@ public class CampingServiceImpl implements CampingService {
 			keyList.put("content_id", content_id);
 			
 			list = campingDAO.getCampingAddList(keyList);
+>>>>>>> refs/remotes/origin/master
 		}
 		
+<<<<<<< HEAD
+		
+		
+		if(content_id==0) {
+			if((keyword==null || keyword=="") && (cateList==null||cateList.size()==0)) {
+				
+				 list = campingDAO.getCampingAddList();
+				 
+			}else {
+				System.out.println(cateList);
+				System.out.println(keyword);
+				System.out.println(1);
+				Map<String, Object> keyList = new HashMap<String, Object>();
+				keyList.put("keyword", keyword);
+				keyList.put("category", cateList);
+				
+				 list = campingDAO.getCampingAddList(keyList);
+				 
+			}
+			
+		}else { // content_id 보다 큰 리스트
+			if((keyword==null || keyword=="") && (cateList==null)) {
+				 
+				list = campingDAO.getCampingAddList(content_id);
+				
+			}else {
+				
+				Map<String, Object> keyList = new HashMap<String, Object>();
+				keyList.put("keyword", keyword);
+				keyList.put("category", cateList);
+				keyList.put("content_id", content_id);
+				
+				list = campingDAO.getCampingAddList(keyList);
+				 
+			}
+		}
+		
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("content_id", ((Integer)content_id).toString());
+//		map.put("loc1", keyword);
+//		if (keyword.equals("경상") || keyword.equals("충청") || keyword.equals("전라")) {
+//			map.put("loc2", keyword + "남도");
+//			map.put("loc3", keyword + "북도");
+//			map.put("loc4", keyword.charAt(0)+"북");
+//			map.put("loc5", keyword.charAt(0)+"남");
+//		}
+//		System.out.println(map);
+//		
+//		List<CampingDTO> list = campingDAO.getCampingAddList(map);
+
+=======
 		System.out.println(list);
+>>>>>>> refs/remotes/origin/master
 		return list;
 	}
 

@@ -31,7 +31,11 @@
 		</div>
 		<div class="decl_modal_body">
 			<textarea rows="" cols="" class="decl_modal_text"></textarea>
+<<<<<<< HEAD
+			<input class="decl_modal_btn" type="button" value="제출하기" onclick="declaration()">
+=======
 			<input class="decl_modal_btn" type="button" value="제출하기" onkeydown="if( event.keyCode == 13 ){declaration();}" onclick="declaration()">
+>>>>>>> refs/remotes/origin/master
 		</div>
 	</div>
 	<div class="list_main">

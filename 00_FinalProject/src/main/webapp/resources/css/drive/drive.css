@@ -33,6 +33,11 @@ div#drive_main_wrap {
     font-weight: bold;
 }
 
+<<<<<<< HEAD
+.drive_road_info {
+    margin-bottom: 30px;
+}
+=======
 hr {
     width: 80%;
     border-color: #DCDCDC;
@@ -47,6 +52,7 @@ img {
     margin-bottom: 30px;
 }
 
+>>>>>>> refs/remotes/origin/master
 
 input[id$="drive"] {
 	border: none;
