@@ -1,6 +1,6 @@
 @charset "EUC-KR";
-*{
-	font-family: Source Sans Pro;
+html {
+	font-family: 'Source Sans Pro', sans-serif;
 	font-size: 16px;
 }
 
@@ -242,7 +242,7 @@ a:hover{
 	align-items: center;
 }
 
-/* ºñ·Î±×ÀÎ ½Ã */
+/* ï¿½ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ */
 .user_menu_body form{
 	display: flex;
     flex-direction: column;
@@ -300,7 +300,7 @@ a:hover{
 	width: 100%;
 }
 
-/* ·Î±×ÀÎ ½Ã */
+/* ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ */
 
 .user_menu_logon_cont{
 	display: flex;
@@ -318,7 +318,7 @@ a:hover{
 	margin-bottom: 10px;
 }
 
-/* Ä«ÇÇ¶óÀÌÆ® */
+/* Ä«ï¿½Ç¶ï¿½ï¿½ï¿½Æ® */
 #header .user_menu_foot{
 	position: absolute;
 	bottom: 0;

@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-<<<<<<< HEAD
 .camp_head {
   display: flex;
   justify-content: space-between;
@@ -38,6 +37,7 @@
 #camping_wrap {
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
 }
 
 .camping_side_ul{
@@ -63,6 +63,7 @@
 
 .camping_side_ul li:hover {
 	background: #6FCF97;
+	cursor: pointer;
 }
 
 .camping_side_ul li:hover a {
@@ -93,7 +94,7 @@
 
 .side_search {
 	display: flex;
-	margin-bottom: 10%;
+	margin-bottom: 40px;
 	position: relative;
 	background-color: white;
 	border-bottom: 1px solid black;
@@ -124,7 +125,15 @@
 .camping_list_wrap img {
 	width: 600px;
 	height: auto;
-=======
+}
+
+#camping_search_wrap {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/* =======
 .camping_side_ul{
 	display: flex;
 	justify-content: space-around;
@@ -240,4 +249,5 @@
   color: #AFAFAF;
   font-size: .95em;
 >>>>>>> refs/remotes/origin/master
-}
+} 
+*/
