@@ -35,6 +35,12 @@ $(document).ready(function(){
 			}
 		}
 	});
+	//터치 게시판 추가
+	$('body').on("touchend",function(event){
+		if(($(window).scrollTop()+$(window).innerHeight()) >= $(document).height()-1){
+			boardAddList();
+		}
+	});
 	
 	//게시판 상세메뉴 모달창 닫기
 	$('body').on('click', function(event){
@@ -56,6 +62,17 @@ $(document).ready(function(){
 });
 
 let main_text = new Map();
+
+//리뷰작성 이동
+function review_write_move(content_id, authen){
+	if(authen){
+		location.href=ctxPath+'/camping/write?content_id='+content_id;
+	}else{
+		if(confirm('글 작성을 위해 유저 인증이 필요합니다. 이동하시겠습니까.')){
+			location.href=ctxPath+'/user/mypage';
+		}
+	}
+}
 
 //본문 더보기
 function more_text_func(self, no){

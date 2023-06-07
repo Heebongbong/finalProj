@@ -43,17 +43,26 @@
 			<div class="alarm_modal_overlay">
 				<div class="alarm_modal_window">
 					<c:if test="${alarmList.get('board_like').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(1)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_b_like_icon.png">당신의 게시물을 ${alarmList.get('board_like').getCheckCount() }명이 더 좋아해요.</a></p>
+						<p><a href="javascript:alarm_move_href(1)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_b_like_icon.png">
+						<span>당신의 게시물을 ${alarmList.get('board_like').getTotalCount() }명이 더 좋아해요.<br>
+							(새로운 알람 : ${alarmList.get('board_like').getCheckCount() })</span>
+						</a></p>
 					</c:if>
 					<c:if test="${alarmList.get('ment_like').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(2)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_m_like_icon.png">당신의 댓글을 ${alarmList.get('ment_like').getCheckCount() }명이 더 좋아해요.</a></p>
+						<p><a href="javascript:alarm_move_href(2)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_m_like_icon.png">
+							<span>당신의 댓글을 ${alarmList.get('ment_like').getTotalCount() }명이 더 좋아해요.<br>
+							(새로운 알람 : ${alarmList.get('ment_like').getCheckCount() })</span>
+						</a></p>
 					</c:if>
 					<c:if test="${alarmList.get('ment_ins').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(3)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_ment_icon.png">게시물에 새로운 댓글이 ${alarmList.get('ment_ins').getCheckCount() }개 달렸어요!</a></p>
+						<p><a href="javascript:alarm_move_href(3)"><img alt="" src="${ctxPath }/resources/images/icon/alarm_ment_icon.png">
+							<span>게시물에 새로운 댓글이 ${alarmList.get('ment_ins').getTotalCount() }개 달렸어요!<br>
+							(새로운 알람 : ${alarmList.get('ment_ins').getCheckCount() })</span>
+						</a></p>
 					</c:if>
-					<%-- <c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
-						<p><a href="javascript:alarm_move_href(4)"> ${alarmList.get('chat_on').getCheckCount() }</a></p>
-					</c:if> --%>
+					<c:if test="${alarmList.get('new_check') == 0 }">
+						<p><a href="javascript:"><img alt="" src="${ctxPath }/resources/images/icon/top_icon(2).png">새로운 알람이 없습니다.</a></p>
+					</c:if>
 				</div>
 			</div>
 		</c:if>
@@ -62,7 +71,7 @@
 	<!-- chat manage  -->
 	<div class="chat_wrap">
 		<div class="chat_title">
-			<p class="chat_title_p chat_title_p_user"><a href="javascript:"><img class="chat_title_img" alt="" src="${loginUser.profile }">${loginUser.nickname }</a><button onclick="close_chat()">나가기</button></p>
+			<p class="chat_title_p chat_title_p_user"><a href="javascript:"><img class="chat_title_img" alt="" src="${loginUser.profile }">${loginUser.nickname }</a><button onclick="close_chat()">닫기</button></p>
 			<p class="chat_title_p chat_title_p_send"><a href="javascript:"><img class="chat_title_img chat_title_img_send" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png"><span class="chat_title_nick_send"></span></a></p>			
 		</div>
 		<div class="chat_list_main">

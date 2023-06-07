@@ -19,7 +19,6 @@ section, summary, time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 	box-sizing: border-box;
 }
@@ -33,7 +32,6 @@ body {
 	-webkit-text-size-adjust: none;
 	width: 800px;
 	margin: auto;
-	height: 100%;
 }
 ol, ul, li {
 	list-style: none;
@@ -70,7 +68,7 @@ a:hover{
 
 #container{
 	width: 800px;
-	margin: 100px auto;
+	margin: 100px auto 0 auto;
 	background-color: white;
 	position: relative;
 	height: 100%;
@@ -94,7 +92,6 @@ a:hover{
 	height: 100%;
 	position: relative;
 	width: 100%;
-	border-bottom: 1px solid black;
 }
 .login_navi_logo_li{
 	width: 110px;
@@ -171,7 +168,7 @@ a:hover{
 	right: 100px;
 	background-color: white;
 	width: 350px;
-	height: 120px;
+	height: 150px;
 	flex-direction: column;
 	justify-content: space-around;
 	padding: 5px;
@@ -202,31 +199,13 @@ a:hover{
 	justify-content: flex-start;
 	width: 100%;
 }
-.alarm_modal_window img{
-	width: 23px;
-	height: 23px;
-	margin-right: 10px;
-}
-.alarm_modal_window p{
-	border-bottom: 1px solid #c4c4c4;
-	height: 40px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-}
-.alarm_modal_window p a{
-	display: flex;
-	justify-content: flex-start;
-	width: 100%;
-}
-
 
 
 /* user_menu */
-#header .user_menu_wrap{
+.user_menu_wrap{
 	display: none;
 	width: 35%;
-	background-color: #fff;
+	background-color: #f1f1f1;
     position: absolute;
     right: 0;
 	top: 100px;
@@ -332,7 +311,7 @@ a:hover{
 .chat_wrap{
     position: sticky;
     z-index: 5;
-    background-color: white;
+    background-color: #f1f1f1;
     width: 550px;
     display: none;
     flex-direction: column;
@@ -444,6 +423,7 @@ a:hover{
 .chat_btn{
 	height: 40px;
 	position: relative;
+	background-color: white;
 }
 .chat_msg{
 	height: 20px;
