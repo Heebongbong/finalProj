@@ -161,9 +161,10 @@ function openwindows() {
 					    		"<div class='drive_road_info'>" +
 					    			wp.info +
 					    		"</div>";
-				    
+					
+					$('#drive_road_view').css('height', 'auto');
 				    $('#drive_road_view').html(table);
-				    
+
 				},
 				error: function(err) {
 				}
