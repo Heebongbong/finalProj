@@ -58,11 +58,8 @@
 			</ul>
 		</div>
 	</div>
-	<div class="market_declaration_check">
-		<a href="javascript:" onclick="fraud_check_window()"><i class="fa fa-search-minus" aria-hidden="true"></i></a>
-	</div>
 	<form class="market_search" action="" method="get">
-		<input type="text" value="${Keyword }" id="market_keyword" placeholder="중고거래 검색" name="keyword">
+		<input type="text" value="${M_Keyword }" id="market_keyword" placeholder="중고거래 검색" name="keyword">
 		<button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 	</form>
 	<input type="hidden" value="${Category }" id="market_category">
@@ -75,7 +72,7 @@
 		</div>
 		<div class="decl_modal_body">
 			<textarea rows="" cols="" class="decl_modal_text"></textarea>
-			<input class="decl_modal_btn" type="button" value="제출하기" onclick="declaration()">
+			<input class="decl_modal_btn" type="button" value="제출하기" onkeydown="if( event.keyCode == 13 ){declaration();}" onclick="declaration()">
 		</div>
 	</div>
 	<div class="market_main">

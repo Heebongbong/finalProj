@@ -156,6 +156,7 @@ public class CampingServiceImpl implements CampingService {
 	public List<CampingDTO> getCampingAddList(int content_id, String keyword, String category) {
 		List<CampingDTO> list;
 		List<String> cateList = null;
+<<<<<<< HEAD
 		if(category!=""||category!=null) {
 			cateList = new ArrayList<String>();
 			if (category.equals("경상") || category.equals("충청") || category.equals("전라")) {
@@ -167,8 +168,48 @@ public class CampingServiceImpl implements CampingService {
 			}else {
 				cateList.add(category);
 			}
+=======
+		
+
+		System.out.println(category);
+		System.out.println(keyword);
+		System.out.println(content_id);
+		
+		if((keyword==null || keyword=="") && (category==""||category==null)) {
+			if(content_id==0) {
+				System.out.println(1);
+				list = campingDAO.getCampingAddList();
+			}else {
+				System.out.println(2);
+				list = campingDAO.getCampingAddList(content_id);
+			}
+		}else {
+			System.out.println(3);
+			
+			if(category!="" || category!=null) {
+				cateList = new ArrayList<String>();
+				
+				if (category.equals("경상") || category.equals("충청") || category.equals("전라")) {
+					cateList.add(category);
+					cateList.add(category + "남도");
+					cateList.add(category + "북도");
+					cateList.add(category.charAt(0)+"북");
+					cateList.add(category.charAt(0)+"남");
+				}else {
+					cateList.add(category);
+				}
+			}
+			
+			Map<String, Object> keyList = new HashMap<String, Object>();
+			keyList.put("keyword", keyword);
+			keyList.put("category", cateList);
+			keyList.put("content_id", content_id);
+			
+			list = campingDAO.getCampingAddList(keyList);
+>>>>>>> refs/remotes/origin/master
 		}
 		
+<<<<<<< HEAD
 		
 		
 		if(content_id==0) {
@@ -218,6 +259,9 @@ public class CampingServiceImpl implements CampingService {
 //		
 //		List<CampingDTO> list = campingDAO.getCampingAddList(map);
 
+=======
+		System.out.println(list);
+>>>>>>> refs/remotes/origin/master
 		return list;
 	}
 

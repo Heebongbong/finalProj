@@ -35,7 +35,7 @@
 			</div>
 			<div class="decl_modal_body">
 				<textarea rows="" cols="" class="decl_modal_text"></textarea>
-				<input class="decl_modal_btn" type="button" value="제출하기" onclick="declaration()">
+				<input class="decl_modal_btn" type="button" value="제출하기" onkeydown="if( event.keyCode == 13 ){declaration();}" onclick="declaration()">
 			</div>
 		</div>
 		<div id="camping_details">

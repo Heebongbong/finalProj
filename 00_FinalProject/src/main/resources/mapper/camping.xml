@@ -53,38 +53,25 @@
 	</select>
 	
 	<select id="camping_list_add" resultType="campingDTO" parameterType="map">
-	select * from camping where not firstImageUrl = '' and 
-	facltNm like concat('%', #{keyword}, '%') and 
-	<if test="content_id!=0">
-		<![CDATA[
-			content_id < #{content_id} and
-		]]>
-	</if>
-	(
-	<foreach collection="cateList" item="item" separator="or">
-		addr1 like concat('%', #{item}, '%')
-	</foreach>
-	) order by content_id desc Limit 5
-	
-	
-	<!-- 	<choose>
-			<when test="(loc1 =='경상' || loc1 =='충청'|| loc1 =='전라')">
-				<![CDATA[
-					SELECT * FROM camping WHERE NOT firstImageUrl = '' 
-						AND (addr1 LIKE CONCAT('%',#{loc1},'%') OR addr1 LIKE CONCAT('%',#{loc2},'%') 
-						OR addr1 LIKE CONCAT('%',#{loc3},'%') OR addr1 LIKE CONCAT('%',#{loc4},'%') 
-						OR addr1 like CONCAT('%',#{loc5},'%')) 
-						AND content_id < #{content_id} ORDER BY content_id DESC Limit 5
-				]]>
-			</when>
-			<otherwise>
-				<![CDATA[
-					SELECT * FROM camping WHERE NOT firstImageUrl = '' 
-						AND (addr1 LIKE CONCAT('%',#{loc1},'%'))
-						AND content_id < #{content_id}  ORDER BY content_id DESC Limit 5
-				]]>
-			</otherwise>
-		</choose> -->
+		select * from camping where not firstImageUrl = ''
+		
+		<if test="keyword!=''">
+			and facltNm like concat('%', #{keyword}, '%')
+		</if>
+		
+		<if test="content_id!=0">
+			<![CDATA[
+				 and content_id < #{content_id}
+			]]>
+		</if>
+		
+		<if test="category.size!=0">
+			<foreach collection="category" item="item" separator="or" open="and (" close=")">
+				addr1 like concat('%', #{item}, '%')
+			</foreach>
+		</if>
+		
+		 order by content_id desc Limit 5
 	</select>
 
 	<select id="camping_cont" resultType="campingDTO" parameterType="int">
