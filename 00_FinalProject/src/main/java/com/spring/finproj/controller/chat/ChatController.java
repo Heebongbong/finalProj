@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.finproj.model.chat.ChatDTO;
 import com.spring.finproj.model.chat.FaqDTO;
 import com.spring.finproj.service.chat.ChatService;
 
@@ -22,9 +21,9 @@ public class ChatController {
 	
 	@RequestMapping("/enter")
 	@ResponseBody
-	public List<ChatDTO> chatEnter(int user_no, HttpSession session) {
+	public Map<String, Object> chatEnter(int user_no, HttpSession session) {
 		
-		List<ChatDTO> list = chatService.getChatListContUser(user_no, session);
+		Map<String, Object> list = chatService.getChatListContUser(user_no, session);
 		return list;
 	}
 	

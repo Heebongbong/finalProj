@@ -24,18 +24,23 @@ public class ChatServiceImpl implements ChatService {
 	private UserDAO userDAO;
 	
 	@Override
-	public List<ChatDTO> getChatListContUser(int user_no, HttpSession session) {
+	public Map<String, Object> getChatListContUser(int user_no, HttpSession session) {
 		// TODO Auto-generated method stub
 		UserDTO loginUser = (UserDTO)session.getAttribute("LoginUser");
+		UserDTO send_user = userDAO.getUserContent(user_no);
 		
 		ChatDTO dto = new ChatDTO();
 		dto.setUser_no1(loginUser.getUser_no());
 		dto.setUser_no2(user_no);
 		
-		List<ChatDTO> chatList = chatDAO.getChatList(dto);
-		System.out.println(chatList);
+		Map<String, Object> list = new HashMap<String, Object>();
 		
-		return chatList;
+		List<ChatDTO> chatList = chatDAO.getChatList(dto);
+		
+		list.put("ChatList", chatList);
+		list.put("Send_user", send_user);
+		
+		return list;
 	}
 
 	@Override

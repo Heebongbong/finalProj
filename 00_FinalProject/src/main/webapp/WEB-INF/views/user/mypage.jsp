@@ -95,36 +95,9 @@
 					<p class="pwd_reError">&nbsp;</p>
 				</div>
 			</div>
-			
-<<<<<<< HEAD
-			<p class="text">이메일</p>
-			<input name="email" class="noWhitespace" value="${loginUser.email }" readonly>
-			<p class="emailError">&nbsp;</p>
-			 
-			<p class="text">닉네임</p>
-			<input name="nickname" class="noWhitespace" value="${loginUser.nickname }">
-			<p class="nicknameError">&nbsp;</p>
-			
-			<p class="text">비밀번호</p>
-			<input type="password" name="pwd_check" id="check_pwd">
-			<button type="button" onclick="checkPwd()">비밀번호 확인</button>
-			<p class="pwd_checkError">&nbsp;</p>
-			
-			<p class="text">새 비밀번호</p>
-			<input type="password" id="pwd" name="pwd" class="noWhitespace">
-			<p class="pwdError">&nbsp;</p>
-			
-			<p class="text">새 비밀번호 확인</p>
-			<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
-			<p class="pwd_reError">&nbsp;</p>
-		</div>
-		<button type="submit" id="submitBtn">수정하기</button>
-	</form>
-=======
 			<div class="modify">
 				<button type="submit" id="submitBtn">수정하기</button>
 			</div>
 		</form>
 	</div>
->>>>>>> branch 'master' of https://github.com/Heebongbong/finalProj.git
 </div>

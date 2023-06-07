@@ -5,7 +5,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
-<c:set var="dto" value="${Content }" />
+<c:set var="camp_dto" value="${Content }" />
 <script type="text/javascript">
 	const campName = '${dto.getFacltNm() }';
 	const campLineIntro = '${dto.getLineIntro() }';
