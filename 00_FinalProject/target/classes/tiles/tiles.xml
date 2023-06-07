@@ -20,7 +20,15 @@
 		<put-attribute name="inc_js" value="/resources/js/weather/inc.js" />
     	<put-attribute name="footer" value="/WEB-INF/views/weather/inc/footer.jsp" />
 	</definition>
-
+	
+	<definition name="drive_set" template="/WEB-INF/views/drive/inc/layout.jsp">
+ 		<put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+		<put-attribute name="base_css" value="/resources/css/inc/inc.css" />
+		<put-attribute name="inc_css" value="/resources/css/weather/inc.css" />
+		<put-attribute name="base_js" value="/resources/js/inc/inc.js" />
+		<put-attribute name="inc_js" value="/resources/js/weather/inc.js" />
+    	<put-attribute name="footer" value="/WEB-INF/views/drive/inc/footer.jsp" />
+	</definition>
 
 	<definition name="admin_set" template="/WEB-INF/views/admin/inc/layout.jsp">
  		<put-attribute name="header" value="/WEB-INF/views/admin/inc/header.jsp" />
@@ -38,12 +46,18 @@
 		<put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
 	</definition>
 	
-	
 	<definition name="weather.*" extends="weather_set">
 		<put-attribute name="title" value="Camping HomePage" />
 		<put-attribute name="css" value="/resources/css/weather/{1}.css" />
 		<put-attribute name="js" value="/resources/js/weather/{1}.js" />
 		<put-attribute name="body" value="/WEB-INF/views/weather/{1}.jsp" />
+	</definition>
+	
+	<definition name="drive.*" extends="drive_set">
+		<put-attribute name="title" value="Camping HomePage" />
+		<put-attribute name="css" value="/resources/css/drive/{1}.css" />
+		<put-attribute name="js" value="/resources/js/drive/{1}.js" />
+		<put-attribute name="body" value="/WEB-INF/views/drive/{1}.jsp" />
 	</definition>
 
 	<definition name="*.*" extends="default_set">

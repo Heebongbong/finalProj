@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set value="${List }" var="list"/>
 <c:set value="${Lat }" var="lat"/>
@@ -11,7 +12,7 @@
 	let serv_lng = '${lng }';
 </script>
 <div id="weather_wrap">
-	<div id="map" style="width: 700px; height: 400px;"></div>
+	<div id="map" style="width: 650px; height: 350px;"></div>
 	<div id="weather_search">
 		<input type="text" placeholder="지역명 입력" class="address search-bar" value="${Addr }">
 		<i type="button" class="fas fa-search" value="날씨 보기" onclick="moveWeather()"></i>
@@ -22,8 +23,8 @@
 				<h3>${list.get(0).getBaseDate() }/${list.get(0).getBaseTime() } 기준 측정 결과</h3>
 				<div class="weather_index_wrap">
 					<div class="Timestamp"></div>
-					<img alt="" src="${ctxPath }/resources/images/weather/icon_Weather.png"  style="padding-left: 3px;">
-					<img alt="" src="${ctxPath }/resources/images/weather/icon_Temp.png" style="margin-right: 9px;">
+					<img alt="" src="${ctxPath }/resources/images/weather/icon_Weather.png">
+					<img alt="" src="${ctxPath }/resources/images/weather/icon_Temp.png" style="margin-left: 3px; margin-right: 4px;">
 					<img alt="" src="${ctxPath }/resources/images/weather/icon_Rain.png">
 					<img alt="" src="${ctxPath }/resources/images/weather/icon_Rmm.png">
 					<img alt="" src="${ctxPath }/resources/images/weather/icon_Stroke.png">
@@ -69,23 +70,7 @@
 							${cate.t1h } ºC
 						</div>
 						<div class="weather_cate_info">
-						  <c:choose>
-						    <c:when test="${cate.reh > 75}">
-						      <img alt="" src="${ctxPath }/resources/images/weather/Rain_100.png">
-						    </c:when>
-						    <c:when test="${75 >= cate.reh} && ${cate.reh > 50}">
-						      <img alt="" src="${ctxPath }/resources/images/weather/Rain_75.png">
-						    </c:when>
-						    <c:when test="${50 >= cate.reh} && ${cate.reh > 25}">
-						      <img alt="" src="${ctxPath }/resources/images/weather/Rain_50.png">
-						    </c:when>
-						    <c:when test="${25 >= cate.reh} && ${cate.reh > 0}">
-						      <img alt="" src="${ctxPath }/resources/images/weather/Rain_25.png">
-						    </c:when>
-						    <c:otherwise>
-						      <img alt="" src="${ctxPath }/resources/images/weather/Rain_0.png">
-						    </c:otherwise>
-						  </c:choose>
+						  ${cate.reh } %
 						</div>
 						<div class="weather_cate_info">
 							<c:if test="${cate.rn1 == '강수없음'}">0mm</c:if>

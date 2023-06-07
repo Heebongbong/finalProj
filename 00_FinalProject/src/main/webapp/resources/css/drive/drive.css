@@ -33,20 +33,9 @@ div#drive_main_wrap {
     font-weight: bold;
 }
 
-hr {
-    width: 80%;
-    border-color: #DCDCDC;
-}
-
-img {
-	width: 100%;
-	margin: 20px 0;
-}
-
 .drive_road_info {
     margin-bottom: 30px;
 }
-
 
 input[id$="drive"] {
 	border: none;
