@@ -1,5 +1,9 @@
-@charset "EUC-KR";
+@charset "UTF-8";
 
+html {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 16px;
+}
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -22,10 +26,6 @@ section, summary, time, mark, audio, video {
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
-}
-html{
-	font-family: Source Sans Pro;
-	font-size: 16px;
 }
 body {
 	line-height: 1;
@@ -243,7 +243,7 @@ a:hover{
 	align-items: center;
 }
 
-/* ��α��� �� */
+/* 占쏙옙慣占쏙옙占� 占쏙옙 */
 .user_menu_body form{
 	display: flex;
     flex-direction: column;
@@ -301,7 +301,7 @@ a:hover{
 	width: 100%;
 }
 
-/* �α��� �� */
+/* 占싸깍옙占쏙옙 占쏙옙 */
 
 .user_menu_logon_cont{
 	display: flex;
@@ -319,7 +319,7 @@ a:hover{
 	margin-bottom: 10px;
 }
 
-/* ī�Ƕ���Ʈ */
+/* 카占실띰옙占쏙옙트 */
 #header .user_menu_foot{
 	position: absolute;
 	bottom: 0;

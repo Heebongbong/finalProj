@@ -1,6 +1,7 @@
 /**
  * 
  */
+ 
 $(document).ready(function(){
 	
 	$(".index_camping_list").slick({
@@ -32,7 +33,9 @@ $(document).ready(function(){
 			$('.detail_modal_overlay').hide();
 		}
 	});
+	
 });
+
 let main_text = new Map();
 
 //본문 더보기

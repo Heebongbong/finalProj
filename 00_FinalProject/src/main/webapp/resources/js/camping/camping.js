@@ -14,6 +14,31 @@ $(document).ready(function(){
 			}
 		}
 	});
+
+	// 선택 지역 배경색 고정
+	let category = document.getElementById('hidden_category').value;
+
+	if (category) {
+    $('a[href="javascript:locSearch(\'' + category + '\')"]').css({
+      'background': '#6FCF97',
+      'color': '#FFFFFF'
+    });
+    $('a[href="javascript:locSearch(\'' + category + '\')"]').parent('li').css('background', '#6FCF97');
+  }
+	// // 선택 지역 배경색 고정
+	// let hiddenCategory = document.getElementById('hidden_category').value;
+	// let campingSideUl = document.querySelector('.camping_side_ul');
+	// let campingSideLinks = campingSideUl.getElementsByTagName('a');
+
+	// for (let i = 0; i < campingSideLinks.length; i++) {
+	// 	let link = campingSideLinks[i];
+
+	// 	if (link.getAttribute('href').includes(`keyword=${hiddenKeyword}`)) {
+	// 		link.style.background = '#6FCF97';
+	// 		link.style.color = '#FFFFFF';
+	// 		link.parentNode.style.background = '#6FCF97';
+	// 	}
+	// }
 });
 
 //카테고리 클릭시 url 요청
@@ -25,7 +50,6 @@ function locSearch(cate){
 	if(category==null){
 		category = $('#hidden_category').val();
 	}
-	 
 	location.href=ctxPath+"/camping/camping?keyword="+keyword+"&category="+category;
 }
 

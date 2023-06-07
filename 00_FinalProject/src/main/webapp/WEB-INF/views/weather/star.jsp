@@ -22,13 +22,13 @@ let intervalId;
 let picture1Img = $('#gifEffectImg');
 
 </script>
-<div id="star_wrap" style="width: 750px;">
-	<div>
+<div id="star_wrap" style="width: 750px; height: 600px">
+	<div style="text-align: center">
 		<c:if test="${list.size() > 30 }">
-			<img alt="" src="${list.get(list.size()-30) }" style="width: 350px; height: 350px;" id="gifEffectImg">
+			<img alt="" src="${list.get(list.size()-30) }" style="width: 550px; height: 550px;" id="gifEffectImg">
 		</c:if>
 		<c:if test="${list.size() < 30 }">
-			<img alt="" src="${list.get(0) }" style="width: 350px; height: 350px;" id="gifEffectImg">
+			<img alt="" src="${list.get(0) }" style="width: 550px; height: 550px;" id="gifEffectImg">
 		</c:if>
 	</div>
 </div>

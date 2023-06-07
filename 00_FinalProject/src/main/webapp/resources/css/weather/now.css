@@ -1,16 +1,39 @@
 @charset "UTF-8";
 
 .weather_wrap{
-	margin-top: 20px;	
+	margin-top: 12px;
+	display: flex;
+    justify-content: space-evenly;	
+}
+.weather_wrap h4{
+	display: flex;
+    align-items: flex-end;
 }
 .weather_info_wrap{
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
+	padding-left: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
 }
 .weather_cate_info{
-	width: 20%;
+	display: flex;
+    width: 16%;
+    align-items: center;
+    justify-content: center;
 }
+
+.weather_index_wrap {
+	padding-left: 11%;
+    padding-right: 7%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.day_style {
+	width: 30%;
+}
+
 
 #map {
     position: relative;
@@ -39,4 +62,9 @@
     z-index: 0;
     cursor: url(http://static.naver.net/maps/mantle/2x/openhand.cur), default;
 	
+}
+
+h3 {
+text-align: right;
+font-size: 5px;
 }

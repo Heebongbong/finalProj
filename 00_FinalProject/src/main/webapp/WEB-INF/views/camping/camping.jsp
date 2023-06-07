@@ -35,9 +35,8 @@
 		</div>
 			
 	</div>
-
 	<input type="hidden" value="${Category }" id="hidden_category">
 	<div id="camping_search_wrap">
-
+		
 	</div>
 </div>

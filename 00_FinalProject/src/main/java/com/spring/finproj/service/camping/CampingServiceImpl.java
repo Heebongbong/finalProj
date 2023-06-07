@@ -156,7 +156,6 @@ public class CampingServiceImpl implements CampingService {
 	public List<CampingDTO> getCampingAddList(int content_id, String keyword, String category) {
 		List<CampingDTO> list;
 		List<String> cateList = null;
-		
 
 		System.out.println(category);
 		System.out.println(keyword);
