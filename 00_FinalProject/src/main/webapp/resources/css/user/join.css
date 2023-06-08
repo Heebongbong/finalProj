@@ -76,16 +76,16 @@
     color : #9d9d9d;
 }
 
-[class$="Error"] {
+#mypage_container_center [class$="Error"] {
   color: #c7c7c7 !important;
   font-size: 10px;	
 }
 
-p {
+#mypage_container_center p {
 	color : #9d9d9d;
 } 
 
-::placeholder {
+#mypage_container_center ::placeholder {
     font-size: 9px;
     color: #9d9d9d;
 }
@@ -109,7 +109,7 @@ p {
 	color: white;
 }
 
-span, .profile label {
+#mypage_container_center span, .profile label {
     font-size: 9px;
 }
 

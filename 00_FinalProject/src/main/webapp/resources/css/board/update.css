@@ -100,7 +100,7 @@ textarea#content {
     resize: none;
 }
 
-::placeholder {
+.board_wrap ::placeholder {
     font-size: 14px;
     color: #CBCBCB;
 }
