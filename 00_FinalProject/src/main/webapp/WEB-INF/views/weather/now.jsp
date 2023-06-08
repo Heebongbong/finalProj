@@ -12,23 +12,25 @@
 	let serv_lng = '${lng }';
 </script>
 <div id="weather_wrap">
-	<div id="map" style="width: 650px; height: 350px;"></div>
-	<div id="weather_search">
-		<input type="text" placeholder="지역명 입력" class="address search-bar" value="${Addr }">
-		<i type="button" class="fas fa-search" value="날씨 보기" onclick="moveWeather()"></i>
+  <div id="map" style="width: 650px; height: 350px;"></div>
+	
+	<div class="weather_search">
+		<input type="text" placeholder="날씨가 궁금한 지역을 입력하세요." id="locs" class="search_weather" value="${Addr }">
+		<button type="button" onclick="moveWeather()"><i class="fa fa-search" aria-hidden="true"></i></button>
 	</div>
+	
 	<div id="now_wrap">
 		<c:if test="${!empty list }">
 			<div>
-				<h3>${list.get(0).getBaseDate() }/${list.get(0).getBaseTime() } 기준 측정 결과</h3>
+				<%-- <h3>${list.get(0).getBaseDate() }/${list.get(0).getBaseTime() } 기준 측정 결과</h3> --%>
 				<div class="weather_index_wrap">
 					<div class="Timestamp"></div>
-					<img alt="" src="${ctxPath }/resources/images/weather/icon_Weather.png">
-					<img alt="" src="${ctxPath }/resources/images/weather/icon_Temp.png" style="margin-left: 3px; margin-right: 4px;">
-					<img alt="" src="${ctxPath }/resources/images/weather/icon_Rain.png">
-					<img alt="" src="${ctxPath }/resources/images/weather/icon_Rmm.png">
-					<img alt="" src="${ctxPath }/resources/images/weather/icon_Stroke.png">
-					<img alt="" src="${ctxPath }/resources/images/weather/icon_Wind.png">
+					<img class="icon_weather" alt="" src="${ctxPath }/resources/images/weather/icon_Weather.png">
+					<img class="icon_temp" alt="" src="${ctxPath }/resources/images/weather/icon_Temp.png" style="margin-left: 3px; margin-right: 4px;">
+					<img class="icon_rain" alt="" src="${ctxPath }/resources/images/weather/icon_Rain.png">
+					<img class="icon_rmm" alt="" src="${ctxPath }/resources/images/weather/icon_Rmm.png">
+					<img class="icon_stroke" alt="" src="${ctxPath }/resources/images/weather/icon_Stroke.png">
+					<img class="icon_wind" alt="" src="${ctxPath }/resources/images/weather/icon_Wind.png">
 				</div>
 			<c:forEach items="${list }" var="dto">
 			<c:set value="${dto.getCategory() }" var="cate"/>
@@ -76,7 +78,7 @@
 						</div>
 						<div class="weather_cate_info">
 							<c:if test="${cate.rn1 == '강수없음'}">0mm</c:if>
-							<c:if test="${cate.rn1 != '강수없음'}">${cate.rn1 } mm</c:if>
+							<c:if test="${cate.rn1 != '강수없음'}">${cate.rn1 }</c:if>
 						</div>
 						<div class="weather_cate_info">
 						  <c:choose>
@@ -90,7 +92,7 @@
 						</div>
 						<div class="weather_cate_info">
 							${cate.wsd } m/s
-							<img alt="" src="${ctxPath }/resources/images/weather/Vector.png" style="transform: rotate(${cate.vec}deg)">
+							<img class="wind_degree_img" alt="" src="${ctxPath }/resources/images/weather/Vector.png" style="transform: rotate(${cate.vec}deg)">
 						</div>
 					</div>
 				</div>

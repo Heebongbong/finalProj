@@ -143,4 +143,10 @@ public class UserDAOImpl implements UserDAO{
 		return sqlSession.update("user_delete_admin", user_no);
 	}
 
+	@Override
+	public void updateUserProfile(UserDTO user) {
+		// TODO Auto-generated method stub
+		sqlSession.update("user_update_profile", user);
+	}
+
 }

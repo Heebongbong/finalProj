@@ -52,14 +52,14 @@
     font-size: 15px;
     margin-top: 0.4em;
     margin-bottom: 0.2em;
-    border-color: #a9a9a9;
+    border-bottom: #a9a9a9 solid 1px;
 }
 
 .text_part {
     margin: 0 10%;
 }
 .text_part_box {
-    margin-bottom: 1.5em;
+    margin: 1.5em 0;
 }
 
 .authen_box {
@@ -73,8 +73,13 @@
     color: #9d9d9d;
 }
 
+.social_profie_btn {
+    width: 55%;
+    font-size: .7em;
+}
+
 .authen_box button {
-    width: 60%;
+    width: 65%;
     height : 20px;
     font-size: 9px;
     margin-left: 2px;
@@ -87,7 +92,7 @@
 
 .modify button {
     font-size: 14px;
-    width: 100%;
+    width: 80%;
     height: 30px;
     color : #9d9d9d;
     font-weight: bold;
@@ -96,6 +101,7 @@
 
 .modify button:hover {
 	background-color: #6fcf97;
+    border: none;
 	color: white;
 }
 

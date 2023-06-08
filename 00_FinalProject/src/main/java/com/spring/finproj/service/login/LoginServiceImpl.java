@@ -40,6 +40,10 @@ public class LoginServiceImpl implements LoginService{
 		
 		if(dto!=null) { //정보 확인
 			if(dto.getPwd().equals(pwd)) {//비번일치
+				UserSessionDTO s_dto = userDAO.getUserSession(dto.getUser_no());
+				if(s_dto!=null) {//현재 쿠키와 일치하지 않는 기존 세션 존재
+					userDAO.deleteUserSessionContent(s_dto.getUser_no());
+				}
 				//세션 DB 저장
 				Long ext = (System.currentTimeMillis()/1000)+(60*60*6);
 				UserSessionDTO sessionDto = new UserSessionDTO();
@@ -61,6 +65,7 @@ public class LoginServiceImpl implements LoginService{
 				session.setMaxInactiveInterval(60*60*6);
 				
 				response.sendRedirect("/finproj/index");
+				
 			}else {//불일치
 				response.getWriter().println("<script>"
 						+ "alert('비밀번호가 다릅니다.');"
@@ -136,10 +141,16 @@ public class LoginServiceImpl implements LoginService{
 			//프로필 업데이트
 			if(!dto.isProfile_type()) {
   				dto.setProfile(user.getProfile());
+				userDAO.updateUserProfile(dto);
   			}
+			UserSessionDTO s_dto = userDAO.getUserSession(dto.getUser_no());
+			if(s_dto!=null) {//현재 쿠키와 일치하지 않는 기존 세션 삭제
+				userDAO.deleteUserSessionContent(s_dto.getUser_no());
+			}
 			user = dto;
 		}
 		System.out.println(user);
+		
 		//세션 DB 저장
 		Long ext = (System.currentTimeMillis()/1000)+(60*60);
 		UserSessionDTO sessionDto = new UserSessionDTO();
@@ -254,7 +265,12 @@ public class LoginServiceImpl implements LoginService{
 			//프로필 업데이트
 			if(!dto.isProfile_type()) {
   				dto.setProfile(user.getProfile());
+				userDAO.updateUserProfile(dto);
   			}
+			UserSessionDTO s_dto = userDAO.getUserSession(dto.getUser_no());
+			if(s_dto!=null) {//현재 쿠키와 일치하지 않는 기존 세션 삭제
+				userDAO.deleteUserSessionContent(s_dto.getUser_no());
+			}
 			user = dto;
 		}
 		
@@ -384,7 +400,12 @@ public class LoginServiceImpl implements LoginService{
   			//프로필 업데이트
   			if(!dto.isProfile_type()) {
   				dto.setProfile(user.getProfile());
+				userDAO.updateUserProfile(dto);
   			}
+			UserSessionDTO s_dto = userDAO.getUserSession(dto.getUser_no());
+			if(s_dto!=null) {//현재 쿠키와 일치하지 않는 기존 세션 삭제
+				userDAO.deleteUserSessionContent(s_dto.getUser_no());
+			}
   			user = dto;
   		}
   		

@@ -113,7 +113,6 @@ public class BoardServiceImpl implements BoardService {
 			
 			mapList2.put(d.getCm_no(), list2);
 			
-			
 		}
 		
 		HttpSession session = request.getSession();

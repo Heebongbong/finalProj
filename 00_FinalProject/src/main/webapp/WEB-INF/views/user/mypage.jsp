@@ -32,7 +32,7 @@
 							<input style="display: none;" type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
 						</div>
 						<c:if test="${loginUser.type eq 'K'|| loginUser.type eq 'N'}">
-							<input type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
+							<input class="social_profie_btn" type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
 						</c:if>
 						<c:if test="${loginUser.authen }">
 							<p class="text">인증 회원</p>

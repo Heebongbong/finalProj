@@ -3,6 +3,22 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="${sessionScope.LoginUser }" var="loginUser" />
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
+<script type="text/javascript">
+	function fileUpload(){
+		let fileInput = document.getElementById("upfile").files;
+		console.log(1);
+			if( fileInput.length > 0 ){
+				console.log(2);
+				for( var j = 0; j < fileInput.length; j++ ){
+					console.log(fileInput[j].name); // 파일명 출력
+					var fileOutput = document.createElement("p");
+	                fileOutput.innerHTML = fileInput[j].name; // 파일명을 <p> 요소에 설정
+	                document.getElementById("upfile").parentNode.appendChild(fileOutput); // <input> 요소의 부모 요소에 <p> 요소 추가
+				}
+			}
+
+	}
+</script>
 <div class="board_wrap">
 	<c:if test="${!empty Content_id }">
 		<div id="title">캠핑리뷰</div>

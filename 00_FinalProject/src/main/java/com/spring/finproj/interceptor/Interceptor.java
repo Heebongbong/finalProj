@@ -80,11 +80,12 @@ public class Interceptor implements HandlerInterceptor{
 						if(!user.isProfile_type()) {
 							String profile = refreshProfile(se_dto.getSessionID(), type);
 							user.setProfile(profile);
+							userDAO.updateUserProfile(user);
 						}
 						
 						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
 						
-						dto.setProfile(user.getProfile());
+						dto.setProfile(user.getProfile()); //프로필 적용
 						
 						//쿠키 등록
 						Cookie re_a_t = new Cookie("AccessToken", se_dto.getSessionID());
@@ -100,6 +101,7 @@ public class Interceptor implements HandlerInterceptor{
 						if(!user.isProfile_type()) {
 							String profile = refreshProfile(se_dto.getSessionID(), type);
 							user.setProfile(profile);
+							userDAO.updateUserProfile(user);
 						}
 						
 						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());
@@ -120,6 +122,7 @@ public class Interceptor implements HandlerInterceptor{
 						if(!user.isProfile_type()) {
 							String profile = refreshProfile(se_dto.getSessionID(), type);
 							user.setProfile(profile);
+							userDAO.updateUserProfile(user);
 						}
 						
 						UserDTO dto = userDAO.getUserContent(se_dto.getUser_no());

@@ -28,6 +28,25 @@
 	
 	naver.maps.Event.addListener(map, 'click', function(e) {
 	    marker.setPosition(e.latlng);
+
+        $.ajax({
+			url: ctxPath+'/drive/rev/geocode', 
+			type: 'GET',
+			data: {
+				coords_x: e.latlng.x,
+				coords_y: e.latlng.y,
+			},
+			async: false,
+			success: function(data) {
+				console.log(data);
+                $('.search-bar').val(data.addr);
+
+			},
+			error: function(err) {
+				console.log('오류');
+			}
+		});
+
 	});
 });
  

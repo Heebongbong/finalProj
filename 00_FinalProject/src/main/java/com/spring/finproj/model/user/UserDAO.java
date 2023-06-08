@@ -32,6 +32,7 @@ public interface UserDAO {
 	
 	//관리자
 	public int deleteUserAdmin(int user_no);
+	public void updateUserProfile(UserDTO user);
 	
 	
 }

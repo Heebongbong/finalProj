@@ -29,13 +29,13 @@
 			</c:if>
 		</ul>
 		
-		<hr>
+		<hr class="hr">
 		
 		<div class="text">내 용</div>
 		
 		<textarea class="form-control" rows="15" id="content" name="content">${dto.getContent() }</textarea>
 			
-		<hr>
+		<hr class="hr">
 		
 		<div class="bottom-container"> 	
 			<label for="upfile" class="text">첨부파일</label>
