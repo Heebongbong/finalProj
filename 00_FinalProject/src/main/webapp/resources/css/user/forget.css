@@ -31,7 +31,7 @@
     align-items: baseline;
 }
 
-button {
+#forgetForm button {
     background-color: white;
     border: 1px solid #9d9d9d;
     color: #9d9d9d;
@@ -44,12 +44,12 @@ button {
     margin-left: 2px;
 }
 
-[class$="Error"] {
+#forgetForm [class$="Error"] {
   color: #c7c7c7 !important;
   font-size: 10px;	
 }
 
-::placeholder {
+#forgetForm ::placeholder {
     font-size: 9px;
     color: #9d9d9d;
 }
@@ -96,6 +96,6 @@ button {
 	color: white;
 }
 
-p.input_phoneError {
+.input_phoneError {
     margin-bottom: 10%;
 }

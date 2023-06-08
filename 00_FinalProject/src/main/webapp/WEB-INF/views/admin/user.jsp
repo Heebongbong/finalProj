@@ -14,6 +14,7 @@
 			<th>authen</th>
 			<th>profile_type</th>
 			<th>유저삭제</th>
+			<th>신고당한횟수</th>
 		</tr>
 		
 		<c:forEach items="${userList }" var="dto">
@@ -27,6 +28,7 @@
 				<td>${dto.authen }</td>
 				<td>${dto.profile_type }</td>
 				<td><a href="${ctxPath}/user/admin/delete?user_no=${dto.user_no }">삭제</a></td>
+				<td></td>
 			</tr>
 		</c:forEach>
 		

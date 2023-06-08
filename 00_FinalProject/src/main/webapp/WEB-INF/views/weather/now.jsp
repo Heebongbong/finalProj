@@ -22,10 +22,6 @@
 	<div id="now_wrap">
 		<c:if test="${!empty list }">
 			<div>
-<<<<<<< HEAD
-=======
-				<%-- <h3>${list.get(0).getBaseDate() }/${list.get(0).getBaseTime() } 기준 측정 결과</h3> --%>
->>>>>>> 02948bcf88da86846d0c04b1c017ef9e786a0dc6
 				<div class="weather_index_wrap">
 					<div class="Timestamp"></div>
 					<img class="icon_weather" alt="" src="${ctxPath }/resources/images/weather/icon_Weather.png">

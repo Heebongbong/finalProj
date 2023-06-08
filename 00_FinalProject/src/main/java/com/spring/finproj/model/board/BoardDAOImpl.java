@@ -169,4 +169,10 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("accused_list");
 	}
+	@Override
+	public int deleteAcuuseCont(Map<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("delete_accuse_cont", map);
+		
+	}
 }

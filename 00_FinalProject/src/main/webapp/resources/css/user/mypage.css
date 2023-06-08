@@ -37,7 +37,8 @@
 	color: #9d9d9d;
 }
 
-#mypage_wrap *::placeholder {
+
+#mypage_wrap ::placeholder {
     font-size: 9px;
     color: #9d9d9d;
 }
@@ -67,12 +68,7 @@
     align-items: baseline;
 }
 
-<<<<<<< HEAD
-#mypage_wrap button,
-.social_profie_btn {
-=======
-button,.social_profie_btn {
->>>>>>> 02948bcf88da86846d0c04b1c017ef9e786a0dc6
+#mypage_wrap button {
     background-color: white;
     border: 1px solid #9d9d9d;
     color: #9d9d9d;
@@ -115,7 +111,7 @@ button,.social_profie_btn {
 	color: white;
 }
 
-#mypage_wrap *[class$="Error"] {
+#mypage_wrap [class$="Error"] {
   color: #c7c7c7 !important;
   font-size: 10px;	
 }

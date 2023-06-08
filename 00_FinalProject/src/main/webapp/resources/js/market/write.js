@@ -43,8 +43,9 @@
 }
  
 function check() {
-	if ($("input:checkbox[name='category']").is(":checked")==false) {
-		alert("적어도 하나는 선택하여 주십시오.");
+	let count = $("input:radio[name='category']:checked").length;
+	if (count < 1 ) {
+		alert("카테고리를 선택해 주십시오.");
 		return false;
 	}
 }
@@ -75,4 +76,57 @@ function removeDuplicates(array) {
       return array.indexOf(element) === index;
     });
     return uniqueArr;
+  }
+
+
+  function radiobox(radio) {
+	let li = radio.parentNode;
+	let isChecked = radio.checked;
+  
+	// 모든 라디오 버튼의 checked 클래스를 제거
+	let radios = document.querySelectorAll('.obj_ul input[name="category"]');
+	radios.forEach((radio) => {
+	  radio.parentNode.classList.remove("checked");
+	});
+  
+	if (isChecked) {
+	  li.classList.add("checked");
+	}
+  }
+
+  function radioloc(radio) {
+	let li = radio.parentNode;
+	let isChecked = radio.checked;
+  
+	// 모든 라디오 버튼의 checked 클래스를 제거
+	let radios = document.querySelectorAll('.loc_ul input[name="category"]');
+	radios.forEach((radio) => {
+	  radio.parentNode.classList.remove("checked");
+	});
+  
+	if (isChecked) {
+	  li.classList.add("checked");
+	}
+  }
+
+  function fileUpload(){
+	let fileInput = document.getElementById("files").files;
+	
+	if (fileInput.length > 0) {
+	  for (let j = 0; j < fileInput.length; j++) {
+		console.log(fileInput[j].name); // 파일명 출력
+		let container = document.createElement("div"); // <div> 요소 생성
+		container.classList.add("upload_img"); // 클래스 "img" 추가
+		
+		let img = document.createElement("img");
+		img.src = ctxPath+'/resources/images/icon/basis_img.png';
+		
+		let text = document.createElement("p");
+		
+		text.innerHTML = fileInput[j].name; // 파일명을 <p> 요소에 설정
+		container.appendChild(img); // <div> 요소에 <img> 요소 추가
+		container.appendChild(text); // <div> 요소에 <p> 요소 추가
+		document.getElementById("files").parentNode.appendChild(container); // <input> 요소의 부모 요소에 <div> 요소 추가
+	  }
+	}
   }
