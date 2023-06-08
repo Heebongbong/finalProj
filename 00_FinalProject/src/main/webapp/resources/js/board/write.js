@@ -50,3 +50,12 @@ function removeDuplicates(array) {
     });
     return uniqueArr;
   }
+
+  function checkbox(checkbox) {
+    let li = checkbox.parentNode;
+    if (checkbox.checked) {
+      li.classList.add("checked");
+    } else {
+      li.classList.remove("checked");
+    }
+  }
