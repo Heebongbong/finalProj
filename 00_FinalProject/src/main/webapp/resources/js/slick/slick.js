@@ -2046,7 +2046,6 @@
         _.listWidth = _.$list.width();
         _.listHeight = _.$list.height();
 
-
         if (_.options.vertical === false && _.options.variableWidth === false) {
             _.slideWidth = Math.ceil(_.listWidth / _.options.slidesToShow);
             _.$slideTrack.width(Math.ceil((_.slideWidth * _.$slideTrack.children('.slick-slide').length)));
@@ -2102,9 +2101,19 @@
 
         if (_.options.slidesToShow === 1 && _.options.adaptiveHeight === true && _.options.vertical === false) {
             var targetHeight = _.$slides.eq(_.currentSlide).outerHeight(true);
-            _.$list.css('height', targetHeight);
+            
+            _.$slides.find('img').first().on('load', function () {
+                $(window).trigger('resize');
+            });
+            
+            let real_height = _.$slides.find('img')[0].offsetHeight;
+            
+            if(targetHeight < real_height){
+                _.$list.css('height', real_height);
+            }else{
+                _.$list.css('height', targetHeight);
+            }
         }
-
     };
 
     Slick.prototype.setOption =

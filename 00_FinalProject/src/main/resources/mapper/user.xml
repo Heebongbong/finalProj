@@ -92,6 +92,7 @@
 	<update id="user_delete_admin" parameterType="int">
 		UPDATE user SET type = 'B' WHERE user_no = #{user_no}
 	</update>
+
 	<update id="user_update_profile" parameterType="userDTO">
 		update user_profile set profile = #{profile} where user_no = #{user_no}
 	</update>

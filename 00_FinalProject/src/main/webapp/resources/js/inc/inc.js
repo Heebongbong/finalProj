@@ -30,7 +30,7 @@
 
 	//채팅 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.chat_wrap').length < 1 && event.target.className!='chat_wrap'){
+		if($(event.target).parents('.chat_wrap').length < 1 && (event.target.className!='chat_wrap' && event.target.className!='user_profile_chat_plus')){
 			if($('.chat_wrap').css('display')=='flex'){
 				close_chat();
 			}
@@ -179,6 +179,10 @@ function alarm_move_href(field){
 				if(data>0){
 					location.href=ctxPath+"/user/userboard?user_no="+loginUser_no;
 				}
+			}else if(field==4){
+				if(data>0){
+					open_chat(0);
+				}
 			}
 		},
 		error: function(){
@@ -278,8 +282,10 @@ function open_chat(i){
 		alarm_move_href(4);
 	}
 	if($('.chat_wrap').css('display')=='none'){
+		console.log(123);
 		$('.chat_wrap').css('display', 'flex');
 	}
+	return true;
 }
 
 function close_chat(){
@@ -287,6 +293,8 @@ function close_chat(){
 	$('.chat_send').attr('onclick','');
 	$('.chat_cont').html("");
 	$('.chat_msg').val("");
+	$('.chat_title_img_send').attr('src',ctxPath+'/resources/images/profile/default/default_profile.png');
+	$('.chat_title_nick_send').html('');
 	if(socket!=null){
 		socket.onclose();
 	}
@@ -294,7 +302,8 @@ function close_chat(){
 
 function chat_board(no){
 	if(loginUser_no!=no){
-		if(open_chat()){
+		let re = open_chat(2)
+		if(re){
 			$.ajax({
 				type: "get",
 				url: ctxPath+"/chat/board",
@@ -306,8 +315,11 @@ function chat_board(no){
 				success: function(data){
 					if(data==0){
 						alert('채팅방 등록 중 오류');
+					}else if(data==1){
+
 					}else{
-						let table = "<p><a href='javascript:chat_start("+no+")'>"+data+"</a></p>";
+						let table = "<p><a href='javascript:chat_start("+no+")'><img src='"+data.profile+"'>"+data.nickname+"</a></p>" +
+									"<button onclick='chat_room_out("+data.chat_room_no+")' class='chat_room_out'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></button>";
 						$('.chat_list').append(table);
 						chat_start(no);
 					}
@@ -381,9 +393,11 @@ function connect_chat() {
 		/* "보내는 이 : " + sl[0]);
 		보내는 유저 넘버 : + sl[1]
 		"받는 이 : " + sl[2]);
-		"내용: " + sl[3]); */
+		"내용: " + sl[3]); 
+		"작성시간": + sl[4]
+		*/
 		
-		let table = "<p style='width:100%;' class='chat_sendU'>"+sl[0]+" : "+sl[3]+"</p>";
+		let table = "<div class='chat_sendU'><p>"+sl[3]+"</p><span class='chat_date_time'>"+sl[4].substring(11, 16)+"</span></div>";
 		
 		if(sl[1]==$('#chat_receipt').val()){
 			$('.chat_cont').append(table);
@@ -399,7 +413,7 @@ function connect_chat() {
 	
 	ws.onerror = function (err) { console.log('Error:', err); };
 }
-	
+
 function send_chat(room_no, authen, receiv_no){
 	let receiveId = $('#chat_receipt').val();
 	let msg = $('.chat_msg').val();
@@ -408,7 +422,11 @@ function send_chat(room_no, authen, receiv_no){
 		if(authen){
 			if (socket.readyState !== 1 ) return;
 			socket.send(room_no + "," + receiv_no + "," + receiveId + "," + msg);
-			$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
+			
+			let d = new Date();
+
+			let table = "<div class='chat_loginU'><span class='chat_date_time'>"+d.getHours() + ":" + d.getMinutes()+"</span><p>"+msg+"</p></div>";
+			$('.chat_cont').append(table);
 			$('.chat_msg').val("");
 		}else{
 			if(confirm('글 작성을 위해 유저 인증이 필요합니다. 이동하시겠습니까.')){
@@ -418,7 +436,9 @@ function send_chat(room_no, authen, receiv_no){
 	}else{
 		if (socket.readyState !== 1 ) return;
 		socket.send(room_no+"," + receiveId + "," + msg);
-		$('.chat_cont').append("<p style='width:100%;' class='chat_loginU'>"+msg+"</p>")
+		let d = new Date();
+		let table = "<div class='chat_loginU'><span class='chat_date_time'>"+d.getHours() + ":" + d.getMinutes()+"</span><p>"+msg+"</p></div>";
+		$('.chat_cont').append(table);
 		$('.chat_msg').val("");
 	}
 }

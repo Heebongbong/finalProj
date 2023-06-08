@@ -5,6 +5,9 @@
 <c:set var="loginUser" value="${sessionScope.LoginUser}"/>
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <c:set var="dto" value="${content }"/>
+<script type="text/javascript">
+ let loginUser_phone = '${loginUser.phone}';
+</script>
 <div id="forget_wrap">
 	<form id="forgetForm" action="${ctxPath }/user/forgetOk" method="post">
 		<input class="phone_user_no" type="hidden" name="user_no" value="123">

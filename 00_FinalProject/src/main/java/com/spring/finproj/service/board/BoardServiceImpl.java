@@ -602,7 +602,16 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println("리스트"+ list);
 		System.out.println("당한사람"+ accusedList);
 	}
-
+	@Override
+	public void deleteAcuuseCont(int cm_no, int user_no) {
+		// TODO Auto-generated method stub
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("cm_no", cm_no);
+		map.put("user_no", user_no);
+		
+		boardDAO.deleteAcuuseCont(map);
+	}
+	
 	@Override
 	public int alarmUserCheck(HttpSession session) {
 		int user_no = ((UserDTO)session.getAttribute("LoginUser")).getUser_no();
@@ -624,4 +633,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		return re;
 	}
+
+	
 }
