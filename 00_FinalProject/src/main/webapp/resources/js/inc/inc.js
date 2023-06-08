@@ -7,21 +7,42 @@
 	//푸터메뉴 오픈
 	$('body').on("mousewheel",function(event){
 		if($('#footer').css('display')=='none'){
-			open_footer(event);
+			if(event.originalEvent.deltaY>0){
+				open_footer();
+			}
+		}
+	});
+	//터치 푸터메뉴 
+	$('body').on("touchend",function(){
+		if($('#footer').css('display')=='none'){
+			open_footer();
 		}
 	});
 
 	//유저 헤더메뉴 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.user_menu_wrap').length < 1 &&event.target.className!='user_menu_wrap'){
-			close_user_menu();
+		if($(event.target).parents('.user_menu_wrap').length < 1 && event.target.className!='user_menu_wrap'){
+			if($('.user_menu_wrap').css('display')=='block'){
+				close_user_menu();
+			}
+		}
+	});
+
+	//채팅 닫기
+	$('body').on('click', function(event){
+		if($(event.target).parents('.chat_wrap').length < 1 && event.target.className!='chat_wrap'){
+			if($('.chat_wrap').css('display')=='flex'){
+				close_chat();
+			}
 		}
 	});
 
 	//유저 알람 모달창 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.alarm_modal_overlay').length < 1 &&event.target.className!='alarm_icon'){
-			$('.alarm_modal_overlay').hide();
+		if($(event.target).parents('.alarm_modal_overlay').length < 1 &&event.target.className!='alarm_modal_overlay'){
+			if($('.alarm_modal_overlay').css('display')=='flex'){
+				$('.alarm_modal_overlay').hide();
+			}
 		}
 	});
 
@@ -31,6 +52,7 @@
 			close_footer_write();
 		}
 	});
+
  });
 
  let faqList = null;
@@ -76,9 +98,11 @@ function close_footer_write(){
  
  //유저 헤더 열기
 function open_user_menu(){
-	$('.user_menu_wrap').animate({
-		height: 'show'
- 	}, 400);
+	if($('.user_menu_wrap').css('display')=='none'){
+		$('.user_menu_wrap').animate({
+			height: 'show'
+		 }, 400);
+	}
 }
 
 //유저 헤더 닫기
@@ -89,12 +113,10 @@ function close_user_menu(){
 }
 
 //푸터 열기
-function open_footer(event){
-	if(event.originalEvent.deltaY>0){
-		$('#footer').animate({
-			height: 'show'
-		}, 400);
-	}
+function open_footer(){
+	$('#footer').animate({
+		height: 'show'
+	}, 400);
 	setTimeout(function(){
 		$('#footer').animate({
 			height: 'hide'
@@ -123,21 +145,23 @@ function delete_move(type){
 
 //알람 모달창 오픈
 function alarm_modal(){
-	$('.alarm_modal_overlay').css('display', 'flex');
-
-	//알람 DB에서 읽음 체크 update
-	$.ajax({
-		type: "get",
-		url: ctxPath+"/alarm/check/delete",
-		dataType : "text",
-		async:false,
-		success: function(data){
-			console.log(data);
-		},
-		error: function(){
-			alert('알람 읽음 처리 중 오류');
-		}
-	});
+	if($('.alarm_modal_overlay').css('display')=='none'){
+		$('.alarm_modal_overlay').css('display', 'flex');
+	
+		//알람 DB에서 읽음 체크 update
+		$.ajax({
+			type: "get",
+			url: ctxPath+"/alarm/check/delete",
+			dataType : "text",
+			async:false,
+			success: function(data){
+				console.log(data);
+			},
+			error: function(){
+				alert('알람 읽음 처리 중 오류');
+			}
+		});
+	}
 }
 
 function alarm_move_href(field){
@@ -253,7 +277,9 @@ function open_chat(i){
 	if(i==1){
 		alarm_move_href(4);
 	}
-	$('.chat_wrap').css('display', 'flex');
+	if($('.chat_wrap').css('display')=='none'){
+		$('.chat_wrap').css('display', 'flex');
+	}
 }
 
 function close_chat(){
@@ -261,7 +287,9 @@ function close_chat(){
 	$('.chat_send').attr('onclick','');
 	$('.chat_cont').html("");
 	$('.chat_msg').val("");
-	socket.onclose();
+	if(socket!=null){
+		socket.onclose();
+	}
 }
 
 function chat_board(no){

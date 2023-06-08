@@ -26,6 +26,15 @@ $(document).ready(function(){
 			}
 		}
 	});
+
+	//터치 게시판 추가
+	$('body').on("touchend",function(event){
+		if(($(window).scrollTop()+$(window).innerHeight()) >= $(document).height()-1){
+			boardAddList();
+		}
+	});
+	
+
 	
 	//상세 모달창 닫기
 	$('body').on('click', function(event){
