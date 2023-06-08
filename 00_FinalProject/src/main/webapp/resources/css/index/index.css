@@ -12,6 +12,12 @@
 .camping_name{
 	margin: 10px auto;
 }
+@media all and (max-width:680px) {
+	.camping_name{
+		margin: 10px auto;
+		font-size: .9em;
+	}
+}
 .camping_name a{
 	cursor: pointer;
 }
