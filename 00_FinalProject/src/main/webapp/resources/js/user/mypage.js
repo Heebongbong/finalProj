@@ -183,7 +183,7 @@
 			const button = document.getElementById('sendBtn');
 			const buttonText = button.innerText; 
 			
-			if(input_phone.length != 0 && input_phone != "${loginUser.phone}"){
+			if(input_phone.length != 0 && input_phone != loginUser_phone){
 				if(buttonText === '인증번호발송') {
 				let codeError = document.getElementsByClassName("codeError")[0];
 				codeError.textContent = "인증번호 발송 버튼을 눌러 인증번호를 받으세요";

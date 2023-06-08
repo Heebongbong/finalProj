@@ -11,6 +11,7 @@
 <script>
 	const loginUser_phone = '${loginUser.phone}';
 	const loginType = '${loginUser.type}';
+	const loginEmail = '${loginUser.email }';
 </script>
 <div id="mypage_wrap">
 	<div id="mypage_container_center">
@@ -32,7 +33,7 @@
 							<input style="display: none;" type="file" name="upfile" id="profileInput" onchange="previewProfileImage(event)">
 						</div>
 						<c:if test="${loginUser.type eq 'K'|| loginUser.type eq 'N'}">
-							<input type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
+							<input class="social_profie_btn" type="button" onclick="changeProfileType()" value="소셜 프로필 적용">
 						</c:if>
 						<c:if test="${loginUser.authen }">
 							<p class="text">인증 회원</p>
@@ -79,7 +80,7 @@
 				<p class="text">비밀번호</p>
 				<div class="authen_box">
 					<input type="password" name="pwd_check" id="check_pwd" class="noWhitespace">
-					<button type="button" onclick="checkPwd()">비밀번호 확인</button>
+					<button type="button" onclick="checkPwd()" style="width: 70%;">비밀번호 확인</button>
 				</div>
 				<p class="pwd_checkError">&nbsp;</p>
 				

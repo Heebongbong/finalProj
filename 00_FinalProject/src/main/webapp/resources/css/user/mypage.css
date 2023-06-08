@@ -37,7 +37,7 @@
 	color: #9d9d9d;
 }
 
-::placeholder {
+#mypage_wrap *::placeholder {
     font-size: 9px;
     color: #9d9d9d;
 }
@@ -52,14 +52,14 @@
     font-size: 15px;
     margin-top: 0.4em;
     margin-bottom: 0.2em;
-    border-color: #a9a9a9;
+    border-bottom: #a9a9a9 solid 1px;
 }
 
 .text_part {
     margin: 0 10%;
 }
 .text_part_box {
-    margin-bottom: 1.5em;
+    margin: 1.5em 0;
 }
 
 .authen_box {
@@ -67,17 +67,32 @@
     align-items: baseline;
 }
 
-button {
+<<<<<<< HEAD
+#mypage_wrap button,
+.social_profie_btn {
+=======
+button,.social_profie_btn {
+>>>>>>> 02948bcf88da86846d0c04b1c017ef9e786a0dc6
     background-color: white;
     border: 1px solid #9d9d9d;
     color: #9d9d9d;
 }
 
+.social_profie_btn {
+    width: 55%;
+    font-size: .7em;
+}
+
 .authen_box button {
-    width: 60%;
+    width: 65%;
     height : 20px;
     font-size: 9px;
     margin-left: 2px;
+    cursor: pointer;
+}
+.authen_box button:hover{
+	background-color: #6fcf97;
+	color: white;
 }
 
 .modify {
@@ -87,7 +102,7 @@ button {
 
 .modify button {
     font-size: 14px;
-    width: 100%;
+    width: 80%;
     height: 30px;
     color : #9d9d9d;
     font-weight: bold;
@@ -96,14 +111,15 @@ button {
 
 .modify button:hover {
 	background-color: #6fcf97;
+    border: none;
 	color: white;
 }
 
-[class$="Error"] {
+#mypage_wrap *[class$="Error"] {
   color: #c7c7c7 !important;
   font-size: 10px;	
 }
 
-.input_phoneError, codeError, pwd_checkError {
+.input_phoneError, .codeError, .pwd_checkError {
 	margin-bottom: 10%;
 }
