@@ -120,7 +120,7 @@ function declaration(){
 
 function cm_modify(cm_no, user_no){ //게시글 수정
 	if(loginUser_no==user_no){
-		location.href=ctxPath+"/board/update?cm_no="+cm_no;
+		location.href=ctxPath+"/market/update?cm_no="+cm_no;
 	}else{
 		alert('본인의 게시글만 수정 가능합니다.');
 	}

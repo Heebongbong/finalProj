@@ -1,65 +1,10 @@
 @charset "UTF-8";
 
-.upload_photo_file {
-  width: 300px;
-  height: auto;
-  text-align: center; /* 이미지를 가운데 정렬합니다 */
-  padding: 10px; /* 여백을 추가합니다 */
-}
-
-.upload_photo_file img {
-  max-width: 100%; /* 이미지가 div의 크기를 넘지 않도록 설정합니다 */
-  max-height: 100%; /* 이미지가 div의 크기를 넘지 않도록 설정합니다 */
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 15px; /* 열 사이의 간격 조정을 위한 마진 설정 */
-}
-
-
-.row::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.col {
-  float: left;
-  box-sizing: border-box;
-}
-
-/* 예를 들어, 3개의 열을 가지는 경우 */
-.col-4 {
-  width: 33.33%;
-}
-
-/* 예를 들어, 2개의 열을 가지는 경우 */
-.col-6 {
-  width: 50%;
-}
-
-/* 예를 들어, 1개의 열을 가지는 경우 */
-.col-12 {
-  width: 100%;
-}
-
-
 #title {
 	text-align: center;
     font-size: 18px;
     font-weight: bold;
     padding: 40px 0 50px 0;
-}
-
-
-.text {
-	text-align: center;
-    font-size: 16px;
-    color: #424242;
-    font-weight: bold;
-    margin-bottom: 28px;
 }
 
 .title_input {
@@ -133,6 +78,14 @@
     justify-content: center;
 }
 
+.text {
+	text-align: center;
+    font-size: 16px;
+    color: #424242;
+    font-weight: bold;
+    margin-bottom: 28px;
+}
+
 .hr0 {
     border: 1px solid #DCDCDC;
     margin: 50px 0 40px 0;
@@ -196,10 +149,6 @@
     margin-left: 3%;
 }
 
-.bottom-container {
-    padding: 0 15%;
-}
-
 .btn-primary {
 	border: 1px solid #9D9D9D;
 	background-color: white;
@@ -231,32 +180,3 @@
     color: #CBCBCB;
 }
 
-.button-container {
-	display: flex;
-    justify-content: space-around;
-    margin: 0 20%;
-}
-
-.btn-primary {
-	border: 1px solid #9D9D9D;
-	background-color: white;
-	text-align: center;
-    font-size: 14px;
-    width: 40%;
-    height: 30px;
-    color : #9d9d9d;
-    font-weight: bold;
-}
-
-.btn-primary:hover {
-	background-color: #6fcf97;
-	color: white;
-}
-
-.non_file {
-	margin-top: 40px;
-	text-align: center;
-    font-size: 16px;
-    color: #424242;
-    font-weight: bold;
-}

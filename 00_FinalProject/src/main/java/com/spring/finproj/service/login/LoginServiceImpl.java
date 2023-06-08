@@ -34,6 +34,8 @@ public class LoginServiceImpl implements LoginService{
 		Map<String, Object> idlist = new HashMap<String, Object>();
 		idlist.put("email", email);
 		idlist.put("type", "S");
+		
+		System.out.println("idlist"+idlist);
 		UserDTO dto = userDAO.getUserContentId(idlist);
 		
 		if(dto!=null) { //정보 확인

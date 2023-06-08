@@ -11,6 +11,7 @@
 <script>
 	const loginUser_phone = '${loginUser.phone}';
 	const loginType = '${loginUser.type}';
+	const loginEmail = '${loginUser.email }';
 </script>
 <div id="mypage_wrap">
 	<div id="mypage_container_center">
@@ -79,7 +80,7 @@
 				<p class="text">비밀번호</p>
 				<div class="authen_box">
 					<input type="password" name="pwd_check" id="check_pwd" class="noWhitespace">
-					<button type="button" onclick="checkPwd()">비밀번호 확인</button>
+					<button type="button" onclick="checkPwd()">비밀번호확인</button>
 				</div>
 				<p class="pwd_checkError">&nbsp;</p>
 				

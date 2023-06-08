@@ -44,11 +44,10 @@
 }
 
 .inp_drive {
-    width: 100%;
-    margin: 0 5%;
+    width: 55%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 #drive_road_view {
@@ -63,7 +62,7 @@
     font-size: 14px;
     color: #9d9d9d;
     position: relative;
-    left: -170px;
+    left: 20px;
     top: 25px;
     margin: 0;
 }
@@ -83,7 +82,8 @@ input[id$="drive"] {
 	background-color: #f1f1f1;
 	padding-left: 75px;
 	height: 36px;
-	width: 55%;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 #search {
@@ -95,7 +95,7 @@ input[id$="drive"] {
     width: 60%;
     background-color: white;
     border: 1px solid #9d9d9d;
-	margin: 5px 0;
+	margin: 5px auto;
 	cursor: pointer;
 }
 #search:hover{
@@ -111,5 +111,6 @@ input[id$="drive"] {
 .inp_ano {
     font-size: 10px;
     color: #9d9d9d;
+    margin: auto;
     margin-bottom: 10px;
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,17 +51,31 @@ public class ChatServiceImpl implements ChatService {
 		UserDTO login = (UserDTO) session.getAttribute("LoginUser");
 		dto.setUser_no1(login.getUser_no());
 		dto.setUser_no2(user_no);
-		int re = chatDAO.insertChatRoomCont(dto);
-		if(re>0) {
-			dto.setSend_user(login.getUser_no());
-			dto.setChat_cont(login.getNickname()+"님이 채팅을 요청합니다.");
-			ChatDTO room_cont = chatDAO.getChatRoomContent(dto);
-			System.out.println(dto);
-			dto.setChat_room_no(room_cont.getChat_room_no());
-			chatDAO.insertChatCont(dto);
-			return userDAO.getUserContent(user_no).getNickname();
+		
+		System.out.println(dto);
+		
+		ChatDTO re_dto = chatDAO.getChatRoomContent(dto);
+		System.out.println(re_dto);
+		if(re_dto==null) {
+			int re = chatDAO.insertChatRoomCont(dto);
+			if(re>0) {
+				dto.setSend_user(login.getUser_no());
+				dto.setChat_cont(login.getNickname()+"님이 채팅을 요청합니다.");
+				ChatDTO room_cont = chatDAO.getChatRoomContent(dto);
+				dto.setChat_room_no(room_cont.getChat_room_no());
+				chatDAO.insertChatCont(dto);
+				UserDTO u = userDAO.getUserContent(user_no);
+				String str = "{ 'nickname' : '" + u.getNickname()
+						+ "' , 'profile' : '" + u.getProfile()
+						+ "' , 'chat_room_no' : '" + dto.getChat_room_no()
+						+ "' }";
+				JSONObject j = new JSONObject(str);
+				return j.toString();
+			}else {
+				return "0";
+			}
 		}else {
-			return "0";
+			return "1";
 		}
 	}
 
