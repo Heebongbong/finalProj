@@ -20,32 +20,54 @@
 	}
 </script>
 <div class="board_wrap">
-	<h2>게시글 작성</h2>
+	<c:if test="${!empty Content_id }">
+		<div id="title">캠핑리뷰</div>
+	</c:if>
+	<c:if test="${empty Content_id }">
+		<div id="title">커뮤니티 글쓰기</div>
+	</c:if>
 	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/writeform">
-        <div class="form-group" align="left">
-			<span>해시태그</span>
-	        <input type="checkbox" id="life" class="category" name="category" value="#일상"><label for="life">일상</label>
-			<input type="checkbox" id="food" class="category" name="category" value="#요리"><label for="food">요리</label>
-			<input type="checkbox" id="equipment" class="category" name="category" value="#장비"><label for="equipment">장비</label>
+		<div class="text">카테고리</div>
+		
+		<ul class='write_side_ul'>
+			<li>
+				<input type="checkbox" style="display: none" id="life" class="category" name="category" value="#일상" onchange="checkbox(this)"><label for="life">일상</label>
+			</li>
+			<li>
+				<input type="checkbox" style="display: none" id="food" class="category" name="category" value="#요리" onchange="checkbox(this)"><label for="food">요리</label>
+			</li>
+			<li>
+				<input type="checkbox" style="display: none" id="equipment" class="category" name="category" value="#장비" onchange="checkbox(this)"><label for="equipment">장비</label>
+			</li>
 			<c:if test="${!empty Content_id }">
-				<input type="checkbox" id="review" class="category" disabled="disabled" checked="checked"><label for="review">리뷰</label>
+			<li>
+				<input type="checkbox" style="display: none" id="review" class="category" disabled="disabled" checked="checked"><label for="review">리뷰</label>
 				<input type="hidden" name="content_id" value="${Content_id }">
 				<input type="hidden" value="#리뷰" name="category" readonly="readonly">
-			</c:if>
-		</div>
-		<div class="form-group" align="left">
-			<textarea class="form-control" rows="15" id="content" name="content" placeholder="내용 : "></textarea>
-		</div>
-		<div class="form-group" align="left">
-			<label for="upfile">/ 파일 버튼 /</label>
+			</li>
+		</c:if>
+		</ul>
+		
+		<hr>
+        
+        <div class="text">내 용</div>
+        
+		
+		
+		<textarea class="form-control" rows="10" id="content" name="content" placeholder=" 내용을 입력하세요 "></textarea>
+		
+		<hr>
+		
+		<label for="upfile" class="upload_text">사진첨부</label>
+
+		<div class="img_container">
 			<input type="file" style="display: none" id="upfile" class="form-control-file border" name="upfile" multiple="multiple" onchange="fileUpload()">
 		</div>
-		<div>
+			
+		<div class="bot_container">
 			<input type="text" class="hashtag" name="hashtag" value="#">
-		</div>
-		<div>
 			<button type="submit" class="btn btn-primary">글작성</button>
-			<button type="reset" class="btn btn-warning">초기화</button>
 		</div>
+			
 	</form>
 </div>

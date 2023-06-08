@@ -57,7 +57,9 @@ public class UserController {
 			@RequestParam(value = "upfile", required = false) MultipartFile multipartFile, Model model) throws Exception {
 
 		int check = userService.insertUserContent(dto, request, response, session, multipartFile);
-
+		
+		System.out.println("체크"+check);
+		
 		if (check > 0) {
 			return "redirect:/index";
 		} else {// 불일치
@@ -173,7 +175,7 @@ public class UserController {
     @RequestMapping("/admin/delete")
     public String userDelete(int user_no) {
     	userService.userDelete(user_no);
-    	return "admin.user";
+    	return "redirect:/user/admin";
     }
 
 }
