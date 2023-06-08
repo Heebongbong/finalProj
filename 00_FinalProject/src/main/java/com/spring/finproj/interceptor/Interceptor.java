@@ -352,7 +352,6 @@ public class Interceptor implements HandlerInterceptor{
 			List<ChatDTO> list = chatDAO.getChatRoomList(user.getUser_no());
 			
 			request.setAttribute("ChatRoomList", list);
-			
 			Map<String, Object> al_list = new HashMap<String, Object>();
 			
 			List<AlarmDTO> a_list = chatDAO.getAlarmList(user.getUser_no());

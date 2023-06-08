@@ -65,6 +65,7 @@
 		</div>
 			
 		<div class="bot_container">
+      
 			<input type="text" class="hashtag" name="hashtag" value="#">
 			<button type="submit" class="btn btn-primary">글작성</button>
 		</div>
