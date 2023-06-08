@@ -8,7 +8,18 @@
 <link rel="stylesheet" href="${ctxPath }/resources/css/slick/slick-theme.css">
 <script type="text/javascript" src="${ctxPath }/resources/js/slick/slick.js"></script>
 <div id="user_board_wrap">
-	<h2>${loginUser.getNickname() }님이 좋아요 한 게시글</h2>
+	<div class="user_board_profile">
+		<img class="user_profile_img" alt="" src="${loginUser.profile }">
+		<div class="user_board_name_id">
+			<span class="user_profile_nickname">
+				${loginUser.nickname }
+			</span>
+			<span class="user_profile_email">
+				${loginUser.email }
+			</span>
+		</div>
+		<a href="${ctxPath }/user/mypage">마이페이지</a>
+	</div>
 	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">
 		<div class="decl_modal_header">

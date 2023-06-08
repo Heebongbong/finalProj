@@ -1,6 +1,6 @@
-@charset "EUC-KR";
+@charset "UTF-8";
 
-/* ¹è³Ê ¹× Ä·ÇÎÀå ½½¸¯ »çÁø */
+/* ë°°ë„ˆ ë° ìº í•‘ì¥ ìŠ¬ë¦­ ì‚¬ì§„ */
 .index_camping_content{
 	text-align: center;
 }
@@ -79,7 +79,7 @@
 	color: white;
 }
 
-/* °Ô½Ã±Û ½ÃÀÛ */
+/* ê²Œì‹œê¸€ ì‹œì‘ */
 .index_board_wrap{
 	display: flex;
 	flex-direction: column;
@@ -148,7 +148,7 @@
 	background-color: #E8E8E8
 }
 
-/* º»¹® css */
+/* ë³¸ë¬¸ css */
 .board_main_wrap{
 	display: flex;
 	justify-content: flex-start;
@@ -169,7 +169,7 @@
 .board_main_files img{
 	width: 100%;
 }
-/* ÁÁ¾Æ¿ä, ÀÛ¼ºÀÏ */
+/* ì¢‹ì•„ìš”, ì‘ì„±ì¼ */
 .board_like_date_wrap{
 	position: relative;
 	display: flex;
@@ -180,7 +180,7 @@
 	text-align: right;
 	background-color: #f0f0f0;
 }
-/* °Ô½ÃÆÇ º»¹® */
+/* ê²Œì‹œíŒ ë³¸ë¬¸ */
 .board_main_cont{
 	display: flex;
 	flex-direction: column;
@@ -280,7 +280,7 @@
 .reply_write_insert{
 	position: absolute;
 	right: 0;
-	top: 0;
+	top: -5px;
 }
 .reply_write_insert img:hover{
 	content: url('/finproj/resources/images/icon/m_send_hover.png');

@@ -7,21 +7,42 @@
 	//푸터메뉴 오픈
 	$('body').on("mousewheel",function(event){
 		if($('#footer').css('display')=='none'){
-			open_footer(event);
+			if(event.originalEvent.deltaY>0){
+				open_footer();
+			}
+		}
+	});
+	//터치 푸터메뉴 
+	$('body').on("touchend",function(){
+		if($('#footer').css('display')=='none'){
+			open_footer();
 		}
 	});
 
 	//유저 헤더메뉴 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.user_menu_wrap').length < 1 &&event.target.className!='user_menu_wrap'){
-			close_user_menu();
+		if($(event.target).parents('.user_menu_wrap').length < 1 && event.target.className!='user_menu_wrap'){
+			if($('.user_menu_wrap').css('display')=='block'){
+				close_user_menu();
+			}
+		}
+	});
+
+	//채팅 닫기
+	$('body').on('click', function(event){
+		if($(event.target).parents('.chat_wrap').length < 1 && event.target.className!='chat_wrap'){
+			if($('.chat_wrap').css('display')=='flex'){
+				close_chat();
+			}
 		}
 	});
 
 	//유저 알람 모달창 닫기
 	$('body').on('click', function(event){
-		if($(event.target).parents('.alarm_modal_overlay').length < 1 &&event.target.className!='alarm_icon'){
-			$('.alarm_modal_overlay').hide();
+		if($(event.target).parents('.alarm_modal_overlay').length < 1 &&event.target.className!='alarm_modal_overlay'){
+			if($('.alarm_modal_overlay').css('display')=='flex'){
+				$('.alarm_modal_overlay').hide();
+			}
 		}
 	});
 
@@ -31,6 +52,7 @@
 			close_footer_write();
 		}
 	});
+
  });
 
  let faqList = null;
@@ -76,9 +98,11 @@ function close_footer_write(){
  
  //유저 헤더 열기
 function open_user_menu(){
-	$('.user_menu_wrap').animate({
-		height: 'show'
- 	}, 400);
+	if($('.user_menu_wrap').css('display')=='none'){
+		$('.user_menu_wrap').animate({
+			height: 'show'
+		 }, 400);
+	}
 }
 
 //유저 헤더 닫기
@@ -89,12 +113,10 @@ function close_user_menu(){
 }
 
 //푸터 열기
-function open_footer(event){
-	if(event.originalEvent.deltaY>0){
-		$('#footer').animate({
-			height: 'show'
-		}, 400);
-	}
+function open_footer(){
+	$('#footer').animate({
+		height: 'show'
+	}, 400);
 	setTimeout(function(){
 		$('#footer').animate({
 			height: 'hide'
@@ -123,21 +145,23 @@ function delete_move(type){
 
 //알람 모달창 오픈
 function alarm_modal(){
-	$('.alarm_modal_overlay').css('display', 'flex');
-
-	//알람 DB에서 읽음 체크 update
-	$.ajax({
-		type: "get",
-		url: ctxPath+"/alarm/check/delete",
-		dataType : "text",
-		async:false,
-		success: function(data){
-			console.log(data);
-		},
-		error: function(){
-			alert('알람 읽음 처리 중 오류');
-		}
-	});
+	if($('.alarm_modal_overlay').css('display')=='none'){
+		$('.alarm_modal_overlay').css('display', 'flex');
+	
+		//알람 DB에서 읽음 체크 update
+		$.ajax({
+			type: "get",
+			url: ctxPath+"/alarm/check/delete",
+			dataType : "text",
+			async:false,
+			success: function(data){
+				console.log(data);
+			},
+			error: function(){
+				alert('알람 읽음 처리 중 오류');
+			}
+		});
+	}
 }
 
 function alarm_move_href(field){
@@ -253,7 +277,9 @@ function open_chat(i){
 	if(i==1){
 		alarm_move_href(4);
 	}
-	$('.chat_wrap').css('display', 'flex');
+	if($('.chat_wrap').css('display')=='none'){
+		$('.chat_wrap').css('display', 'flex');
+	}
 }
 
 function close_chat(){
@@ -261,7 +287,9 @@ function close_chat(){
 	$('.chat_send').attr('onclick','');
 	$('.chat_cont').html("");
 	$('.chat_msg').val("");
-	socket.onclose();
+	if(socket!=null){
+		socket.onclose();
+	}
 }
 
 function chat_board(no){
@@ -306,22 +334,28 @@ function chat_start(no){
 		async:false,
 		success: function(data){
 			console.log(data);
+			let chat_list = data.ChatList;
+			let send_user = data.Send_user;
 			let table = "";
 
-			$(data).each(function(){
+			$(chat_list).each(function(){
 				if(this.send_user == no){
-					table += "<p style='width:100%;' class='chat_sendU'>"+this.nickname+" : "+this.chat_cont+"</p>";
+					table += "<div class='chat_sendU'><p>"+this.chat_cont+"</p><span class='chat_date_time'>"+this.created.substring(11, 16)+"</span></div>";
 					
 				}else{
-					table += "<p style='width:100%;' class='chat_loginU'>"+this.chat_cont+"</p>"
+					table += "<div class='chat_loginU'><span class='chat_date_time'>"+this.created.substring(11, 16)+"</span><p>"+this.chat_cont+"</p></div>"
 				}
 				
 			});
 			console.log($('.chat_send'));
 			$('#chat_receipt').val(no);
 			$('.chat_cont').append(table);
-			$('.chat_send').attr('onclick', 'send_chat('+data[0].chat_room_no+', '+loginUser_authen+', '+no+')');
+			$('.chat_send').attr('onclick', 'send_chat('+chat_list[0].chat_room_no+', '+loginUser_authen+', '+no+')');
+			$('.chat_msg').attr('onkeydown', 'if( event.keyCode == 13 ){send_chat('+chat_list[0].chat_room_no+', '+loginUser_authen+', '+no+');}');
 
+			$('.chat_title_nick_send').text(send_user.nickname);
+			$('.chat_title_img_send').attr('src', send_user.profile);
+			
 			connect_chat();
 		},
 		error: function(){
@@ -393,12 +427,14 @@ function chat_admin(){
 	$('.chat_cont').html("");
 	$('.chat_msg').val("");
 
-	let table = "<p style='width:100%;' class='chat_sendU'>Chat Bot : <span>"
-				+"안녕하세요. Campion 챗봇입니다.<br>"
-				+"궁금하신 사항을 물어보세요.<br>"
-				+"<input type='button' value='관리자와 채팅하기' onclick='chat_start(1)' style='width: 150px;'><br>"
-				+"<input type='button' value='F A Q' onclick='faq_start()' style='width: 150px;'>"
-				+"</span></p>";
+	let table = "<p class='chat_admin_mess'>"
+				+"안녕하세요.<br>Campion 챗봇입니다.<br>"
+				+"궁금하신 사항을<br>물어보세요.<br>"
+				+"<span>"
+				+"<input type='button' value='관리자와 채팅하기' onclick='chat_start(1)'><br>"
+				+"<input type='button' value='F A Q' onclick='faq_start()'>"
+				+"</span>"
+				+"</p>";
 	$('.chat_cont').append(table);
 }
 
@@ -422,21 +458,22 @@ function faq_start(){
 }
 
 function faq_cont(cate_no){
-	let table = "챗봇 : <br>"+faqList[cate_no][0].name+"을 선택하셨습니다.<br>";
+	let table = "<p class='chat_admin_mess_u'>"+faqList[cate_no][0].name+"<p>";
 				
 	for(let i = 0; i<faqList[cate_no].length;i++){
 		let d = faqList[cate_no][i];
-		table += "<p>" + d.content + "</p>";
+		table += "<p class='chat_admin_mess'>" + d.content + "</p>";
 	}
-	table += "<p style='text-align:right'><input type='button' value='카테고리로' onclick='faq_cate()'></p>";
+	table += "<p class='chat_admin_mess'><span style='margin:0;'><input type='button' value='카테고리로' onclick='faq_cate()'></span></p>";
 	$('.chat_cont').append(table);
 	
 }
 
 function faq_cate(){
-	let table = "챗봇 : <br><t>문의하실 카테고리를 선택하세요.<br>";
+	let table = "<p class='chat_admin_mess'>문의하실 카테고리를 선택하세요.";
 	for(let i=1;i<=5;i++){
-		table += "<p style='text-align:center; width:130px;'><input type='button' value='"+faqList[i][0].name+"' onclick='faq_cont("+faqList[i][0].faq_cate_no+")'></p>";
+		table += "<span><input type='button' value='"+faqList[i][0].name+"' onclick='faq_cont("+faqList[i][0].faq_cate_no+")'></span>";
 	}
+	table += "</p>";
 	$('.chat_cont').append(table);
 }

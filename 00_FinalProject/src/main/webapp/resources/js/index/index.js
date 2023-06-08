@@ -1,6 +1,7 @@
 /**
  * 
  */
+ 
 $(document).ready(function(){
 	
 	$(".index_camping_list").slick({
@@ -25,6 +26,15 @@ $(document).ready(function(){
 			}
 		}
 	});
+
+	//터치 게시판 추가
+	$('body').on("touchend",function(event){
+		if(($(window).scrollTop()+$(window).innerHeight()) >= $(document).height()-1){
+			boardAddList();
+		}
+	});
+	
+
 	
 	//상세 모달창 닫기
 	$('body').on('click', function(event){
@@ -32,7 +42,9 @@ $(document).ready(function(){
 			$('.detail_modal_overlay').hide();
 		}
 	});
+	
 });
+
 let main_text = new Map();
 
 //본문 더보기
@@ -326,7 +338,7 @@ function boardAddList(){
 				//게시글 헤더
 				"<div class='board_user_wrap'>" +
 					"<div class='board_user_prof' onclick='if(confirm(\"유저의 게시글 페이지로 이동합니다\")){location.href=\""+ctxPath+"/user/userboard?user_no="+board.user_no+"\"}'>" +
-						"<img src='"+ board.profile +"' class='board_user_prof_img' onclick='open_user_modal(this)'>" +
+						"<img src='"+ board.profile +"' class='board_user_prof_img'>" +
 						"<span>"+ board.nickname +"</span>" +
 					"</div>" +
 

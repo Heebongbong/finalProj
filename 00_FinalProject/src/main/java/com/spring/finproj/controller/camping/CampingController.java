@@ -51,7 +51,7 @@ public class CampingController {
 	public List<CampingDTO> campingAddList(int content_id,
 			@RequestParam(required = false) String keyword,
 			@RequestParam(required = false) String category){
-		
+
 		return campingService.getCampingAddList(content_id, keyword, category);
 	}
 	

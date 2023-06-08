@@ -3,11 +3,13 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
+<c:set value="${sessionScope.LoginUser }" var="loginUser" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link href="${ctxPath }/resources/images/logo/logo.png" rel="shortcut icon" type="image/x-icon">
+<link href="https://fonts.cdnfonts.com/css/source-sans-pro" rel="stylesheet">
 <title><tiles:getAsString name="title"/></title>
 <script type="text/javascript">
 	const ctxPath = '${ctxPath }';
