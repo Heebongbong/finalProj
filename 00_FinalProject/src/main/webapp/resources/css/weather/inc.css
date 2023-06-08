@@ -76,6 +76,7 @@ body{
 
 .fa-search {
   font-size: 22px;
+  cursor: pointer;
 }
 
 #now_wrap {

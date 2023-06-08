@@ -13,5 +13,6 @@ public interface DriveService {
 	public void getGeoLocation(Model model, HttpServletRequest request) throws Exception;
 	public void insertDriveRoad() throws IOException;
 	public void insertDriveRoadXY();
+	public String getReverseGeo(double coords_x, double coords_y) throws Exception;
 
 }

@@ -166,7 +166,7 @@ a:hover{
 	position: absolute;
 	top: 100px;
 	right: 100px;
-	background-color: white;
+	background-color: #f1f1f1;
 	width: 350px;
 	height: 150px;
 	flex-direction: column;
@@ -242,6 +242,7 @@ a:hover{
 .user_menu_body_inp input{
 	border: none;
 	border-bottom: 1px solid black;
+	background-color: transparent;
 }
 .user_menu_body_inp input::placeholder{
 	font-size: 13px;
