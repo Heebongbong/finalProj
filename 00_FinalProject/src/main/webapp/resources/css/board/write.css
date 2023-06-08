@@ -63,12 +63,12 @@ textarea#content {
     resize: none;
 }
 
-::placeholder {
+#board_wrap ::placeholder {
     font-size: 14px;
     color: #CBCBCB;
 }
 
-hr {
+.hr {
     border: 1px solid #DCDCDC;
     margin: 30px 0;
 }
