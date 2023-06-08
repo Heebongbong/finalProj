@@ -140,6 +140,10 @@
 	height: 50px;
 	border-radius: 50%;
 }
+.board_user_prof span{
+	position: absolute;
+    left: 60px;
+}
 
 /* detail_modal css */
 .detail_modal_overlay{
