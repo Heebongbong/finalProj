@@ -51,12 +51,31 @@ input{
 	padding: 0;
 	outline: none;
 }
+
 a{
-	color: #9D9D9D;
+	color: #464646;
 	text-decoration: none;
 }
 a:hover{
 	color: #6FCF97;
+	border: none;
+}
+
+.board_like_wrap i{
+	font-size: 1.5em;
+}
+
+.board_like_wrap span {
+	font-size: 1.2em;
+	vertical-align: text-bottom;
+	line-height: 25px;
+	margin-left: 5px;
+	color: #7A7A7A;
+}
+
+.board_write_date{
+	line-height: 25px;
+	color: #7A7A7A;
 }
 body {
 	line-height: 1;
@@ -145,6 +164,7 @@ body {
 	height: 100%;
 	position: relative;
 	width: 100%;
+	/* border-bottom: 1px solid black; */
 }
 .login_navi_logo_li{
 	width: 110px;
@@ -167,12 +187,13 @@ body {
 .login_navi_search_li form{
 	margin-bottom: 10%;
 	position: relative;
-    background-color: white;
-    border-bottom: 1px solid black;
+	background-color: white;
+	border-bottom: 1px solid #7b7b7b;
 }
 #search_keyword{
 	border: none;
 	outline: none;
+
 }
 .login_navi_search_li button{
 	position: absolute;
@@ -180,6 +201,7 @@ body {
 	background-color: transparent;
 	right: 0;
 	cursor: pointer;
+	color: #7b7b7b;
 }
 .user_menu_profile_non{
 	width: 100px;
@@ -198,10 +220,11 @@ body {
 	color: #6FCF97;
 }
 .user_menu_profile{
-	width: 200px;
+	width: 130px;
+	margin: 0 30px;
 	justify-content: space-around;
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 .user_menu_profile a{
 	height: 30%;
@@ -259,8 +282,8 @@ body {
 	display: none;
 	width: 35%;
 	background-color: #f1f1f1;
-    position: absolute;
-    right: 0;
+	position: absolute;
+	right: 0;
 	top: 100px;
 	height: 450px;
 	z-index: 3;
@@ -271,7 +294,7 @@ body {
 	display: flex;
 	justify-content: flex-start;
 	flex-direction: column;
-	height: 100%;
+	height: 94%;
 	align-items: center;
 }
 
@@ -294,8 +317,10 @@ body {
 
 .user_menu_body_inp input{
 	border: none;
-	border-bottom: 1px solid black;
-	background-color: transparent;
+
+	border-bottom: 1px solid #767676;
+	background-color: #f1f1f1;
+
 }
 .user_menu_body_inp input::placeholder{
 	font-size: 13px;
@@ -314,13 +339,22 @@ body {
 }
 .user_login_btn{
 	width: 100%;
-	height: 40px;
+	height: 30px;
 	background-color: white;
-	border: 1px solid black;
+	border: 1px solid #9d9d9d;
 	cursor: pointer;
-	font-size: 1.2em;
+	font-size: 1em;
 	font-weight: bold;
+	color : #9d9d9d;
+
 }
+
+.user_login_btn:hover{
+	background-color: #6FCF97;
+	color: #ffff;
+	border: none;
+}
+
 .user_menu_body_sns{
 	display: flex;
 	justify-content: space-between;
@@ -359,6 +393,9 @@ body {
 	right: 0;
 	width: 100%;
 	text-align: center;
+	font-size: .8em;
+	color: #9D9D9D;
+	padding: 20px;
 }
 
 /* chat manage */
@@ -596,7 +633,7 @@ body {
 	background-color: #fff;
 	z-index: 1;
 	height: 78px;
-	border-top: 1px solid black;
+	/* border-top: 1px solid black; */
 }
 }
 
@@ -621,7 +658,7 @@ body {
 	background-color: #fff;
 	height: 100%;
 	text-align: center;
-    white-space: nowrap;
+	white-space: nowrap;
 }
 #footer .move_navi li{
 	list-style: none;
@@ -632,10 +669,34 @@ body {
 	width: 60px;
 	align-items: center;
 }
-.move_navi img{
-	width: 35px;
-	height: 35px;
+
+
+#footer_weather img{
+	width: 45px;
+	margin-bottom: 5px;
 }
+
+#footer_drive img{
+	width: 38px;
+	margin-bottom: 5px;
+}
+
+#footer_camp img{
+	width: 43px;
+	margin-bottom: 5px;
+}
+
+#footer_board img{
+	width: 35px;
+	margin-bottom: 5px;
+}
+
+#footer_market img{
+	width: 45px;
+	margin: 10px 0 5px 0;
+}
+
+
 .navi_footer_a{
 	display: flex;
 	flex-direction: column;

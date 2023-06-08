@@ -10,7 +10,7 @@
 		<div class="inp_drive">
 			<span class="inp_placeholder">출발지 :</span><input type="text" id="start_drive" value="">
 			<span class="inp_placeholder">도착지 :</span><input type="text" id="drive">
-			<span>※ 미 입력시 기본 (서울특별시 중구 남대문로1가 18) </span>
+			<span class="inp_ano">※ 미 입력시 기본 (서울특별시 중구 남대문로1가 18) </span>
 			<input type="button" id="search" value="드라이브 경로 추천" onclick="openwindows()">
 			<p id="addr"></p>
 		</div>

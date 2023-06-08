@@ -100,6 +100,7 @@ input[id$="drive"] {
 }
 #search:hover{
 	background-color: #6FCF97;
+    border: none;
 	color: white;
 }
 
@@ -107,7 +108,7 @@ input[id$="drive"] {
     margin-bottom: 10px;
 }
 
-span {
+.inp_ano {
     font-size: 10px;
     color: #9d9d9d;
     margin-bottom: 10px;
