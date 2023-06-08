@@ -4,9 +4,14 @@
 <c:set value="${sessionScope.LoginUser }" var="loginUser" />
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <div class="board_wrap">
-	<div id="title">커뮤니티 글쓰기</div>
+	<c:if test="${!empty Content_id }">
+		<div id="title">캠핑리뷰</div>
+	</c:if>
+	<c:if test="${empty Content_id }">
+		<div id="title">커뮤니티 글쓰기</div>
+	</c:if>
 	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/writeform">
-		<div class="text">해시태그</div>
+		<div class="text">카테고리</div>
 		
 		<ul class='write_side_ul'>
 			<li>
@@ -18,34 +23,35 @@
 			<li>
 				<input type="checkbox" style="display: none" id="equipment" class="category" name="category" value="#장비" onchange="checkbox(this)"><label for="equipment">장비</label>
 			</li>
+			<c:if test="${!empty Content_id }">
+			<li>
+				<input type="checkbox" style="display: none" id="review" class="category" disabled="disabled" checked="checked"><label for="review">리뷰</label>
+				<input type="hidden" name="content_id" value="${Content_id }">
+				<input type="hidden" value="#리뷰" name="category" readonly="readonly">
+			</li>
+		</c:if>
 		</ul>
 		
 		<hr>
         
         <div class="text">내 용</div>
         
-		<c:if test="${!empty Content_id }">
-			<input type="checkbox" id="review" class="category" disabled="disabled" checked="checked"><label for="review">리뷰</label>
-			<input type="hidden" name="content_id" value="${Content_id }">
-			<input type="hidden" value="#리뷰" name="category" readonly="readonly">
-		</c:if>
+		
 		
 		<textarea class="form-control" rows="10" id="content" name="content" placeholder=" 내용을 입력하세요 "></textarea>
 		
 		<hr>
 		
-		<div class="bottom-container">
-			<div class="text">
-				<label for="upfile" >사진첨부</label>
-				<input type="file" style="display: none" id="upfile" class="form-control-file border" name="upfile" multiple="multiple">
-			</div>
-			<div class="hash">
-				<input type="text" class="hashtag" name="hashtag" value="#">
-			</div>
-		
-		
+		<label for="upfile" class="upload_text">사진첨부</label>
+
+		<div class="img_container">
+			<input type="file" style="display: none" id="upfile" class="form-control-file border" name="upfile" multiple="multiple" onchange="fileUpload()">
+		</div>
+			
+		<div class="bot_container">
+			<input type="text" class="hashtag" name="hashtag" value="#">
 			<button type="submit" class="btn btn-primary">글작성</button>
-			<!-- <button type="reset" class="btn btn-warning">초기화</button> -->
-		 </div>
+		</div>
+			
 	</form>
 </div>

@@ -7,6 +7,8 @@
     padding: 40px 0 50px 0;
 }
 
+
+
 .text {
 	text-align: center;
     font-size: 16px;
@@ -89,12 +91,15 @@ hr {
 	color: white;
 }
 
-.bottom-container {
-    padding: 0 28%;
+.img_container {
+    padding-left: 35%;
 }
 
-.hash {
-    text-align: center;
+.bot_container {
+	margin: 0 28%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .hashtag {
@@ -102,5 +107,22 @@ hr {
 	text-align: center;
 }
 
+.upload_img {
+   display: flex;
+    margin: 10px 0;
+    justify-content: flex-start;
+}
 
+.upload_img > p {
+    margin-left: 3%;
+}
+
+.upload_text {
+	display: flex;
+	justify-content: center;
+	font-size: 16px;
+    color: #424242;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
 
