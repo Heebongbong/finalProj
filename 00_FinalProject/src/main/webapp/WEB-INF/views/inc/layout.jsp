@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta charset="UTF-8">
 <link href="${ctxPath }/resources/images/logo/logo.png" rel="shortcut icon" type="image/x-icon">
 <link href="https://fonts.cdnfonts.com/css/source-sans-pro" rel="stylesheet">
