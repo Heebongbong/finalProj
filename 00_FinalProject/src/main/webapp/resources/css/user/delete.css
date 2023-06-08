@@ -31,11 +31,7 @@
     margin-bottom: 1.5em;
 }
 
-button {
-    background-color: white;
-    border: 1px solid #9d9d9d;
-    color: #9d9d9d;
-}
+
 
 .noWhitespace {
     width: 100%;
@@ -62,7 +58,10 @@ button {
     color : #9d9d9d;
     font-weight: bold;
     margin: 20px 0;
+    background-color: white;
+    border: 1px solid #9d9d9d;
 }
+
 
 .delete button:hover {
 	background-color: #6fcf97;
