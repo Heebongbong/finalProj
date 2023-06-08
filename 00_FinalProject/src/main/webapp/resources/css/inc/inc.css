@@ -97,11 +97,20 @@ body {
 	color: #7A7A7A;
 }
 
-.board_write_date{
-	line-height: 25px;
-	color: #7A7A7A;
+#header .login_navi{
+	display: flex;
+	justify-content: space-between;
+	padding: 0;
+	margin: auto;
+	background-color: #fff;
+	height: 80%;
+	position: relative;
+	width: 100%;
+	/* border-bottom: 1px solid black; */
 }
-body {
+
+@media all and (max-width:1000px) {
+	body {
 	line-height: 1;
 	overflow-x: hidden;
 	-webkit-text-size-adjust: none;
@@ -154,20 +163,20 @@ body {
 
 @media all and (max-width:680px) {
 	body {
-		line-height: 1;
-		overflow-x: hidden;
-		-webkit-text-size-adjust: none;
-		width: 100%;
-		margin: auto;
+	line-height: 1;
+	overflow-x: hidden;
+	-webkit-text-size-adjust: none;
+	width: 100%;
+	margin: auto;
 	}
 	#container{
 		width: 100%;
-		margin: 100px auto 0 auto;
-		background-color: black;
+		margin: 80px auto 0 auto;
+		background-color: rgb(255, 255, 255);
 		position: relative;
 		height: 100%;
 	}
-	
+
 	#header{
 		width: 100%;
 		position: fixed;
@@ -175,21 +184,22 @@ body {
 		left: auto;
 		background-color: #fff;
 		z-index: 2;
-		height: 100px;
+		height: 80px;
+	}
+	#header .login_navi{
+		display: flex;
+		justify-content: space-between;
+		padding: 0;
+		margin: auto;
+		background-color: #fff;
+		height: 100%;
+		position: relative;
+		width: 100%;
+		/* border-bottom: 1px solid black; */
 	}
 }
 
-#header .login_navi{
-	display: flex;
-	justify-content: space-between;
-	padding: 0;
-	margin: auto;
-	background-color: #fff;
-	height: 100%;
-	position: relative;
-	width: 100%;
-	/* border-bottom: 1px solid black; */
-}
+
 .login_navi_logo_li{
 	width: 110px;
 	display: flex;
@@ -240,9 +250,11 @@ body {
 	color: black;
 	font-size: 1.5em;
 }
+
 .user_menu_profile_non i:hover{
 	color: #6FCF97;
 }
+
 .user_menu_profile{
 	width: 130px;
 	margin: 0 30px;
@@ -250,6 +262,19 @@ body {
 	display: flex;
 	align-items: center;
 }
+
+@media all and (max-width:680px) {
+	.user_menu_profile{
+    width: 115px;
+    margin: 0 18px;
+    justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+    height: 90px;
+    align-content: space-around;
+	}
+}
+
 .user_menu_profile a{
 	height: 30%;
 }
