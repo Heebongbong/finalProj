@@ -141,6 +141,8 @@
 	border-radius: 50%;
 }
 .board_user_prof span{
+	font-weight: bold;
+	font-size: 1em;
 	position: absolute;
     left: 60px;
 }
