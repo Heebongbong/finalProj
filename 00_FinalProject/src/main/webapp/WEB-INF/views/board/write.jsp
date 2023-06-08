@@ -3,6 +3,22 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="${sessionScope.LoginUser }" var="loginUser" />
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
+<script type="text/javascript">
+	function fileUpload(){
+		let fileInput = document.getElementById("upfile").files;
+		console.log(1);
+			if( fileInput.length > 0 ){
+				console.log(2);
+				for( var j = 0; j < fileInput.length; j++ ){
+					console.log(fileInput[j].name); // 파일명 출력
+					var fileOutput = document.createElement("p");
+	                fileOutput.innerHTML = fileInput[j].name; // 파일명을 <p> 요소에 설정
+	                document.getElementById("upfile").parentNode.appendChild(fileOutput); // <input> 요소의 부모 요소에 <p> 요소 추가
+				}
+			}
+
+	}
+</script>
 <div class="board_wrap">
 	<h2>게시글 작성</h2>
 	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/writeform">
@@ -22,7 +38,7 @@
 		</div>
 		<div class="form-group" align="left">
 			<label for="upfile">/ 파일 버튼 /</label>
-			<input type="file" style="display: none" id="upfile" class="form-control-file border" name="upfile" multiple="multiple">
+			<input type="file" style="display: none" id="upfile" class="form-control-file border" name="upfile" multiple="multiple" onchange="fileUpload()">
 		</div>
 		<div>
 			<input type="text" class="hashtag" name="hashtag" value="#">

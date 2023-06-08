@@ -34,7 +34,6 @@
 	width: 30%;
 }
 
-
 #map {
     position: relative;
     overflow: hidden;
@@ -47,7 +46,6 @@
 }
 
 #map > div {
-	
     position: relative;
     display: block;
     margin: 0px;
@@ -61,7 +59,6 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     z-index: 0;
     cursor: url(http://static.naver.net/maps/mantle/2x/openhand.cur), default;
-	
 }
 
 h3 {

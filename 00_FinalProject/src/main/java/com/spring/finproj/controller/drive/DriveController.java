@@ -36,4 +36,11 @@ public class DriveController {
 		driveService.insertDriveRoadXY();
 		return "redirect:/driveNavi";
 	}
+	
+	@RequestMapping("/rev/geocode")
+	@ResponseBody
+	public String driveReverseGeocode(double coords_x, double coords_y) throws Exception{
+		
+		return driveService.getReverseGeo(coords_x, coords_y);
+	}
 }

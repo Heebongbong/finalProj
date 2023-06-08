@@ -9,6 +9,40 @@
 #map *{
 	z-index: 1 !important;
 }
+.iw_inner{
+	padding: 10px;
+}
+.iw_build{
+	font-weight: bold;
+	font-size: 1.2em;
+	margin-bottom: 7px;
+}
+.iw_addr{
+	font-size: 0.8em;
+	margin-bottom: 7px;
+}
+.iw_start_btn,
+.iw_goal_btn{
+	width: 45px;
+	border: none;
+	padding: 5px;
+	font-size: 0.7em;
+	cursor: pointer;
+}
+.iw_start_btn{
+	background-color: #F0F0F0;
+	color: #9D9D9D;
+}
+.iw_goal_btn{
+	background-color: #9D9D9D;
+	color: #F0F0F0;
+}
+.iw_start_btn:hover,
+.iw_goal_btn:hover{
+	background-color: #6FCF97;
+	color: #fff;
+}
+
 .inp_drive {
     width: 100%;
     margin: 0 5%;

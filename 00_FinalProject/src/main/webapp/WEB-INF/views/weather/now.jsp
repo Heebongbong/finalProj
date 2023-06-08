@@ -12,7 +12,7 @@
 	let serv_lng = '${lng }';
 </script>
 <div id="weather_wrap">
-	<div id="map" style="width: 650px; height: 350px;"></div>
+  <div id="map" style="width: 650px; height: 350px;"></div>
 	
 	<div class="weather_search">
 		<input type="text" placeholder="날씨가 궁금한 지역을 입력하세요." id="locs" class="search_weather" value="${Addr }">
