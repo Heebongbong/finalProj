@@ -14,7 +14,7 @@
 <div id="weather_wrap">
 	<div id="map" style="width: 650px; height: 350px;"></div>
 	<div id="weather_search">
-		<input type="text" placeholder="지역명 입력" class="address search-bar" value="${Addr }">
+		<input type="text" placeholder="지역명 입력" class="address search-bar" value="${Addr }" onkeydown="if( event.keyCode == 13 ){moveWeather();}">
 		<i type="button" class="fas fa-search" value="날씨 보기" onclick="moveWeather()"></i>
 	</div>
 	<div id="now_wrap">

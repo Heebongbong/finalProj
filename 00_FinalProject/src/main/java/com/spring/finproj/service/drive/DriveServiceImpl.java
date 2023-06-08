@@ -67,6 +67,7 @@ public class DriveServiceImpl implements DriveService{
             response.append(inputLine);
         }
         in.close();
+        con.disconnect();
         
         JSONObject jo = new JSONObject(response.toString());
         JSONArray jo2 = jo.getJSONObject("route").getJSONArray("traoptimal");
@@ -114,6 +115,7 @@ public class DriveServiceImpl implements DriveService{
             response.append(inputLine);
         }
         in.close();
+        con.disconnect();
         
         JSONObject jo = new JSONObject(response.toString());
 
@@ -197,5 +199,57 @@ public class DriveServiceImpl implements DriveService{
 			map.put("wpY", q.poll());
 			driveDAO.insertRoadXY(map);
 		}
+	}
+
+	@Override
+	public String getReverseGeo(double coords_x, double coords_y) throws Exception {
+		String curl = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
+				+ "?coords="+coords_x+","+coords_y+"&output=json"
+						+ "&orders=roadaddr";
+		
+        URL url = new URL(curl);
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+       
+        con.setRequestMethod("GET");
+        con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", "4sqz6l4y8y");
+        con.setRequestProperty("X-NCP-APIGW-API-KEY", "bMoniLVncq0fF2RmptqmnYjnkVvJgfP0C9vDvbrh");
+        con.setRequestProperty("Content-Type", "application/json");
+
+        System.out.println(con.getResponseCode());
+        BufferedReader in;
+        if(con.getResponseCode() >= 200 && con.getResponseCode() <= 300) {
+        	in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        } else {
+        	in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+        }
+
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        con.disconnect();
+        
+        JSONObject jo = new JSONObject(response.toString());
+        if(jo.getJSONArray("results").length()!=0) {
+        	JSONObject jo1 = jo.getJSONArray("results").getJSONObject(0);
+        	JSONObject jo2 = jo1.getJSONObject("region");
+        	JSONObject jo3 = jo1.getJSONObject("land");
+        	
+        	String addr_do = jo2.getJSONObject("area1").getString("name");
+        	String addr_gu = jo2.getJSONObject("area2").getString("name");
+        	String addr_gil = jo3.getString("name");
+        	String addr_num = jo3.getString("number1");
+        	String addr_buil = jo3.getJSONObject("addition0").getString("value");
+        	
+        	String str = "{ 'addr': '"+addr_do+" "+addr_gu+" "+ addr_gil+" "+ addr_num+" "+ addr_buil+"',"
+        			+ "'building': '"+addr_buil+"'}";
+        	JSONObject j = new JSONObject(str);
+        	return j.toString();
+        }else {
+        	return null;
+        }
 	}
 }

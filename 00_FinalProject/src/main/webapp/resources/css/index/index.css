@@ -165,6 +165,7 @@
 }
 .board_main_files {
 	width: 100%;
+	height: auto;
 }
 .board_main_files img{
 	width: 100%;

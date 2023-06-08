@@ -15,11 +15,56 @@
 	    map: map
 	});
 	
-	naver.maps.Event.addListener(map, 'click', function(e) {
+	 naver.maps.Event.addListener(map, 'click', function(e) {
 	    marker.setPosition(e.latlng);
+
+		$.ajax({
+			url: ctxPath+'/drive/rev/geocode', 
+			type: 'GET',
+			data: {
+				coords_x: e.latlng.x,
+				coords_y: e.latlng.y,
+			},
+			async: false,
+			dataType: "json",
+			contentType: "application/json; charset=UTF-8;",
+			success: function(data) {
+				console.log(data);
+
+				let contentString = "<div class='iw_inner'>" +
+									"<p class='iw_build'>"+data.building+"</p>" +
+									"<p class='iw_addr'>" +
+									data.addr +
+									"</p><p>" +
+									"<input class='iw_start_btn' type='button' value='출발' onclick='add_addr_inp(0)'>" +
+									"<input class='iw_goal_btn' type='button' value='도착' onclick='add_addr_inp(1)'>" +
+									"</p></div>" ;
+
+				let infowindow = new naver.maps.InfoWindow({
+					content: contentString
+				});
+				
+				if (infowindow.getMap()) {
+					infowindow.close();
+				} else {
+					infowindow.open(map, marker);
+				}
+
+			},
+			error: function(err) {
+				console.log('오류');
+			}
+		});
 	});
 });
 
+function add_addr_inp(i){
+	if(i==0){
+		$('#start_drive').val($('.iw_addr').text());
+	}else{
+		$('#drive').val($('.iw_addr').text());
+	}
+}
 
 function openwindows() {
 	let startDri = $('#start_drive').val();
