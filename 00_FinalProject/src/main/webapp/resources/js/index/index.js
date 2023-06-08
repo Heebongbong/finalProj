@@ -33,7 +33,6 @@ $(document).ready(function(){
 			$('.detail_modal_overlay').hide();
 		}
 	});
-	
 });
 
 let main_text = new Map();
@@ -329,7 +328,7 @@ function boardAddList(){
 				//게시글 헤더
 				"<div class='board_user_wrap'>" +
 					"<div class='board_user_prof' onclick='if(confirm(\"유저의 게시글 페이지로 이동합니다\")){location.href=\""+ctxPath+"/user/userboard?user_no="+board.user_no+"\"}'>" +
-						"<img src='"+ board.profile +"' class='board_user_prof_img'>" +
+						"<img src='"+ board.profile +"' class='board_user_prof_img' onclick='open_user_modal(this)'>" +
 						"<span>"+ board.nickname +"</span>" +
 					"</div>" +
 
