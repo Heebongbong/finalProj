@@ -2,7 +2,7 @@ function updateCampingList(){
 	
     $.ajax({
 		type: "get",
-		url: ctxPath+"/camping/admin/update",
+		url: ctxPath+"/admin/camping/update",
 		async:false,
 		success: function(data){
 			console.log(data);

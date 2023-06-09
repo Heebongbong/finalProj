@@ -18,8 +18,6 @@
 		<div class="accuse_info_wrap_th">(마켓)<br>가격</div>
 		<div class="accuse_info_wrap_th">글삭제</div>
 		
-		
-		
 		<c:forEach items="${accuseList }" var="dto" varStatus="status">
 			<div class="accuse_info_wrap_td">${dto.cm_no }</div>
 			<div class="accuse_info_wrap_td">${dto.nickname }</div>
@@ -51,13 +49,9 @@
 			</div>
 			<div class="accuse_info_wrap_td">
 				<button onclick="deleteChoice()">삭제</button>
-				<a href="${ctxPath}/board/admin/delete?no=${dto.cm_no }">전체글 삭제</a>
-				<a href="${ctxPath}/board/admin/deleteAcuuse?cm_no=${ddto.cm_no }&user_no=${ddto.user_no}">신고글 삭제</a>
+				<a href="${ctxPath}/admin/board/delete?no=${dto.cm_no }">전체글 삭제</a>
+				<a href="${ctxPath}/admin/deleteAcuuse?cm_no=${ddto.cm_no }&user_no=${ddto.user_no}">신고글 삭제</a>
 			</div>
 		</c:forEach>
 	</div>	
 </div>
-			
-			
-			
-				

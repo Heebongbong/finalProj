@@ -25,6 +25,90 @@ $(document).ready(function(){
 			$('.detail_modal_overlay').hide();
 		}
 	});
+
+	//moblie event
+	let wm = matchMedia("screen and (max-width:680px)")
+	
+	if(wm.matches){
+		if($('.li-active').length>0){
+			let table = "<div class='mob_cate'>" + 
+							$('.li-active a').text() +
+						"<div>";
+			$('.market_navi').append(table);
+		}
+	}
+	
+	$('.market_navi_cate a:eq(0)').on('click', function(event){
+		if(wm.matches){
+			$('.mob_obj_ul').remove();
+			let table = "<div class='mob_obj_ul'>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#텐트#타프\")'>" +
+								"텐트/타프" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#테이블#체어\")'>" +
+								"테이블/체어" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#취사#수납\")'>" +
+								"취사/수납" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#랜턴#조명\")'>" +
+								"랜턴/조명" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#소품#기타\")'>" +
+								"소품/기타" +
+							"</div>" +
+						"</div>" ;
+			$('.market_navi').append(table);
+		}
+	});
+	$('.market_navi_cate a:eq(1)').on('click', function(event){
+		if(wm.matches){
+			$('.mob_obj_ul').remove();
+			let table = "<div class='mob_obj_ul'>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#서울\")'>" +
+								"서울시" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#경기\")'>" +
+								"경기도" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#강원\")'>" +
+								"강원도" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#충청\")'>" +
+								"충청도" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#전라\")'>" +
+								"전라도" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#경상\")'>" +
+								"경상도" +
+							"</div>" +
+							"<div class='mob_obj_li' onclick='move_search_cate(\"#제주\")'>" +
+								"제주도" +
+							"</div>" +
+						"</div>" ;
+			$('.market_navi').append(table);
+		}
+	});
+
+
+	$('body').on('click', function(event){
+		if(wm.matches){
+			if($(event.target).parents('.market_navi_cate').length < 1 ){
+				$('.mob_obj_ul').remove();
+			}
+		}
+	});
+
+	wm.addListener(function(e) {
+		if(e.matches) {
+			$('.mob_cate').show();
+			$('.mob_obj_ul').show();
+		} else {
+			$('.mob_cate').hide();
+			$('.mob_obj_ul').hide();
+		}
+	});
 });
 let main_text = new Map();
 
@@ -436,7 +520,8 @@ function boardAddList(){
 					//<!-- 댓글이 목록이 들어가는 곳 -->
 					for(let j = 0; j < mention.length; j++) {
 						table +=  "<div class='board_reply_ment_cont' onmouseover='open_reply_delete_btn(this)' id='"+mention[j].mention_no+"'>"+
-										"<div class='board_reply_user'><img src='"+mention[j].profile+"'><span>"+mention[j].nickname+"</sapn></div>"+
+										"<div class='board_reply_user' onclick='if(confirm(\"유저의 게시글 페이지로 이동합니다\")){location.href=\""+ctxPath+"/user/userboard?user_no="+board.user_no+"\"}'>"+
+										"<img src='"+mention[j].profile+"'><span>"+mention[j].nickname+"</sapn></div>"+
 										"<div class='board_reply_cont_text'>" +
 											"<div class='board_reply_ment'>"+mention[j].ment+"</div>" +
 											"<div class='board_reply_date_delete_wrap'>" + 

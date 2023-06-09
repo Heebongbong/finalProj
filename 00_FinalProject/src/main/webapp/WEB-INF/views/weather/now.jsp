@@ -40,15 +40,6 @@
 					<div class="weather_info_wrap">
 						<div class="weather_cate_info">
 						  <c:choose>
-						  	<c:when test="${cate.sky eq '1'}">
-						  		<img class="day_style" alt="" src="${ctxPath }/resources/images/weather/day_Sunny1.png">
-						  	</c:when>
-			      			<c:when test="${cate.sky eq '3'}">
-			      				<img class="day_style" alt="" src="${ctxPath }/resources/images/weather/day_Cloudy3.png">
-			      			</c:when>
-			      			<c:when test="${cate.sky eq '4'}">
-			      				<img class="day_style" alt="" src="${ctxPath }/resources/images/weather/day_Bulr4.png">
-			      			</c:when>
 			      			<c:when test="${cate.pty eq '1'}">
 			      				<img class="day_style" alt="" src="${ctxPath }/resources/images/weather/day_Rain1.png">
 			      			</c:when>
@@ -66,6 +57,15 @@
 							</c:when>
 			      			<c:when test="${cate.pty eq '7'}">
 			      				<img class="day_style" alt="" src="${ctxPath }/resources/images/weather/day_snow7.png">
+			      			</c:when>
+			      			<c:when test="${cate.sky eq '1'}">
+						  		<img class="day_style" alt="" src="${ctxPath }/resources/images/weather/day_Sunny1.png">
+						  	</c:when>
+			      			<c:when test="${cate.sky eq '3'}">
+			      				<img class="day_style" alt="" src="${ctxPath }/resources/images/weather/day_Cloudy3.png">
+			      			</c:when>
+			      			<c:when test="${cate.sky eq '4'}">
+			      				<img class="day_style" alt="" src="${ctxPath }/resources/images/weather/day_Bulr4.png">
 			      			</c:when>
 						  </c:choose>
 						</div>

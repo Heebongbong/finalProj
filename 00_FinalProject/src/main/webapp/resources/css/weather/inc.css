@@ -171,6 +171,7 @@ body{
 	outline: none;
 	font-size: 1.1em;
 	font-weight: bold;
+    width: 100%;
 }
 
 .weather_search button {
