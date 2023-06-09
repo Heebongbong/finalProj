@@ -154,7 +154,6 @@
 }
 .detail_modal_window{
 	display: flex;
-	padding: 5px;
 	flex-direction: column;
 	height: 75px;
 	justify-content: space-around;
@@ -328,7 +327,6 @@
 	right: 0;
 	top: -5px;
 }
-
 .reply_write_insert img{
 	vertical-align: middle;
 	width: 20px;

@@ -41,7 +41,7 @@ function move_search_cate(key){
 	let category = key;
 	keyword = replace_keyword(keyword);
 	category= replace_keyword(category);
-	location.href=ctxPath+"/board/list?keyword="+keyword+"&category="+category;
+	location.href=ctxPath+"/market/list?keyword="+keyword+"&category="+category;
 }
 
 //본문 더보기
