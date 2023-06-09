@@ -140,7 +140,10 @@ body {
 	#header{
 		width: 80%;
 	}
-	
+	.login_navi_logo_li img{
+		width: 64px;
+		height: 65.2px;
+	}
 	
 }
 
@@ -192,6 +195,12 @@ body {
     justify-content: end;
     flex-direction: column;
     width: 40%;
+		height: 100px;
+}
+@media all and (max-width:1000px) {
+	.login_navi_search_li{
+    height: 90px;
+	}
 }
 .login_navi_search_li form{
 	margin-bottom: 10%;
@@ -199,7 +208,6 @@ body {
 	background-color: white;
 	border-bottom: 1px solid #7b7b7b;
 }
-
 @media all and (max-width:680px) {
 	.login_navi_search_li form{
 		margin-bottom: 15%;
@@ -253,8 +261,15 @@ body {
 	justify-content: space-around;
 	display: flex;
 	align-items: center;
+	height: 100px;
 }
-
+@media all and (max-width:1000px) {
+	.user_menu_profile{
+		width: 130px;
+		margin: 0 25px;
+		height: 100px;
+	}
+}
 @media all and (max-width:680px) {
 	.user_menu_profile{
     width: 105px;
@@ -280,7 +295,7 @@ body {
 	display: none;
 	position: absolute;
 	top: 100px;
-	right: 100px;
+	right: 0;
 	background-color: #f1f1f1;
 	width: 350px;
 	height: 150px;
@@ -291,7 +306,6 @@ body {
 @media all and (max-width:680px) {
 	.alarm_modal_overlay{
 		top: 80px;
-		right: 0;
 	}
 }
 .alarm_modal_window{
@@ -319,12 +333,13 @@ body {
 	display: flex;
 	justify-content: flex-start;
 	width: 100%;
+	line-height: 22px;
 }
 
 /* user_menu */
 .user_menu_wrap{
 	display: none;
-	width: 35%;
+	width: 45%;
 	background-color: #f1f1f1;
 	position: absolute;
 	right: 0;
@@ -333,6 +348,13 @@ body {
 	z-index: 3;
 	padding: 5%;
 }
+
+@media all and (max-width:1000px) {
+	.user_menu_wrap{
+		width: 55%;
+	}
+}
+
 @media all and (max-width:680px) {
 .user_menu_wrap{
 		width: 80%;
@@ -433,7 +455,7 @@ body {
 }
 .user_menu_logon_cont img{
 	border-radius: 50%;
-	width: 50%;
+	width: 100px;
 }
 .user_menu_logon_cont > * {
 	margin-bottom: 10px;
@@ -763,13 +785,13 @@ body {
 	}
 	
 	#footer_board img{
-		width: 33px;
+		width: 30px;
 		margin-bottom: 5px;
 	}
 	
 	#footer_market img{
-		width: 40px;
-		margin: 4px 0 8px 0;
+		width: 38px;
+		margin: 6px 0 8px 0;
 	}
 }
 

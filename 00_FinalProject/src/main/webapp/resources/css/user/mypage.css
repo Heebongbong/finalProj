@@ -11,6 +11,18 @@
 	margin: 5% 0;
 }
 
+@media all and (max-width:1000px) {
+    #mypage_container_center {
+        width: 50%;
+    }
+}
+
+@media all and (max-width:680px) {
+  #mypage_container_center {
+    width: 80%;
+  }
+}
+
 #previewImg {
 	width: 70px;
 	height: 70px;
