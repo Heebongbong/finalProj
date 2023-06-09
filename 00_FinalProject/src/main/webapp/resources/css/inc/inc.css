@@ -193,10 +193,27 @@ body {
 	background-color: white;
 	border-bottom: 1px solid #7b7b7b;
 }
+
+@media all and (max-width:680px) {
+	.login_navi_search_li form{
+		margin-bottom: 15%;
+	}
+}
+
 #search_keyword{
 	border: none;
 	outline: none;
 
+}
+@media all and (max-width:680px) {
+	#search_keyword{
+		width: 100%;
+		font-size: .7em;
+	}
+
+	#search_keyword i {
+		font-size: .9em;
+	}
 }
 .login_navi_search_li button{
 	position: absolute;
@@ -234,10 +251,10 @@ body {
 
 @media all and (max-width:680px) {
 	.user_menu_profile{
-    width: 115px;
+    width: 105px;
     margin: 0 18px;
     flex-wrap: wrap;
-    height: 90px;
+    height: 85px;
     align-content: space-around;
 	}
 }
@@ -307,15 +324,7 @@ body {
 }
 @media all and (max-width:680px) {
 .user_menu_wrap{
-	display: none;
-	width: 35%;
-	background-color: #f1f1f1;
-	position: absolute;
-	top: 80px;
-	right: 0;
-	height: 450px;
-	z-index: 3;
-	padding: 5%;
+		width: 80%;
 	}
 }
 .user_menu_body{
