@@ -3,7 +3,7 @@
  */
  
 $(document).ready(function(){
-	
+	/*
 	//네이버 지도 생성 및 관리
 	let mapOptions = {
 	    center: new naver.maps.LatLng(campingY,campingX),
@@ -23,7 +23,7 @@ $(document).ready(function(){
 	});
 	
 	naver.maps.Event.addListener(marker, 'click', getClickHandler());
-
+*/
 	//캠핑장 리뷰 리스트 추가
 	boardAddList();
 
