@@ -7,9 +7,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -294,16 +296,33 @@ public class BoardServiceImpl implements BoardService {
 	@SuppressWarnings("deprecation")
 	@Override
 	public int updateBoard(BoardDTO dto, MultipartFile[] files,
-			HttpServletRequest request, String[] deletefile, String category) throws Exception {
+			HttpServletRequest request, String[] deletefile, String[] category) throws Exception {
 		
 		//본 게시글 dto
 		BoardDTO db_dto = boardDAO.getBoardContent(dto.getCm_no());
 		
-		//review 존재시 해쉬태그 추가
-		if(category!=null) {
-			dto.setHashtag(dto.getHashtag()+category);
+		Set<String> hashList = new HashSet<String>();
+		
+		StringTokenizer st_hash = new StringTokenizer(dto.getHashtag(), "#");
+		while(st_hash.hasMoreTokens()) {
+			hashList.add(st_hash.nextToken());
 		}
-
+		String cateList = "";
+		for(String s : category) {
+			cateList += s;
+		}
+		StringTokenizer st_cate = new StringTokenizer(cateList, "#");
+		while(st_cate.hasMoreTokens()) {
+			hashList.add(st_cate.nextToken());
+		}
+		
+		String hashtags = "";
+		for(String s : hashList) {
+			hashtags += "#" + s;
+		}
+		
+		dto.setHashtag(hashtags);
+		
 		//dto photofolder setting
 		dto.setPhoto_folder(db_dto.getPhoto_folder());
 		

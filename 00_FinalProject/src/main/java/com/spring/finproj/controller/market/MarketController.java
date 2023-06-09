@@ -67,6 +67,10 @@ public class MarketController {
 	public String marketWriteForm(BoardDTO dto, String[] category, @RequestParam("files") MultipartFile[] files,
 			HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
 		
+		for(String s: category) {
+			System.out.println(s);
+		}
+		
 		int re = marketService.insertMarketCont(dto, category, files, request, session);
 		if(re>0) {
 			return "redirect:/market/list";
@@ -91,9 +95,10 @@ public class MarketController {
     @RequestMapping("/updateform")
     public String update(BoardDTO dto, @RequestParam("upfile") MultipartFile[] files, 
     		@RequestParam(value = "deletefile", required = false) String[] deletefile, HttpSession session,
+    		@RequestParam(required = false) String[] category,
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
-    	int check = marketService.updateMarketCont(dto, files, session, request, deletefile);
+    	int check = marketService.updateMarketCont(dto, files, session, request, deletefile, category);
     	
     	if(check>0) {
 			return "redirect:/market/list";
