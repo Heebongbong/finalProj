@@ -87,7 +87,7 @@ public class ChatHandler extends TextWebSocketHandler {
 					WebSocketSession responseIdSession = userSessions.get(Integer.parseInt(receiveUserId));
 					
 					if (responseIdSession != null) {
-						TextMessage tmpMsg = new TextMessage(user.getNickname() + "," +user.getUser_no()+ ","+ receiveUserId + "," + content);
+						TextMessage tmpMsg = new TextMessage(user.getNickname() + "," +user.getUser_no()+ ","+ receiveUserId + "," + content + "," + c_dto.getCreated());
 						responseIdSession.sendMessage(tmpMsg);
 					}
 				}

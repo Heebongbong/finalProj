@@ -11,6 +11,7 @@
 <script>
 	const loginUser_phone = '${loginUser.phone}';
 	const loginType = '${loginUser.type}';
+	const loginEmail = '${loginUser.email }';
 </script>
 <div id="mypage_wrap">
 	<div id="mypage_container_center">

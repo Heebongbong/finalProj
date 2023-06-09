@@ -353,7 +353,7 @@ hr {
 .reply_write_insert{
 	position: absolute;
 	right: 0;
-	top: 0;
+	top: -5px;
 }
 .reply_write_insert img:hover{
 	content: url('/finproj/resources/images/icon/m_send_hover.png');

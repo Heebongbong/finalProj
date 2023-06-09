@@ -86,7 +86,7 @@ $("#submitBtn").click(function() {
   const button = $('sendBtn');
   const buttonText = button.innerText; 
    
-  if(input_phone.length != 0 && input_phone != "${loginUser.phone}"){
+  if(input_phone.length != 0 && input_phone != loginUser_phone){
     if(buttonText === '인증번호발송') {
     
      let codeError = document.getElementsByClassName("codeError")[0];
