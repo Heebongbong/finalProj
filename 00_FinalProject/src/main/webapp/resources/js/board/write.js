@@ -50,3 +50,35 @@ function removeDuplicates(array) {
     });
     return uniqueArr;
   }
+
+  function checkbox(checkbox) {
+    let li = checkbox.parentNode;
+    if (checkbox.checked) {
+      li.classList.add("checked");
+    } else {
+      li.classList.remove("checked");
+    }
+  }
+
+
+  function fileUpload(){
+	let fileInput = document.getElementById("upfile").files;
+	
+	if (fileInput.length > 0) {
+	  for (let j = 0; j < fileInput.length; j++) {
+		console.log(fileInput[j].name); // 파일명 출력
+		let container = document.createElement("div"); // <div> 요소 생성
+		container.classList.add("upload_img"); // 클래스 "img" 추가
+		
+		let img = document.createElement("img");
+		img.src = ctxPath+'/resources/images/icon/basis_img.png';
+		
+		let text = document.createElement("p");
+		
+		text.innerHTML = fileInput[j].name; // 파일명을 <p> 요소에 설정
+		container.appendChild(img); // <div> 요소에 <img> 요소 추가
+		container.appendChild(text); // <div> 요소에 <p> 요소 추가
+		document.getElementById("upfile").parentNode.appendChild(container); // <input> 요소의 부모 요소에 <div> 요소 추가
+	  }
+	}
+  }

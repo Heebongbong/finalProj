@@ -476,6 +476,7 @@ function boardAddList(){
           $('.list_main').append(table);
 
 		  $(".board_main_files").not('.slick-initialized').slick({
+				//lazyLoad: 'ondemand',
 				dots: false,
 				infinite: true,
 				speed: 1000,

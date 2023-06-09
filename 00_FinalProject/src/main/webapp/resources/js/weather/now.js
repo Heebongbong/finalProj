@@ -32,6 +32,8 @@
         $.ajax({
 			url: ctxPath+'/drive/rev/geocode', 
 			type: 'GET',
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8;",
 			data: {
 				coords_x: e.latlng.x,
 				coords_y: e.latlng.y,
@@ -39,7 +41,7 @@
 			async: false,
 			success: function(data) {
 				console.log(data);
-                $('.search-bar').val(data.addr);
+                $('.search_weather').val(data.addr);
 
 			},
 			error: function(err) {
@@ -135,7 +137,7 @@
     }
     
 	function moveWeather() {
-        let addr = $('.address').val();
+        let addr = $('.search_weather').val();
 
         if(addr !== ''){
 			

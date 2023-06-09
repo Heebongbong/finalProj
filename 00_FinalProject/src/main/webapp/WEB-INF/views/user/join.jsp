@@ -36,7 +36,7 @@
 					<p class="pwdError">&nbsp;</p>
 					</div>
 				<div class="text_part_box">
-					<p class="text">비밀번호 확인</p>
+					<p class="text">비밀번호확인</p>
 					<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
 					<p class="pwd_reError">&nbsp;</p>
 				</div>
