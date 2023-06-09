@@ -668,6 +668,11 @@ body {
 	width: 85%;
 	margin: auto;
 }
+@media all and (max-width:680px) {
+	#content{
+		width: 100%;
+	}
+}
 
 /* footer */
 #footer{
