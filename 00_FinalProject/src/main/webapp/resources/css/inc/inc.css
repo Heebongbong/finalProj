@@ -47,7 +47,8 @@ mark {
 	background-color: transparent;
 	color: inherit;
 }
-input{
+input,
+textarea{
 	padding: 0;
 	outline: none;
 }

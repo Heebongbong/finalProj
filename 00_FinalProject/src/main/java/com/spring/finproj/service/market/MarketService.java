@@ -15,6 +15,6 @@ public interface MarketService {
 	public Map<String, Object> getMarketList(String keyword, String category, HttpServletRequest request, int cm_no) throws Exception;
 	public int insertMarketCont(BoardDTO dto, String[] category, MultipartFile[] files, HttpServletRequest request, HttpSession session) throws Exception;
 	public Map<String, Object> contentBoard(HttpServletRequest request, int cm_no, Model model) throws Exception;
-	public int updateMarketCont(BoardDTO boardDTO, MultipartFile[] files, HttpSession session, HttpServletRequest request, String[] deletefile) throws Exception;
+	public int updateMarketCont(BoardDTO boardDTO, MultipartFile[] files, HttpSession session, HttpServletRequest request, String[] deletefile, String[] category) throws Exception;
 
 }
