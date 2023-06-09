@@ -79,7 +79,7 @@ public class BoardController {
     @ResponseBody
     public String update(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
     		HttpServletRequest request, @RequestParam(value = "deletefile", required = false) String[] deletefile,
-    		@RequestParam(required = false) String category) throws Exception {
+    		@RequestParam(required = false) String[] category) throws Exception {
     	
     	int check = boardService.updateBoard(dto, files, request, deletefile, category);
     	

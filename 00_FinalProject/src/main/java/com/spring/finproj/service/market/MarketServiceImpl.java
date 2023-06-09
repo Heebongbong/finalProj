@@ -7,9 +7,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -234,7 +236,27 @@ public class MarketServiceImpl implements MarketService{
 
 	@Override
 	public int updateMarketCont(BoardDTO boardDTO, MultipartFile[] files, HttpSession session,
-			HttpServletRequest request, String[] deletefile) throws Exception {
+			HttpServletRequest request, String[] deletefile, String[] category) throws Exception {
+		Set<String> hashList = new HashSet<String>();
+		
+		StringTokenizer st_hash = new StringTokenizer(boardDTO.getHashtag(), "#");
+		while(st_hash.hasMoreTokens()) {
+			hashList.add(st_hash.nextToken());
+		}
+		String cateList = "";
+		for(String s : category) {
+			cateList += s;
+		}
+		StringTokenizer st_cate = new StringTokenizer(cateList, "#");
+		while(st_cate.hasMoreTokens()) {
+			hashList.add(st_cate.nextToken());
+		}
+		
+		String hashtags = "";
+		for(String s : hashList) {
+			hashtags += "#" + s;
+		}
+		boardDTO.setHashtag(hashtags);
 		
 		//본 게시글 dto
 		BoardDTO db_dto = boardDAO.getBoardContent(boardDTO.getCm_no());
