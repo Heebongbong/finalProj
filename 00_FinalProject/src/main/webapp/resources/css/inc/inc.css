@@ -102,7 +102,6 @@ a:hover{
 	/* border-bottom: 1px solid black; */
 }
 
-<<<<<<< HEAD
 body {
 	line-height: 1;
 	overflow-x: hidden;
@@ -127,33 +126,6 @@ body {
 	z-index: 2;
 	height: 100px;
 }
-=======
-
-	body {
-		line-height: 1;
-		overflow-x: hidden;
-		-webkit-text-size-adjust: none;
-		width: 1000px;
-		margin: auto;
-	}
-	#container{
-		width: 100%;
-		margin: 100px auto 0 auto;
-		background-color: white;
-		position: relative;
-		height: 100%;
-	}
-	
-	#header{
-		width: 1000px;
-		position: fixed;
-		top: 0;
-		left: auto;
-		background-color: #fff;
-		z-index: 2;
-		height: 100px;
-	}
->>>>>>> branch 'master' of https://github.com/Heebongbong/finalProj.git
 
 @media all and (max-width:1000px) {
 	body {
@@ -168,12 +140,6 @@ body {
 
 @media all and (max-width:680px) {
 	body {
-<<<<<<< HEAD
-=======
-	line-height: 1;
-	overflow-x: hidden;
-	-webkit-text-size-adjust: none;
->>>>>>> branch 'master' of https://github.com/Heebongbong/finalProj.git
 	width: 100%;
 	}
 	#container{
@@ -194,21 +160,15 @@ body {
 		position: relative;
 		width: 100%;
 		/* border-bottom: 1px solid black; */
-<<<<<<< HEAD
 	}
 
 	.login_navi_logo_li img{
 		width: 55.5px;
     height: 56px;
-=======
->>>>>>> branch 'master' of https://github.com/Heebongbong/finalProj.git
 	}
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of https://github.com/Heebongbong/finalProj.git
 .login_navi_logo_li{
 	width: 110px;
 	display: flex;
