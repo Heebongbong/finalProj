@@ -31,13 +31,13 @@
 }
 
 @media all and (max-width:1000px){
-.weather_index_wrap {
-	padding-left: 11%;
-    padding-right: 7%;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-}
+	.weather_index_wrap {
+		padding-left: 11%;
+	    padding-right: 7%;
+	    margin-top: 10px;
+	    display: flex;
+	    justify-content: space-between;
+	}
 }
 
 .day_style {
