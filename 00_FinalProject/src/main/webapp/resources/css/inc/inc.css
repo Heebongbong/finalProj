@@ -480,6 +480,7 @@ body {
 .user_menu_logon_cont img{
 	border-radius: 50%;
 	width: 100px;
+	height: 100px;
 }
 .user_menu_logon_cont > * {
 	margin-bottom: 10px;
