@@ -200,13 +200,19 @@ function openwindows() {
 					}
 				    
 				    let table = "<div class='text'>" + wp.name + "</div>" +
-								"<div class='drive_road_img'>" +
-						    		"<img src='"+wp.img+"'/>" +
-					    		"</div>" +
-					    		"<div class='drive_road_info'>" +
-					    			wp.info +
-					    		"</div>";
-					
+								"<div class='drive_background'>" +
+									"<div class='text_wrap'>" +
+										"<div class='drive_road_img'>" +
+											"<img src='"+wp.img+"'/>" +
+										"</div>" +
+										"<div class='drive_road_address'>" +
+											"주소 : "+ wp.address +
+										"</div>" +
+										"<div class='drive_road_info'>" +
+											wp.info +
+										"</div>" +
+									"</div>" +
+								"</div>";
 					$('#drive_road_view').css('height', 'auto');
 				    $('#drive_road_view').html(table);
 

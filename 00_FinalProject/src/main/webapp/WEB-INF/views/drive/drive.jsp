@@ -15,6 +15,9 @@
 			<p id="addr"></p>
 		</div>
 	</div>
+	
+	<hr>
+	
 	<div id="drive_road_view">
 	</div>
 </div>
