@@ -4,9 +4,38 @@
 .index_camping_content{
 	text-align: center;
 }
+.camping_img {
+	height: 550px;
+	position: reative;
+}
+@media all and (max-width:1000px){
+	.camping_img {
+		height: 420px;
+	}
+}
+@media all and (max-width:800px){
+	.camping_img {
+		height: 350px;
+	}
+}
+@media all and (max-width:680px) {
+	.camping_img {
+		height: 310px;
+	}
+}
+@media all and (max-width:480px) {
+	.camping_img {
+		height: 250px;
+	}
+}
+@media all and (max-width:360px) {
+	.camping_img {
+		height: 200px;
+	}
+}
 .camping_img img{
 	width: 100%;
-	height: auto;
+	height: 100%;
 	margin: auto;
 }
 .camping_name{

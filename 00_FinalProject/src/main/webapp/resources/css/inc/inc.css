@@ -77,25 +77,6 @@ a:hover{
 	line-height: 25px;
 	color: #7A7A7A;
 }
-body {
-	line-height: 1;
-	overflow-x: hidden;
-	-webkit-text-size-adjust: none;
-	width: 1000px;
-	margin: auto;
-}
-
-.board_like_wrap i{
-	font-size: 1.5em;
-}
-
-.board_like_wrap span {
-	font-size: 1.2em;
-	vertical-align: text-bottom;
-	line-height: 25px;
-	margin-left: 5px;
-	color: #7A7A7A;
-}
 
 #header .login_navi{
 	display: flex;
@@ -137,11 +118,7 @@ body {
 
 @media all and (max-width:1000px) {
 	body {
-		line-height: 1;
-		overflow-x: hidden;
-		-webkit-text-size-adjust: none;
 		width: 80%;
-		margin: auto;
 	}
 	#container{
 		width: 100%;
@@ -338,9 +315,9 @@ body {
 	padding: 5%;
 }
 @media all and (max-width:680px) {
-.user_menu_wrap{
+	.user_menu_wrap{
 	display: none;
-	width: 35%;
+	width: 65%;
 	background-color: #f1f1f1;
 	position: absolute;
 	top: 80px;
