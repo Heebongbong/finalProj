@@ -125,6 +125,13 @@ body {
 	z-index: 2;
 	height: 100px;
 }
+@media all and (min-width:1000px) {
+	.login_navi_logo_li img{
+		margin: 8px 0 0 117px;
+		height: 45px;
+		content: url('/finproj/resources/images/logo/logo_large.png');
+	}
+}
 
 @media all and (max-width:1000px) {
 	body {
@@ -133,6 +140,8 @@ body {
 	#header{
 		width: 80%;
 	}
+	
+	
 }
 
 @media all and (max-width:680px) {
@@ -160,8 +169,9 @@ body {
 
 	.login_navi_logo_li img{
 		width: 55.5px;
-   	 	height: 56px;
+		height: 56px;
 	}
+
 }
 
 
