@@ -179,6 +179,12 @@
 	height: 50px;
 	border-radius: 50%;
 }
+.board_user_prof span{
+	font-weight: bold;
+	font-size: 1em;
+	position: absolute;
+    left: 60px;
+}
 
 /* detail_modal css */
 .detail_modal_overlay{
@@ -309,13 +315,17 @@
 .board_reply_user{
 	width: 30%;
 	display: flex;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	align-items: center;
 }
 .board_reply_user img{
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
+}
+.board_reply_user span{
+	margin-left: 10px;
+	font-weight: bold;
 }
 .board_reply_cont_text{
 	width: 100%;
@@ -341,6 +351,22 @@
 }
 .fa-heart{
 	color: #6FCF97;
+}
+@media all and (max-width: 680px) {
+	.board_reply_ment_cont{
+		display: block;
+		overflow-x: hidden;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}	
+	.board_reply_cont_text{
+	    margin-left: 49px;
+	}
+	.mention_like_wrap{
+		float: right;
+		position: relative;
+		top: -59px;
+	}
 }
 .board_reply_write{
 	display: flex;

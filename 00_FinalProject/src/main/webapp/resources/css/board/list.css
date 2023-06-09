@@ -313,7 +313,22 @@
 	font-size: 1.2em;
 	color: #6FCF97;
 }
-
+@media all and (max-width: 680px) {
+	.board_reply_ment_cont{
+		display: block;
+		overflow-x: hidden;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}	
+	.board_reply_cont_text{
+	    margin-left: 49px;
+	}
+	.mention_like_wrap{
+		float: right;
+		position: relative;
+		top: -59px;
+	}
+}
 .board_reply_write{
 	display: flex;
 	justify-content: flex-start;
