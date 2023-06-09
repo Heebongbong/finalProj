@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+.camp_addr {
+  font-size: .95em;
+  color: #7E7E7E;
+  font-weight: bold;
+}
+
 .camp_head {
   display: flex;
   justify-content: space-between;
@@ -13,11 +19,7 @@
   color: black;
 }
 
-.camp_addr {
-  font-size: .95em;
-  color: #7E7E7E;
-  font-weight: bold;
-}
+
 
 .camp_tag {
   display: flex;
@@ -128,3 +130,29 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+@media all and (max-width:1000px){
+
+	.side_search {
+		width: 50%;
+	}
+}
+
+@media all and (max-width:680px){
+	
+	.camp_title a,
+	.camping_side_ul li {
+		font-size: calc(0.6em + 0.8vw);
+	}
+	
+	.camp_tag p,
+	.camp_addr {
+		font-size: calc(0.4em + 0.8vw);
+	}
+	
+	.side_search {
+		width: 70%;
+	}
+	
+}
+

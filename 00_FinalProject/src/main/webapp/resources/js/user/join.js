@@ -286,7 +286,7 @@
 				emailUnique : '이미 등록된 이메일 주소입니다.'
 			},
 			phone : {
-				phoneLength : "유효한 휴대전화 번호를 입력하세욘",
+				phoneLength : "유효한 휴대전화 번호를 입력하세요",
 				phoneCheck : "공백, 문자 없이 입력하세요",
 				phoneUnique : "이미 등록된 번호입니다."
 			},
