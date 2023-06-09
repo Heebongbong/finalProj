@@ -48,7 +48,7 @@
 		</c:if>
 		</ul>
 		
-		<hr>
+		<hr class="hr">
         
         <div class="text">내 용</div>
         
@@ -56,7 +56,7 @@
 		
 		<textarea class="form-control" rows="10" id="content" name="content" placeholder=" 내용을 입력하세요 "></textarea>
 		
-		<hr>
+		<hr class="hr">
 		
 		<label for="upfile" class="upload_text">사진첨부</label>
 
