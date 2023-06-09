@@ -111,7 +111,6 @@ body {
 	margin: auto;
 }
 #container{
-	width: 100%;
 	margin: 100px auto 0 auto;
 	background-color: white;
 	position: relative;
@@ -283,6 +282,12 @@ body {
 	justify-content: space-around;
 	padding: 5px;
 }
+@media all and (max-width:680px) {
+	.alarm_modal_overlay{
+		top: 80px;
+		right: 0;
+	}
+}
 .alarm_modal_window{
 	width: 100%;
 	height: 100%;
@@ -326,6 +331,7 @@ body {
 @media all and (max-width:680px) {
 .user_menu_wrap{
 		width: 80%;
+		top: 80px;
 	}
 }
 .user_menu_body{
@@ -439,7 +445,11 @@ body {
 	color: #9D9D9D;
 	padding: 20px;
 }
-
+@media all and (max-width:680px) {
+	#header .user_menu_foot{
+		padding: 10px;
+	}
+}
 /* chat manage */
 .chat_wrap{
     position: sticky;
@@ -674,6 +684,7 @@ body {
 @media all and (max-width:680px) {
 	#footer{
 		width: 100%;
+		height: 60px;
 	}
 }
 
@@ -695,6 +706,12 @@ body {
 	font-size: 14px;
 	width: 60px;
 	align-items: center;
+}
+
+@media all and (max-width:680px) {
+	#footer .move_navi li{
+		font-size: .8em;
+	}
 }
 
 
@@ -723,10 +740,34 @@ body {
 	margin: 10px 0 5px 0;
 }
 
-#footer_market img{
-	width: 45px;
-	margin: 10px 0 5px 0;
+@media all and (max-width:680px) {
+
+	#footer_weather img{
+		width: 38px;
+		margin-bottom: 5px;
+	}
+	
+	#footer_drive img{
+		width: 30px;
+		margin-bottom: 5px;
+	}
+	
+	#footer_camp img{
+		width: 35px;
+		margin-bottom: 5px;
+	}
+	
+	#footer_board img{
+		width: 33px;
+		margin-bottom: 5px;
+	}
+	
+	#footer_market img{
+		width: 40px;
+		margin: 4px 0 8px 0;
+	}
 }
+
 
 .navi_footer_a{
 	display: flex;
@@ -751,6 +792,13 @@ body {
 	width: 37px;
 	margin-left: 92%;
 }
+
+@media all and (max-width:680px) {
+	.top_write_navi{
+	margin-left: 88%;
+	height: 73px;
+	}
+}
 .write_plus_navi{
 	display: none;
 	flex-direction: column;
@@ -760,6 +808,13 @@ body {
 	width: 38px;
 	height: 38px;
 	cursor: pointer;
+}
+
+@media all and (max-width:680px) {
+	.top_write_navi img{
+		width: 34px;
+		height: 34px;
+	}
 }
 .comm_write_icon,
 .market_write_icon,
