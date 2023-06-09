@@ -27,7 +27,7 @@
 				<td><img src="${dto.profile }" width="50px" height="50px"></td>
 				<td>${dto.authen }</td>
 				<td>${dto.profile_type }</td>
-				<td><a href="${ctxPath}/user/admin/delete?user_no=${dto.user_no }">삭제</a></td>
+				<td><a href="${ctxPath}/admin/user/delete?user_no=${dto.user_no }">삭제</a></td>
 				<td></td>
 			</tr>
 		</c:forEach>

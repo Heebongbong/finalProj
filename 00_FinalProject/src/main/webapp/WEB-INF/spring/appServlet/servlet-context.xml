@@ -59,7 +59,8 @@
 	<!-- Intercepter -->
 	<interceptors>
 		<interceptor>
-			<mapping path="/**"/>
+			<mapping path="/**"/> <!-- 포함되는 url -->
+			<exclude-mapping path="/admin/**"/> <!-- 제외하는 url -->
 			<beans:bean id="intercepter" class="com.spring.finproj.interceptor.Interceptor" />
 		</interceptor>
 	</interceptors>

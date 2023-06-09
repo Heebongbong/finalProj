@@ -448,7 +448,8 @@ function boardAddList(){
 					//<!-- 댓글이 목록이 들어가는 곳 -->
 					for(let j = 0; j < mention.length; j++) {
 						table +=  "<div class='board_reply_ment_cont' onmouseover='open_reply_delete_btn(this)' id='"+mention[j].mention_no+"'>"+
-										"<div class='board_reply_user'><img src='"+mention[j].profile+"'><span>"+mention[j].nickname+"</sapn></div>"+
+										"<div class='board_reply_user' onclick='if(confirm(\"유저의 게시글 페이지로 이동합니다\")){location.href=\""+ctxPath+"/user/userboard?user_no="+board.user_no+"\"}'>"+
+										"<img src='"+mention[j].profile+"'><span>"+mention[j].nickname+"</sapn></div>"+
 										"<div class='board_reply_cont_text'>" +
 											"<div class='board_reply_ment'>"+mention[j].ment+"</div>" +
 											"<div class='board_reply_date_delete_wrap'>" + 

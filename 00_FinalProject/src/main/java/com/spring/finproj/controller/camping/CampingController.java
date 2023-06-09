@@ -40,12 +40,6 @@ public class CampingController {
 		return "camping.details";
 	}
 	
-	// 관리자
-	@RequestMapping("/admin/update")
-	public void campingUpdateList() throws IOException {
-		campingService.updateCampingListSetDB();
-	}
-	
 	@RequestMapping("/addlist")
 	@ResponseBody
 	public List<CampingDTO> campingAddList(int content_id,
