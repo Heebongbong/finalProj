@@ -9,7 +9,17 @@
 #forgetForm {
     width: 36%;
 	margin: 5% 0;
-	
+}
+
+@media all and (max-width:1000px) {
+    #forgetForm {
+		width: 55%;
+	}
+}
+@media all and (max-width:680px) {
+    #forgetForm {
+     width: 85%;
+	}
 }
 
 #title {
