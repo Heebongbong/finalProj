@@ -48,9 +48,14 @@
 				${dto.price }
 			</div>
 			<div class="accuse_info_wrap_td">
-				<button onclick="deleteChoice()">삭제</button>
-				<a href="${ctxPath}/admin/board/delete?no=${dto.cm_no }">전체글 삭제</a>
-				<a href="${ctxPath}/admin/deleteAcuuse?cm_no=${ddto.cm_no }&user_no=${ddto.user_no}">신고글 삭제</a>
+				<button id="btn" onclick="toggleModal('myModal_${status.index}')">삭제</button>
+
+				<div id="myModal_${status.index}" style="display:none">
+					<div>
+				    	<div><a href="${ctxPath}/board/admin/delete?cm_no=${dto.cm_no }">전체삭제</a></div>
+				    	<div><a href="${ctxPath}/board/admin/deleteAcuuse?cm_no=${ddto.cm_no }&user_no=${ddto.user_no}">신고삭제</a></div>
+					</div>
+				</div>
 			</div>
 		</c:forEach>
 	</div>	
