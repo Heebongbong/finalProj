@@ -1,6 +1,5 @@
 package com.spring.finproj.controller.camping;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +37,6 @@ public class CampingController {
 		
 		campingService.getCampingContent(model, content_id);
 		return "camping.details";
-	}
-	
-	// 관리자
-	@RequestMapping("/admin/update")
-	public void campingUpdateList() throws IOException {
-		campingService.updateCampingListSetDB();
 	}
 	
 	@RequestMapping("/addlist")

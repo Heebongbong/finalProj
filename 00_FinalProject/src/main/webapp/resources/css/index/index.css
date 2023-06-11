@@ -128,7 +128,7 @@
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 20px auto;
-	width: 90%;
+	width: 95%;
 	position: relative;
 }
 
@@ -324,6 +324,22 @@
 
 .mention_like_wrap span {
 	margin-left: 5px;
+}
+@media all and (max-width: 680px) {
+	.board_reply_ment_cont{
+		display: block;
+		overflow-x: hidden;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}	
+	.board_reply_cont_text{
+	    margin-left: 49px;
+	}
+	.mention_like_wrap{
+		float: right;
+		position: relative;
+		top: -59px;
+	}
 }
 .fa-heart{
 	font-size: 1.2em;

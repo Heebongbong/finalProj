@@ -3,6 +3,9 @@
 html, body, #container, #content {
 	height:100%;
 }
+body{
+	overflow-y: hidden;
+}
 
 #container {
 	width: 1000px;

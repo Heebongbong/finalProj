@@ -5,18 +5,16 @@
 <div id="camping_side">
 	<ul class='camping_side_ul'>
 		<li>
-			<a href="${ctxPath }/admin/admin">채팅</a>
+			<a href="${ctxPath }/admin">채팅</a>
 		</li>
 		<li>
 			<a href="${ctxPath }/admin/camping">캠핑</a>
 		</li>
 		<li>
-			<a href="${ctxPath }/user/admin">유저</a>
+			<a href="${ctxPath }/admin/user">유저</a>
 		</li>
 		<li>
-			<a href="${ctxPath }/board/accuse">신고</a>
+			<a href="${ctxPath }/admin/accuse">신고</a>
 		</li>
 	</ul>
-	
-	
 </div>

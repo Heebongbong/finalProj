@@ -18,8 +18,6 @@
 		<div class="accuse_info_wrap_th">(마켓)<br>가격</div>
 		<div class="accuse_info_wrap_th">글삭제</div>
 		
-		
-		
 		<c:forEach items="${accuseList }" var="dto" varStatus="status">
 			<div class="accuse_info_wrap_td">${dto.cm_no }</div>
 			<div class="accuse_info_wrap_td">${dto.nickname }</div>
@@ -62,7 +60,3 @@
 		</c:forEach>
 	</div>	
 </div>
-			
-			
-			
-				

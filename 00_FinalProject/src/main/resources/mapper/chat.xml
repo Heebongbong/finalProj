@@ -11,6 +11,7 @@
 		where (user_no1 = #{user_no1} or user_no2 = #{user_no1})
 		and (user_no1 = #{user_no2} or user_no2 = #{user_no2})
 	</select>
+	
 	<select id="chat_room_list" parameterType="int" resultType="chatDTO">
 		<!-- select * from chat_room 
 		where (user_no1 = #{user_no} or user_no2 = #{user_no}) 
@@ -30,18 +31,21 @@
 		WHERE up1.user_no = #{user_no}
 		   OR up2.user_no = #{user_no};
 	</select>
+	
 	<insert id="chat_room_insert" parameterType="chatDTO">
 		<selectKey keyProperty="chat_room_no" resultType="int" order="BEFORE">
 			select max(chat_room_no) from chat_room
 		</selectKey>
 		insert into chat_room values(#{chat_room_no}+1, #{user_no1}, #{user_no2}, 0)
 	</insert>
+	
 	<insert id="chat_insert" parameterType="chatDTO">
 		<selectKey keyProperty="chat_no" resultType="int" order="BEFORE">
 			select max(chat_no) from chat
 		</selectKey>
 		insert into chat values(#{chat_no}+1, #{chat_room_no}, #{send_user}, #{chat_cont}, now())
 	</insert>
+	
 	<select id="faq_list" resultType="faqDTO">
 		select * from faq a join faq_category b on a.faq_cate_no = b.faq_cate_no
 	</select>
@@ -49,22 +53,31 @@
 		select * from chat_room where (user_no1 = #{user_no1} or user_no2 = #{user_no1})
 		and (user_no1 = #{user_no2} or user_no2 = #{user_no2})
 	</select>
+	
 	<delete id="chat_room_delete" parameterType="int">
 		delete from chat_room where chat_room_no = #{chat_room_no}
 	</delete>
+	
 	<delete id="chat_list_delete" parameterType="int">
 		delete from chat where chat_room_no = #{chat_room_no}
 	</delete>
+	
 	<select id="chat_room_get_cont" parameterType="int" resultType="chatDTO">
 		select * from chat_room where chat_room_no = #{chat_room_no}
 	</select>
+	
 	<insert id="alarm_insert" parameterType="alarmDTO">
 		<selectKey keyProperty="alarm_no" resultType="int" order="BEFORE">
 			select max(alarm_no) from alarm
 		</selectKey>
 		insert into alarm values(#{alarm_no}+1, #{user_no}, #{field}, #{check})
 	</insert>
+	
 	<select id="alarm_list" parameterType="int" resultType="alarmDTO">
 		select * from alarm where user_no = #{user_no}
 	</select>
+	
+	<update id="chat_room_exit_user" parameterType="chatDTO">
+		update chat_room set exit_user = #{exit_user} where chat_room_no = #{chat_room_no}
+	</update>
 </mapper>

@@ -78,6 +78,7 @@ hr {
 .camp_lineIntro {
 	font-size: 1.1em;
 	color: #4D4D4D;
+	margin-left: 10px; 
 	margin-bottom: 30px;
 	font-weight: bold;
 	text-align: left;
@@ -86,7 +87,7 @@ hr {
 .camp_intro {
 	font-size: .9em;
 	color: #4D4D4D;
-	margin-bottom: 30px;
+	margin: 0px 20px 30px 20px;
 	text-align: left;
 }
 
@@ -323,13 +324,17 @@ hr {
 .board_reply_user{
 	width: 30%;
 	display: flex;
-	justify-content: space-between;
+	/*justify-content: space-between;*/
 	align-items: center;
 }
 .board_reply_user img{
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
+}
+.board_reply_user span{
+	margin-left: 10px;
+	font-weight: bold;
 }
 .board_reply_cont_text{
 	width: 100%;
@@ -355,6 +360,22 @@ hr {
 }
 .fa-heart{
 	color: #6FCF97;
+}
+@media all and (max-width: 680px) {
+	.board_reply_ment_cont{
+		display: block;
+		overflow-x: hidden;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}	
+	.board_reply_cont_text{
+	    margin-left: 49px;
+	}
+	.mention_like_wrap{
+		float: right;
+		position: relative;
+		top: -59px;
+	}
 }
 .board_reply_write{
 	display: flex;

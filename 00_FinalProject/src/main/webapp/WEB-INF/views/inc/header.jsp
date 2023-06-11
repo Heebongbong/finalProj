@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
@@ -26,10 +26,10 @@
 		<c:if test="${!empty loginUser }"><!-- 로그인시 -->
 			<li class="user_menu_profile">
 				<c:if test="${alarmList.get('new_check') == 0 }">
-					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><img src="${ctxPath }/resources/images/icon/alarm.png"></a>
+					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><img class="profile_img_alarm" src="${ctxPath }/resources/images/icon/alarm.png"></a>
 				</c:if>
 				<c:if test="${alarmList.get('new_check') != 0 }">
-					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><img src="${ctxPath }/resources/images/icon/alarm_o.png"></a>
+					<a href="javascript:alarm_modal()" onclick="" class="alarm_icon"><img class="profile_img_alarm" src="${ctxPath }/resources/images/icon/alarm_o.png"></a>
 				</c:if>
 				<c:if test="${alarmList.get('chat_on').getTotalCount() == 0 }">
 					<a class="chat_open" href="javascript:open_chat(0)"><img src="${ctxPath }/resources/images/icon/chat_icon.png" alt=""></a>
@@ -75,18 +75,27 @@
 		</div>
 		<div class="chat_list_main">
 			<div class="chat_list">
-				<p class="chat_list_p"><a href="javascript:chat_admin()"><img class="chat_list_img" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png">Admin</a></p>
 				<c:forEach items="${chatRoomList }" var="room">
+				
+				<%--admin chat --%>
+				<c:if test="${room.user_no1 == loginUser.user_no && room.user_no2 == 1}">
+					<p class="chat_list_p"><a href="javascript:chat_admin(${room.chat_room_no })"><img class="chat_list_img" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png">Admin</a></p>
+				</c:if>
+				<c:if test="${room.user_no2 == loginUser.user_no && room.user_no1 == 1}">
+					<p class="chat_list_p"><a href="javascript:chat_admin(${room.chat_room_no })"><img class="chat_list_img" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png">Admin</a></p>
+				</c:if>
+				
+				<%-- users chat --%>
 				<c:if test="${room.user_no1 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
 					<p class="chat_list_p" onmouseover="open_room_out(this)">
-						<a href="javascript:chat_start(${room.user_no2 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
-						<button onclick="chat_room_out(${room.chat_room_no})" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+						<a href="javascript:chat_start(${room.user_no2 }, ${room.chat_room_no })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
+						<button onclick="chat_room_out(${room.chat_room_no })" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
 					</p>
 				</c:if>
 				<c:if test="${room.user_no2 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
 					<p class="chat_list_p" onmouseover="open_room_out(this)">
-						<a href="javascript:chat_start(${room.user_no1 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
-						<button onclick="chat_room_out(${room.chat_room_no}, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+						<a href="javascript:chat_start(${room.user_no1 }, ${room.chat_room_no })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
+						<button onclick="chat_room_out(${room.chat_room_no }, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
 					</p>
 				</c:if>
 				</c:forEach>
