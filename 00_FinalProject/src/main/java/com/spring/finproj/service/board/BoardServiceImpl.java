@@ -29,6 +29,7 @@ import com.spring.finproj.model.board.BoardDTO;
 import com.spring.finproj.model.board.MentionDAO;
 import com.spring.finproj.model.board.MentionDTO;
 import com.spring.finproj.model.chat.ChatDAO;
+import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Service
@@ -39,6 +40,8 @@ public class BoardServiceImpl implements BoardService {
 	private MentionDAO mentionDAO;
 	@Autowired
 	private ChatDAO chatDAO;
+	@Autowired
+	private UserDAO UserDAO;
 
 	@Override
 	public Map<String, Object> getBoardAddList(HttpServletRequest request, int cm_no,
@@ -277,6 +280,7 @@ public class BoardServiceImpl implements BoardService {
 		if(re>0) {
 			boardDAO.deleteAccuserContent(cm_no);
 			boardDAO.deleteRecommandContent(cm_no);
+			
 			
 			if(dto.getContent_id()!=0) {
 				boardDAO.deleteReview(cm_no);

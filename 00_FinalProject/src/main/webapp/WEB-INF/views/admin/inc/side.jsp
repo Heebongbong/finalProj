@@ -5,6 +5,9 @@
 <div id="camping_side">
 	<ul class='camping_side_ul'>
 		<li>
+			<a href="${ctxPath }/admin/admin">채팅</a>
+		</li>
+		<li>
 			<a href="${ctxPath }/admin/camping">캠핑</a>
 		</li>
 		<li>
@@ -13,11 +16,6 @@
 		<li>
 			<a href="${ctxPath }/board/accuse">신고</a>
 		</li>
-		<li>
-			<a href="${ctxPath }/admin/waypoint">웨이</a>
-		</li>
-		
-		
 	</ul>
 	
 	
