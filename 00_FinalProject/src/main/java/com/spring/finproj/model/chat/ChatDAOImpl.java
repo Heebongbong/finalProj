@@ -72,5 +72,10 @@ public class ChatDAOImpl implements ChatDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("alarm_list", user_no);
 	}
-	
+
+	@Override
+	public int updateChatExitUser(ChatDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("chat_room_exit_user", dto);
+	}
 }

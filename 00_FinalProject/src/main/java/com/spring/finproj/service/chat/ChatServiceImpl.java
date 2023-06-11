@@ -52,11 +52,9 @@ public class ChatServiceImpl implements ChatService {
 		dto.setUser_no1(login.getUser_no());
 		dto.setUser_no2(user_no);
 		
-		System.out.println(dto);
-		
 		ChatDTO re_dto = chatDAO.getChatRoomContent(dto);
-		System.out.println(re_dto);
-		if(re_dto==null) {
+		
+		if(re_dto==null) { //신규 채팅 등록
 			int re = chatDAO.insertChatRoomCont(dto);
 			if(re>0) {
 				dto.setSend_user(login.getUser_no());
@@ -74,8 +72,14 @@ public class ChatServiceImpl implements ChatService {
 			}else {
 				return "0";
 			}
-		}else {
-			return "1";
+		}else { //기존 채팅 열기 - 채팅룸 번호
+			String str = "{ 'nickname' : '" + "''"
+					+ "' , 'profile' : '" + "''"
+					+ "' , 'chat_room_no' : '" + re_dto.getChat_room_no()
+					+ "' }";
+			
+			JSONObject j = new JSONObject(str);
+			return j.toString();
 		}
 	}
 
@@ -100,14 +104,25 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int deleteChatRoom(int chat_room_no) {
+	public int deleteChatRoom(int chat_room_no, HttpSession session) {
 		// TODO Auto-generated method stub
-		//chatDAO.getChatRoomContent(dto)
+		ChatDTO dto = new ChatDTO();
 		
-		int re = chatDAO.deleteChatRoom(chat_room_no);
-		if(re>0) {
-			re = chatDAO.deleteChatList(chat_room_no);
+		UserDTO logU = (UserDTO) session.getAttribute("LoginUser");
+		
+		dto.setChat_room_no(chat_room_no);
+		dto.setExit_user(logU.getUser_no());
+		
+		dto = chatDAO.getChatRoomContent(dto);
+		
+		if(dto.getExit_user()==0) { // 나간 유저가 없을 때 exit user 세팅
+			return chatDAO.updateChatExitUser(dto);
+		}else { // 한명이 나가면 채팅방 삭제
+			int re = chatDAO.deleteChatRoom(chat_room_no);
+			if(re>0) {
+				re = chatDAO.deleteChatList(chat_room_no);
+			}
+			return re;
 		}
-		return re;
 	}
 }
