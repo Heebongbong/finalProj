@@ -30,8 +30,13 @@
 
 	//채팅 닫기
 	$('body').on('click', function(event){
+
 		if($(event.target).parents('.chat_wrap').length < 1 && (event.target.className!='chat_wrap' && event.target.className!='user_profile_chat_plus')){
+			
 			if($('.chat_wrap').css('display')=='flex'){
+				if($(event.target).val()=="관리자와 채팅하기"){
+					return false;
+				}
 				close_chat();
 			}
 		}
@@ -69,17 +74,32 @@ function top_move_func(){
 function open_footer_write(){
 	$('.top_move_icon').hide();
 	if($('.write_plus_navi').css('display')!='flex'){
-		$('.comm_write_icon').animate({
-			bottom: "+=50"
-		},100);
-		$('.market_write_icon').animate({
-			bottom: "+=50",
-			right: '+=50'
-		},200);
-		$('.review_write_icon').animate({
-			right: '+=50',
-			bottom: '+=2'
-		},300);
+		if(matchMedia("screen and (max-width:680px)").matches){
+			$('.comm_write_icon').animate({
+				bottom: "+=60",
+				right: '+=2'
+			},100);
+			$('.market_write_icon').animate({
+				bottom: "+=60",
+				right: '+=50'
+			},200);
+			$('.review_write_icon').animate({
+				right: '+=50',
+				bottom: '+=15'
+			},300);
+		}else{
+			$('.comm_write_icon').animate({
+				bottom: "+=50"
+			},100);
+			$('.market_write_icon').animate({
+				bottom: "+=50",
+				right: '+=50'
+			},200);
+			$('.review_write_icon').animate({
+				right: '+=50',
+				bottom: '+=2'
+			},300);
+		}
 	}
 	$('.write_plus_navi').css('display', 'flex');
 }
@@ -315,13 +335,15 @@ function chat_board(no){
 				success: function(data){
 					if(data==0){
 						alert('채팅방 등록 중 오류');
-					}else if(data==1){
-
-					}else{
-						let table = "<p><a href='javascript:chat_start("+no+")'><img src='"+data.profile+"'>"+data.nickname+"</a></p>" +
-									"<button onclick='chat_room_out("+data.chat_room_no+")' class='chat_room_out'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></button>";
-						$('.chat_list').append(table);
-						chat_start(no);
+					}else { // 기존 채팅 존재
+						if(data.nickname == ''){
+							chat_start(no, data.chat_room_no);
+						}else{
+							let table = "<p><a href='javascript:chat_start("+no+","+data.chat_room_no+")'><img src='"+data.profile+"'>"+data.nickname+"</a></p>" +
+										"<button onclick='chat_room_out("+data.chat_room_no+")' class='chat_room_out'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></button>";
+							$('.chat_list').append(table);
+							chat_start(no, data.chat_room_no);
+						}
 					}
 				},
 				error: function(){
@@ -332,7 +354,7 @@ function chat_board(no){
 	}
 }
 
-function chat_start(no){
+function chat_start(no, room_no){
 	$('.chat_cont').html("");
 	$('.chat_msg').val("");
 	$.ajax({
@@ -359,11 +381,11 @@ function chat_start(no){
 				}
 				
 			});
-			console.log($('.chat_send'));
+
 			$('#chat_receipt').val(no);
 			$('.chat_cont').append(table);
-			$('.chat_send').attr('onclick', 'send_chat('+chat_list[0].chat_room_no+', '+loginUser_authen+', '+no+')');
-			$('.chat_msg').attr('onkeydown', 'if( event.keyCode == 13 ){send_chat('+chat_list[0].chat_room_no+', '+loginUser_authen+', '+no+');}');
+			$('.chat_send').attr('onclick', 'send_chat('+room_no+', '+loginUser_authen+', '+no+')');
+			$('.chat_msg').attr('onkeydown', 'if( event.keyCode == 13 ){send_chat('+room_no+', '+loginUser_authen+', '+no+');}');
 
 			$('.chat_title_nick_send').text(send_user.nickname);
 			$('.chat_title_img_send').attr('src', send_user.profile);
@@ -379,7 +401,7 @@ function chat_start(no){
 
 function connect_chat() {
 	
-	let ws = new WebSocket("ws://192.168.140.38:8787/finproj/chating");
+	let ws = new WebSocket("ws://localhost:8787/finproj/chating");
 	socket = ws;
 	//이벤트 헨들러
 	ws.onopen = function() {
@@ -443,7 +465,7 @@ function send_chat(room_no, authen, receiv_no){
 	}
 }
 
-function chat_admin(){
+function chat_admin(room_no){
 	$('.chat_cont').html("");
 	$('.chat_msg').val("");
 
@@ -451,7 +473,7 @@ function chat_admin(){
 				+"안녕하세요.<br>Campion 챗봇입니다.<br>"
 				+"궁금하신 사항을<br>물어보세요.<br>"
 				+"<span>"
-				+"<input type='button' value='관리자와 채팅하기' onclick='chat_start(1)'><br>"
+				+"<input type='button' value='관리자와 채팅하기' onclick='chat_start(1,"+room_no+")'><br>"
 				+"<input type='button' value='F A Q' onclick='faq_start()'>"
 				+"</span>"
 				+"</p>";

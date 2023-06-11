@@ -13,9 +13,9 @@ function chat_room_out(room_no, self){
 			dataType : "text",
 			async:false,
 			success: function(data){
-				if(data>0){
+				if(data > 0){
 					$(self).parent().remove();
-				}else{
+				}else {
 					alert('채팅방 퇴장 중 오류');
 				}
 			},

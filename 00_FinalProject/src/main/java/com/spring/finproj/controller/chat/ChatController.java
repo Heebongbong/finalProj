@@ -42,7 +42,7 @@ public class ChatController {
 	
 	@RequestMapping("/room/out")
 	@ResponseBody
-	public int chatRoomOut(int chat_room_no) {
-		return chatService.deleteChatRoom(chat_room_no); 
+	public int chatRoomOut(int chat_room_no, HttpSession session) {
+		return chatService.deleteChatRoom(chat_room_no, session); 
 	}
 }

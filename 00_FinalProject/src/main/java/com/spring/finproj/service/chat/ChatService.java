@@ -11,5 +11,5 @@ public interface ChatService {
 	public Map<String, Object> getChatListContUser(int user_no, HttpSession session);
 	public String insertChatRoomCont(int user_no, HttpSession session);
 	public Map<Integer, List<FaqDTO>> getFaqList();
-	public int deleteChatRoom(int chat_room_no);
+	public int deleteChatRoom(int chat_room_no, HttpSession session);
 }

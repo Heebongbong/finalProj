@@ -6,9 +6,6 @@
 <div id="admin_wrap">
 	<h2>관리자채팅</h2>
 	<!-- chat manage  -->
-	<div>
-		<input type="text"><input type="button" value="채팅 신청" onclick="chat_board()">
-	</div>
 	<div class="chat_wrap">
 		<div class="chat_list">
 			<c:forEach items="${chatRoomList }" var="room">
