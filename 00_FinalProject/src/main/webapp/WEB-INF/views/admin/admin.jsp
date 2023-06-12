@@ -10,8 +10,7 @@
 		<div class="chat_list">
 			<c:forEach items="${chatRoomList }" var="room">
 				<p class="chat_list_p">
-					<a href="javascript:chat_start(${room.user_no1 })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
-					<button onclick="chat_room_out(${room.chat_room_no}, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+					<a href="javascript:chat_start(${room.user_no1 }, ${room.chat_room_no })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
 				</p>
 			</c:forEach>
 		</div>

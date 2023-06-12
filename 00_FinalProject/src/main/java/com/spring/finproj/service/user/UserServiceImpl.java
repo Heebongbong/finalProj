@@ -244,17 +244,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String sendSMS(String phone, HttpSession session) throws Exception {
 
-		//SendSMSAPI send = new SendSMSAPI();
+		SendSMSAPI send = new SendSMSAPI();
 		 
-		//String code = send.sendSMS(phone);
-		String code = "1234";
-		String check = "실패";
+		String code = send.sendSMS(phone);
+		//String code = "1234";
+		String check = "0";
 
 		if (code != null) {
 
 			session.setAttribute("code", code);
 			System.out.println("코드생성 및 발신 성공~");
-			check = "전송";
+			check = "1";
 		}
 
 		return check;
@@ -268,15 +268,14 @@ public class UserServiceImpl implements UserService {
 		System.out.println("user_no === " + res);
 		if (res != null) {
 
-			//SendSMSAPI send = new SendSMSAPI();
-			//String code = send.sendSMS(phone);
+			SendSMSAPI send = new SendSMSAPI();
+			String code = send.sendSMS(phone);
 			  
-			String code = "1234";
+			//String code = "1234";
 			if (code != null) {
 				session.setAttribute("code", code);
 				session.setAttribute("phone_check", phone);
 				session.setMaxInactiveInterval(60*5);
-				System.out.println(code);
 				check = res;
 			}
 		} else {
@@ -293,11 +292,7 @@ public class UserServiceImpl implements UserService {
 
 		// 발송 코드
 		String code = (String) session.getAttribute("code");
-		System.out.println(code);
-		System.out.println(input_code);
 		String phone_check = (String) session.getAttribute("phone_check");
-		System.out.println("세션 코드 === " + code);
-		System.out.println(phone_check);
 		
 		if (code.equals(input_code)) {
 			List<UserDTO> list = userDao.getUserList(Integer.parseInt(phone_check));

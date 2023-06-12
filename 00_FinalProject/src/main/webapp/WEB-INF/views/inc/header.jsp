@@ -8,6 +8,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <script type="text/javascript">
 	let loginUser_authen = '${loginUser.isAuthen() }';
+	let loginUser_nickname = '${loginUser.nickname }';
 </script>
 <div id="header">
 	<ul class="login_navi">
@@ -75,27 +76,24 @@
 		</div>
 		<div class="chat_list_main">
 			<div class="chat_list">
-				<c:forEach items="${chatRoomList }" var="room">
-				
 				<%--admin chat --%>
-				<c:if test="${room.user_no1 == loginUser.user_no && room.user_no2 == 1}">
-					<p class="chat_list_p"><a href="javascript:chat_admin(${room.chat_room_no })"><img class="chat_list_img" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png">Admin</a></p>
+				<c:if test="${!empty Admin_chat_room }">
+					<p class="chat_list_p"><a href="javascript:chat_admin(${Admin_chat_room.chat_room_no })"><img class="chat_list_img" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png">Admin</a></p>
 				</c:if>
-				<c:if test="${room.user_no2 == loginUser.user_no && room.user_no1 == 1}">
-					<p class="chat_list_p"><a href="javascript:chat_admin(${room.chat_room_no })"><img class="chat_list_img" alt="" src="${ctxPath }/resources/images/profile/default/default_profile.png">Admin</a></p>
-				</c:if>
+				
+				<c:forEach items="${chatRoomList }" var="room">
 				
 				<%-- users chat --%>
 				<c:if test="${room.user_no1 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
 					<p class="chat_list_p" onmouseover="open_room_out(this)">
 						<a href="javascript:chat_start(${room.user_no2 }, ${room.chat_room_no })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
-						<button onclick="chat_room_out(${room.chat_room_no })" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+						<button onclick="chat_room_out(${room.chat_room_no }, this, '${room.nickname }', ${room.user_no2 })" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
 					</p>
 				</c:if>
 				<c:if test="${room.user_no2 == loginUser.user_no && (room.user_no1 != 1 && room.user_no2 != 1) }">
 					<p class="chat_list_p" onmouseover="open_room_out(this)">
 						<a href="javascript:chat_start(${room.user_no1 }, ${room.chat_room_no })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
-						<button onclick="chat_room_out(${room.chat_room_no }, this)" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+						<button onclick="chat_room_out(${room.chat_room_no }, this, '${room.nickname }', ${room.user_no1 })" class="chat_room_out"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
 					</p>
 				</c:if>
 				</c:forEach>
