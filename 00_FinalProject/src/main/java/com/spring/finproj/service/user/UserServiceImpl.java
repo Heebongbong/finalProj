@@ -241,10 +241,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String sendSMS(String phone, HttpSession session) throws Exception {
-		
-		 SendSMSAPI send = new SendSMSAPI();
+
+		SendSMSAPI send = new SendSMSAPI();
 		 
-		 String code = send.sendSMS(phone);
+		String code = send.sendSMS(phone);
 
 		String check = "실패";
 
@@ -266,10 +266,9 @@ public class UserServiceImpl implements UserService {
 		System.out.println("user_no === " + res);
 		if (res != null) {
 
-			
-			 SendSMSAPI send = new SendSMSAPI();
+			SendSMSAPI send = new SendSMSAPI();
 			  
-			 String code = send.sendSMS(phone);
+			String code = send.sendSMS(phone);
 
 			if (code != null) {
 				session.setAttribute("code", code);
@@ -363,7 +362,7 @@ public class UserServiceImpl implements UserService {
 		return check;
 	}
 
-	private void deleteKakaorUser(String sessionID) throws Exception {
+	public void deleteKakaorUser(String sessionID) throws Exception {
 		StringBuilder urlBuilder = new StringBuilder("https://kapi.kakao.com/v1/user/unlink");
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -388,7 +387,7 @@ public class UserServiceImpl implements UserService {
 		// sb.toString();
 	}
 
-	private void deleteNaverUser(String sessionID) throws Exception {
+	public void deleteNaverUser(String sessionID) throws Exception {
 
 		StringBuilder urlBuilder = new StringBuilder("https://nid.naver.com/oauth2.0/token");
 		urlBuilder.append("?" + URLEncoder.encode("grant_type", "UTF-8") + "=" + URLEncoder.encode("delete", "UTF-8"));

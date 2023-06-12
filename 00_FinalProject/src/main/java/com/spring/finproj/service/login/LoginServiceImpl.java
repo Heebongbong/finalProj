@@ -23,6 +23,7 @@ import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
 import com.spring.finproj.model.user.UserSessionDTO;
 import com.spring.finproj.service.handler.MakeNickName;
+import com.spring.finproj.service.user.UserServiceImpl;
 
 @Service
 public class LoginServiceImpl implements LoginService{
@@ -324,6 +325,8 @@ public class LoginServiceImpl implements LoginService{
         if(jo2.has("email")) {
         	dto.setEmail(jo2.getString("email"));
         }else {
+        	new UserServiceImpl().deleteNaverUser(a_token);
+        	
         	response.getWriter().println("<script>"
 					+ "alert('이메일 제공 약관에 동의해야합니다.');"
 					+ "history.back();"
@@ -461,6 +464,9 @@ public class LoginServiceImpl implements LoginService{
 		if(joA.has("email")) {
 			dto.setEmail(joA.getString("email"));
 		}else { //email 미제공 - 페이지로 가야함
+			
+			new UserServiceImpl().deleteKakaorUser(a_token);
+			
 			response.getWriter().println("<script>"
 					+ "alert('이메일 제공 약관에 동의해야합니다.');"
 					+ "history.back();"

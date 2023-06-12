@@ -33,8 +33,8 @@ public class AdminController {
 	@Autowired
 	private ChatDAO chatDAO;
 	
-	@RequestMapping(value = {"", "/chat"})
-	public String adminNavi(HttpSession session, Model model) {
+	@RequestMapping("/login")
+	public String adminLogin(HttpSession session, Model model) {
 		UserDTO admin = userDAO.getUserContent(1);
 		session.setAttribute("LoginUser", admin);
 		session.setMaxInactiveInterval(60*60);
@@ -42,6 +42,20 @@ public class AdminController {
 		List<ChatDTO> list = chatDAO.getChatRoomList(admin.getUser_no());
 		
 		model.addAttribute("ChatRoomList", list);
+		
+		return "admin.admin";
+	}
+	
+	@RequestMapping("/logout")
+	public String adminLogout(HttpSession session) {
+
+		session.invalidate();
+		
+		return "admin.admin";
+	}
+	
+	@RequestMapping(value = {"", "/chat"})
+	public String adminNavi() {
 		
 		return "admin.admin";
 	}

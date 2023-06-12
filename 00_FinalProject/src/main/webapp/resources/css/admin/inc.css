@@ -42,7 +42,9 @@ body{
 #header a {
 	color: white;
 	text-decoration-line: none;
-	vertical-align: middle
+	vertical-align: middle;
+	display: flex;
+	align-items: center;
 }
 
 #header {
@@ -50,6 +52,9 @@ body{
 	color: white;
  	padding : 16px; 
 	font-size: 25px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .camping_side_ul {
