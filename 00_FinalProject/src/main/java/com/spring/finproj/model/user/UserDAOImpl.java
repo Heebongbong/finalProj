@@ -149,4 +149,9 @@ public class UserDAOImpl implements UserDAO{
 		sqlSession.update("user_update_profile", user);
 	}
 
+	@Override
+	public List<UserDTO> getUserList(int phone_check) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("user_email_list", phone_check);
+	}
 }

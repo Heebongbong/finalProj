@@ -2,29 +2,6 @@
 function sendSMS() {
   let phone = $("#input_phone").val();
 
-  // String check = "";
-  // String res = userDao.checkTypeAndPhone(phone);
-  
-  // if(!res.equals("")) {
-    
-  //   /*
-  //    * SendSMSAPI send = new SendSMSAPI();
-  //    * 
-  //    * String code = send.sendSMS(phone);
-  //    */
-    
-  //   String code = "123";
-    
-    
-  //   if (code != null) {
-  //     session.setAttribute("code", code);
-  //     System.out.println("코드생성 및 발신 성공~");
-  //     check = "전송";
-  //   }
-  // }
-  // System.out.println("type S 일치 전화번호 없음");
-
-  // return check;
   $.ajax({
     url : ctxPath + "/user/sms/siteuser",
     type : "post",
@@ -42,24 +19,41 @@ function sendSMS() {
     }
     
   });
-  //event.preventDefault();
 }
 
 function checkCode() {
 		
   let input_code = $("#input_code").val();
-        $.ajax({
-          url : ctxPath + "/user/sms/check",
-          type : "post",
-          data : { input_code : input_code },
-          success : function(res) {
-            alert("인증 완료");
-          },
-          error : function() {
-            alert("인증 실패");
+  console.log(input_code);
+    $.ajax({
+      url : ctxPath + "/user/sms/check",
+      type : "post",
+      data : { input_code : input_code },
+      success : function(res) {
+        console.log(res);
+        if(res==0){
+          alert("인증 코드가 다릅니다");
+        }else{
+          let list = JSON.parse(res);
+          for(let i=0;i<list.length;i++){
+            let cont = list[i];
+
+            let table = "<div class='phone_result'>" +
+                        "<input type='radio' id='"+cont.email+"' name='email_radio' onchange=\'email_radio_click(\""+cont.email+"\")\'>" +
+                        "<label for='"+cont.email+"'>" + cont.email + "</label>" +
+                        "</div>";
+            $('.code_result').html(table);
           }
-        });
-  //event.preventDefault();
+        }
+      },
+      error : function() {
+        alert("인증 실패");
+      }
+    });
 }
 
-  
+function email_radio_click(email){
+  $('.email_hidden').val(email);
+  $('.text_part_box-wrap').show();
+}
+
