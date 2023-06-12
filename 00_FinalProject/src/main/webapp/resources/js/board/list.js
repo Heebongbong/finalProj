@@ -330,6 +330,10 @@ function boardAddList(){
 		  
 
           let table = "";
+
+		  if(boardList.length==0){
+			table += "<h1 style='text-align: center;margin: 100px auto;font-size: 2em;'>게시물이 없습니다.</h1>";
+		  }
           
           for (let i = 0; i < boardList.length; i++) {
             let board = boardList[i];
