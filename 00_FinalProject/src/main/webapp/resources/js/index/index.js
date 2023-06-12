@@ -322,7 +322,10 @@ function boardAddList(){
 		  
 
           let table = "";
-          
+          if(boardList.length==0){
+			table += "<h2>게시물이 없습니다.</h2>";
+		  }
+
           for (let i = 0; i < boardList.length; i++) {
             let board = boardList[i];
             let no = board.cm_no;
@@ -481,7 +484,7 @@ function boardAddList(){
 			});
 
 			//$('.slick_list').animateHeight();
-			$('.slick_list').css('height', 'auto');
+			//$('.slick_list').css('height', 'auto');
 
         },
         error: function() {

@@ -177,7 +177,7 @@
 		</c:if>
 		
 		<div class="user_menu_foot">
-			회사 정보 카피라이트<br>약관 동의 뭐시기 뭐시기<br>
+			Copyright © 2023 CAMPION<br>ORGANIZATION ALL RIGHTS RESERVED.<br>
 		</div>
 	</div>
 </div>

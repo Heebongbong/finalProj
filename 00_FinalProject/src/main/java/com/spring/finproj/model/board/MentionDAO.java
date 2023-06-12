@@ -14,6 +14,6 @@ public interface MentionDAO {
 	public int getMentionLikeCount(int mention_no);
 	public int deleteMentionLike(Map<String, Integer> keyMap);
 	public int insertMentionLike(Map<String, Integer> keyMap);
-	public int deleteMentionLikeList(List<MentionDTO> menList);
+	public int deleteMentionLikeList(MentionDTO dto);
 	public int getMentionCommNo(int mention_no);
 }

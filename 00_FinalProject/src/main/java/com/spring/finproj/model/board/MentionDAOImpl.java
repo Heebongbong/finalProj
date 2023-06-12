@@ -58,9 +58,9 @@ public class MentionDAOImpl implements MentionDAO{
 	}
 
 	@Override
-	public int deleteMentionLikeList(List<MentionDTO> menList) {
+	public int deleteMentionLikeList(MentionDTO dto) {
 		// TODO Auto-generated method stub
-		return sqlSession.delete("mention_like_list_delete", menList);
+		return sqlSession.delete("mention_like_list_delete", dto);
 	}
 
 	@Override

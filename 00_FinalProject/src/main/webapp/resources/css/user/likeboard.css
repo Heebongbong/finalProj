@@ -28,7 +28,8 @@
 	color: #454545;
 }
 .user_profile_chat_plus{
-	width: 50px;
+	width: 40px;
+	cursor: pointer;
 }
 
 .user_board_profile a {
@@ -126,13 +127,19 @@
 }
 .board_user_prof{
 	display: flex;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	width: 25%;
 	align-items: center;
 	cursor: pointer;
 }
 .board_user_prof:hover{
 	opacity: 0.8;
+}
+.board_user_prof span{
+    font-weight: bold;
+	font-size: 1em;
+	position: absolute;
+    left: 60px;
 }
 .board_user_prof img{
 	width: 50px;
@@ -210,6 +217,10 @@
 	background-color: #f0f0f0;
 	height: 30px;
 	line-height: 30px;
+}
+.board_main_hashtag p {
+    margin-right: 5px;
+    color: gray;
 }
 
 .board_main_hashtag p {
@@ -357,9 +368,11 @@
 	margin-top: 10px;
 }
 .reply_write_ment{
-	width: 100%;
-	border-bottom: 1px solid black;
-	position: relative;
+	line-height: 1.7em;
+    width: 100%;
+    border-bottom: 1px solid #9d9d9d;
+    position: relative;
+    font-size: 1.1em;
 }
 .reply_write_ment_inp{
 	border: none;
@@ -374,7 +387,36 @@
 .reply_write_insert img{
 	vertical-align: middle;
 	width: 20px;
+
 }
 .reply_write_insert img:hover{
 	content: url('/finproj/resources/images/icon/m_send_hover.png');
+}
+
+@media all and (max-width: 680px) {
+	.board_user_prof img{
+		width: 40px;
+		height: 40px;
+	}
+	.board_user_prof span{
+	    left: 50px;
+	}
+	.board_reply_user img{
+		width: 35px;
+		height: 35px;
+	}
+	.board_reply_ment_cont{
+		display: block;
+		overflow-x: hidden;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}	
+	.board_reply_cont_text{
+	    margin-left: 49px;
+	}
+	.mention_like_wrap{
+		float: right;
+		position: relative;
+		top: -53px;
+	}
 }

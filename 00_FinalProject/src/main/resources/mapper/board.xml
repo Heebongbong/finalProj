@@ -197,6 +197,6 @@
 	</delete>
 	
 	<delete id="delete_accuse_cont" parameterType="map">
-		delete from accuse where cm_no = {cm_no} and user_no = {user_no}
+		delete from accuse where cm_no = #{cm_no} and user_no = #{user_no}
 	</delete>
 </mapper>

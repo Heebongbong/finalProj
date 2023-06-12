@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
 import com.spring.finproj.model.user.UserSessionDTO;
+import com.spring.finproj.service.handler.SendSMSAPI;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -241,13 +242,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String sendSMS(String phone, HttpSession session) throws Exception {
 
-		/*
-		 * SendSMSAPI send = new SendSMSAPI();
-		 * 
-		 * String code = send.sendSMS(phone);
-		 */
-
-		String code = "123";
+		SendSMSAPI send = new SendSMSAPI();
+		 
+		String code = send.sendSMS(phone);
 
 		String check = "실패";
 
@@ -262,20 +259,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String sendSMSSite(String phone, HttpSession session) {
+	public String sendSMSSite(String phone, HttpSession session) throws Exception {
 
 		String check = "";
 		String res = userDao.checkTypeAndPhone(phone);
 		System.out.println("user_no === " + res);
 		if (res != null) {
 
-			/*
-			 * SendSMSAPI send = new SendSMSAPI();
-			 * 
-			 * String code = send.sendSMS(phone);
-			 */
-
-			String code = "123";
+			SendSMSAPI send = new SendSMSAPI();
+			  
+			String code = send.sendSMS(phone);
 
 			if (code != null) {
 				session.setAttribute("code", code);
@@ -369,7 +362,7 @@ public class UserServiceImpl implements UserService {
 		return check;
 	}
 
-	private void deleteKakaorUser(String sessionID) throws Exception {
+	public void deleteKakaorUser(String sessionID) throws Exception {
 		StringBuilder urlBuilder = new StringBuilder("https://kapi.kakao.com/v1/user/unlink");
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -394,7 +387,7 @@ public class UserServiceImpl implements UserService {
 		// sb.toString();
 	}
 
-	private void deleteNaverUser(String sessionID) throws Exception {
+	public void deleteNaverUser(String sessionID) throws Exception {
 
 		StringBuilder urlBuilder = new StringBuilder("https://nid.naver.com/oauth2.0/token");
 		urlBuilder.append("?" + URLEncoder.encode("grant_type", "UTF-8") + "=" + URLEncoder.encode("delete", "UTF-8"));

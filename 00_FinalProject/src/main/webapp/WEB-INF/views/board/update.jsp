@@ -46,7 +46,7 @@
 		<hr class="hr">
 		
 		<div class="text">해쉬태그</div>
-		<input type="text" class="hashtag" name="hashtag" value="<c:forEach items="${hash }" var="item"><c:if test="${item.getKey() != '리뷰' }">#${item.getKey() }</c:if></c:forEach>">
+		<input type="text" class="hashtag" name="hashtag" value="<c:forEach items="${hash }" var="item"><c:if test="${ item.getKey() != '일상' && (item.getKey() != '요리') && (item.getKey() != '장비') && (item.getKey() != '리뷰') && (item.getKey() != '')}">#${item.getKey() }</c:if></c:forEach>">
 
 		<hr class="hr">
 		

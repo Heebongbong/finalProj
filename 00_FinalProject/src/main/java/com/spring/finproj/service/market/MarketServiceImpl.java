@@ -142,7 +142,14 @@ public class MarketServiceImpl implements MarketService{
 			hashtags += s;
 		}
 		
-		dto.setHashtag(dto.getHashtag()+hashtags);
+		StringTokenizer st_hash = new StringTokenizer(dto.getHashtag(), "#");
+		while(st_hash.hasMoreTokens()) {
+			String s = st_hash.nextToken();
+			if(!s.equals(""))
+				hashtags += "#"+s;
+		}
+		
+		dto.setHashtag(hashtags);
 		dto.setUser_no(user.getUser_no());
         
 		int file_check = 0;
