@@ -7,6 +7,7 @@ html {
 
 body{
 	width: 1000px;
+	height: calc(100vh - 178px);
 }
 
 #container{
@@ -33,45 +34,34 @@ body{
 @media all and (max-width:680px) {
 	body {
 		width: 100%;
+		height: calc(100vh - 140px);
+	}
+	#header{
+		width: 100%;
 	}
 	#container{
-		width: 100%;
 		margin: 80px auto 0 auto;
-		background-color: white;
-		position: relative;
 		height: 100%;
 	}
 }
 
+#content{
+	height: 100%;
+}
+
 #weather_footer{
-	width: 1000px;
+	width: 100%;
 	bottom: 0;
 	background-color: #fff;
 	z-index: 1;
 	height: 78px;
 	border-top: 1px solid #e3e3e3;
-}
-
-
-@media all and (max-width:1000px) {
-	#weather_footer{
-		width: 80%;
-		bottom: 0;
-		background-color: #fff;
-		z-index: 1;
-		height: 78px;
-		border-top: 1px solid #e3e3e3;
-	}
+	position: sticky;
 }
 
 @media all and (max-width:680px) {
 	#weather_footer{
-		width: 100%;
-		bottom: 0;
-		background-color: #fff;
-		z-index: 1;
 		height: 60px;
-		border-top: 1px solid #e3e3e3;
 	}
 }
 
@@ -151,71 +141,4 @@ body{
 		width: 30px;
 		margin-bottom: 5px;
 	}
-}
-
-.weather_search {
-	display: flex;
-	margin-bottom: 40px;
-	position: relative;
-	background-color: white;
-	border-bottom: 1px solid #525252;
-	width: 40%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 40px;
-	justify-content: space-between;
-}
-
-.search_weather {
-	border: none;
-	outline: none;
-	font-size: 1.1em;
-	font-weight: bold;
-    width: 100%;
-}
-
-.weather_search button {
-	position: absolute;
-	border: none;
-	background-color: transparent;
-	right: 0;
-	font-size: 1.1em;
-	color: #525252;
-
-}
-
-#now_wrap {
-	margin-top: 10px;
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	margin-bottom: 10px;
-}
-
-.icon_weather {
-	width: 41px;
-}
-.icon_temp {
-	width: 21px;
-}
-.icon_rain {
-	width: 26px;
-}
-.icon_rmm {
-	width: 36px;
-}
-.icon_stroke {
-	width: 28px;
-}
-.icon_wind {
-	width: 40px;
-}
-
-.wind_degree_img {
-	margin-left: 10px;
-}
-
-.weather_index_wrap {
-	border-bottom: 1px solid #cccccc;
-	padding-bottom: 14px;
 }
