@@ -421,7 +421,7 @@ body {
     justify-content: space-around;
     height: 250px;
     position: relative;
-    width: 100%;
+    width: 80%;
 }
 .user_menu_body_inp{
 	display: flex;
@@ -435,11 +435,14 @@ body {
 	border: none;
 	border-bottom: 1px solid #767676;
 	background-color: #f1f1f1;
+	height: 30px;
+	line-height: 30px;
 }
 .user_menu_body_inp input::placeholder{
 	font-size: 13px;
 }
 .user_menu_body_inp_cont{
+	margin-bottom: 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -447,7 +450,7 @@ body {
 }
 .user_join_search{
 	position: absolute;
-    top: 130px;
+    top: 150px;
     right: 0;
     font-size: 0.5em;
 }
@@ -476,7 +479,7 @@ body {
 
 .user_menu_body_sns{
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	width: 100%
 }
 .user_menu_body_sns a{
