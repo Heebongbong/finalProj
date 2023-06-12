@@ -52,8 +52,8 @@
 
 				<div id="myModal_${status.index}" style="display:none">
 					<div>
-				    	<div><a href="${ctxPath}/board/admin/delete?cm_no=${dto.cm_no }">전체삭제</a></div>
-				    	<div><a href="${ctxPath}/board/admin/deleteAcuuse?cm_no=${ddto.cm_no }&user_no=${ddto.user_no}">신고삭제</a></div>
+				    	<div><a href="${ctxPath}/admin/board/delete?cm_no=${dto.cm_no }">전체삭제</a></div>
+				    	<div><a href="${ctxPath}/admin/deleteAccuse?cm_no=<c:forEach items="${accusedList}" var="eddto" varStatus="edStatus"><c:if test="${edStatus.index eq status.index}">${eddto.cm_no }</c:if></c:forEach>&user_no=${dto.user_no}">신고삭제</a></div>
 					</div>
 				</div>
 			</div>
