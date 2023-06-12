@@ -90,7 +90,17 @@ a:hover{
 	margin-left: 5px;
 	color: #7A7A7A;
 }
+.mention_like_wrap a i {
+	font-size: 1.2em;
+}
 
+.mention_like_wrap span {
+	margin-left: 5px;
+}
+.fa-heart{
+	font-size: 1.2em;
+	color: #6FCF97;
+}
 #header .login_navi{
 	display: flex;
 	justify-content: space-between;
@@ -173,6 +183,17 @@ body {
 	.login_navi_logo_li img{
 		width: 55.5px;
 		height: 56px;
+	}
+	
+	.mention_like_wrap a i {
+		font-size: 1.5em;
+	}
+	
+	.mention_like_wrap span {
+		margin-left: 3px;
+	}
+	.fa-heart{
+		font-size: 1.5em;
 	}
 
 }

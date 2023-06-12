@@ -14,7 +14,6 @@
 			<th>authen</th>
 			<th>profile_type</th>
 			<th>유저삭제</th>
-			<th>신고당한횟수</th>
 		</tr>
 		
 		<c:forEach items="${userList }" var="dto">
@@ -27,8 +26,7 @@
 				<td><img src="${dto.profile }" width="50px" height="50px"></td>
 				<td>${dto.authen }</td>
 				<td>${dto.profile_type }</td>
-				<td><a href="${ctxPath}/admin/user/delete?user_no=${dto.user_no }">삭제</a></td>
-				<td></td>
+				<td><a href="#" onclick="if(confirm('정말로 삭제하시겠습니까?')) {location.href='${ctxPath}/user/admin/delete?user_no=${dto.user_no }'}">삭제</a></td>
 			</tr>
 		</c:forEach>
 		
