@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set value="<%=request.getContextPath() %>" var="ctxPath"/>
@@ -35,7 +35,7 @@
 					<a class="chat_open" href="javascript:open_chat(0)"><img src="${ctxPath }/resources/images/icon/chat_icon.png" alt=""></a>
 				</c:if>
 				<c:if test="${alarmList.get('chat_on').getTotalCount() != 0 }">
-					<a class="chat_open" href="javascript:open_chat(1)"><img src="${ctxPath }/resources/images/icon/chat_o" alt=""></a>
+					<a class="chat_open" href="javascript:open_chat(1)"><img src="${ctxPath }/resources/images/icon/chat_o.png" alt=""></a>
 				</c:if>
 				<a href="javascript:open_user_menu()"><img class="user_menu_prof_img" src="${loginUser.profile }"></a>
 			</li>

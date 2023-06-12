@@ -18,7 +18,7 @@
 				${loginUser.email }
 			</span>
 		</div>
-		<a href="${ctxPath }/user/mypage">마이페이지</a>
+		<a href="${ctxPath }/user/mypage"><img class="mypage_icon" src="${ctxPath }/resources/images/icon/option.png"></a>
 	</div>
 	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">

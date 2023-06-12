@@ -220,6 +220,7 @@ body {
 @media all and (max-width:680px) {
 	.login_navi_search_li{
     height: 75px;
+    width: 50%;
 	}
 }
 .login_navi_search_li form{
@@ -311,7 +312,7 @@ body {
 }
 .user_menu_profile img{
 	width: 30px;
-	height: auto;
+	height: 30px;
 }
 
 .profile_img_alarm {
@@ -322,7 +323,7 @@ body {
 @media all and (max-width:680px) {
 	.user_menu_profile img{
 		width: 24px;
-		height: auto;
+		height: 24px;
 	}
 
 	.profile_img_alarm {
@@ -533,10 +534,17 @@ body {
     margin-left: auto;
     height: 500px;
 }
+
+@media all and (max-width:680px) {
+	.chat_wrap{
+		width: 100%;
+		font-size: .9em;
+	}
+}
 .chat_title{
 	display: flex;
 	justify-content: space-between;
-	border-bottom: 2px solid #7a7a7a
+	border-bottom: 1px solid #b4b4b4;
 }
 .chat_title_p{
 	display: flex;
@@ -581,16 +589,17 @@ body {
 	flex-direction: column;
 	width: 300px;
 	height: 100%;
-	padding: 20px 15px;
+	padding: 0px 15px;
 	overflow: auto;
 }
 .chat_list_p{
 	display: flex;
 	justify-content: space-between;
-	margin: 5px auto;
+	/* margin: 5px auto; */
 	position: relative;
 	width: 100%;
-	border-bottom: 1px solid #7a7a7a;
+	border-bottom: 1px solid #b4b4b4;
+	height: 60px;
 }
 .chat_list_p a{
 	display: flex;
@@ -605,7 +614,7 @@ body {
 	margin-right: 10px;
 }
 .chat_list_p:nth-child(1){
-	border-bottom: 2px solid #7A7A7A;
+	border-bottom: 1px solid #7A7A7A;
 }
 .chat_room_out{
 	background-color: transparent;
@@ -676,7 +685,7 @@ body {
 .chat_sendU p{
 	text-align: left;
 	background-color: white;
-	font-size: 1.2em;
+	font-size: 1em;
 	padding: 3px;
 }
 .chat_loginU{
@@ -687,12 +696,13 @@ body {
 .chat_loginU p{
 	text-align: right;
 	background-color: #6FCF97;
-	font-size: 1.2em;
+	font-size: 1em;
 	padding: 3px;
 }
 .chat_cont span{
 	font-size: 0.7em;
 	color: #6d6d6d;
+	padding: 5px;
 }
 
 /* faq */
@@ -737,7 +747,7 @@ body {
 }
 @media all and (max-width:680px) {
 	#content{
-		width: 100%;
+		width: 97%;
 	}
 }
 

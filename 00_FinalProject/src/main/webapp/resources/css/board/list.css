@@ -144,9 +144,11 @@
 	font-weight: bold;
 	font-size: 1em;
 	position: absolute;
-    left: 60px;
+	left: 60px;
 }
-
+.board_reply_ment {
+	font-size: .9em;
+}
 /* detail_modal css */
 .detail_modal_overlay{
 	display: none;
@@ -214,6 +216,7 @@
 .board_main_hashtag p {
 	margin-right: 5px;
 }
+
 /* 게시판 본문 */
 .board_main_cont{
 	display: flex;
@@ -235,6 +238,7 @@
 .board_main_text{
 	margin-top: 10px;
 	margin-bottom: 30px;
+	line-height: 1.1;
 }
 .more_text_btn {
     font-size: 12px;
@@ -280,10 +284,10 @@
 
 .board_reply_cont_text{
 	width: 100%;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
+	margin-left: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
 }
 .board_reply_date_delete_wrap{
 	display: flex;
@@ -297,9 +301,9 @@
 }
 .mention_like_wrap{
 	width: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .mention_like_wrap a i {

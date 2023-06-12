@@ -160,7 +160,9 @@
 	position: absolute;
     left: 60px;
 }
-
+.board_reply_ment {
+	font-size: .9em;
+}
 /* detail_modal css */
 .detail_modal_overlay{
 	display: none;
@@ -250,6 +252,7 @@
 .board_main_text{
 	margin-top: 10px;
 	margin-bottom: 30px;
+	line-height: 1.1;
 }
 .more_text_btn {
     font-size: 12px;

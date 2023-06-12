@@ -20,7 +20,7 @@
 			</span>
 		</div>
 		<c:if test="${loginUser.user_no == user_cont.user_no }">
-			<a href="${ctxPath }/user/mypage">마이페이지</a>
+		<a href="${ctxPath }/user/mypage"><img class="mypage_icon" src="${ctxPath }/resources/images/icon/option.png"></a>
 		</c:if>
 		<c:if test="${loginUser.user_no != user_cont.user_no }">
 			<img class="user_profile_chat_plus" onclick="chat_board(${user_cont.user_no })" alt="" src="${ctxPath }/resources/images/icon/chat_plus_icon.png">
