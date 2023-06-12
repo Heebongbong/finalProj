@@ -65,7 +65,8 @@ public class AdminController {
     @RequestMapping("/user/delete")
     public String userDelete(int user_no) {
     	userService.userDelete(user_no);
-    	return "redirect:/user/admin";
+    	System.out.println(123456);
+    	return "redirect:/admin/user";
     }
 
     // 관리자
@@ -78,12 +79,12 @@ public class AdminController {
     @RequestMapping("/board/delete")
     public String deleteBoardCont(int cm_no, HttpServletRequest request) throws Exception {
     	boardService.deleteBoardCont(cm_no, request);
-    	return "redirect:/board/accuse";
+    	return "redirect:/admin/accuse";
     }
 
     @RequestMapping("/deleteAccuse")
     public String deleteAcuuseCont(int cm_no, int user_no) {
     	boardService.deleteAcuuseCont(cm_no, user_no);
-    	return "redirect:/board/accuse";
+    	return "redirect:/admin/accuse";
     }
 }
