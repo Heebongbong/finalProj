@@ -21,15 +21,28 @@
 }
 .user_profile_nickname{
 	font-weight: bold;
+	font-size: 1.3em;
 }
 .user_profile_email{
-	
+	font-size: 1em;
+	color: #454545;
 }
 .user_profile_chat_plus{
 	width: 40px;
 	cursor: pointer;
 }
 
+.user_board_profile a {
+	font-size: .9em;
+}
+
+.mypage_icon {
+	width: 26px;
+}
+
+.mypage_icon:hover{
+	content: url('/finproj/resources/images/icon/option_hover.png');
+}
 /* boad css */
 /* decl_modal css */
 .declaration_modal_overlay{
@@ -74,15 +87,15 @@
 }
 
 .decl_modal_btn{
-    text-align: center;
-    width: 90%;
-    margin: 0 auto 15px auto;
-    border: 1px solid black;
-    background-color: white;
-    font-weight: bold;
-    color: #9d9d9d;
-    height: 35px;
-    cursor: pointer;
+	text-align: center;
+	width: 90%;
+	margin: 0 auto 15px auto;
+	border: 1px solid black;
+	background-color: white;
+	font-weight: bold;
+	color: #9d9d9d;
+	height: 35px;
+	cursor: pointer;
 }
 .decl_modal_btn:hover{
 	background-color: #6FCF97;
@@ -133,7 +146,15 @@
 	height: 50px;
 	border-radius: 50%;
 }
-
+.board_user_prof span{
+	font-weight: bold;
+	font-size: 1em;
+	position: absolute;
+	left: 60px;
+}
+.board_reply_ment {
+	font-size: .9em;
+}
 /* detail_modal css */
 .detail_modal_overlay{
 	display: none;
@@ -195,12 +216,17 @@
 	text-align: right;
 	background-color: #f0f0f0;
 	height: 30px;
-    line-height: 30px;
+	line-height: 30px;
 }
 .board_main_hashtag p {
     margin-right: 5px;
     color: gray;
 }
+
+.board_main_hashtag p {
+	margin-right: 5px;
+}
+
 /* board title price */
 .board_title_price{
 	display: flex;
@@ -227,12 +253,12 @@
 	height: auto;
 }
 .slick_arrows{
-	width: 10px !important;
-    height: 20px;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    cursor: pointer;
+	width: 13px !important;
+	height: 20px;
+	position: absolute;
+	top: 50%;
+	right: 0;
+	cursor: pointer;
 }
 .slick_arrows:hover{
 	filter: opacity(0.5) drop-shadow(0 0 0 #6FCF97);
@@ -240,6 +266,7 @@
 .board_main_text{
 	margin-top: 10px;
 	margin-bottom: 30px;
+	line-height: 1.1;
 }
 .more_text_btn {
     font-size: 12px;
@@ -269,7 +296,7 @@
 .board_reply_user{
 	width: 30%;
 	display: flex;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	align-items: center;
 }
 .board_reply_user img{
@@ -277,31 +304,64 @@
 	height: 40px;
 	border-radius: 50%;
 }
+
+.board_reply_user span{
+	margin-left: 10px;
+	font-weight: bold;
+}
+
 .board_reply_cont_text{
 	width: 100%;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
+	margin-left: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
 }
 .board_reply_date_delete_wrap{
 	display: flex;
 	font-size: 0.8em;
 	justify-content: space-between;
 	width: 50px;
+	color: #9d9d9d;
 }
 .board_reply_delete{
 	display: none;
 }
 .mention_like_wrap{
 	width: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.mention_like_wrap a i {
+	font-size: 1.2em;
+}
+
+.mention_like_wrap span {
+	margin-left: 5px;
 }
 .fa-heart{
 	color: #6FCF97;
 }
+
+@media all and (max-width: 680px) {
+	.board_reply_ment_cont{
+		display: block;
+		overflow-x: hidden;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}	
+	.board_reply_cont_text{
+	    margin-left: 49px;
+	}
+	.mention_like_wrap{
+		float: right;
+		position: relative;
+		top: -59px;
+	}
+}
+
 .board_reply_write{
 	display: flex;
 	justify-content: flex-start;
@@ -323,9 +383,11 @@
 	right: 0;
 	top: -5px;
 }
-.reply_write_insert img {
-    vertical-align: middle;
-    width: 20px;
+
+.reply_write_insert img{
+	vertical-align: middle;
+	width: 20px;
+
 }
 .reply_write_insert img:hover{
 	content: url('/finproj/resources/images/icon/m_send_hover.png');

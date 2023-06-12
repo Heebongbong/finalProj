@@ -89,7 +89,7 @@ hr {
 	color: #4D4D4D;
 	margin: 0px 20px 30px 20px;
 	text-align: left;
-	line-height: normal;
+	line-height: 1.2;
 }
 
 .camp_tag {
@@ -99,11 +99,11 @@ hr {
 	text-align: left;
 }
 
-
-
-
-
-
+@media all and (max-width: 680px) {
+	.camp_tag {
+	margin-left: 10px;
+	}
+}
 
 /* decl_modal css */
 
@@ -209,7 +209,9 @@ hr {
     position: absolute;
     left: 60px;
 }
-
+.board_reply_ment {
+	font-size: .9em;
+}
 /* detail_modal css */
 .detail_modal_overlay{
 	display: none;
@@ -270,13 +272,20 @@ hr {
 .board_main_hashtag{
 	text-align: right;
 	background-color: #f0f0f0;
+	height: 30px;
+	line-height: 30px;
+}
+
+.board_main_hashtag p {
+	margin-right: 5px;
 }
 /* 게시판 본문 */
 .board_main_cont{
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-   justify-content: space-between;
+	justify-content: space-between;
+	line-height: 1.1;
 }
 .slick_arrows{
 	width: 10px !important;
@@ -292,6 +301,7 @@ hr {
 .board_main_text{
 	margin-top: 10px;
 	margin-bottom: 30px;
+	line-height: 1.1;
 }
 .more_text_btn {
     font-size: 12px;

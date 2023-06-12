@@ -159,6 +159,9 @@
 	position: absolute;
     left: 60px;
 }
+.board_reply_ment {
+	font-size: .9em;
+}
 @media all and (max-width: 680px) {
 	.board_user_prof img{
 		width: 40px;
@@ -256,8 +259,9 @@
 	filter: opacity(0.5) drop-shadow(0 0 0 #6FCF97);
 }
 .board_main_text{
-	line-height: normal;
-    margin: 10px 5px 30px 5px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	line-height: 1.1;
 }
 .more_text_btn {
     font-size: 12px;
