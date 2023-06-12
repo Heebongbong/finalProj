@@ -309,7 +309,7 @@
 }
 
 .board_reply_cont_text{
-	width: 100%;
+	width: 80%;
 	margin-left: 10px;
 	display: flex;
 	flex-direction: column;
@@ -343,24 +343,6 @@
 .fa-heart{
 	color: #6FCF97;
 }
-
-@media all and (max-width: 680px) {
-	.board_reply_ment_cont{
-		display: block;
-		overflow-x: hidden;
-		padding-top: 0px;
-		padding-bottom: 0px;
-	}	
-	.board_reply_cont_text{
-	    margin-left: 49px;
-	}
-	.mention_like_wrap{
-		float: right;
-		position: relative;
-		top: -59px;
-	}
-}
-
 .board_reply_write{
 	display: flex;
 	justify-content: flex-start;
@@ -395,6 +377,46 @@
 .reply_write_insert img:hover{
 	content: url('/finproj/resources/images/icon/m_send_hover.png');
 }
+@media all and (max-width: 1000px) {
+.board_reply_ment_cont {
+    display: flex;
+    position: relative;
+    padding-top: 18px;
+    padding-bottom: 5px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+.board_reply_user {
+    width: 27%;
+    display: flex;
+}
+.board_reply_user img {
+    margin-top: -8px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+.board_reply_user span {
+    margin-left: 7%;
+    margin-bottom: 10px;
+}
+.board_reply_cont_text {
+    width: 60%;
+    margin-left: 0px;
+    margin-right: 10px;
+    justify-content: start;
+}
+.board_reply_ment {
+    font-size: .9em;
+    margin-top: 3px;
+}
+.mention_like_wrap {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	}
+}
 
 @media all and (max-width: 680px) {
 	.board_user_prof img{
@@ -405,21 +427,30 @@
 	    left: 50px;
 	}
 	.board_reply_user img{
+		margin-top: 0px;
 		width: 35px;
 		height: 35px;
 	}
+	.board_reply_user span {
+	    margin-left: 10px;
+	    margin-bottom: 1px;
+	}
 	.board_reply_ment_cont{
-		display: block;
-		overflow-x: hidden;
+		overflow-y: hidden;
 		padding-top: 0px;
 		padding-bottom: 0px;
-	}	
-	.board_reply_cont_text{
-	    margin-left: 49px;
-	}
-	.mention_like_wrap{
-		float: right;
 		position: relative;
-		top: -53px;
+		justify-content: flex-start;
+	}
+	.board_reply_user{
+		width: 30%;
+	}
+	.board_reply_cont_text{
+		width: 80%;
+		padding-left: 45px;
+		margin-right: 0px;
+	}
+	.mention_like_wrap {
+    	width: 20%;
 	}
 }
