@@ -29,7 +29,6 @@ import com.spring.finproj.model.board.BoardDTO;
 import com.spring.finproj.model.board.MentionDAO;
 import com.spring.finproj.model.board.MentionDTO;
 import com.spring.finproj.model.chat.ChatDAO;
-import com.spring.finproj.model.user.UserDAO;
 import com.spring.finproj.model.user.UserDTO;
 
 @Service
@@ -40,8 +39,6 @@ public class BoardServiceImpl implements BoardService {
 	private MentionDAO mentionDAO;
 	@Autowired
 	private ChatDAO chatDAO;
-	@Autowired
-	private UserDAO UserDAO;
 
 	@Override
 	public Map<String, Object> getBoardAddList(HttpServletRequest request, int cm_no,
@@ -151,7 +148,14 @@ public class BoardServiceImpl implements BoardService {
 			hashtags += s;
 		}
 		
-		boardDTO.setHashtag(boardDTO.getHashtag()+hashtags);
+		StringTokenizer st_hash = new StringTokenizer(boardDTO.getHashtag(), "#");
+		while(st_hash.hasMoreTokens()) {
+			String s = st_hash.nextToken();
+			if(!s.equals(""))
+				hashtags += "#"+s;
+		}
+		
+		boardDTO.setHashtag(hashtags);
 		
 		boardDTO.setEmail(user.getEmail());
 		boardDTO.setUser_no(user.getUser_no());
@@ -290,7 +294,9 @@ public class BoardServiceImpl implements BoardService {
 			
 			int men_re = boardDAO.deleteMentionContent(cm_no);
 			if(men_re>0) {
-				mentionDAO.deleteMentionLikeList(menList);
+				for(int i=0;i<menList.size();i++) {					
+					mentionDAO.deleteMentionLikeList(menList.get(i));
+				}
 			}
 		}
 		
@@ -427,19 +433,17 @@ public class BoardServiceImpl implements BoardService {
 				mapp.put(st.nextToken(), 1);
 			}
 			
-			try {
-				if(dto.getPhoto_folder() != null) {
-					dto.setPhoto_files(request);
-					file = dto.getPhoto_files();
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
+			if(dto.getPhoto_folder() != null) {
+				dto.setPhoto_files(request);
+				file = dto.getPhoto_files();
 			}
 			
 			hash.put("Files", file);
 			hash.put("BoardDTO", dto);
 			hash.put("HashMap", mapp);
+			
+			System.out.println(mapp.toString());
 			
 			return hash;
 		}else {
@@ -656,6 +660,4 @@ public class BoardServiceImpl implements BoardService {
 		
 		return re;
 	}
-
-	
 }

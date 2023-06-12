@@ -86,7 +86,25 @@
 			<hr class="hr">
 			
 			<div class="text">해쉬태그</div>
-			<input type="text" name="hashtag" class="hashtag" value="${dto.getHashtag()}">
+			<input type="text" name="hashtag" class="hashtag" value="<c:forEach items="${hash }" var="item"><c:if test="${ 
+				item.getKey() != '텐트' && 
+				item.getKey() != '타프' && 
+				item.getKey() != '테이블' && 
+				item.getKey() != '체어' && 
+				item.getKey() != '취사' && 
+				item.getKey() != '수납' && 
+				item.getKey() != '랜턴' && 
+				item.getKey() != '조명' && 
+				item.getKey() != '소품' && 
+				item.getKey() != '기타' && 
+				item.getKey() != '서울' && 
+				item.getKey() != '경기' && 
+				item.getKey() != '강원' && 
+				item.getKey() != '충청' && 
+				item.getKey() != '전라' && 
+				item.getKey() != '경상' && 
+				item.getKey() != '제주'
+				}">#${item.getKey() }</c:if></c:forEach>">
 			<hr class="hr">
 			
 		</div>

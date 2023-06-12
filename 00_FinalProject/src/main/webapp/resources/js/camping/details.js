@@ -66,7 +66,7 @@ let main_text = new Map();
 //리뷰작성 이동
 function review_write_move(content_id, authen){
 	if(authen){
-		location.href=ctxPath+'/board/write?content_id='+content_id;
+		location.href=ctxPath+'/camping/write?content_id='+content_id;
 	}else{
 		if(confirm('글 작성을 위해 유저 인증이 필요합니다. 이동하시겠습니까.')){
 			location.href=ctxPath+'/user/mypage';
