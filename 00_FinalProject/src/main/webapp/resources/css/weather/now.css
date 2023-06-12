@@ -53,6 +53,14 @@
     left: 0;
     /* padding-left: 24px; */
     padding-right: 24px;
+    width: 650px;
+    height: 350px;
+}
+
+@media all and (max-width:1000px){
+	#map{
+		width: 100%;
+	}
 }
 
 #map > div {
@@ -69,4 +77,78 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     z-index: 0;
     cursor: url(http://static.naver.net/maps/mantle/2x/openhand.cur), default;
+}
+
+
+.weather_search {
+	display: flex;
+	margin-bottom: 40px;
+	position: relative;
+	background-color: white;
+	border-bottom: 1px solid #525252;
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 40px;
+	justify-content: space-between;
+}
+
+@media all and (max-width:1000px){
+	.weather_search{
+		width: 60%;
+	}
+}
+
+.search_weather {
+	border: none;
+	outline: none;
+	font-size: 1.1em;
+	font-weight: bold;
+    width: 100%;
+}
+
+.weather_search button {
+	position: absolute;
+	border: none;
+	background-color: transparent;
+	right: 0;
+	font-size: 1.1em;
+	color: #525252;
+	cursor: pointer;
+}
+
+#now_wrap {
+	margin-top: 10px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin-bottom: 10px;
+}
+
+.icon_weather {
+	width: 41px;
+}
+.icon_temp {
+	width: 21px;
+}
+.icon_rain {
+	width: 26px;
+}
+.icon_rmm {
+	width: 36px;
+}
+.icon_stroke {
+	width: 28px;
+}
+.icon_wind {
+	width: 40px;
+}
+
+.wind_degree_img {
+	margin-left: 10px;
+}
+
+.weather_index_wrap {
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 14px;
 }
