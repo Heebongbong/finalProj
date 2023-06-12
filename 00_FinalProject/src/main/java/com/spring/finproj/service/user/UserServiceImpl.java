@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -268,10 +269,12 @@ public class UserServiceImpl implements UserService {
 
 			SendSMSAPI send = new SendSMSAPI();
 			  
-			String code = send.sendSMS(phone);
-
+			//String code = send.sendSMS(phone);
+			String code = "1234";
 			if (code != null) {
 				session.setAttribute("code", code);
+				session.setAttribute("phone_check", phone);
+				session.setMaxInactiveInterval(60*5);
 				System.out.println("코드생성 및 발신 성공~");
 				check = res;
 			}
@@ -285,14 +288,32 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String checkSMS(String input_code, HttpSession session) {
 
-		String check = "true";
+		String check = "0";
 
 		// 발송 코드
 		String code = (String) session.getAttribute("code");
+		System.out.println(code);
+		System.out.println(input_code);
+		String phone_check = (String) session.getAttribute("phone_check");
 		System.out.println("세션 코드 === " + code);
-
-		if (!input_code.equals(code)) {
-			check = "false";
+		System.out.println(phone_check);
+		
+		if (code.equals(input_code)) {
+			List<UserDTO> list = userDao.getUserList(Integer.parseInt(phone_check));
+			
+			String str = "{'list' : [";
+			
+			for(int i=0;i<list.size();i++) {
+				UserDTO d = list.get(i);
+				str += "{ 'email' : '"+d.getEmail()+"' },";
+				if(i<list.size()-1) {
+					str += ",";
+				}
+			}
+			str += "]}";
+			JSONArray ja = new JSONObject(str).getJSONArray("list");
+			
+			return ja.toString();
 		}
 		return check;
 	}
