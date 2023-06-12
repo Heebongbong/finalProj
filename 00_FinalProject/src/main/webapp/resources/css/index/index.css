@@ -153,14 +153,21 @@
 	height: 50px;
 	border-radius: 50%;
 }
-
 .board_user_prof span{
 	font-weight: bold;
 	font-size: 1em;
 	position: absolute;
     left: 60px;
 }
-
+@media all and (max-width: 680px) {
+	.board_user_prof img{
+		width: 40px;
+		height: 40px;
+	}
+	.board_user_prof span{
+	    left: 50px;
+	}
+}
 /* detail_modal css */
 .detail_modal_overlay{
 	display: none;
@@ -228,6 +235,7 @@
 
 .board_main_hashtag p {
 	margin-right: 5px;
+	color: gray;
 }
 /* 게시판 본문 */
 .board_main_cont{
@@ -248,8 +256,8 @@
 	filter: opacity(0.5) drop-shadow(0 0 0 #6FCF97);
 }
 .board_main_text{
-	margin-top: 10px;
-	margin-bottom: 30px;
+	line-height: normal;
+    margin: 10px 5px 30px 5px;
 }
 .more_text_btn {
     font-size: 12px;
@@ -288,7 +296,12 @@
 	height: 40px;
 	border-radius: 50%;
 }
-
+@media all and (max-width: 680px) {
+	.board_reply_user img{
+		width: 35px;
+		height: 35px;
+	}
+}
 .board_reply_user span{
 	margin-left: 10px;
 	font-weight: bold;
@@ -338,7 +351,7 @@
 	.mention_like_wrap{
 		float: right;
 		position: relative;
-		top: -59px;
+		top: -53px;
 	}
 }
 .fa-heart{

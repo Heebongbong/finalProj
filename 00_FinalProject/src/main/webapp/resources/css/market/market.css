@@ -6,12 +6,22 @@
 	justify-content: flex-start;
 }
 .market_navi a{
-	padding: 8px;
+	padding: 8px 3px 8px 3px;
 	width: 100%;
 	text-align: center;
 	color: black;
-	font-size: 14px;
+	font-size: 0.9em;
 	font-weight: bold;
+}
+@media all and (max-width: 850px){
+	.market_navi a{
+		padding: 8px 3px 8px 3px;
+		width: 100%;
+		text-align: center;
+		color: black;
+		font-size: 0.7em;
+		font-weight: bold;
+	}
 }
 .market_navi_cate{
 	display: flex;
@@ -40,6 +50,7 @@
 .obj_li{
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 .loc_li{
 	width: 14.25%;
@@ -128,18 +139,23 @@
 	width: 300px;
     height: 30px;
     margin: auto;
+    display: flex;
+    margin-bottom: 40px;
+    position: relative;
+    background-color: white;
+    border-bottom: 1px solid black;
+    width: 40%;
+    margin-top: 40px
 }
 .market_search input{
 	width: 100%;
     border: none;
-    border-bottom: 1px solid black;
 }
 .market_search button{
 	position: absolute;
-	right: 255px;
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
+    border: none;
+    background-color: transparent;
+    right: 0;
 }
 
 /* boad css */
