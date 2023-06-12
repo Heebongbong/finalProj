@@ -26,9 +26,16 @@ let picture1Img = $('#gifEffectImg');
 	#content{
 		width: 100%;
 	}
+	
 	#star_wrap img{
 		width: 100%;
-		max-height: calc(100vh - 178px);
+		height: calc(100vh - 178px);
+	}
+	
+	@media all and (max-width: 680px) {
+		#star_wrap img{
+			height: calc(100vh - 140px);
+		}
 	}
 </style>
 <div id="star_wrap" style="width: 100%; height: 100%">
