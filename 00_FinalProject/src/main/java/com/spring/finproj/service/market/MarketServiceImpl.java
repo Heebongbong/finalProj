@@ -88,7 +88,7 @@ public class MarketServiceImpl implements MarketService{
 					list = marketDAO.getMarketHashKeyMap(map);
 					
 				}else {
-					key = keyword+= category;
+					key = keyword += category;
 					
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("keyword", key);

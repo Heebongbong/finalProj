@@ -131,3 +131,7 @@
 .input_phoneError, .codeError, .pwd_checkError {
 	margin-bottom: 10%;
 }
+
+.pwd_part_box{
+	display: none;
+}

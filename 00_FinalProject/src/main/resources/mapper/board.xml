@@ -40,9 +40,9 @@
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no 
 			 where cm_no < #{cm_no} 
-			 and hashtag like concat('%',#{keyword},'%') 
+			 and (hashtag like concat('%',#{keyword},'%') 
 		or a.content like concat('%',#{keyword},'%') 
-		or b.nickname like concat('%',#{keyword},'%') order by cm_no desc Limit 5
+		or b.nickname like concat('%',#{keyword},'%')) order by cm_no desc Limit 5
 		]]>
 	</select>
 	
@@ -53,11 +53,14 @@
 			join (select c.user_no, c.email, c.type, d.nickname, d.profile 
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no where 
-		]]>(
+		]]>
+		<if test="hashList.size != 0">
+			 and (
 			 <foreach collection="list" item="item" separator="and">
 			 	hashtag like concat('%',#{item},'%') 
 			 </foreach>
-		)
+			)
+		</if>
 		or a.content like concat('%',#{keyword},'%') 
 		or b.nickname like concat('%',#{keyword},'%')  order by cm_no desc Limit 5
 	</select>
@@ -65,18 +68,20 @@
 	<select id="board_list_hash_map" parameterType="map" resultType="boardDTO">
 		<![CDATA[
 			select * from 
-		(select * from community  where cm_no not in (select cm_no from market))a 
+		(select * from community where cm_no not in (select cm_no from market))a 
 			join (select c.user_no, c.email, c.type, d.nickname, d.profile 
 				from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 			on a.user_no = b.user_no 
-			 where cm_no < #{cm_no} 
-		]]>(
-			 <foreach collection="hashList" item="item">
-			 	and hashtag like concat('%',#{item},'%') 
-			 </foreach>
-			 )
+			 where a.cm_no < #{cm_no} 
+		]]>
+			<if test="hashList.size != 0">
+			 and (
+				 <foreach collection="hashList" item="item">
+				 	hashtag like concat('%',#{item},'%') 
+				 </foreach>
+			</if>
 		or a.content like concat('%',#{keyword},'%') 
-		or b.nickname like concat('%',#{keyword},'%') 
+		or b.nickname like concat('%',#{keyword},'%'))
 		 order by cm_no desc Limit 5
 	</select>
 	

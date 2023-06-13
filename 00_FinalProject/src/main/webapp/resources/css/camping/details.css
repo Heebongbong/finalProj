@@ -343,6 +343,7 @@ hr {
 	display: flex;
 	/*justify-content: space-between;*/
 	align-items: center;
+	cursor: pointer;
 }
 .board_reply_user img{
 	width: 40px;

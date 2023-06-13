@@ -2102,17 +2102,7 @@
         if (_.options.slidesToShow === 1 && _.options.adaptiveHeight === true && _.options.vertical === false) {
             var targetHeight = _.$slides.eq(_.currentSlide).outerHeight(true);
             
-            _.$slides.find('img').first().on('load', function () {
-                $(window).trigger('resize');
-            });
-            
-            let real_height = _.$slides.find('img')[0].offsetHeight;
-            
-            if(targetHeight < real_height){
-                _.$list.css('height', real_height);
-            }else{
-                _.$list.css('height', targetHeight);
-            }
+            _.$list.css('height', targetHeight);
         }
     };
 

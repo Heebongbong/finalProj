@@ -38,8 +38,11 @@
 	width: 100%;
 	border-left: 1px solid #dcdcdc;
 }
+.market_navi_cont li:hover{
+	background-color: #6FCF97;
+}
 .market_navi_cont a:hover{
-	color: #6FCF97;
+	color: #fff;
 }
 .loc_ul,
 .obj_ul{
@@ -67,11 +70,8 @@
 .li-active a{
 	color: white;
 }
-.li-active:hover{
-	background-color: white;
-}
 .li-active:hover > a{
-	color: #6FCF97;
+	color: #fff;
 }
 
 @media all and (max-width:680px) {
@@ -414,6 +414,7 @@
 	display: flex;
 	/* justify-content: space-between; */
 	align-items: center;
+	cursor: pointer;
 }
 .board_reply_user img{
 	width: 40px;

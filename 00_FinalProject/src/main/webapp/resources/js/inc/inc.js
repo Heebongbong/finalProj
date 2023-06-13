@@ -215,7 +215,7 @@ function alarm_move_href(field){
 //글쓰기 오픈 & 사기번호 조회 오픈
 function fraud_check_window(){
 	window.open(ctxPath+"/market/security", "사기번호 조회",
-	"titlebar=0,height=700,width=1000,top=50,left=200,status=0,scrollbars=0,location=0,resizable=0,menubar=0,toolbar=0"
+	"titlebar=0,height=700,width=700,top=0,left=0,status=0,scrollbars=0,location=0,resizable=0,menubar=0,toolbar=0"
 	, "");
 }
 
@@ -341,13 +341,15 @@ function chat_board(no){
 					if(data==0){
 						alert('채팅방 등록 중 오류');
 					}else { // 기존 채팅 존재
-						if(data.nickname == ''){
-							chat_start(no, data.chat_room_no);
+						let j_d = JSON.parse(data);
+						if(j_d.nickname == ''){
+							chat_start(no, j_d.chat_room_no);
 						}else{
-							let table = "<p><a href='javascript:chat_start("+no+","+data.chat_room_no+")'><img src='"+data.profile+"'>"+data.nickname+"</a></p>" +
-										"<button onclick='chat_room_out("+data.chat_room_no+", this, \'"+data.nickname+"\', "+no+")' class='chat_room_out'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></button>";
+							console.log(j_d);
+							let table = "<p class='chat_list_p' onmouseover='open_room_out(this)'><a href='javascript:chat_start("+no+","+j_d.chat_room_no+")'><img class='chat_list_img' src='"+j_d.profile+"'>"+j_d.nickname+"</a>" +
+										"<button onclick='chat_room_out("+j_d.chat_room_no+", this, \'"+j_d.nickname+"\', "+no+")' class='chat_room_out'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></button></p>";
 							$('.chat_list').append(table);
-							chat_start(no, data.chat_room_no);
+							chat_start(no, j_d.chat_room_no);
 						}
 					}
 				},

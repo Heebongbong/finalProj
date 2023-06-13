@@ -122,16 +122,15 @@ public class UserServiceImpl implements UserService {
 		session.removeAttribute("code");
 
 		UserDTO sdto = (UserDTO) session.getAttribute("LoginUser");
-
-		sdto.isAuthen();
-		dto.isProfile_type();
 		
-		if (dto.getPwd().equals("")) {
+		System.out.println(dto);
+		
+		if (dto.getPwd()==null || dto.getPwd().equals("")) {
 			dto.setPwd(sdto.getPwd());
 			System.out.println("기존 비밀번호 세팅");
 		}
 
-		if (!dto.getPhone().equals("")) {
+		if (!dto.getPhone().equals("") || dto.getPhone()!=null ) {
 			dto.setAuthen(true);
 			System.out.println("인증 회원");
 		}
@@ -244,15 +243,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String sendSMS(String phone, HttpSession session) throws Exception {
 
-		SendSMSAPI send = new SendSMSAPI();
+		//SendSMSAPI send = new SendSMSAPI();
 		 
-		String code = send.sendSMS(phone);
-		//String code = "1234";
+		//String code = send.sendSMS(phone);
+		String code = "1234";
 		String check = "0";
 
 		if (code != null) {
 
 			session.setAttribute("code", code);
+			session.setAttribute("phone_check", phone);
 			System.out.println("코드생성 및 발신 성공~");
 			check = "1";
 		}
@@ -268,10 +268,10 @@ public class UserServiceImpl implements UserService {
 		System.out.println("user_no === " + res);
 		if (res != null) {
 
-			SendSMSAPI send = new SendSMSAPI();
-			String code = send.sendSMS(phone);
+			//SendSMSAPI send = new SendSMSAPI();
+			//String code = send.sendSMS(phone);
 			  
-			//String code = "1234";
+			String code = "1234";
 			if (code != null) {
 				session.setAttribute("code", code);
 				session.setAttribute("phone_check", phone);
@@ -295,7 +295,8 @@ public class UserServiceImpl implements UserService {
 		String phone_check = (String) session.getAttribute("phone_check");
 		
 		if (code.equals(input_code)) {
-			List<UserDTO> list = userDao.getUserList(Integer.parseInt(phone_check));
+			System.out.println("??>"+phone_check);
+			List<UserDTO> list = userDao.getUserList(phone_check);
 			
 			String str = "{'list' : [";
 			
