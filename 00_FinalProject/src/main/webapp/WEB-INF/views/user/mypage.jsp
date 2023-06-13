@@ -102,6 +102,7 @@
 			<div class="modify">
 				<button type="submit" id="submitBtn">수정하기</button>
 			</div>
+			<p class="user_delete_p" onclick="if(confirm('회원 탈퇴 후 정보를 다시 되돌릴 수 없습니다.\n정말로 탈퇴하시겠습니까.')){location.href='${ctxPath}/user/deleteOk'}else{return ;}">회원탈퇴하기</p>
 		</form>
 	</div>
 </div>

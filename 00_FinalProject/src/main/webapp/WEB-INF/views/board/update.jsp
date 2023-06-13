@@ -7,10 +7,10 @@
 <c:set var="files" value="${Map.get('Files') }"/>
 <div class="board_wrap">
 	<c:if test="${dto.getContent_id()==0 }">	
-		<div id="title">커뮤니티 글 수정</div>
+		<div id="title"><img alt="" src="${ctxPath }/resources/images/icon/board_icon.png"></div>
 	</c:if>
 	<c:if test="${dto.getContent_id()!=0 }">
-		<div id="title">캠핑리뷰 수정</div>
+		<div id="title"><img alt="" src="${ctxPath }/resources/images/icon/camp_icon.png"></div>
 	</c:if>
 	<form onsubmit="return check()" id="updateform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/updateform">
 	
