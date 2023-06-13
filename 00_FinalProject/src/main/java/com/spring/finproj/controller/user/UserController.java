@@ -69,15 +69,9 @@ public class UserController {
 
 	}
 	
-	@RequestMapping("/delete")
-	public String userDrop() throws Exception {
-		
-		return "user.delete";
-	}
-	
 	@RequestMapping("/deleteOk")
-	public String userDropOk(@RequestParam(defaultValue = "") String check_pwd, HttpSession session, HttpServletResponse response) throws Exception {
-		int check = userService.deleteUser(check_pwd, session, response);
+	public String userDropOk(HttpSession session, HttpServletResponse response) throws Exception {
+		int check = userService.deleteUser(session, response);
 		if (check > 0) {
 			return "redirect:/index";
 		} else {// 불일치

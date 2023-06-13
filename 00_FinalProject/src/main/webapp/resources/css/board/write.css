@@ -6,7 +6,9 @@
     font-weight: bold;
     padding: 40px 0 50px 0;
 }
-
+#title img{
+	width: 60px;
+}
 .text {
 	text-align: center;
     font-size: 16px;

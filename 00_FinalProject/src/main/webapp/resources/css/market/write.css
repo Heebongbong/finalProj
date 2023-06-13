@@ -6,6 +6,9 @@
     font-weight: bold;
     padding: 40px 0 50px 0;
 }
+#title img{
+	width: 60px;
+}
 
 .title_input {
 	background-color: #F5F5F5;

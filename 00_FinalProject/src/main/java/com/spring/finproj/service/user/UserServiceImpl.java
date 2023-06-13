@@ -329,7 +329,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int deleteUser(String check_pwd, HttpSession session, HttpServletResponse response) throws Exception {
+	public int deleteUser(HttpSession session, HttpServletResponse response) throws Exception {
 
 		UserDTO dto = (UserDTO) session.getAttribute("LoginUser");
 		UserSessionDTO sdto = userDao.getUserSession(dto.getUser_no());
@@ -338,31 +338,21 @@ public class UserServiceImpl implements UserService {
 		int check = -1;
 		int res = -1;
 		
-		if (check_pwd.equals(dto.getPwd()) && dto.getType().equals("S")) {
-			// 쿼리문 type = D 로 변경
-			userDao.deleteUser(dto.getUser_no());
-			userDao.deleteUserSessionContent(dto.getUser_no());
-			res = 1;
+		// 쿼리문 type = D 로 변경
+		if (dto.getType().equals("S")) {
+		
+		}else if (dto.getType().equals("K")) {
+			deleteKakaorUser(sessionID);
+		} else if (dto.getType().equals("N")) {
+			deleteNaverUser(sessionID);
+		}else if(dto.getType().equals("G")) {
+			deleteGoogleUser(sessionID);
 		}
 		
-		if(check_pwd.equals("")) {
-			if (dto.getType().equals("K")) {
-				deleteKakaorUser(sessionID);
-			} else if (dto.getType().equals("N")) {
-				deleteNaverUser(sessionID);
-			}else if(dto.getType().equals("G")) {
-				deleteGoogleUser(sessionID);
-			}
-			
-			userDao.deleteUser(dto.getUser_no());
-			userDao.deleteUserSessionContent(dto.getUser_no());
-			
-			res = 1;
-		}
+		res = userDao.deleteUser(dto.getUser_no());
+		res = userDao.deleteUserSessionContent(dto.getUser_no());
 		
-		
-		
-		if (res == 1) {
+		if (res > 0) {
 			check = 1;
 			
 			Cookie a_t = new Cookie("AccessToken", null);

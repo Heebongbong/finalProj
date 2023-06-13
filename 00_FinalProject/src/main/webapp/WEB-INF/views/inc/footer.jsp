@@ -22,7 +22,7 @@
 		<li><a class="navi_footer_a" id="footer_weather" href="${ctxPath }/weather/now"><img alt="" src="${ctxPath }/resources/images/icon/weather_icon.png"><span>날씨</span></a></li>
 		<li><a class="navi_footer_a" id="footer_drive" href="${ctxPath }/driveNavi"><img alt="" src="${ctxPath }/resources/images/icon/drive_icon.png"><span>드라이브</span></a></li>
 		<li><a class="navi_footer_a" id="footer_camp" href="${ctxPath }/camping/camping"><img alt="" src="${ctxPath }/resources/images/icon/camp_icon.png"><span>캠핑장</span></a></li>
-		<li><a class="navi_footer_a" id="footer_board" href="${ctxPath }/board/list"><img alt="" src="${ctxPath }/resources/images/icon/board_icon.png"><span>커뮤니티</span></a></li>
+		<li><a class="navi_footer_a" id="footer_board" href="${ctxPath }/board/list"><img alt="" src="${ctxPath }/resources/images/icon/board_icon.png"><span>캠피그램</span></a></li>
 		<li><a class="navi_footer_a" id="footer_market" href="${ctxPath }/market/list"><img alt="" src="${ctxPath }/resources/images/icon/market_icon.png"><span>중고거래</span></a></li>
 	</ul>
 </div>

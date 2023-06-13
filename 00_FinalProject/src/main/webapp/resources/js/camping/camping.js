@@ -14,6 +14,12 @@ $(document).ready(function(){
 			}
 		}
 	});
+	//터치 게시판 추가
+	$('body').on("touchend",function(event){
+		if(($(window).scrollTop()+$(window).innerHeight()) >= $(document).height()-1){
+			campingAddList();
+		}
+	});
 
 	// 선택 지역 배경색 고정
 	let category = document.getElementById('hidden_category').value;

@@ -5,10 +5,10 @@
 <c:set var="ctxPath" value="<%=request.getContextPath() %>"/>
 <div class="board_wrap">
 	<c:if test="${!empty Content_id }">
-		<div id="title">캠핑리뷰 작성</div>
+		<div id="title"><img alt="" src="${ctxPath }/resources/images/icon/camp_icon.png"></div>
 	</c:if>
 	<c:if test="${empty Content_id }">
-		<div id="title">커뮤니티 글쓰기</div>
+		<div id="title"><img alt="" src="${ctxPath }/resources/images/icon/board_icon.png"></div>
 	</c:if>
 	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/board/writeform">
 		<div class="text">카테고리</div>

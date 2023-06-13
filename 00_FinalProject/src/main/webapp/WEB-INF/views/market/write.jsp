@@ -5,7 +5,7 @@
 <div class="market_write_wrap">
 	<form onsubmit="return check()" id="writeform" method="post" enctype="multipart/form-data" action="${ctxPath }/market/writeform">
 		
-		<div id="title">마켓 글쓰기</div>
+		<div id="title"><img alt="" src="${ctxPath }/resources/images/icon/market_icon.png"></div>
 		
 		<div class="text">카테고리</div>
 		
