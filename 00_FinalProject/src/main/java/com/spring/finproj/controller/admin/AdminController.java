@@ -54,6 +54,7 @@ public class AdminController {
 		return "admin.admin";
 	}
 	
+	
 	@RequestMapping(value = {"", "/chat"})
 	public String adminNavi() {
 		
@@ -99,6 +100,7 @@ public class AdminController {
     @RequestMapping("/deleteAccuse")
     public String deleteAcuuseCont(int cm_no, int user_no) {
     	boardService.deleteAcuuseCont(cm_no, user_no);
+    	System.out.println(cm_no +"/"+ user_no);
     	return "redirect:/admin/accuse";
     }
 }
