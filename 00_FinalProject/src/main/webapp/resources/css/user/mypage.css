@@ -84,11 +84,16 @@
     background-color: white;
     border: 1px solid #9d9d9d;
     color: #9d9d9d;
+    cursor: pointer;
 }
 
 .social_profie_btn {
     width: 55%;
     font-size: .7em;
+    background: white;
+    border: 1px solid #9d9d9d;
+    color: #9d9d9d;
+    height: 20px;
 }
 
 .authen_box button {
@@ -130,4 +135,10 @@
 
 .input_phoneError, .codeError, .pwd_checkError {
 	margin-bottom: 10%;
+}
+
+#mypage_wrap button:hover, .social_profie_btn:hover {
+    border: none;
+    background-color: #6fcf97;
+	color: white;
 }
