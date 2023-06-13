@@ -209,7 +209,7 @@ function openwindows() {
 											"주소 : "+ wp.address +
 										"</div>" +
 										"<div class='drive_road_info'>" +
-											wp.info +
+											"상세정보"+ "<hr>"+ wp.info +
 										"</div>" +
 									"</div>" +
 								"</div>";

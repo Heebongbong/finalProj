@@ -211,27 +211,26 @@ body {
 	justify-content: center;
 }
 .login_navi_search_li{
-    display: flex;
-    justify-content: end;
-    flex-direction: column;
     width: 40%;
-		height: 100px;
+    position: relative;
+    top: 46px;
 }
 @media all and (max-width:680px) {
 	.login_navi_search_li{
-    height: 75px;
-    width: 50%;
+	    height: 75px;
+	    width: 50%;
+	    top: 36px;
 	}
 }
 .login_navi_search_li form{
-	margin-bottom: 10%;
+	margin-bottom: 20px;
 	position: relative;
 	background-color: white;
 	border-bottom: 1px solid #7b7b7b;
 }
 @media all and (max-width:680px) {
 	.login_navi_search_li form{
-		margin-bottom: 15%;
+		margin-bottom: 20px;
 	}
 }
 
@@ -328,7 +327,7 @@ body {
 
 	.profile_img_alarm {
 		width: 21px !important;
-		height: 23.5px !important;
+		height: 25.5px !important;
 	}
 }
 

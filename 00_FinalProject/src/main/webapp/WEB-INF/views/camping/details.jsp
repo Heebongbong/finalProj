@@ -37,7 +37,7 @@
 			<p class="camp_lctCl">${camp_dto.lctCl }</p>
 			<p class="camp_addr1">${camp_dto.addr1 }</p>
 			<p class="camp_tel">${camp_dto.tel }</p>
-			<p class="camp_homepage">${camp_dto.homepage }</p>
+			<a class="camp_homepage" href="${camp_dto.homepage }">${camp_dto.homepage }</a>
 			<hr>
 			<p class="camp_lineIntro">${camp_dto.lineIntro }</p>
 			<p class="camp_intro">${camp_dto.intro }</p>

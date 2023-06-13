@@ -116,11 +116,6 @@
     margin: 20px 0;
 }
 
-.join button:hover {
-	background-color: #6fcf97;
-	color: white;
-}
-
 #mypage_container_center span, .profile label {
     font-size: 9px;
 }
@@ -136,4 +131,10 @@
 
 input {
     border-bottom: 1px solid #9d9d9d;
+}
+
+#mypage_wrap button:hover {
+    border: none;
+    background-color: #6fcf97;
+	color: white;
 }

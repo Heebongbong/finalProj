@@ -243,7 +243,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String sendSMS(String phone, HttpSession session) throws Exception {
 
-		//SendSMSAPI send = new SendSMSAPI();
+		SendSMSAPI send = new SendSMSAPI();
 		 
 		//String code = send.sendSMS(phone);
 		String code = "1234";
@@ -268,7 +268,7 @@ public class UserServiceImpl implements UserService {
 		System.out.println("user_no === " + res);
 		if (res != null) {
 
-			//SendSMSAPI send = new SendSMSAPI();
+			SendSMSAPI send = new SendSMSAPI();
 			//String code = send.sendSMS(phone);
 			  
 			String code = "1234";

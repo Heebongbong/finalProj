@@ -76,7 +76,7 @@
 					<input name="nickname" class="noWhitespace" value="${loginUser.nickname }">
 					<p class="nicknameError">&nbsp;</p>
 				</div>
-				
+		
 				<c:if test="${loginUser.type == 'S' }">
 					<p class="text">비밀번호</p>
 					<div class="authen_box">
@@ -95,9 +95,9 @@
 						<p class="text">새 비밀번호 확인</p>
 						<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
 						<p class="pwd_reError">&nbsp;</p>
-					</div>
-				
+					</div>		
 				</c:if>
+				
 			</div>
 			<div class="modify">
 				<button type="submit" id="submitBtn">수정하기</button>
