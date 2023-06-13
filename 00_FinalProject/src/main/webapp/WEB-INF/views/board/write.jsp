@@ -45,7 +45,7 @@
 		<hr class="hr">
 		
 		<label for="upfile" class="upload_text">사진첨부</label>
-		<label for="files" class="upload_text">
+		<label for="upfile" class="upload_text">
 			<img src="${ctxPath }/resources/images/icon/camera.png">
 		</label>
 		<input type="file" style="display: none" id="upfile" class="form-control-file border" name="upfile" multiple="multiple" onchange="fileUpload()">
