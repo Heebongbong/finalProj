@@ -272,7 +272,7 @@ function open_room_out(self){
 	}, 3000);
 }
 
-function chat_room_out(room_no, self){
+function chat_room_out(room_no, self, receiveId, receiv_no){
 	if(confirm('채팅방을 나가시겠습니까.')){
 		$.ajax({
 			type: "get",
@@ -283,7 +283,12 @@ function chat_room_out(room_no, self){
 			dataType : "text",
 			async:false,
 			success: function(data){
-				if(data>0){
+				if(data==1){ //상대방 존재, 본인 퇴장
+					if (socket.readyState !== 1 ) return;
+					socket.send(room_no + "," + receiv_no + "," + receiveId + ", "+loginUser_nickname+"이/가 채팅방을 나갔습니다.");
+
+					$(self).parent().remove();
+				}else if(data==2){ //상대방 퇴장, 본인 퇴장
 					$(self).parent().remove();
 				}else{
 					alert('채팅방 퇴장 중 오류');
@@ -340,7 +345,7 @@ function chat_board(no){
 							chat_start(no, data.chat_room_no);
 						}else{
 							let table = "<p><a href='javascript:chat_start("+no+","+data.chat_room_no+")'><img src='"+data.profile+"'>"+data.nickname+"</a></p>" +
-										"<button onclick='chat_room_out("+data.chat_room_no+")' class='chat_room_out'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></button>";
+										"<button onclick='chat_room_out("+data.chat_room_no+", this, \'"+data.nickname+"\', "+no+")' class='chat_room_out'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></button>";
 							$('.chat_list').append(table);
 							chat_start(no, data.chat_room_no);
 						}
@@ -389,6 +394,9 @@ function chat_start(no, room_no){
 
 			$('.chat_title_nick_send').text(send_user.nickname);
 			$('.chat_title_img_send').attr('src', send_user.profile);
+
+			console.log($('.chat_cont')[0].scrollHeight);
+			$('.chat_cont').scrollTop($('.chat_cont')[0].scrollHeight);
 			
 			connect_chat();
 		},
@@ -423,6 +431,9 @@ function connect_chat() {
 		
 		if(sl[1]==$('#chat_receipt').val()){
 			$('.chat_cont').append(table);
+			
+			console.log($('.chat_cont')[0].scrollHeight);
+			$('.chat_cont').scrollTop($('.chat_cont')[0].scrollHeight);
 		}
 		
 		console.log("ReceiveMessage:" + event.data+'\n');
@@ -450,6 +461,9 @@ function send_chat(room_no, authen, receiv_no){
 			let table = "<div class='chat_loginU'><span class='chat_date_time'>"+d.getHours() + ":" + d.getMinutes()+"</span><p>"+msg+"</p></div>";
 			$('.chat_cont').append(table);
 			$('.chat_msg').val("");
+			
+			console.log($('.chat_cont')[0].scrollHeight);
+			$('.chat_cont').scrollTop($('.chat_cont')[0].scrollHeight);
 		}else{
 			if(confirm('글 작성을 위해 유저 인증이 필요합니다. 이동하시겠습니까.')){
 				location.href=ctxPath+'/user/mypage';
@@ -462,6 +476,9 @@ function send_chat(room_no, authen, receiv_no){
 		let table = "<div class='chat_loginU'><span class='chat_date_time'>"+d.getHours() + ":" + d.getMinutes()+"</span><p>"+msg+"</p></div>";
 		$('.chat_cont').append(table);
 		$('.chat_msg').val("");
+		
+		console.log($('.chat_cont')[0].scrollHeight);
+		$('.chat_cont').scrollTop($('.chat_cont')[0].scrollHeight);
 	}
 }
 
@@ -478,6 +495,9 @@ function chat_admin(room_no){
 				+"</span>"
 				+"</p>";
 	$('.chat_cont').append(table);
+	
+	console.log($('.chat_cont')[0].scrollHeight);
+	$('.chat_cont').scrollTop($('.chat_cont')[0].scrollHeight);
 }
 
 
@@ -509,6 +529,8 @@ function faq_cont(cate_no){
 	table += "<p class='chat_admin_mess'><span style='margin:0;'><input type='button' value='카테고리로' onclick='faq_cate()'></span></p>";
 	$('.chat_cont').append(table);
 	
+	console.log($('.chat_cont')[0].scrollHeight);
+	$('.chat_cont').scrollTop($('.chat_cont')[0].scrollHeight);
 }
 
 function faq_cate(){
@@ -518,4 +540,7 @@ function faq_cate(){
 	}
 	table += "</p>";
 	$('.chat_cont').append(table);
+	
+	console.log($('.chat_cont')[0].scrollHeight);
+	$('.chat_cont').scrollTop($('.chat_cont')[0].scrollHeight);
 }

@@ -111,18 +111,18 @@ public class ChatServiceImpl implements ChatService {
 		UserDTO logU = (UserDTO) session.getAttribute("LoginUser");
 		
 		dto.setChat_room_no(chat_room_no);
-		dto.setExit_user(logU.getUser_no());
 		
-		dto = chatDAO.getChatRoomContent(dto);
-		
+		dto = chatDAO.getChatRoomContent(dto.getChat_room_no());
 		if(dto.getExit_user()==0) { // 나간 유저가 없을 때 exit user 세팅
-			return chatDAO.updateChatExitUser(dto);
+			dto.setExit_user(logU.getUser_no());
+			chatDAO.updateChatExitUser(dto);
+			return 1;
 		}else { // 한명이 나가면 채팅방 삭제
 			int re = chatDAO.deleteChatRoom(chat_room_no);
 			if(re>0) {
 				re = chatDAO.deleteChatList(chat_room_no);
 			}
-			return re;
+			return 2;
 		}
 	}
 }

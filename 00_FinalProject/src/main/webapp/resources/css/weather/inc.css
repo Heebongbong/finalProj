@@ -29,7 +29,7 @@ body{
 	}
 }
 
-@media all and (max-device-width:680px) {
+@media all and (max-width:680px) {
 	body {
 		width: 100%;
 	}
@@ -45,7 +45,7 @@ body{
 #content{
 	min-height: calc(100vh - 178px);
 }
-@media all and (max-device-width:680px) {
+@media all and (max-width:680px) {
 	#content{
 		min-height: calc(100vh - 140px);
 	}
@@ -61,7 +61,7 @@ body{
 	position: sticky;
 }
 
-@media all and (max-device-width:680px) {
+@media all and (max-width:680px) {
 	#weather_footer{
 		height: 60px;
 	}
@@ -92,54 +92,54 @@ body{
 	}
 }
 
-#footer_stella img{
+#footer_stella_w img{
 	width: 35px;
 	margin-bottom: 5px;
 }
 
-#footer_star img{
+#footer_star_w img{
 	width: 38px;
 	margin-bottom: 5px;
 }
 
-#footer_home img{
+#footer_home_w img{
 	width: 35px;
 	margin-bottom: 5px;
 }
 	
-#footer_weather img{
+#footer_weather_w img{
 	width: 45px;
 	margin-bottom: 5px;
 }
 
-#footer_drive img{
+#footer_drive_w img{
 	width: 38px;
 	margin-bottom: 5px;
 }
 
 @media all and (max-width:680px) {
 
-	#footer_stella img{
+	#footer_stella_w img{
 		width: 30px;
 		margin-bottom: 3px;
 	}
 	
-	#footer_star img{
+	#footer_star_w img{
 		width: 33px;
 		margin-bottom: 5px;
 	}
 	
-	#footer_home img{
+	#footer_home_w img{
 		width: 30px;
 		margin: 0;
 	}
 		
-	#footer_weather img{
+	#footer_weather_w img{
 		width: 40px;
-		margin-bottom: 5px;
+		margin-bottom: 1px;
 	}
 	
-	#footer_drive img{
+	#footer_drive_w img{
 		width: 30px;
 		margin-bottom: 5px;
 	}

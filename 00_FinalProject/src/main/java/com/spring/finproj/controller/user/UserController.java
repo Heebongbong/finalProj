@@ -125,7 +125,7 @@ public class UserController {
 	@RequestMapping("/sms/check")
 	@ResponseBody
 	public String checkSMS(String input_code, HttpSession session) throws Exception {
-
+		System.out.println("controller"+input_code);
 		return userService.checkSMS(input_code, session);
 	}
 

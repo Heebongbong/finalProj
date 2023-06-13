@@ -4,20 +4,21 @@
 	width: 100%;
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
 }
 
-#forgetForm {
+.text_part {
     width: 36%;
-	margin: 5% 0;
+	margin: 5% auto;
 }
 
 @media all and (max-width:1000px) {
-    #forgetForm {
+    .text_part {
 		width: 55%;
 	}
 }
 @media all and (max-width:680px) {
-    #forgetForm {
+    .text_part {
      width: 85%;
 	}
 }
@@ -28,9 +29,6 @@
     font-weight: bold;
 }
 
-.text_part {
-    margin: 0 10%;
-}
 
 .text_part_box {
     margin-bottom: 1.5em;
@@ -41,7 +39,7 @@
     align-items: baseline;
 }
 
-#forgetForm button {
+.text_part button {
     background-color: white;
     border: 1px solid #9d9d9d;
     color: #9d9d9d;
@@ -54,14 +52,23 @@
     margin-left: 2px;
 }
 
-#forgetForm [class$="Error"] {
-  color: #c7c7c7 !important;
-  font-size: 10px;	
+.code_result{
+	margin-top: 50px;
 }
 
-#forgetForm ::placeholder {
+.phone_result{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.text_part ::placeholder {
     font-size: 9px;
     color: #9d9d9d;
+}
+
+.text_part_box-wrap{
+	display: none;
 }
 
 .noWhitespace {
@@ -84,7 +91,7 @@
 }
 
 .authen_part {
-	margin : 25% 0;
+	margin : 15% 0;
 }
 
 .modify {
@@ -101,11 +108,31 @@
     margin: 20px 0;
 }
 
-.modify button:hover {
-	background-color: #6fcf97;
-	color: white;
-}
-
 .input_phoneError {
     margin-bottom: 10%;
 }
+
+#forget_wrap button:hover {
+	background-color: #6fcf97;
+	color: white;
+	cursor: pointer;
+    border: none;
+}
+
+#forget_wrap [class$="Error"] {
+    color: #c7c7c7 !important;
+    font-size: 10px;	
+  }
+  
+  #forget_wrap p {
+      color : #9d9d9d;
+  } 
+  
+  #forget_wrap ::placeholder {
+      font-size: 9px;
+      color: #9d9d9d;
+  }
+
+  input {
+    border-bottom: 1px solid #9d9d9d;
+  }

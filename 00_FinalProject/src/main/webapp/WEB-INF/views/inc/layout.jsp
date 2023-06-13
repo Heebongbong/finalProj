@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name ="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=0">
 <link href="${ctxPath }/resources/images/logo/logo.png" rel="shortcut icon" type="image/x-icon">
 <link href="https://fonts.cdnfonts.com/css/source-sans-pro" rel="stylesheet">
 <title><tiles:getAsString name="title"/></title>

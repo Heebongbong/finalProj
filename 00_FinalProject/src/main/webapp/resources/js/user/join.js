@@ -27,7 +27,11 @@
 			  type : "post",
 			  data : { phone : phone },
 			  success : function(res) {
-					  phoneError.textContent = "휴대전화로 인증번호가 전송되었습니다.";
+				if(res==1){
+					phoneError.textContent = "휴대전화로 인증번호가 전송되었습니다.";
+				}else{
+					phoneError.textContent = "인증번호 전송에 실패했습니다.";
+				}	 
 			  },
 			  error : function() {
 				  alert("전송 실패");

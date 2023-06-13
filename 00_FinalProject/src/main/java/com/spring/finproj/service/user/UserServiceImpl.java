@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,7 +125,7 @@ public class UserServiceImpl implements UserService {
 
 		sdto.isAuthen();
 		dto.isProfile_type();
-
+		
 		if (dto.getPwd().equals("")) {
 			dto.setPwd(sdto.getPwd());
 			System.out.println("기존 비밀번호 세팅");
@@ -132,6 +133,7 @@ public class UserServiceImpl implements UserService {
 
 		if (!dto.getPhone().equals("")) {
 			dto.setAuthen(true);
+			System.out.println("인증 회원");
 		}
 
 		// 프로필 값비교 & 저장
@@ -245,14 +247,14 @@ public class UserServiceImpl implements UserService {
 		SendSMSAPI send = new SendSMSAPI();
 		 
 		String code = send.sendSMS(phone);
-
-		String check = "실패";
+		//String code = "1234";
+		String check = "0";
 
 		if (code != null) {
 
 			session.setAttribute("code", code);
 			System.out.println("코드생성 및 발신 성공~");
-			check = "전송";
+			check = "1";
 		}
 
 		return check;
@@ -267,12 +269,13 @@ public class UserServiceImpl implements UserService {
 		if (res != null) {
 
 			SendSMSAPI send = new SendSMSAPI();
-			  
 			String code = send.sendSMS(phone);
-
+			  
+			//String code = "1234";
 			if (code != null) {
 				session.setAttribute("code", code);
-				System.out.println("코드생성 및 발신 성공~");
+				session.setAttribute("phone_check", phone);
+				session.setMaxInactiveInterval(60*5);
 				check = res;
 			}
 		} else {
@@ -285,14 +288,28 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String checkSMS(String input_code, HttpSession session) {
 
-		String check = "true";
+		String check = "0";
 
 		// 발송 코드
 		String code = (String) session.getAttribute("code");
-		System.out.println("세션 코드 === " + code);
-
-		if (!input_code.equals(code)) {
-			check = "false";
+		String phone_check = (String) session.getAttribute("phone_check");
+		
+		if (code.equals(input_code)) {
+			List<UserDTO> list = userDao.getUserList(Integer.parseInt(phone_check));
+			
+			String str = "{'list' : [";
+			
+			for(int i=0;i<list.size();i++) {
+				UserDTO d = list.get(i);
+				str += "{ 'email' : '"+d.getEmail()+"' },";
+				if(i<list.size()-1) {
+					str += ",";
+				}
+			}
+			str += "]}";
+			JSONArray ja = new JSONObject(str).getJSONArray("list");
+			
+			return ja.toString();
 		}
 		return check;
 	}
