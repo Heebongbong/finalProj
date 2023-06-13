@@ -173,7 +173,7 @@
 		]]>
   	</select>
   	<select id="accuse_list" resultType="boardDTO">
-  		SELECT c.cm_no, c.user_no, c.content, us.email, u.nickname, c.hashtag, m.title, m.price, a.reason
+  		SELECT c.cm_no, a.user_no, c.content, us.email, u.nickname, c.hashtag, m.title, m.price, a.reason
 		FROM community c
 		LEFT JOIN market m ON c.cm_no = m.cm_no
 		JOIN user_profile u ON c.user_no = u.user_no
