@@ -211,16 +211,15 @@ body {
 	justify-content: center;
 }
 .login_navi_search_li{
-    display: flex;
-    justify-content: end;
-    flex-direction: column;
     width: 40%;
-		height: 100px;
+    position: relative;
+    top: 46px;
 }
 @media all and (max-width:680px) {
 	.login_navi_search_li{
     height: 75px;
     width: 50%;
+    top: 36px;
 	}
 }
 .login_navi_search_li form{
