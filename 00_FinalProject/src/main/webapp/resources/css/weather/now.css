@@ -56,12 +56,14 @@
 @media all and (max-width:1000px){
 	.weather_index_wrap {
 		padding-right: 5%;
+		margin-top: 5px;
 	}
 }
 
 @media all and (max-width:500px){
 	.weather_index_wrap {
-		padding-right: 4%;
+		padding-right: 5%;
+		margin-top: 0px;
 	}
 }
 
@@ -196,4 +198,9 @@
 	border-bottom: 1px solid #cccccc;
 	padding-bottom: 14px;
 	height: 50px;
+}
+@media all and (max-width: 500px) {
+	.weather_wrap {
+		font-size: 14px;
+	}
 }
