@@ -4,21 +4,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>신고자 검색 페이지</title>
 <style type="text/css">
-	html, body{
-		overflow: hidden;
-	}
-	#security_wrap{
-		width: 600px;
-		margin: 100px auto;
-	}
-	iframe{
-		border: none;
-		width: 1000px;
-		height: 1000px;
-		overflow: hidden;
-	}
+body{
+	overflow: hidden;
+	width: 1000px;
+	height: 1000px;
+	margin: auto;
+}
+#security_wrap{
+	margin: 50px;
+	background-color: white;
+	height: 100%;
+}
+iframe{
+	border: none;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
 </style>
 </head>
 <body>

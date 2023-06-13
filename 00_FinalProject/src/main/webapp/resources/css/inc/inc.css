@@ -217,13 +217,13 @@ body {
 }
 @media all and (max-width:680px) {
 	.login_navi_search_li{
-    height: 75px;
-    width: 50%;
-    top: 36px;
+	    height: 75px;
+	    width: 50%;
+	    top: 36px;
 	}
 }
 .login_navi_search_li form{
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	position: relative;
 	background-color: white;
 	border-bottom: 1px solid #7b7b7b;

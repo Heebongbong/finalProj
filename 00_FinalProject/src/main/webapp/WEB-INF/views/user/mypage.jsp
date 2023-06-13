@@ -76,25 +76,28 @@
 					<input name="nickname" class="noWhitespace" value="${loginUser.nickname }">
 					<p class="nicknameError">&nbsp;</p>
 				</div>
+		
+				<c:if test="${loginUser.type == 'S' }">
+					<p class="text">비밀번호</p>
+					<div class="authen_box">
+						<input type="password" name="pwd_check" id="check_pwd" class="noWhitespace">
+						<button type="button" onclick="checkPwd()">비밀번호확인</button>
+					</div>
+					<p class="pwd_checkError">&nbsp;</p>
+					
+					<div class="text_part_box pwd_part_box">
+						<p class="text">새 비밀번호</p>
+						<input type="password" id="pwd" name="pwd" class="noWhitespace">
+						<p class="pwdError">&nbsp;</p>
+					</div>
+					
+					<div class="text_part_box pwd_part_box">
+						<p class="text">새 비밀번호 확인</p>
+						<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
+						<p class="pwd_reError">&nbsp;</p>
+					</div>		
+				</c:if>
 				
-				<p class="text">비밀번호</p>
-				<div class="authen_box">
-					<input type="password" name="pwd_check" id="check_pwd" class="noWhitespace">
-					<button type="button" onclick="checkPwd()" id="check_pwd_btn">비밀번호확인</button>
-				</div>
-				<p class="pwd_checkError">&nbsp;</p>
-				
-				<div class="text_part_box">
-					<p class="text">새 비밀번호</p>
-					<input type="password" id="pwd" name="pwd" class="noWhitespace">
-					<p class="pwdError">&nbsp;</p>
-				</div>
-				
-				<div class="text_part_box">
-					<p class="text">새 비밀번호 확인</p>
-					<input type="password" id="pwd_re" name="pwd_re" class="noWhitespace">
-					<p class="pwd_reError">&nbsp;</p>
-				</div>
 			</div>
 			<div class="modify">
 				<button type="submit" id="submitBtn">수정하기</button>

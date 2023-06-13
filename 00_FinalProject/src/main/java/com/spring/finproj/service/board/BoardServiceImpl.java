@@ -89,10 +89,8 @@ public class BoardServiceImpl implements BoardService {
 					map.put("hashList", hashList);
 					map.put("cm_no", cm_no);
 					list = boardDAO.getBoardHashKeyMap(map);
-					
 				}else {
 					key = keyword+= category;
-					
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("keyword", key);
 					map.put("cm_no", cm_no);

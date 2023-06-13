@@ -50,6 +50,7 @@
 				  success : function(res) {
 					  if(res === "true") {
 						  pwdCheckError.text("비밀번호 확인");
+						  $('.pwd_part_box').show();
 					  } else {
 						  pwdCheckError.text("비밀번호가 틀렸습니다.");
 					  }
@@ -109,15 +110,15 @@
 					  type : "post",
 					  data : { input_code : input_code },
 					  success : function(res) {
-						  if(res == "true"){
-								// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
+						  if(res == "0"){
+							  codeError.textContent = "인증 번호가 틀렸습니다.";
+						  }else {
+							// 전송 버튼 클릭 후 재전송 버튼으로 바꾸기
 								let checkBtn = document.getElementById('checkBtn');
 								checkBtn.innerText = '인증완료';
 								codeError.textContent = " ";
 							  let input_phone = $('#input_phone').val();
 							  $('#phone').val(input_phone);
-						  }else {
-							  codeError.textContent = "인증 번호가 틀렸습니다.";
 						  }
 					  },
 					  error : function() {

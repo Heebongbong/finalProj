@@ -137,6 +137,10 @@
 	margin-bottom: 10%;
 }
 
+.pwd_part_box{
+	display: none;
+}
+
 #mypage_wrap button:hover, .social_profie_btn:hover {
     border: none;
     background-color: #6fcf97;

@@ -97,7 +97,7 @@
 		update user_profile set profile = #{profile} where user_no = #{user_no}
 	</update>
 	
-	<select id="user_email_list" parameterType="int" resultType="userDTO">
+	<select id="user_email_list" parameterType="String" resultType="userDTO">
 		select * from user a join user_profile b on a.user_no = b.user_no where phone = #{phone} and type = 'S'
 	</select>
 </mapper>

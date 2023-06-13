@@ -150,7 +150,7 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public List<UserDTO> getUserList(int phone_check) {
+	public List<UserDTO> getUserList(String phone_check) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("user_email_list", phone_check);
 	}

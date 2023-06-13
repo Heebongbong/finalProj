@@ -121,7 +121,7 @@ function replace_keyword(key){
 
 //카테고리 클릭시 url 요청
 function move_search_cate(key){
-	let keyword = $('#search_keyword').val();
+	let keyword = $('#market_keyword').val();
 	let category = key;
 	keyword = replace_keyword(keyword);
 	category= replace_keyword(category);
@@ -414,6 +414,10 @@ function boardAddList(){
 		  
 
           let table = "";
+
+		  if(boardList.length==0){
+			alert('게시물이 없습니다');
+		  }
           
           for (let i = 0; i < boardList.length; i++) {
             let board = boardList[i];
@@ -520,7 +524,7 @@ function boardAddList(){
 					//<!-- 댓글이 목록이 들어가는 곳 -->
 					for(let j = 0; j < mention.length; j++) {
 						table +=  "<div class='board_reply_ment_cont' onmouseover='open_reply_delete_btn(this)' id='"+mention[j].mention_no+"'>"+
-										"<div class='board_reply_user' onclick='if(confirm(\"유저의 게시글 페이지로 이동합니다\")){location.href=\""+ctxPath+"/user/userboard?user_no="+board.user_no+"\"}'>"+
+										"<div class='board_reply_user' onclick='if(confirm(\"유저의 게시글 페이지로 이동합니다\")){location.href=\""+ctxPath+"/user/userboard?user_no="+mention[j].user_no+"\"}'>"+
 										"<img src='"+mention[j].profile+"'><span>"+mention[j].nickname+"</sapn></div>"+
 										"<div class='board_reply_cont_text'>" +
 											"<div class='board_reply_ment'>"+mention[j].ment+"</div>" +

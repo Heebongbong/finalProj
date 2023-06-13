@@ -58,6 +58,7 @@
 		]]>
 	</select>
 	<select id="market_list_cmno_hash" resultType="boardDTO" parameterType="map">
+		
 		select * from 
 		(community a join
 		(select c.user_no, c.email, c.type, d.nickname, d.profile 
@@ -65,11 +66,13 @@
 			on a.user_no = e.user_no)
 		join market b on a.cm_no = b.cm_no 
 		where 
-		<foreach collection="list" item="item" separator="and" close="and">
+		<foreach collection="list" item="item" open="(" separator="or" close=") and">
 			hashtag like concat('%',#{item},'%')
 		</foreach>
-		a.cm_no = b.cm_no 
+		<![CDATA[
+		a.cm_no < #{cm_no}
 		order by a.cm_no desc Limit 5
+		]]>
 	</select>
 	<select id="market_cmno_max" resultType="int">
 		select max(cm_no) from community
