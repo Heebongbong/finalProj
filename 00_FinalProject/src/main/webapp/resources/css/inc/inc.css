@@ -157,7 +157,7 @@ body {
 	
 }
 
-@media all and (max-width:680px) {
+@media all and (max-width:755px) {
 	body {
 		width: 100%;
 	}
