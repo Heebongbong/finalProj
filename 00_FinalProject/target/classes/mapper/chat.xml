@@ -80,4 +80,8 @@
 	<update id="chat_room_exit_user" parameterType="chatDTO">
 		update chat_room set exit_user = #{exit_user} where chat_room_no = #{chat_room_no}
 	</update>
+	
+	<delete id="chat_alarm_delete" parameterType="int">
+		delete from alarm where user_no = #{user_no} and field = '4'
+	</delete>
 </mapper>

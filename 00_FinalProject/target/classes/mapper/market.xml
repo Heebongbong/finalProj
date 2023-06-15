@@ -11,14 +11,24 @@
 			on a.user_no = e.user_no)
 		join market b on a.cm_no = b.cm_no order by a.cm_no desc Limit 5
 	</select>
-	<select id="market_list_keyword" resultType="boardDTO" parameterType="string">
+	<select id="market_list_keyword" resultType="boardDTO" parameterType="map">
 		select * from 
 		(community a join
 		(select c.user_no, c.email, c.type, d.nickname, d.profile 
 			from user c join user_profile d on c.user_no = d.user_no where type != 'D') e
 			on a.user_no = e.user_no)
 		join market b on a.cm_no = b.cm_no 
-		where hashtag like concat('%',#{keyword},'%')
+		where (hashtag like concat('%',#{keyword},'%') or
+		title like concat('%',#{keyword},'%')
+		or a.content like concat('%',#{keyword},'%') 
+		or e.nickname like concat('%',#{keyword},'%'))
+		<if test="list.size!=0">
+			and (
+			<foreach collection="list" item="item" separator="and">
+				hashtag like concat('%',#{item},'%')
+			</foreach>
+			)
+		</if>
 		order by a.cm_no desc Limit 5
 	</select>
 	<select id="market_list_hashtag" resultType="boardDTO" parameterType="list">
@@ -54,8 +64,20 @@
 			from user c join user_profile d on c.user_no = d.user_no where type != 'D') e
 			on a.user_no = e.user_no)
 		join market b on a.cm_no = b.cm_no 
-		where hashtag like concat('%',#{keyword},'%') and a.cm_no < #{cm_no} order by a.cm_no desc Limit 5
+		where a.cm_no < #{cm_no} 
+		and (title like concat('%',#{keyword},'%') 
+		or hashtag like concat('%',#{keyword},'%')
+		or a.content like concat('%',#{keyword},'%') 
+		or e.nickname like concat('%',#{keyword},'%'))
 		]]>
+		<if test="list.size!=0">
+			and (
+			<foreach collection="list" item="item" separator="and">
+				hashtag like concat('%',#{item},'%')
+			</foreach>
+			)
+		</if>
+		 order by a.cm_no desc Limit 5
 	</select>
 	<select id="market_list_cmno_hash" resultType="boardDTO" parameterType="map">
 		

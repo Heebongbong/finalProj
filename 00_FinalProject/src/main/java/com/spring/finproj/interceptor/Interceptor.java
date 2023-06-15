@@ -386,7 +386,7 @@ public class Interceptor implements HandlerInterceptor{
 			
 			int total = 0;
 			
-			for(int i=0;i<4;i++) {
+			for(int i=0;i<db.length;i++) {
 				AlarmCountVO v = new AlarmCountVO();
 				al_list.put(db[i], v);
 			}

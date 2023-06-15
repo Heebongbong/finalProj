@@ -212,8 +212,8 @@ body {
 }
 .login_navi_search_li{
     width: 40%;
-    position: relative;
-    top: 46px;
+	display: flex;
+	align-items: flex-end;
 }
 @media all and (max-width:680px) {
 	.login_navi_search_li{
@@ -223,10 +223,11 @@ body {
 	}
 }
 .login_navi_search_li form{
-	margin-bottom: 20px;
+	margin-bottom: 15px;
 	position: relative;
 	background-color: white;
 	border-bottom: 1px solid #7b7b7b;
+	width: 100%;
 }
 @media all and (max-width:680px) {
 	.login_navi_search_li form{
@@ -234,18 +235,21 @@ body {
 	}
 }
 
-#search_keyword{
+#search_keyword,
+#market_keyword{
 	border: none;
 	outline: none;
-
+	width: 100%;
 }
 @media all and (max-width:680px) {
-	#search_keyword{
+	#search_keyword,
+	#market_keyword{
 		width: 100%;
 		font-size: .7em;
 	}
 
-	#search_keyword i {
+	#search_keyword i,
+	#market_keyword i{
 		font-size: .9em;
 	}
 }

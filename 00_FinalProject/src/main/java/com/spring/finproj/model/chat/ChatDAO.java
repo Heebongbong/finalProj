@@ -17,4 +17,5 @@ public interface ChatDAO {
 	public List<AlarmDTO> getAlarmList(int user_no);
 	public int updateChatExitUser(ChatDTO dto);
 	public ChatDTO getChatRoomContent(int chat_room_no);
+	public void deleteAlarmchat(int user_no);
 }

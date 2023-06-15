@@ -67,8 +67,19 @@ public class BoardServiceImpl implements BoardService {
 					
 					list = boardDAO.getBoardHashKeyList(hashList);
 				}else {
-					key = keyword += category;
-					list = boardDAO.getBoardList(key);
+					
+					StringTokenizer st = new StringTokenizer(category, "%23");
+					List<String> hashList = new ArrayList<String>();
+					
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("keyword", keyword);
+					map.put("list", hashList);
+					
+					list = boardDAO.getBoardKeyCateList(map);
 				}
 			}
 		}else {
@@ -90,9 +101,17 @@ public class BoardServiceImpl implements BoardService {
 					map.put("cm_no", cm_no);
 					list = boardDAO.getBoardHashKeyMap(map);
 				}else {
-					key = keyword+= category;
+					
+					StringTokenizer st = new StringTokenizer(category, "%23");
+					List<String> hashList = new ArrayList<String>();
+					
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					
 					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("keyword", key);
+					map.put("keyword", keyword);
+					map.put("list", hashList);
 					map.put("cm_no", cm_no);
 					list = boardDAO.getBoardList(map);
 				}
@@ -206,7 +225,9 @@ public class BoardServiceImpl implements BoardService {
 			
 			boardDTO.setPhoto_folder(boardFolder + "/" + today);
 		}
-
+		
+		int m_no = boardDAO.getBoardContentNo();
+		boardDTO.setCm_no(m_no+1);
 		int re = boardDAO.insertBoardContent(boardDTO);
 		
 		if(boardDTO.getContent_id() != 0) {

@@ -305,6 +305,8 @@ function boardAddList(){
 		cm_no = 0;
 	}
 
+	$('.board_main_files').slick('unslick');
+
 	$.ajax({
         type: "get",
         url: ctxPath + "/index/addlist",

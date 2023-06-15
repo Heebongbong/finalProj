@@ -27,8 +27,8 @@
 			</li>
 			<c:if test="${!empty Content_id }">
 			<li class='write_side_li checked'>
-				<input type="checkbox" style="display: none" id="review" class="category" name="category" disabled="disabled" checked="checked">
-				<label for="review">리뷰</label>
+				<input type="checkbox" style="display: none" id="review" class="category" name="category" value="#리뷰" checked="checked">
+				<label>리뷰</label>
 				<input type="hidden" name="content_id" value="${Content_id }">
 			</li>
 			</c:if>

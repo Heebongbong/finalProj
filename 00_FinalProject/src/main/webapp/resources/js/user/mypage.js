@@ -98,14 +98,14 @@
 	  
 	
 	function checkCode() {
-	  let input_code = document.getElementById("input_code").value;
+		let input_code = document.getElementById("input_code").value;
 		let phoneError = document.getElementsByClassName("input_phoneError")[0];
-	  let codeError = document.getElementsByClassName("codeError")[0];
+		let codeError = document.getElementsByClassName("codeError")[0];
 		let button = document.getElementById('sendBtn');
 		let buttonText = button.innerText;
-	  if(buttonText === '재전송'){
-			  if(input_code != null){
-				  $.ajax({
+	  	if(buttonText === '재전송'){
+			if(input_code != null){
+				$.ajax({
 					  url : ctxPath + "/user/sms/check",
 					  type : "post",
 					  data : { input_code : input_code },
@@ -137,7 +137,6 @@
 		}
 	}
 
-	// ////////////////////////////////////////////////////////////////////
 	$(document).ready(function(){
 
 		$("#pwd").keydown(function(){
@@ -174,14 +173,14 @@
 		}
 		
 		// 숫자만 입력
-	  let inputElement = document.getElementById("input_phone");
-	  inputElement.addEventListener("input", function(event) {
-		  let currentValue = inputElement.value;
-		  let sanitizedValue = currentValue.replace(/\D/g, "");
-	    if (currentValue !== sanitizedValue) {
-	      inputElement.value = sanitizedValue;
-	    }
-	  });
+		let inputElement = document.getElementById("input_phone");
+		inputElement.addEventListener("input", function(event) {
+			let currentValue = inputElement.value;
+			let sanitizedValue = currentValue.replace(/\D/g, "");
+		if (currentValue !== sanitizedValue) {
+			inputElement.value = sanitizedValue;
+		}
+		});
 		
 		$("#submitBtn").click(function() {
 			let input_phone = document.getElementById('input_phone').value;

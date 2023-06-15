@@ -12,14 +12,23 @@
 			from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
 		on a.user_no = b.user_no order by cm_no desc Limit 5
 	</select>
-	<select id="board_list_search" resultType="boardDTO" parameterType="String">
+	<select id="board_list_search" resultType="boardDTO" parameterType="map">
 		select * from 
 		(select * from community  where cm_no not in (select cm_no from market))a 
 		join (select c.user_no, c.email, c.type, d.nickname, d.profile 
 			from user c join user_profile d on c.user_no = d.user_no where type != 'D') b 
-		on a.user_no = b.user_no where hashtag like concat('%',#{keyword},'%') 
+		on a.user_no = b.user_no 
+		where (hashtag like concat('%',#{keyword},'%') 
 		or a.content like concat('%',#{keyword},'%') 
-		or b.nickname like concat('%',#{keyword},'%') order by cm_no desc Limit 5
+		or b.nickname like concat('%',#{keyword},'%'))
+		<if test="list.size!=0">
+			and(
+				<foreach collection="list" item="item" separator="and">
+					hashtag like concat('%',#{item},'%') 
+				</foreach>
+			)
+		</if>
+		order by cm_no desc Limit 5
 	</select>
 	
 	<select id="board_list_add" resultType="boardDTO" parameterType="int">
@@ -42,8 +51,16 @@
 			 where cm_no < #{cm_no} 
 			 and (hashtag like concat('%',#{keyword},'%') 
 		or a.content like concat('%',#{keyword},'%') 
-		or b.nickname like concat('%',#{keyword},'%')) order by cm_no desc Limit 5
+		or b.nickname like concat('%',#{keyword},'%')) 
 		]]>
+		<if test="list.size!=0">
+			and (
+			<foreach collection="list" item="item" separator="and">
+				hashtag like concat('%',#{item},'%')
+			</foreach>
+			)
+		</if>
+		order by cm_no desc Limit 5
 	</select>
 	
 	<select id="board_list_hash_list" parameterType="list" resultType="boardDTO">
@@ -86,11 +103,8 @@
 	</select>
 	
 	<insert id="board_insert" parameterType="boardDTO">
-		<selectKey keyProperty="cm_no" resultType="int" order="BEFORE">
-			select max(cm_no) from community
-		</selectKey>
         insert into community (cm_no, user_no, hashtag, content, date, photo_folder)
-        values (#{cm_no} +1, #{user_no}, #{hashtag}, #{content}, now(), #{photo_folder})
+        values (#{cm_no}, #{user_no}, #{hashtag}, #{content}, now(), #{photo_folder})
     </insert>
   	<insert id="declaration_insert" parameterType="map">
   		insert into accuse values(#{cm_no}, #{user_no}, #{reason})
@@ -204,4 +218,8 @@
 	<delete id="delete_accuse_cont" parameterType="map">
 		delete from accuse where cm_no = #{cm_no} and user_no = #{user_no}
 	</delete>
+	
+	<select id="board_count_content_no" resultType="int">
+		select max(cm_no) from community
+	</select>
 </mapper>

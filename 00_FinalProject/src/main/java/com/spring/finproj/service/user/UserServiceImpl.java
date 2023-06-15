@@ -36,7 +36,6 @@ import com.spring.finproj.service.handler.SendSMSAPI;
 
 @Service
 public class UserServiceImpl implements UserService {
-
 	@Autowired
 	private UserDAO userDao;
 
@@ -103,8 +102,6 @@ public class UserServiceImpl implements UserService {
 			dto.setAuthen(true);
 		}
 
-		System.out.println("service dto ================>>>> " + dto);
-
 		int check1 = userDao.insertUserContent(dto);
 		int check2 = userDao.insertUserProfileContent(dto);
 		int check = 0;
@@ -122,8 +119,6 @@ public class UserServiceImpl implements UserService {
 		session.removeAttribute("code");
 
 		UserDTO sdto = (UserDTO) session.getAttribute("LoginUser");
-		
-		System.out.println(dto);
 		
 		if (dto.getPwd()==null || dto.getPwd().equals("")) {
 			dto.setPwd(sdto.getPwd());
@@ -191,8 +186,14 @@ public class UserServiceImpl implements UserService {
 				dto.setProfile(sdto.getProfile());
 			}
 		}
+		int re = userDao.updateUserContent(dto);
+		
+		if(re>0) {			
+			UserDTO u = userDao.getUserContent(dto.getUser_no());
+			session.setAttribute("LoginUser", u);
+		}
 
-		return userDao.updateUserContent(dto);
+		return re;
 
 	}
 
@@ -245,8 +246,8 @@ public class UserServiceImpl implements UserService {
 
 		SendSMSAPI send = new SendSMSAPI();
 		 
-		//String code = send.sendSMS(phone);
-		String code = "1234";
+		String code = send.sendSMS(phone);
+		
 		String check = "0";
 
 		if (code != null) {
@@ -265,13 +266,11 @@ public class UserServiceImpl implements UserService {
 
 		String check = "";
 		String res = userDao.checkTypeAndPhone(phone);
-		System.out.println("user_no === " + res);
 		if (res != null) {
 
 			SendSMSAPI send = new SendSMSAPI();
-			//String code = send.sendSMS(phone);
-			  
-			String code = "1234";
+			String code = send.sendSMS(phone);
+			
 			if (code != null) {
 				session.setAttribute("code", code);
 				session.setAttribute("phone_check", phone);
@@ -295,7 +294,6 @@ public class UserServiceImpl implements UserService {
 		String phone_check = (String) session.getAttribute("phone_check");
 		
 		if (code.equals(input_code)) {
-			System.out.println("??>"+phone_check);
 			List<UserDTO> list = userDao.getUserList(phone_check);
 			
 			String str = "{'list' : [";

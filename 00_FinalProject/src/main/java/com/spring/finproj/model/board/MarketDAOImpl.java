@@ -19,9 +19,9 @@ public class MarketDAOImpl implements MarketDAO{
 	}
 
 	@Override
-	public List<BoardDTO> getMarketList(String keyword) {
+	public List<BoardDTO> getMarketList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("market_list_keyword", keyword);
+		return sqlSession.selectList("market_list_keyword", map);
 	}
 
 	@Override

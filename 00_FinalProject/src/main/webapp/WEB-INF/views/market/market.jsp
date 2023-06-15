@@ -58,10 +58,6 @@
 			</ul>
 		</div>
 	</div>
-	<form class="market_search" action="" method="get">
-		<input type="text" value="${M_Keyword }" id="market_keyword" placeholder="중고거래 검색" name="keyword">
-		<button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-	</form>
 	<input type="hidden" value="${Category }" id="market_category">
 	<!-- 신고 모달창 -->
 	<div class="declaration_modal_overlay">

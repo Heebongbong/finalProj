@@ -63,9 +63,17 @@ public class MarketServiceImpl implements MarketService{
 					list = marketDAO.getMarketList(hashList);
 
 				}else {
-					key = keyword += category;
+					StringTokenizer st = new StringTokenizer(category, "%23");
+					List<String> hashList = new ArrayList<String>();
 					
-					list = marketDAO.getMarketList(keyword);
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("keyword", keyword);
+					map.put("list", hashList);
+					list = marketDAO.getMarketList(map);
 				}
 			}
 		}else {
@@ -88,10 +96,16 @@ public class MarketServiceImpl implements MarketService{
 					list = marketDAO.getMarketHashKeyMap(map);
 					
 				}else {
-					key = keyword += category;
+					StringTokenizer st = new StringTokenizer(category, "%23");
+					List<String> hashList = new ArrayList<String>();
+					
+					while(st.hasMoreTokens()) {
+						hashList.add(st.nextToken());
+					}
 					
 					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("keyword", key);
+					map.put("keyword", keyword);
+					map.put("list", hashList);
 					map.put("cm_no", cm_no);
 					list = marketDAO.getMarketKeyMap(map);
 				}

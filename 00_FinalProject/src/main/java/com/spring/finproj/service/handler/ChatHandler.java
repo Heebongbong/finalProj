@@ -1,6 +1,9 @@
 package com.spring.finproj.service.handler;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +79,8 @@ public class ChatHandler extends TextWebSocketHandler {
 				
 				chatDAO.insertChatCont(c_dto);
 				
+				new Date();
+				
 				//broadcasting
 				if(receiveUserId.equals("")) {
 					for (WebSocketSession sess: sessions) {
@@ -87,7 +92,11 @@ public class ChatHandler extends TextWebSocketHandler {
 					WebSocketSession responseIdSession = userSessions.get(Integer.parseInt(receiveUserId));
 					
 					if (responseIdSession != null) {
-						TextMessage tmpMsg = new TextMessage(user.getNickname() + "," +user.getUser_no()+ ","+ receiveUserId + "," + content + "," + c_dto.getCreated());
+						LocalDateTime nowDate = LocalDateTime.now();
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
+						String to_time = nowDate.format(formatter);
+						
+						TextMessage tmpMsg = new TextMessage(user.getNickname() + "," +user.getUser_no()+ ","+ receiveUserId + "," + content + "," + to_time);
 						responseIdSession.sendMessage(tmpMsg);
 					}
 				}

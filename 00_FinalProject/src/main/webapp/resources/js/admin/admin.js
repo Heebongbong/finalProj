@@ -85,7 +85,7 @@ function chat_start(no, room_no){
 
 function connect_chat() {
 	
-	let ws = new WebSocket("ws://localhost:8787/finproj/chating");
+	let ws = new WebSocket("ws://192.168.140.38:8787/finproj/chating");
 	socket = ws;
 	//이벤트 헨들러
 	ws.onopen = function() {
@@ -133,8 +133,9 @@ function send_chat(room_no, authen, receiv_no){
 			socket.send(room_no + "," + receiv_no + "," + receiveId + "," + msg);
 			
 			let d = new Date();
+			let d_t = d.toString().slice(16,21);
 
-			let table = "<div class='chat_loginU'><span class='chat_date_time'>"+d.getHours() + ":" + d.getMinutes()+"</span><p>"+msg+"</p></div>";
+			let table = "<div class='chat_loginU'><span class='chat_date_time'>"+d_t+"</span><p>"+msg+"</p></div>";
 			$('.chat_cont').append(table);
 			$('.chat_msg').val("");
 			
@@ -147,7 +148,7 @@ function send_chat(room_no, authen, receiv_no){
 		}
 	}else{
 		if (socket.readyState !== 1 ) return;
-		socket.send(room_no+"," + receiveId + "," + msg);
+		socket.send(room_no + "," + receiv_no + "," + receiveId + "," + msg);
 		let d = new Date();
 		let table = "<div class='chat_loginU'><span class='chat_date_time'>"+d.getHours() + ":" + d.getMinutes()+"</span><p>"+msg+"</p></div>";
 		$('.chat_cont').append(table);

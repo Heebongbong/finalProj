@@ -45,9 +45,9 @@ public class BoardDAOImpl implements BoardDAO{
 	
 	//overlode 키워드로 리스트 받기
 	@Override
-	public List<BoardDTO> getBoardList(String keyword) {
+	public List<BoardDTO> getBoardKeyCateList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("board_list_search", keyword);
+		return sqlSession.selectList("board_list_search", map);
 	}
 	//게시글 인덱스 이하 5건 가져오기 - 무한스크롤 사용
 	@Override
@@ -174,5 +174,10 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("delete_accuse_cont", map);
 		
+	}
+	@Override
+	public int getBoardContentNo() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board_count_content_no");
 	}
 }

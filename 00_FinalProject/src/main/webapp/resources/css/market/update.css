@@ -6,6 +6,14 @@
 	flex-wrap: wrap;
 }
 
+.label img{
+	width: 26px;
+}
+.upload_img img{
+	width: 20px;
+    height: 20px;
+}
+
 .upload_photo_file {
 	width: 15%;
 	height: auto;
@@ -264,4 +272,8 @@
     margin-left: 3%;
 }
 
-
+@media all and (max-width: 680px){
+	.obj_ul{
+		font-size: 0.8em;
+	}
+}

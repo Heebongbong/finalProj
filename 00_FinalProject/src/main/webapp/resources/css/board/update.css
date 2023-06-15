@@ -6,6 +6,15 @@
 	flex-wrap: wrap;
 }
 
+.img_label_wrap img{
+	width: 26px;
+}
+
+.upload_img img{
+	width: 20px;
+    height: 20px;
+}
+
 .upload_photo_file {
   width: 15%;
   height: auto;
@@ -163,6 +172,7 @@
    	display: flex;
     margin: 10px 0;
     justify-content: flex-start;
+    align-items: flex-end;
 }
 
 .upload_img p {
