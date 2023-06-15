@@ -31,20 +31,6 @@ $(document).ready(function(){
     });
     $('a[href="javascript:locSearch(\'' + category + '\')"]').parent('li').css('background', '#6FCF97');
   }
-	// // 선택 지역 배경색 고정
-	// let hiddenCategory = document.getElementById('hidden_category').value;
-	// let campingSideUl = document.querySelector('.camping_side_ul');
-	// let campingSideLinks = campingSideUl.getElementsByTagName('a');
-
-	// for (let i = 0; i < campingSideLinks.length; i++) {
-	// 	let link = campingSideLinks[i];
-
-	// 	if (link.getAttribute('href').includes(`keyword=${hiddenKeyword}`)) {
-	// 		link.style.background = '#6FCF97';
-	// 		link.style.color = '#FFFFFF';
-	// 		link.parentNode.style.background = '#6FCF97';
-	// 	}
-	// }
 });
 
 //카테고리 클릭시 url 요청

@@ -5,6 +5,10 @@
 <c:set value="${sessionScope.LoginUser }" var="loginUser"/>
 <c:set value="${AlarmList }" var="alarmList"/>
 <c:set value="${ChatRoomList }" var="chatRoomList"/>
+<%
+	StringBuffer ctxUrl = request.getRequestURL();
+	String reUrl = ctxUrl.substring(0, ctxUrl.indexOf("finproj"));
+%>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <script type="text/javascript">
 	let loginUser_authen = '${loginUser.isAuthen() }';
@@ -14,10 +18,18 @@
 	<ul class="login_navi">
 		<li class="login_navi_logo_li"><a href="${ctxPath }/indexNavi"><img alt="" src="${ctxPath }/resources/images/logo/logo.png"></a></li>
 		<li class="login_navi_search_li">
+		<c:if test="${empty M_check }">
 			<form action="${ctxPath }/board/list" method="post">
 				<input type="text" id="search_keyword" placeholder="검색어를 입력하세요" name="keyword" value="<c:if test="${!empty Keyword }">${Keyword }</c:if>">
 				<button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+			</form>		
+		</c:if>
+		<c:if test="${!empty M_check }">
+			<form action="${ctxPath }/market/list" method="post">
+				<input type="text" value="${M_Keyword }" id="market_keyword" placeholder="중고거래 검색" name="keyword">
+				<button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 			</form>
+		</c:if>
 		</li>
 		<c:if test="${empty loginUser }"><!-- 비로그인시 -->
 			<li class="user_menu_profile_non">
@@ -132,10 +144,7 @@
 				<input class="user_login_btn" type="submit" value="로그인">
 			</form>
 			<div class="user_menu_body_sns">
-				<%
-					StringBuffer ctxUrl = request.getRequestURL();
-					String reUrl = ctxUrl.substring(0, ctxUrl.indexOf("finproj"));
-				%>
+				
 				<script type="text/javascript"> const reUrl = '<%=reUrl %>';</script>
 				<a class="naver_login_btn" href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=2fzdhIRlmXgPi9uo_5Xi&redirect_uri=http%3A%2F%2Flocalhost%3A8787%2Ffinproj%2Flogin%2Fnaver&state=a83abeaf-9d9d-4bdb-a4f1-d3af1fe30cf1">
 					<img alt="" src="${ctxPath }/resources/images/logo/naver_logo.jpg">

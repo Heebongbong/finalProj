@@ -52,7 +52,9 @@ public class BoardController {
     
     public String write(BoardDTO dto, @RequestParam(value = "upfile", required = false) MultipartFile[] files,
     		HttpServletRequest request, HttpServletResponse response, String[] category) throws Exception {
-  
+    	for(String s : category) {
+    		System.out.println(s);
+    	}
     	int check = boardService.writeBoard(dto, files, request, category);
     	
     	if(check>0) {

@@ -1,5 +1,7 @@
 package com.spring.finproj.controller.user;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,15 +36,18 @@ public class UserController {
 
 	@RequestMapping("/mypageOk")
 	public String userMypageOk(UserDTO dto, HttpSession session, @RequestParam("upfile") MultipartFile multipartFile,
-			HttpServletRequest request, Model model) throws Exception {
+			HttpServletRequest request, Model model, HttpServletResponse res) throws Exception {
 
 		int check = userService.updateUserContent(dto, session, multipartFile, request);
 
 		if (check > 0) {
 			return "redirect:/index";
 		} else {// 불일치
-			model.addAttribute("msg", "수정 중 문제가 발생했습니다.");
-			return "error/error";
+			res.getWriter().println("<script>"
+					+ "alert('수정 중 오류 발생');"
+					+ "history.back();"
+					+ "</script>");
+			return null;
 		}
 	}
 
@@ -63,8 +68,11 @@ public class UserController {
 		if (check > 0) {
 			return "redirect:/index";
 		} else {// 불일치
-			model.addAttribute("msg", "수정 중 문제가 발생했습니다.");
-			return "error/error";
+			response.getWriter().println("<script>"
+					+ "alert('회원 가입 중 오류 발생');"
+					+ "history.back();"
+					+ "</script>");
+			return null;
 		}
 
 	}
@@ -138,14 +146,17 @@ public class UserController {
 	}
 	
 	@RequestMapping("/forgetOk")
-	public String userForgetOk(UserDTO dto, Model model) {
+	public String userForgetOk(UserDTO dto, Model model, HttpServletResponse response) throws IOException {
 		int check = userService.updatePwd(dto);
 		
 		if (check > 0) {
 			return "redirect:/index";
 		} else {// 불일치
-			model.addAttribute("msg", "수정 중 문제가 발생했습니다.");
-			return "error/error";
+			response.getWriter().println("<script>"
+					+ "alert('비밀번호 확인 중 오류 발생');"
+					+ "history.back();"
+					+ "</script>");
+			return null;
 		}
 	}
 

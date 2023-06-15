@@ -148,8 +148,11 @@
 	font-size: 16px;
 	color: #424242;
 	font-weight: bold;
-	margin-bottom: 8px;
 	padding-top: 10px;
+	width: 75px;
+    margin: auto;
+    margin-bottom: 8px;
+    cursor: pointer;
 }
 
 .label img {
@@ -204,6 +207,7 @@
     color : #9d9d9d;
     font-weight: bold;
     margin-top: 50px;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -224,4 +228,8 @@
     font-size: 14px;
     color: #CBCBCB;
 }
-
+@media all and (max-width: 680px){
+	.obj_ul{
+		font-size: 0.8em;
+	}
+}

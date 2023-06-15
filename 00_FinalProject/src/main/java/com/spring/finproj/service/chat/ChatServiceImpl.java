@@ -41,6 +41,10 @@ public class ChatServiceImpl implements ChatService {
 		list.put("ChatList", chatList);
 		list.put("Send_user", send_user);
 		
+		
+		//채팅알람 삭제
+		chatDAO.deleteAlarmchat(loginUser.getUser_no());
+		
 		return list;
 	}
 

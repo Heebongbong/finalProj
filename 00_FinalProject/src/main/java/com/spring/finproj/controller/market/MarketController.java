@@ -37,6 +37,7 @@ public class MarketController {
     	
     	model.addAttribute("M_Keyword", keyword);
 		model.addAttribute("Category", category);
+    	model.addAttribute("M_check", 1);
 		
 		return "market.market";
 	}
@@ -59,7 +60,8 @@ public class MarketController {
     }
 	
 	@RequestMapping("/write")
-	public String marketWrite() {
+	public String marketWrite(Model model) {
+    	model.addAttribute("M_check", 1);
 		return "market.write";
 	}
 	
@@ -88,6 +90,7 @@ public class MarketController {
     public String boardUpdate(HttpServletRequest request, int cm_no, Model model) throws Exception {
     	Map<String, Object> map = marketService.contentBoard(request, cm_no, model);
     	model.addAttribute("Map", map);
+    	model.addAttribute("M_check", 1);
     	return "market.update";
   
     }

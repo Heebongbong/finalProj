@@ -104,6 +104,7 @@
 .search_camp {
 	border: none;
 	outline: none;
+	width: 100%;
 }
 
 .side_search button{

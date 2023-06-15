@@ -21,7 +21,6 @@ public interface BoardDAO {
 	public int deleteReview(int cm_no);
 	
 	//부가기능
-	public List<BoardDTO> getBoardList(String keyword);
 	public List<BoardDTO> getBoardList(int cm_no);
 	public List<BoardDTO> getBoardList(Map<String, Object> map);
 	public List<BoardDTO> getBoardHashKeyList(List<String> hashList);
@@ -43,5 +42,7 @@ public interface BoardDAO {
 	public List<BoardDTO> getAccuseList();
 	public List<BoardDTO> getAccusedList();
 	public int deleteAcuuseCont(Map<String, Integer> map);
+	public List<BoardDTO> getBoardKeyCateList(Map<String, Object> map);
+	public int getBoardContentNo();
 	
 }

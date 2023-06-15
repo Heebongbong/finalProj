@@ -10,7 +10,12 @@
 		<div class="chat_list">
 			<c:forEach items="${chatRoomList }" var="room">
 				<p class="chat_list_p">
+					<c:if test="${room.user_no1 == 1 }">
+					<a href="javascript:chat_start(${room.user_no2 }, ${room.chat_room_no })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
+					</c:if>
+					<c:if test="${room.user_no2 == 1 }">					
 					<a href="javascript:chat_start(${room.user_no1 }, ${room.chat_room_no })"><img class="chat_list_img" alt="" src="${room.profile }">${room.nickname }</a>
+					</c:if>
 				</p>
 			</c:forEach>
 		</div>
