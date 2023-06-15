@@ -485,10 +485,6 @@ function boardAddList(){
 				draggable: true,
 				nextArrow: "<img class='slick_arrows' src='"+ctxPath+"/resources/images/icon/slick_arrow.png'>"
 			});
-
-			//$('.slick_list').animateHeight();
-			//$('.slick_list').css('height', 'auto');
-
         },
         error: function() {
           alert('게시물 로딩 중 오류');
